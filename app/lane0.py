@@ -210,10 +210,13 @@ def which(s):
 
 
 HELP = ['Search by saying what you want, for example: warm hoodie under 40 dollars.',
-        'Say a number to pick a result, then describe it, or add it.',
+        'Say a number to pick a result, then describe it, add it, or add it in medium.',
+        'What do people say about it; compare them; save it for later; my saved items.',
         'Next, back, more, repeat, and spell that work any time.',
-        'Compare them; what is in my cart; remove it; check out.',
-        'At checkout: confirm, then type your PIN. Or say cancel.',
+        "What is in my cart; remove it; it's a gift; check out.",
+        'At checkout: confirm, then type your PIN. Say undo within 10 seconds to stop the payment.',
+        'My orders; where is my order; how much did I spend this week; return the hoodie; order it again.',
+        'Caps, PIN, trusted contact and preferences change only in Settings.',
         "If something I said is wrong, say: that is wrong."]
 
 
