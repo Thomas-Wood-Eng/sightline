@@ -1,0 +1,37 @@
+import sys, time, json
+sys.path.insert(0, 'qa')
+from maria_lib import *
+from playwright.sync_api import sync_playwright
+P = 'p5'
+with sync_playwright() as p:
+    browser, ctx = new_context(p, 640, 360, dsf=2, scheme='light')
+    page = ctx.new_page(); page.goto(BASE + '/'); page.wait_for_selector('#log .turn'); time.sleep(0.5)
+    page.check('input[name=screen_reader][value=no]')
+    page.fill('#setup-pin', '1234'); page.fill('#setup-pin2', '1234')
+    page.click('button:has-text("Save and start")'); time.sleep(1.5)
+    page.fill('#set-contact-name', 'Alex'); page.fill('#set-contact-email', 'alex@example.com')
+    page.fill('#set-threshold', '50'); page.fill('#set-current-pin', '1234')
+    page.click('#settings-form button[type=submit]'); time.sleep(2)
+    note(P, 'contact_saved', page.inner_text('#settings-status')[:120], shot(page, 'p5_01_contact'))
+    print(page.evaluate("fetch('/api/settings').then(r=>r.json()).then(j=>JSON.stringify(j.contact))"))
+    t = send(page, 'find me a heavyweight hoodie', ai=True)
+    t = send(page, 'add the first one'); t = send(page, 'XL')
+    t = send(page, 'check out')
+    note(P, 'readback', t[:900], shot(page, 'p5_02_readback'))
+    links = [a.get_attribute('href') for a in page.locator('#log a').all()]
+    note(P, 'approval_links', str(links), None)
+    t = send(page, 'confirm')
+    note(P, 'confirm_waiting', t[:400] + ' | pin=' + str(page.is_visible('#pin-form')), shot(page, 'p5_03_waiting'))
+    ap = ctx.new_page(); ap.goto(BASE + links[-1]); time.sleep(0.5)
+    note(P, 'approve_page', ap.inner_text('main')[:500], shot(ap, 'p5_04_approve_page'))
+    ap.click('button:has-text("Approve this order")'); time.sleep(1)
+    note(P, 'approved', ap.inner_text('main')[:200], shot(ap, 'p5_05_approved'))
+    ap.close(); time.sleep(1)
+    t = send(page, 'confirm')
+    note(P, 'confirm_after_approval', t[:300] + ' | pin=' + str(page.is_visible('#pin-form')), shot(page, 'p5_06_after_approval'))
+    page.click('#pin'); page.keyboard.type('1234'); page.keyboard.press('Enter'); time.sleep(1)
+    note(P, 'pin', last_turn(page)[:200] + ' | undo=' + str(page.is_visible('#undo-box')), shot(page, 'p5_07_pin_accepted'))
+    time.sleep(15)
+    note(P, 'paid', last_turn(page)[:400] + ' | undo=' + str(page.is_visible('#undo-box')), shot(page, 'p5_08_paid'))
+    ctx.storage_state(path='qa/state_p5.json')
+    browser.close()

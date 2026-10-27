@@ -1,0 +1,25 @@
+import sys, time, json
+sys.path.insert(0, 'qa')
+from maria_lib import *
+from playwright.sync_api import sync_playwright
+def st(page): return page.evaluate("fetch('/api/settings').then(r=>r.json()).then(j=>j.state)")
+with sync_playwright() as p:
+    browser, ctx = new_context(p, 640, 360, dsf=2, scheme='light')
+    page = ctx.new_page(); page.goto(BASE + '/'); page.wait_for_selector('#log .turn'); time.sleep(0.5)
+    page.on('console', lambda m: print('CONSOLE', m.text, flush=True))
+    page.on('pageerror', lambda e: print('PAGEERR', e, flush=True))
+    page.on('response', lambda r: print('RESP', r.request.method, r.url[-20:], r.status, flush=True) if '/api/' in r.url else None)
+    page.evaluate("""() => { document.addEventListener('keydown', e => console.log('KEYDOWN', e.key, 'speaking=' + speechSynthesis.speaking, 'active=' + document.activeElement.id), true) }""")
+    page.check('input[name=screen_reader][value=no]')
+    page.fill('#setup-pin', '1234'); page.fill('#setup-pin2', '1234')
+    page.click('button:has-text("Save and start")'); time.sleep(1.5)
+    send(page, 'find me a warm hoodie', ai=True); send(page, 'add the first one'); send(page, 'M')
+    send(page, 'check out'); send(page, 'confirm')
+    page.click('#pin'); page.keyboard.type('1234'); page.keyboard.press('Enter')
+    time.sleep(3.5)
+    print('before esc2 speaking', page.evaluate("() => speechSynthesis.speaking"), 'pending', page.evaluate("() => speechSynthesis.pending"), flush=True)
+    page.keyboard.press('Escape'); time.sleep(0.3)
+    print('+0.3 state', st(page), 'last', last_turn(page)[-60:].replace('\n',' '), flush=True)
+    time.sleep(1.5)
+    print('+1.8 state', st(page), 'last', last_turn(page)[-60:].replace('\n',' '), flush=True)
+    browser.close()

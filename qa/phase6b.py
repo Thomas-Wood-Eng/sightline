@@ -1,0 +1,30 @@
+import sys, time, json
+sys.path.insert(0, 'qa')
+from maria_lib import *
+from playwright.sync_api import sync_playwright
+P = 'p6b'
+def fid(page): return page.evaluate('() => document.activeElement && (document.activeElement.id || document.activeElement.tagName)')
+with sync_playwright() as p:
+    browser, ctx = new_context(p, 640, 360, dsf=2, scheme='light')
+    ctx.add_cookies(json.load(open('qa/state_p6a.json'))['cookies'])
+    page = ctx.new_page(); page.goto(BASE + '/'); page.wait_for_selector('#log .turn'); time.sleep(0.5)
+    t = send(page, 'find me a warm hoodie', ai=True)
+    t = send(page, 'add it'); t = send(page, 'M')
+    t = send(page, 'check out'); t = send(page, 'confirm')
+    note(P, 'pin_ready', 'focus=' + fid(page), shot(page, 'p6b_01_pin_ready'))
+    page.keyboard.type('0000'); page.keyboard.press('Enter'); time.sleep(1.5)
+    note(P, 'wrong1', last_turn(page)[-200:] + ' | pin=' + str(page.is_visible('#pin-form')) + ' focus=' + fid(page), shot(page, 'p6b_02_wrong1'))
+    page.keyboard.type('9999'); page.keyboard.press('Enter'); time.sleep(1.5)
+    note(P, 'wrong2', last_turn(page)[-200:] + ' | pin=' + str(page.is_visible('#pin-form')), shot(page, 'p6b_03_wrong2'))
+    t = send(page, '1234')
+    note(P, 'pin_typed_in_message_box', t[-250:] + ' | pin=' + str(page.is_visible('#pin-form')), shot(page, 'p6b_04_pin_in_msgbox'))
+    page.click('#pin'); page.keyboard.type('1234'); page.keyboard.press('Enter'); time.sleep(1.2)
+    note(P, 'correct_pin', last_turn(page)[-200:] + ' | undo=' + str(page.is_visible('#undo-box')), shot(page, 'p6b_05_undo_start'))
+    time.sleep(3)
+    page.reload(); page.wait_for_selector('#log .turn'); time.sleep(1.0)
+    note(P, 'reload_in_undo_at_3s', 'undo=' + str(page.is_visible('#undo-box')) + ' last=' + last_turn(page)[-160:], shot(page, 'p6b_06_reload_undo'))
+    time.sleep(12)
+    st = page.evaluate("fetch('/api/settings').then(r=>r.json()).then(j=>j.state+' spent='+j.spent_today)")
+    note(P, 'after_12s_after_reload', 'server=' + st + ' undo_box=' + str(page.is_visible('#undo-box')) + ' last=' + last_turn(page)[-220:], shot(page, 'p6b_07_after_reload_12s'))
+    ctx.storage_state(path='qa/state_p6b.json')
+    browser.close()
