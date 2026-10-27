@@ -18,7 +18,7 @@ def t(client, text):
 def to_readback(client):
     setup(client)
     t(client, 'hoodie')
-    t(client, 'add number 1')
+    t(client, 'add number 1 in medium')
     return t(client, 'check out')
 
 
@@ -116,7 +116,7 @@ def test_free_text_blocked_while_holding(client, fake):
 
 def test_per_order_cap_refusal(client, fake):
     setup(client, order_cap='50.00')
-    t(client, 'hoodie'); t(client, 'add 2 of number 1')
+    t(client, 'hoodie'); t(client, 'add 2 of number 1 in medium')
     r = t(client, 'check out')
     assert r['state'] == 'idle' and fake.count('hold') == 0
     # 2 x 34.99 + 4.99 shipping + 3.50 tax = 78.47; cap 50.00; over by 28.47
@@ -125,9 +125,9 @@ def test_per_order_cap_refusal(client, fake):
 
 def test_daily_cap_refusal(client, fake):
     setup(client, order_cap='100.00', daily_cap='60.00')
-    t(client, 'hoodie'); t(client, 'add it'); t(client, 'check out'); t(client, 'confirm')
+    t(client, 'hoodie'); t(client, 'add it in large'); t(client, 'check out'); t(client, 'confirm')
     assert client.post('/api/pin', json={'pin': '1234'}).json()['state'] == 'captured'
-    t(client, 'hoodie'); t(client, 'add it')
+    t(client, 'hoodie'); t(client, 'add it in large')
     r = t(client, 'check out')
     assert 'daily cap is 60.00 US dollars' in r['say'] and fake.count('hold') == 1
 
@@ -142,5 +142,5 @@ def test_caps_not_changeable_by_voice_or_without_pin(client, fake):
 
 def test_checkout_needs_pin_and_cart(client, fake):
     assert 'empty' in t(client, 'check out')['say']
-    t(client, 'hoodie'); t(client, 'add it')
+    t(client, 'hoodie'); t(client, 'add it in large')
     assert 'PIN' in t(client, 'check out')['say'] and fake.count('hold') == 0

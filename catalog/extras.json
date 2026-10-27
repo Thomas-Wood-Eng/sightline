@@ -1,0 +1,6 @@
+{
+  "_about": "Optional fields merged into catalogue products at load (app/catalog.py). colours: variants the shopper can choose.",
+  "hoodie-01": {"colours": ["heather grey", "black", "navy blue"]},
+  "tshirt-01": {"colours": ["white", "black", "forest green"]},
+  "beanie-01": {"colours": ["navy blue with a cream stripe", "charcoal grey"]}
+}

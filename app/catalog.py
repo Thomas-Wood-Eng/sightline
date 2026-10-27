@@ -11,7 +11,12 @@ def _load():
     pinned = os.environ.get('SIGHTLINE_CATALOG')  # tests pin the sample catalogue
     for name in ([pinned] if pinned else ['catalog_enriched.json', 'catalog.json', 'sample_catalog.json']):
         if (DIR / name).exists():
-            return json.loads((DIR / name).read_text(encoding='utf-8'))
+            products = json.loads((DIR / name).read_text(encoding='utf-8'))
+            # extras.json: optional fields (colour variants, demo risk flags) kept apart from the generated catalogue
+            extras = json.loads((DIR / 'extras.json').read_text(encoding='utf-8')) if (DIR / 'extras.json').exists() else {}
+            for p in products:
+                p.update(extras.get(p['id'], {}))
+            return products
     return []
 
 

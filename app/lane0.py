@@ -85,17 +85,22 @@ def parse(text):
         or re.fullmatch(r'the ' + NUM + r'( one| item)?', t)
     if m and num(m.group(1)) is not None:
         return ('pick', num(m.group(1)))
+    m = re.fullmatch(r'the (\w+(?: \w+)?) one', t)  # "the black one"
+    if m and m.group(1) not in WORDS:
+        return ('pick', ('name', m.group(1)))
     m = re.fullmatch(r'(add|put|i will take|i will have|i want|buy|get me|grab)\b\s*(.*)',
                      re.sub(r'\s*\b(to|in|into|on) (my |the )?(cart|basket)$', '', t))
     if m:
         rest, qty = m.group(2), 1
+        v = re.fullmatch(r'(.*?)\s*\b(?:in|size)\s+(?:size\s+|a\s+)?(.+)', rest)  # "add it in medium", "add 2 size L"
+        rest, opt = (v.group(1), v.group(2)) if v else (rest, '')
         q = re.match(NUM + r' (?:of )?(.*)', rest)
         if q and num(q.group(1)) and q.group(2) and not re.fullmatch(r'(one|item)', q.group(2)):
             qty, rest = num(q.group(1)), re.sub(r'^(them|those|these)$', 'it', q.group(2))
         tgt = target(rest)
         # only "add"/"put" may name a product; "buy a gift for mum" is a search, not an add
         if m.group(1) in ('add', 'put') or tgt == 'it' or tgt[0] == 'n':
-            return ('add', max(1, min(qty, 10)), tgt)
+            return ('add', max(1, min(qty, 10)), tgt) + ((opt,) if opt else ())
         return None
     m = re.fullmatch(r'(?:remove|delete|take out|drop|take)\b\s*(.*?)(?: out)?',
                      re.sub(r'\s*\b(out of|from) (my |the )?(cart|basket)$', '', t))
@@ -177,11 +182,104 @@ def _log_feedback(s, text):
                             'last': s.get('last'), 'focus': s.get('focus')}) + '\n')
 
 
+# ---- sizes and colours ----------------------------------------------------------------------------------------
+SIZE_WORDS = [('double extra large', 'xxl'), ('extra extra large', 'xxl'), ('2xl', 'xxl'), ('extra large', 'xl'),
+              ('x large', 'xl'), ('extra small', 'xs'), ('x small', 'xs'), ('medium', 'm'), ('large', 'l'), ('small', 's')]
+SIZE_NUMS = {w: str(n) for w, n in WORDS.items() if w not in ('a', 'an', 'to', 'too', 'for') and isinstance(n, int) and n > 0}
+
+
+def _size_tokens(text):
+    t = ' ' + re.sub(r'(\d+)\s*(?:by|x)\s*(\d+)', r'\1x\2', re.sub(r'[^a-z0-9 ]', ' ', text.lower())) + ' '
+    for a, b in SIZE_WORDS:
+        t = t.replace(f' {a} ', f' {b} ')
+    return [SIZE_NUMS.get(w, w) for w in t.split() if w not in ('us', 'size', 'in', 'a')]
+
+
+def match_size(text, sizes):
+    """'medium' -> 'M', 'us nine' -> 'US 9', '32 by 32' -> '32x32'; None if no listed size is named."""
+    said = _size_tokens(text or '')
+    for size in sizes:
+        k = _size_tokens(size)
+        if k and any(said[i:i + len(k)] == k for i in range(len(said))):
+            return size
+    return None
+
+
+def colours(p):
+    return p.get('colours') or ([p['listing']['colour']] if p['listing'].get('colour') else [])
+
+
+def match_colour(text, options):
+    words = set(catalog.tokens(text or ''))
+    best = max(options or [], key=lambda c: len(words & set(catalog.tokens(c))), default=None)
+    return best if best and words & set(catalog.tokens(best)) else None
+
+
+def _only_colour(text, p):
+    words = set(catalog.tokens(text))
+    return bool(words) and words <= {w for c in colours(p) for w in catalog.tokens(c)}
+
+
+def sizes_of(p):
+    return p['listing'].get('sizes') or []
+
+
+def add(s, p, qty, opt=''):
+    """Add with a size and colour. Never guesses a size: asks, unless a saved default size fits."""
+    sizes = sizes_of(p)
+    size = sizes[0] if len(sizes) == 1 else match_size(opt, sizes)
+    note = ''
+    if sizes and not size and match_size(prefs(s)['size'], sizes):
+        size, note = match_size(prefs(s)['size'], sizes), ' Your default size from Settings.'
+    chosen = s.get('opt') or {}
+    colour = match_colour(opt, p.get('colours')) or (chosen.get('colour') if chosen.get('id') == p['id'] else None)
+    if sizes and not size:
+        s['ask'] = {'add': [p['id'], qty, colour]}
+        _focus(s, p)
+        return Reply(speech.ask_size(p, sizes), focus=card(p))
+    if p.get('colours') and not colour:
+        colour = p['colours'][0]
+    variant = ', '.join(x for x in [f'size {size}' if len(sizes) > 1 else '', colour if p.get('colours') else ''] if x)
+    cart = s.get('cart', [])
+    for line in cart:
+        if line[0] == p['id'] and (line[2] if len(line) > 2 else '') == variant:
+            line[1] = min(line[1] + qty, 10)
+            break
+    else:
+        cart.append([p['id'], qty, variant])
+    s['cart'], s['opt'] = cart, None
+    _focus(s, p)
+    return Reply(speech.added(p, qty, sum(l[1] for l in cart), variant) + note, focus=card(p))
+
+
+def _answer(ask, text, cmd, s):
+    """The shopper was asked which size. A size adds the item; another command drops the question."""
+    pid, qty, colour = ask['add']
+    p = catalog.get(pid)
+    if p and match_size(text, sizes_of(p)):
+        return add(s, p, qty, f'{text} {colour or ""}')
+    if cmd and cmd[0] in ('cancel', 'no', 'stop'):
+        return Reply('OK, not added.')
+    if cmd is None and p and len(text.split()) <= 3:  # a short unclear answer; longer free text is a new request
+        s['ask'] = ask
+        return Reply(speech.ask_size(p, sizes_of(p)) + ' Or say cancel.')
+    return None
+
+
+def prefs(s):
+    return {'size': '', 'avoid': [], 'verbosity': 'normal', 'large_text': False, 'simple': False, **(s.get('prefs') or {})}
+
+
 def handle(text, s):
     cmd = parse(text)
     st = checkout.state(s)
     if st in checkout.HOLDING:
         return _holding(cmd, text, s, st)
+    ask = s.pop('ask', None)
+    if ask:
+        r = _answer(ask, text, cmd, s)
+        if r:
+            return r
     if cmd is None:
         return None
     name, args = cmd[0], cmd[1:]
@@ -205,6 +303,16 @@ def handle(text, s):
     if name == 'link':
         return Reply("Opening PayPal's login page. PayPal's login is your security boundary; we never see your password.",
                      action='link')
+    if name == 'pick' and isinstance(args[0], tuple):  # "the black one"
+        focus, words = catalog.get(s.get('focus') or ''), args[0][1]
+        if focus and _only_colour(words, focus):
+            c = match_colour(words, focus['colours'])
+            s['opt'] = {'id': focus['id'], 'colour': c}
+            return Reply(f"{c.capitalize()} chosen for {focus['name']}. Say add it.", focus=card(focus))
+        hits = [p for p in _results(s) if _only_colour(words, p)]
+        if len(hits) != 1:
+            return None  # not a colour we can pin down: let Lane 1 have it
+        args = (s['results'].index(hits[0]['id']) + 1,)
     if name == 'pick':
         p = resolve(s, ('n', args[0]))
         if not p:
@@ -244,33 +352,29 @@ def handle(text, s):
         say, lines = speech.compare(items)
         return Reply(say, lines)
     if name == 'add':
-        qty, tgt = args
-        p = resolve(s, tgt)
+        qty, tgt, *opt = args
+        opt = opt[0] if opt else ''
+        focus = catalog.get(s.get('focus') or '')
+        if tgt != 'it' and tgt[0] == 'name' and focus and _only_colour(tgt[1], focus):
+            p, opt = focus, f'{tgt[1]} {opt}'  # "add the black one": a colour of the item in focus
+        else:
+            p = resolve(s, tgt)
         if not p:
             return which(s)
-        cart = s.get('cart', [])
-        for line in cart:
-            if line[0] == p['id']:
-                line[1] = min(line[1] + qty, 10)
-                break
-        else:
-            cart.append([p['id'], qty])
-        s['cart'] = cart
-        _focus(s, p)
-        return Reply(speech.added(p, qty, sum(q for _, q in cart)), focus=card(p))
+        return add(s, p, qty, opt)
     if name == 'remove':
         cart = s.get('cart', [])
-        pool = [catalog.get(i) for i, _ in cart]
+        pool = [catalog.get(l[0]) for l in cart]
         p = resolve(s, args[0], pool) if args[0] != 'it' else catalog.get(s.get('focus') or '')
-        if not p or p['id'] not in [i for i, _ in cart]:
+        if not p or p['id'] not in [l[0] for l in cart]:
             return Reply('That is not in your cart. Say cart to hear what is in it.')
         s['cart'] = [l for l in cart if l[0] != p['id']]
-        return Reply(speech.removed(p, sum(q for _, q in s['cart'])))
+        return Reply(speech.removed(p, sum(l[1] for l in s['cart'])))
     if name == 'clear':
         s['cart'] = []
         return Reply('Your cart is now empty.')
     if name == 'cart':
-        say, lines = speech.cart([(catalog.get(i), q) for i, q in s.get('cart', []) if catalog.get(i)])
+        say, lines = speech.cart(checkout.cart_lines(s.get('cart', [])))
         return Reply(say, lines)
     if name == 'checkout':
         return checkout.start(s)

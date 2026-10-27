@@ -125,19 +125,28 @@ def compare(items):
     return f'Comparing {plural(len(items), "item")}, one point at a time.', out
 
 
+def item_name(p, variant=''):
+    """Name plus chosen size/colour; this exact string goes to PayPal, so the Readback repeats it."""
+    return f"{p['name']} ({variant})" if variant else p['name']
+
+
 def cart(lines_in):
-    """lines_in: [(product, qty)]."""
+    """lines_in: [(product, qty, variant)]."""
     if not lines_in:
         return 'Your cart is empty.', []
-    total = sum(Decimal(str(p['price'])) * q for p, q in lines_in)
-    n = sum(q for _, q in lines_in)
-    lines = [f"{i}. {p['name']}, quantity {q}, {money(p['price'])} each." for i, (p, q) in enumerate(lines_in, 1)]
+    total = sum(Decimal(str(p['price'])) * q for p, q, _ in lines_in)
+    n = sum(q for _, q, _ in lines_in)
+    lines = [f"{i}. {item_name(p, v)}, quantity {q}, {money(p['price'])} each." for i, (p, q, v) in enumerate(lines_in, 1)]
     lines.append(f'Items total {money(total)}, before shipping and tax. Say check out when ready.')
     return f"Your cart has {plural(n, 'item')}.", lines
 
 
-def added(p, qty, cart_count):
-    return f"Added: {p['name']}, quantity {qty}. Cart has {plural(cart_count, 'item')}."
+def added(p, qty, cart_count, variant=''):
+    return f"Added: {item_name(p, variant)}, quantity {qty}. Cart has {plural(cart_count, 'item')}."
+
+
+def ask_size(p, sizes):
+    return f"Which size? {p['name']} comes in {_ns(sizes)}. Say the size, for example: {sizes[len(sizes) // 2]}."
 
 
 def removed(p, cart_count):

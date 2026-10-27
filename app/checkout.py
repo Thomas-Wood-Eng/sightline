@@ -86,11 +86,16 @@ def unlock(s):
 
 
 # ---- money -----------------------------------------------------------------------------------------------------
+def cart_lines(cart):
+    """Stored cart [[id, qty, variant]] (older cookies lack the variant) -> [(product, qty, variant)]."""
+    return [(catalog.get(l[0]), l[1], l[2] if len(l) > 2 else '') for l in cart if catalog.get(l[0])]
+
+
 def totals(cart):
-    lines = [(catalog.get(pid), qty) for pid, qty in cart if catalog.get(pid)]
-    items = [{'name': p['name'], 'quantity': q, 'unit_amount': Decimal(str(p['price']))} for p, q in lines]
+    lines = cart_lines(cart)
+    items = [{'name': speech.item_name(p, v), 'quantity': q, 'unit_amount': Decimal(str(p['price']))} for p, q, v in lines]
     item_total = sum((i['unit_amount'] * i['quantity'] for i in items), Decimal(0))
-    shipping = sum((Decimal(str(p['shipping'])) for p, _ in lines), Decimal(0))
+    shipping = sum((Decimal(str(p['shipping'])) for p, _, _ in lines), Decimal(0))
     tax = (item_total * TAX_RATE).quantize(Decimal('0.01'), ROUND_HALF_UP)
     return items, shipping, tax, item_total + shipping + tax, lines
 
@@ -128,8 +133,8 @@ def start(s):
         _void(auth['id'], rid)
         s['co'] = {'state': VOIDED}
         return Reply("PayPal's hold did not match the cart, so I released it. Nothing was charged.")
-    meta = {'delivery_days': max(p['delivery_days'] for p, _ in lines),
-            'seller': ', '.join(sorted({p['seller'] for p, _ in lines}))}
+    meta = {'delivery_days': max(p['delivery_days'] for p, _, _ in lines),
+            'seller': ', '.join(sorted({p['seller'] for p, _, _ in lines}))}
     say, rb = speech.readback(order, meta)
     s['co'] = {'state': CONFIRM, 'rid': rid, 'order_id': order['id'], 'auth_id': auth['id'], 'say': say, 'lines': rb}
     return Reply(say, rb)
