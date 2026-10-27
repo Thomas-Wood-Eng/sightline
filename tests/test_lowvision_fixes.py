@@ -47,3 +47,29 @@ def test_reply_carries_payment_amount_text(client, fake):
     assert t(client, 'check out')['pay'] == 'Paying 41.73 US dollars to Sightline Demo Store'
     assert t(client, 'confirm')['pay'] == 'Paying 41.73 US dollars to Sightline Demo Store'
     assert client.get('/api/settings').json()['pay'] == 'Paying 41.73 US dollars to Sightline Demo Store'
+
+
+# ---- bug 7: after a refund the session is clean; a stale "return waiting" never claims nothing was refunded ----
+def to_return_pin(client):
+    setup(client)
+    t(client, 'hoodie'); t(client, 'add it in medium'); t(client, 'check out'); t(client, 'confirm')
+    client.post('/api/pin', json={'pin': '1234'})
+    t(client, 'return the hoodie'); t(client, 'confirm')
+
+
+def test_refund_leaves_clean_state(client, fake):
+    from app import db
+    to_return_pin(client)
+    key = client.cookies['session'].split('.')[0]
+    stale = db.load_session(key)  # as the old cookie was if the reply never reached the page
+    assert stale['co']['kind'] == 'refund' and stale['co']['state'] == 'awaiting_pin'
+    r = client.post('/api/pin', json={'pin': '1234'}).json()
+    assert r['say'].startswith('Refunded 36.74') and r['state'] == 'idle'
+    assert db.load_session(key)['co'] == {'state': 'idle'}  # saved server-side, whatever happens to the reply
+    assert t(client, 'cancel')['say'] == 'Nothing is on hold, so there is nothing to cancel.'
+    # even a stale return step (say, a crash before the session was saved) is cleared from the ledger
+    db.save_session(key, __import__('json').dumps(stale))
+    assert client.get('/api/settings').json()['state'] == 'idle'
+    r = t(client, 'cancel')
+    assert 'Nothing was refunded' not in r['say'] and 'return is waiting' not in r['say']
+    assert fake.count('refund') == 1

@@ -45,7 +45,12 @@ def spent_today(s):
 
 
 def state(s):
-    return s.get('co', {}).get('state', IDLE)
+    co = s.get('co', {})
+    if co.get('kind') == 'refund' and co.get('state') in HOLDING:
+        o = db.get(co['order_id'])
+        if o and o['lines'][co['line']]['refunded'] != '0.00':  # done by a request whose reply never arrived
+            s['co'] = co = {'state': IDLE}
+    return co.get('state', IDLE)
 
 
 def caps(s):
