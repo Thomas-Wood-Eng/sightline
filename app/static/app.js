@@ -50,7 +50,8 @@ function append(you, say, lines = []) {
     p.className = /^Total:/.test(l) ? 'line total' : 'line';
     const link = /^Approval link: (\/approve\/\S+)$/.exec(l);
     if (link) {  // shown instead of emailed in this prototype
-      const a = document.createElement('a'); a.href = link[1]; a.target = '_blank'; a.textContent = location.origin + link[1];
+      const a = document.createElement('a'); a.href = link[1]; a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = 'Open the approval page (opens in a new tab)';
       p.append('Approval link: ', a);
     } else p.textContent = l;
     turn.append(p);

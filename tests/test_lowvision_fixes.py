@@ -73,3 +73,31 @@ def test_refund_leaves_clean_state(client, fake):
     r = t(client, 'cancel')
     assert 'Nothing was refunded' not in r['say'] and 'return is waiting' not in r['say']
     assert fake.count('refund') == 1
+
+
+# ---- bug 9: a bare size is taken as a size, or answered with a clear prompt; nothing replaces the results ----
+def test_bare_size(client, fake):
+    from app.lane0 import bare_size
+    assert [bare_size(x) for x in ('M', 'medium', 'size XL', 'xs', 'mug', 'add it')] == ['M', 'M', 'XL', 'XS', None, None]
+    setup(client)
+    t(client, 'find me a warm hoodie')
+    assert t(client, 'M')['say'] == 'Size M for which item? Say the number first, for example: add number 1 in M.'
+    assert t(client, 'tell me about the first one')['say'].startswith('Fleece-lined pullover hoodie')  # results kept
+    assert t(client, 'M')['say'].startswith('Added: Fleece-lined pullover hoodie (size M')
+    r = t(client, 'XXL')
+    assert 'does not come in size XXL' in r['say'] and 'Which size?' in r['say']
+    assert t(client, 'S')['say'].startswith('Added: Fleece-lined pullover hoodie (size S')
+
+
+# ---- bugs 10 and 12: the lockout states the way back; the Settings PIN label names the trusted contact ----
+def test_lockout_message_states_recovery(client, fake):
+    setup(client)
+    t(client, 'hoodie'); t(client, 'add it in medium'); t(client, 'check out'); t(client, 'confirm')
+    for _ in range(3):
+        r = client.post('/api/pin', json={'pin': '0000'}).json()
+    assert 'say link PayPal' in r['say'] and '"Link PayPal again" link in the PayPal section' in r['say']
+    assert 'Setup form asks you to choose a new PIN' in r['say'] and r['state'] == 'voided'
+
+
+def test_settings_pin_label_names_trusted_contact(client):
+    assert 'Current PIN, needed to change caps, PIN or trusted contact</label>' in client.get('/').text

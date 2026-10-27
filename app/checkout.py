@@ -19,8 +19,9 @@ IDLE, READBACK, CONFIRM, PIN, CAPTURED, VOIDED = 'idle', 'readback_pending', 'aw
 UNDO = 'undo_window'  # PIN accepted, capture waits a few seconds so "undo" can still void the hold
 APPROVAL = 'awaiting_approval'  # over the trusted contact's threshold: held until they approve or decline
 HOLDING = (CONFIRM, PIN, APPROVAL)
-LOCKED = ('Your PIN is locked after three wrong tries. Nothing was charged. '
-          'To unlock, link PayPal again, which needs your PayPal login, then set a new PIN.')
+LOCKED = ('Your PIN is locked after three wrong tries. Nothing was charged. To unlock it: say link PayPal, or use the '
+          '"Link PayPal again" link in the PayPal section of this page. Log in to PayPal; you then come back here, and '
+          'the Setup form asks you to choose a new PIN.')
 
 # shortcut: PIN tries, lockout and undone holds live in server memory keyed by session id, so replaying an old
 # signed cookie can't reset them; they are lost on restart. Captured orders (and so today's spend) are in SQLite (db.py).

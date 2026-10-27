@@ -141,3 +141,15 @@ def test_message_box_stays_put_as_log_grows(browser, server, fake, width, height
       return t.offsetTop >= log.scrollTop && t.offsetTop < log.scrollTop + log.clientHeight; })()""")
     assert newest  # the log scrolled to the newest reply
     assert page.evaluate('document.documentElement.scrollWidth <= document.documentElement.clientWidth')  # reflow
+
+
+# ---- bug 11: the approval link says it opens a new tab, instead of showing a long URL ----
+def test_approval_link_says_new_tab(browser, server, fake):
+    page = open_app(browser, server)
+    page.fill('#set-contact-name', 'Alex'); page.fill('#set-contact-email', 'alex@example.com')
+    page.fill('#set-threshold', '20'); page.fill('#set-current-pin', '1234'); page.click('text=Save settings')
+    page.wait_for_function("document.getElementById('settings-status').textContent.startsWith('Saved')")
+    send(page, 'hoodie'); send(page, 'add it in medium'); send(page, 'check out')
+    a = page.locator('#log a[href^="/approve/"]')
+    assert a.inner_text() == 'Open the approval page (opens in a new tab)'
+    assert a.get_attribute('target') == '_blank' and a.get_attribute('rel') == 'noopener'

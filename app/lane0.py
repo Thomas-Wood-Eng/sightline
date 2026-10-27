@@ -249,6 +249,25 @@ def match_size(text, sizes):
     return None
 
 
+def bare_size(text):
+    """'M', 'medium', 'size XL' on their own -> 'M', 'XL'; None for anything else."""
+    said = _size_tokens(text)
+    return said[0].upper() if len(said) == 1 and said[0] in ('xs', 's', 'm', 'l', 'xl', 'xxl') else None
+
+
+def _size_only(s, text, size):
+    """A size said on its own, with no size question open: the item in focus in that size, else ask which item."""
+    p = resolve(s, 'it')
+    if p and match_size(text, sizes_of(p)):
+        return add(s, p, 1, text)
+    if p and sizes_of(p):
+        s['ask'] = {'add': [p['id'], 1, None]}  # the next answer can be the size
+        return Reply(f"The {p['name']} does not come in size {size}. " + speech.ask_size(p, sizes_of(p)), focus=card(p))
+    if _results(s):
+        return Reply(f'Size {size} for which item? Say the number first, for example: add number 1 in {size}.')
+    return Reply(f'Size {size} for which item? Search first, for example: hoodie. Then say add number 1 in {size}.')
+
+
 def colours(p):
     return p.get('colours') or ([p['listing']['colour']] if p['listing'].get('colour') else [])
 
@@ -377,7 +396,8 @@ def handle(text, s):
         if r:
             return r
     if cmd is None:
-        return None
+        size = bare_size(text)
+        return _size_only(s, text, size) if size else None
     name, args = cmd[0], cmd[1:]
     if name == 'repeat':
         last = checkout.ledger(s).get('last')
