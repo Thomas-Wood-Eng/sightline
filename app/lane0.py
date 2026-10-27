@@ -596,6 +596,10 @@ def _holding(cmd, text, s, st):
     name = cmd[0] if cmd else None
     if st == checkout.APPROVAL and name not in ('cancel', 'no', 'undo', 'repeat', 'spell'):
         news = checkout.approval_news(s)
+        if news and name in ('confirm', 'yes') and checkout.state(s) == checkout.CONFIRM:
+            # approved and the shopper already said confirm: go straight to the PIN instead of asking twice
+            nxt = checkout.confirm(s)
+            return Reply(f'{news.say.split(". Say confirm")[0]}. {nxt.say}', nxt.lines)
         if news:
             return news
     if st == checkout.PIN and re.fullmatch(r'[\d\s-]{4,}', text.strip()):

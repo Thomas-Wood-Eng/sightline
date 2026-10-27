@@ -65,59 +65,6 @@
    "complaint": null
   }
  },
- "hoodie-02": {
-  "reviews": [
-   {
-    "stars": 5,
-    "text": "The fabric feels incredibly thick and cozy, perfect for chilly days. The graphic print on the sleeves really pops against the faded black wash."
-   },
-   {
-    "stars": 5,
-    "text": "I love the relaxed fit, and it holds its shape nicely after hanging it out to dry. The chest design gets compliments every time I wear it."
-   },
-   {
-    "stars": 5,
-    "text": "This cotton fleece has a solid, heavy weight that keeps out the cold draft. The washed finish gives it a great vintage look right out of the package."
-   },
-   {
-    "stars": 5,
-    "text": "Super comfortable inside and the print details down the arms look crisp. It quickly became my go-to sweatshirt for casual outings."
-   },
-   {
-    "stars": 5,
-    "text": "Pure cotton material makes it breathable yet heavy enough for winter weather. Following the cold wash instructions keeps the graphics looking fresh."
-   },
-   {
-    "stars": 3,
-    "text": "The artwork on the chest looks cool, but the printed area feels a bit stiff against my chest. The hood is also noticeably smaller than expected."
-   },
-   {
-    "stars": 4,
-    "text": "Really heavy fabric and a great vintage aesthetic. It takes a very long time to hang dry because of how thick the cotton is, but it is well made."
-   },
-   {
-    "stars": 5,
-    "text": "The subtle grey graphics on the washed black background look fantastic in person. The cuffs fit snug around my wrists without feeling stretched out."
-   },
-   {
-    "stars": 2,
-    "text": "The sleeve graphics started cracking after the first cold wash cycle. The inner fabric also shed black fuzz all over the t-shirt I wore underneath."
-   }
-  ],
-  "summary": {
-   "pros": [
-    "Thick cozy cotton fabric",
-    "Stylish graphics and vintage look",
-    "Comfortable relaxed fit"
-   ],
-   "cons": [
-    "Takes a long time to dry",
-    "Printed design feels stiff",
-    "Graphics may crack when washed"
-   ],
-   "complaint": null
-  }
- },
  "tshirt-01": {
   "reviews": [
    {
@@ -381,71 +328,6 @@
     "Lacks arch support",
     "Initially stiff",
     "Sole peeling issues"
-   ],
-   "complaint": null
-  }
- },
- "raincoat-01": {
-  "reviews": [
-   {
-    "stars": 5,
-    "text": "This bright yellow slicker is completely waterproof and keeps my toddler dry during heavy storms."
-   },
-   {
-    "stars": 5,
-    "text": "The snap buttons are so easy for my kindergartener to manage all by themselves."
-   },
-   {
-    "stars": 5,
-    "text": "It has a soft inner lining that doesn't feel clammy against bare arms."
-   },
-   {
-    "stars": 5,
-    "text": "The hood stays up even in strong wind gusts without blocking peripheral vision."
-   },
-   {
-    "stars": 4,
-    "text": "Wiping off mud and dirt with a damp cloth takes just seconds."
-   },
-   {
-    "stars": 4,
-    "text": "The material feels durable enough to handle playground climbing without tearing."
-   },
-   {
-    "stars": 4,
-    "text": "The sleeves run a bit long, but we just roll them up easily."
-   },
-   {
-    "stars": 5,
-    "text": "It folds up small enough to tuck right into the school backpack."
-   },
-   {
-    "stars": 5,
-    "text": "The cheerful color makes it super easy to spot my kid on gloomy days."
-   },
-   {
-    "stars": 1,
-    "text": "The chemical smell right out of the package was so strong we had to air it out for days."
-   },
-   {
-    "stars": 1,
-    "text": "One of the snap buttons completely ripped off the fabric on the very first day."
-   },
-   {
-    "stars": 4,
-    "text": "It is a great jacket overall, though I wish the hood offered slightly more coverage around the forehead."
-   }
-  ],
-  "summary": {
-   "pros": [
-    "keeps toddler dry",
-    "easy snap buttons",
-    "soft inner lining"
-   ],
-   "cons": [
-    "chemical smell",
-    "sleeves run long",
-    "fragile buttons"
    ],
    "complaint": null
   }
@@ -840,71 +722,6 @@
    "complaint": null
   }
  },
- "earbuds-01": {
-  "reviews": [
-   {
-    "stars": 5,
-    "text": "The smooth white finish looks great, and the sound clarity exceeded my expectations. They paired instantly with my phone right out of the box."
-   },
-   {
-    "stars": 5,
-    "text": "Finding the right ear tip size made these super comfortable for my daily runs. The charging case is lightweight and easy to slide into a pocket."
-   },
-   {
-    "stars": 5,
-    "text": "Connecting via Bluetooth was completely seamless. They stay securely in my ears even when I am working out."
-   },
-   {
-    "stars": 2,
-    "text": "The left earbud constantly loses connection whenever I turn my head. Also, the plastic case feels cheap and scratches very easily."
-   },
-   {
-    "stars": 5,
-    "text": "I love that it uses a standard USB-C cable for quick charging. A single charge easily gets me through my entire workday."
-   },
-   {
-    "stars": 5,
-    "text": "Rich bass and clear treble make listening to my favorite podcasts a delight. Cleaning them is as simple as a quick wipe with a dry cloth."
-   },
-   {
-    "stars": 5,
-    "text": "These white earbuds look sleek and modern. The snap lid on the charging case feels very satisfying to open and close."
-   },
-   {
-    "stars": 5,
-    "text": "Having different ear tip options included saved me, as my ear canals are small. They sit flush and never hurt my ears."
-   },
-   {
-    "stars": 3,
-    "text": "Audio plays fine for music, but the built-in microphone makes my voice sound muffled on phone calls. They are decent for passive listening, but not great for work calls."
-   },
-   {
-    "stars": 1,
-    "text": "The right earbud completely stopped charging shortly after I bought them. Now the case will not recognize it at all, rendering the set useless."
-   },
-   {
-    "stars": 5,
-    "text": "These are the ideal companion for my daily train commute. They block out background noise well and charge up surprisingly fast."
-   },
-   {
-    "stars": 1,
-    "text": "Even with the smallest tips attached, these constantly slip out of my ears and hit the floor. The glossy plastic surface offers no grip at all."
-   }
-  ],
-  "summary": {
-   "pros": [
-    "clear sound quality",
-    "comfortable fit",
-    "fast bluetooth pairing"
-   ],
-   "cons": [
-    "connection drops",
-    "cheap plastic case",
-    "muffled microphone"
-   ],
-   "complaint": "connection drops"
-  }
- },
  "charger-01": {
   "reviews": [
    {
@@ -987,124 +804,6 @@
     "flimsy connector casing"
    ],
    "complaint": "cable is too short"
-  }
- },
- "powerbank-01": {
-  "reviews": [
-   {
-    "stars": 2,
-    "text": "The plastic casing feels decent, but the included USB cable stopped working after just two charges."
-   },
-   {
-    "stars": 5,
-    "text": "This little black brick has saved my phone battery countless times during long hikes."
-   },
-   {
-    "stars": 5,
-    "text": "It is super lightweight and slips easily into my smallest jeans pocket."
-   },
-   {
-    "stars": 3,
-    "text": "The capacity is fine for a single emergency charge, but it gets quite warm during use."
-   },
-   {
-    "stars": 4,
-    "text": "A very reliable gadget for daily commutes, though I wish the finish was less prone to fingerprints."
-   },
-   {
-    "stars": 4,
-    "text": "It charges my smartphone surprisingly fast while I am out and about."
-   },
-   {
-    "stars": 4,
-    "text": "Solid build quality and fits comfortably in my bag alongside my wallet."
-   },
-   {
-    "stars": 5,
-    "text": "An absolute lifesaver for travel days when I am away from wall outlets for hours."
-   },
-   {
-    "stars": 5,
-    "text": "The sleek design looks great, and it holds a charge for days sitting in my backpack."
-   },
-   {
-    "stars": 5,
-    "text": "Simple to use right out of the box with no complicated buttons or setup required."
-   },
-   {
-    "stars": 5,
-    "text": "Pocket-sized perfection that delivers reliable power whenever my phone drops into the red."
-   }
-  ],
-  "summary": {
-   "pros": [
-    "charges quickly",
-    "lightweight and compact",
-    "reliable battery backup"
-   ],
-   "cons": [
-    "faulty charging cable",
-    "gets warm during use",
-    "shows fingerprints easily"
-   ],
-   "complaint": null
-  }
- },
- "keyboard-01": {
-  "reviews": [
-   {
-    "stars": 3,
-    "text": "The blue-grey colour is nice and it feels sturdy enough, but the lack of adjustable feet makes typing at my desk a bit awkward."
-   },
-   {
-    "stars": 5,
-    "text": "I love the adorable round keys and how quickly it switches between my laptop and tablet!"
-   },
-   {
-    "stars": 5,
-    "text": "The teal accent keys add a fun pop of colour to my workspace, and typing on it feels surprisingly bouncy and satisfying."
-   },
-   {
-    "stars": 5,
-    "text": "It is so lightweight and compact that I can easily slip it into my bag alongside my tablet for working at coffee shops."
-   },
-   {
-    "stars": 4,
-    "text": "Connecting to three different devices was super simple, though the plastic body feels a little hollow."
-   },
-   {
-    "stars": 5,
-    "text": "The matte finish is lovely and the tactile feedback from the keys makes writing long emails a breeze."
-   },
-   {
-    "stars": 2,
-    "text": "The spacebar started sticking after just a few days of use, which makes typing documents really frustrating."
-   },
-   {
-    "stars": 5,
-    "text": "Battery installation was a snap and having the batteries included in the box was a very appreciated touch."
-   },
-   {
-    "stars": 5,
-    "text": "The wipe clean surface makes it super easy to keep looking fresh and dust-free on my crowded desk."
-   },
-   {
-    "stars": 2,
-    "text": "Some of the keys lose connection randomly during use, forcing me to constantly re-pair the Bluetooth."
-   }
-  ],
-  "summary": {
-   "pros": [
-    "satisfying key feel",
-    "easy multi device switching",
-    "lightweight and compact"
-   ],
-   "cons": [
-    "unstable bluetooth connection",
-    "hollow plastic body",
-    "awkward typing angle"
-   ],
-   "complaint": "random bluetooth disconnection"
   }
  },
  "mouse-01": {
@@ -1219,51 +918,6 @@
    "complaint": null
   }
  },
- "granola-01": {
-  "reviews": [
-   {
-    "stars": 4,
-    "text": "The oat clusters have a great crunch and natural honey sweetness, though I wish there were a few more almonds mixed in."
-   },
-   {
-    "stars": 5,
-    "text": "This is hands down the best store-bought granola I have ever tasted, with huge crunchy clumps that stay crisp in milk."
-   },
-   {
-    "stars": 5,
-    "text": "The toasted almond flavor really shines through and the honey coating is just right without being overly sticky."
-   },
-   {
-    "stars": 5,
-    "text": "I love snacking on these oat clusters straight out of the bag because the texture is wonderfully hearty and fresh."
-   },
-   {
-    "stars": 4,
-    "text": "It makes a fantastic yogurt topping, but the bag seal broke on the first opening so I had to transfer it to a jar."
-   },
-   {
-    "stars": 3,
-    "text": "The flavor is decent and the oats are nicely baked, but the bag arrived with way too many fine crumbs and very few whole clusters."
-   },
-   {
-    "stars": 5,
-    "text": "Morning breakfast has become a real treat thanks to this delicious honey and nut combination that keeps me full for hours."
-   }
-  ],
-  "summary": {
-   "pros": [
-    "great crunch and texture",
-    "delicious honey and nut flavor",
-    "stays crisp in milk"
-   ],
-   "cons": [
-    "broken bag seal",
-    "too many fine crumbs",
-    "few almonds mixed in"
-   ],
-   "complaint": null
-  }
- },
  "coffee-01": {
   "reviews": [
    {
@@ -1374,61 +1028,6 @@
     "mild herbal notes"
    ],
    "complaint": "poorly sealing lid"
-  }
- },
- "chocolate-01": {
-  "reviews": [
-   {
-    "stars": 5,
-    "text": "The texture is wonderfully velvety and it melts instantly on the tongue."
-   },
-   {
-    "stars": 5,
-    "text": "Rich, deep cocoa flavor that isn't overly bitter at all."
-   },
-   {
-    "stars": 5,
-    "text": "Grabbed this for a quick afternoon treat and it exceeded my expectations."
-   },
-   {
-    "stars": 5,
-    "text": "Stunning packaging and the quality of the chocolate is top-tier."
-   },
-   {
-    "stars": 5,
-    "text": "A perfectly balanced dark chocolate that pairs amazingly well with black coffee."
-   },
-   {
-    "stars": 5,
-    "text": "Smooth finish with zero chalky aftertaste, absolutely delicious."
-   },
-   {
-    "stars": 3,
-    "text": "It has a decent flavor profile, but the bar arrived completely melted into a blob."
-   },
-   {
-    "stars": 5,
-    "text": "Deep, complex notes that satisfy my sweet tooth without feeling heavy."
-   },
-   {
-    "stars": 5,
-    "text": "Break off a square and you get that crisp snap you expect from good cocoa."
-   },
-   {
-    "stars": 5,
-    "text": "Pure indulgence in every single bite, easily my new favorite grocery find."
-   }
-  ],
-  "summary": {
-   "pros": [
-    "velvety smooth texture",
-    "rich cocoa flavor",
-    "stunning packaging"
-   ],
-   "cons": [
-    "arrived melted"
-   ],
-   "complaint": "arrived melted"
   }
  },
  "honey-01": {
@@ -1865,101 +1464,6 @@
    "complaint": null
   }
  },
- "journal-01": {
-  "reviews": [
-   {
-    "stars": 5,
-    "text": "The leather feels wonderfully soft and the cream pages take ink without any bleeding."
-   },
-   {
-    "stars": 5,
-    "text": "Bought this as a graduation present and my friend literally cried when she opened it."
-   },
-   {
-    "stars": 5,
-    "text": "A gorgeous tan brown notebook that smells amazing right out of the box."
-   },
-   {
-    "stars": 5,
-    "text": "The refillable design means I can keep using this beautiful cover forever."
-   },
-   {
-    "stars": 5,
-    "text": "Perfect pocket size for daily journaling and the strap keeps everything securely shut."
-   },
-   {
-    "stars": 5,
-    "text": "Stunning craftsmanship with neat stitching and thick paper that feels luxurious."
-   },
-   {
-    "stars": 3,
-    "text": "The leather cover is nice, but the spine glue started cracking after just a week of opening it flat."
-   },
-   {
-    "stars": 5,
-    "text": "An absolute home run for a birthday gift, the packaging was so elegant."
-   },
-   {
-    "stars": 4,
-    "text": "Very handsome journal with sturdy pages, though it takes a little while to break in the binding."
-   },
-   {
-    "stars": 5,
-    "text": "The paper weight is ideal for fountain pens and sketching alike."
-   },
-   {
-    "stars": 5,
-    "text": "Exceeded my expectations in every way, from the supple texture to the rich color."
-   }
-  ],
-  "summary": {
-   "pros": [
-    "soft leather cover",
-    "fountain pen friendly paper",
-    "refillable design"
-   ],
-   "cons": [
-    "stiff binding initially",
-    "fragile spine glue"
-   ],
-   "complaint": null
-  }
- },
- "teddy-01": {
-  "reviews": [
-   {
-    "stars": 5,
-    "text": "The golden brown fur is unbelievably soft and the little red scarf adds such a charming touch. My newborn daughter snuggles with it every night."
-   },
-   {
-    "stars": 5,
-    "text": "This bear has a wonderful, huggable build and sits up perfectly on the nursery shelf. The polyester filling is just plush enough without being too stiff."
-   },
-   {
-    "stars": 5,
-    "text": "Bought this as a keepsake and the quality is fantastic right out of the box. It feels durable enough to last for years of gentle play."
-   },
-   {
-    "stars": 5,
-    "text": "The fabric feels so cozy and the size is ideal for little hands to hold. It makes a sweet addition to any nursery gift basket."
-   },
-   {
-    "stars": 4,
-    "text": "Really adorable plush bear with a lovely scarf, though I wish it were fully machine washable instead of surface wash only for easier cleanup."
-   }
-  ],
-  "summary": {
-   "pros": [
-    "incredibly soft fur",
-    "huggable build",
-    "charming red scarf"
-   ],
-   "cons": [
-    "surface wash only"
-   ],
-   "complaint": null
-  }
- },
  "paints-01": {
   "reviews": [
    {
@@ -2131,6 +1635,502 @@
     "insecure cap posting",
     "ink flow issues",
     "nib writes too broad"
+   ],
+   "complaint": null
+  }
+ },
+ "hoodie-02": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "This is the thickest, coziest black hoodie I have ever owned, and the cotton feels amazingly premium."
+   },
+   {
+    "stars": 5,
+    "text": "The oversized fit is exactly what I wanted for lounging, and the lined hood has great structure."
+   },
+   {
+    "stars": 5,
+    "text": "Solid construction all around with heavy fabric that keeps me genuinely warm on chilly morning walks."
+   },
+   {
+    "stars": 5,
+    "text": "Zero complaints here; the material is dense, the stitching is tight, and the kangaroo pocket is deep."
+   },
+   {
+    "stars": 5,
+    "text": "Finally, a plain black hoodie that doesn't feel cheap or flimsy. Absolutely love wearing this daily."
+   },
+   {
+    "stars": 3,
+    "text": "It's decent and very warm, but the collar opening is a bit too tight when pulling it over my head."
+   },
+   {
+    "stars": 4,
+    "text": "Really nice heavyweight feel and holds its shape well after a cold wash, though hanging it to dry takes a while."
+   },
+   {
+    "stars": 5,
+    "text": "The cotton fabric quality is exceptional and the overall build feels like it will last for years."
+   },
+   {
+    "stars": 2,
+    "text": "The fabric is way too stiff and heavy for my liking, and the sleeves feel strangely restrictive around the elbows."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "thick and cozy",
+    "heavyweight cotton",
+    "warm and durable"
+   ],
+   "cons": [
+    "tight collar opening",
+    "stiff fabric",
+    "restrictive sleeves"
+   ],
+   "complaint": null
+  }
+ },
+ "raincoat-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The burnt orange color is gorgeous, and the lightweight nylon kept me completely dry during a heavy downpour."
+   },
+   {
+    "stars": 5,
+    "text": "That drawstring waist makes all the difference for getting a flattering fit instead of looking like a box."
+   },
+   {
+    "stars": 5,
+    "text": "Super easy to wipe clean after my dog jumped on me, and the pockets kept my keys safe."
+   },
+   {
+    "stars": 5,
+    "text": "The adjustable hood stayed on securely even when the wind picked up downtown."
+   },
+   {
+    "stars": 4,
+    "text": "It is a really nice shade and feels durable, though the sleeves run just a tiny bit long for my arms."
+   },
+   {
+    "stars": 4,
+    "text": "Great little jacket for breezy walks, but I wish the zipper felt a bit heavier duty."
+   },
+   {
+    "stars": 4,
+    "text": "The material feels high quality and it folds up small enough to tuck into my daily tote bag."
+   },
+   {
+    "stars": 5,
+    "text": "I am obsessed with this vibrant hue and how easily the rain beads right off the fabric."
+   },
+   {
+    "stars": 5,
+    "text": "Kept me totally sweat-free and dry on my commute today, plus the zip front is very smooth."
+   },
+   {
+    "stars": 1,
+    "text": "The waterproof coating started peeling off around the cuffs after just one week of actual use."
+   },
+   {
+    "stars": 1,
+    "text": "It arrived smelling intensely of chemicals and the side seam completely ripped the first time I adjusted the hood."
+   },
+   {
+    "stars": 4,
+    "text": "Really stylish and practical overall, although the flap pockets could use a button to secure them better."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "waterproof and lightweight",
+    "flattering adjustable waist",
+    "vibrant attractive color"
+   ],
+   "cons": [
+    "sleeves run slightly long",
+    "delicate zipper",
+    "insecure pockets"
+   ],
+   "complaint": null
+  }
+ },
+ "earbuds-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The lilac color is so pretty in person, and the silicone tips make them remarkably comfortable for hours of listening."
+   },
+   {
+    "stars": 5,
+    "text": "That flat cable design actually works wonders; I pull them out of my bag every morning completely knot-free."
+   },
+   {
+    "stars": 5,
+    "text": "Sound quality is surprisingly crisp and clear for such a lightweight pair of everyday earphones."
+   },
+   {
+    "stars": 2,
+    "text": "The plug keeps cutting out if the wire gets even slightly nudged, which makes listening to music on the bus really frustrating."
+   },
+   {
+    "stars": 5,
+    "text": "They stay securely in my ears during my morning jog without slipping out once."
+   },
+   {
+    "stars": 5,
+    "text": "Having three different sizes of ear tips included meant I could easily find a snug, noise-isolating fit."
+   },
+   {
+    "stars": 5,
+    "text": "The build feels sturdy enough for daily commuting, and wiping them clean takes literally two seconds."
+   },
+   {
+    "stars": 5,
+    "text": "Plugged them right into my laptop and the microphone picked up my voice clearly on all my video calls."
+   },
+   {
+    "stars": 3,
+    "text": "The sound is decent overall, but the plastic housing on the earbuds feels a bit cheap and hollow."
+   },
+   {
+    "stars": 1,
+    "text": "The left earbud completely stopped working after just a few days of gentle use, which is terribly disappointing."
+   },
+   {
+    "stars": 5,
+    "text": "These are my new favorite backup headphones to keep in my purse because they are so compact and hassle-free."
+   },
+   {
+    "stars": 1,
+    "text": "The ear tips keep popping off the plastic stems whenever I take them out of my pocket, making them unusable."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "comfortable fit",
+    "tangle free cable",
+    "clear sound quality"
+   ],
+   "cons": [
+    "cheap plastic housing",
+    "fragile build",
+    "loose ear tips"
+   ],
+   "complaint": "connection issues with the plug"
+  }
+ },
+ "powerbank-01": {
+  "reviews": [
+   {
+    "stars": 2,
+    "text": "The aluminum casing feels nice, but the included USB cable stopped working after just one week."
+   },
+   {
+    "stars": 5,
+    "text": "This champagne gold charger is remarkably sleek and easily slips into my smallest purse alongside my phone."
+   },
+   {
+    "stars": 5,
+    "text": "It holds a ton of charge and saved my phone multiple times during a heavy travel weekend."
+   },
+   {
+    "stars": 3,
+    "text": "The build is sturdy and looks great, but it gets quite warm when charging two devices at once."
+   },
+   {
+    "stars": 4,
+    "text": "A very handy little battery pack that powers up my phone quickly while I am out and about."
+   },
+   {
+    "stars": 4,
+    "text": "I love the slim profile and stylish metal finish, though I wish it came with a protective pouch."
+   },
+   {
+    "stars": 4,
+    "text": "It fits perfectly in my pocket without adding bulk and keeps my device running all day."
+   },
+   {
+    "stars": 5,
+    "text": "The champagne gold color matches my phone setup wonderfully and the dual ports are super convenient."
+   },
+   {
+    "stars": 5,
+    "text": "An absolute lifesaver for long flights when standard wall outlets are impossible to find."
+   },
+   {
+    "stars": 5,
+    "text": "It charges my phone remarkably fast and feels extremely well made in the hand."
+   },
+   {
+    "stars": 5,
+    "text": "Sleek, lightweight, and reliable, this is easily the best portable charger I have owned."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "sleek and compact design",
+    "charges devices quickly",
+    "holds a lot of power"
+   ],
+   "cons": [
+    "gets warm during heavy use",
+    "lacks a protective pouch",
+    "cable quality issues"
+   ],
+   "complaint": null
+  }
+ },
+ "keyboard-01": {
+  "reviews": [
+   {
+    "stars": 3,
+    "text": "The off-white plastic looks nice on my desk, but the space bar feels a bit mushy when typing fast."
+   },
+   {
+    "stars": 5,
+    "text": "This retro aesthetic is gorgeous and the keystrokes have the most satisfying tactile bounce."
+   },
+   {
+    "stars": 5,
+    "text": "Plugged it right into my desktop and started working without installing any annoying software."
+   },
+   {
+    "stars": 5,
+    "text": "Having a dedicated number pad makes data entry so much faster and smoother."
+   },
+   {
+    "stars": 4,
+    "text": "The build is sturdy enough for daily office work, though I wish the cord was slightly longer."
+   },
+   {
+    "stars": 5,
+    "text": "It has a lovely vintage look and wiping it clean with a damp cloth is effortless."
+   },
+   {
+    "stars": 2,
+    "text": "Two of the rubber feet fell off on the first day, so the board slides around while I type."
+   },
+   {
+    "stars": 5,
+    "text": "The full-size layout is extremely comfortable for my wrists during long writing sessions."
+   },
+   {
+    "stars": 5,
+    "text": "Simple, reliable, and gets the job done without needing batteries or Bluetooth pairing."
+   },
+   {
+    "stars": 2,
+    "text": "The plastic feels extremely cheap and the enter key gets stuck halfway down."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "retro aesthetic",
+    "satisfying keystrokes",
+    "comfortable full-size layout"
+   ],
+   "cons": [
+    "mushy space bar",
+    "short cord",
+    "cheap plastic build"
+   ],
+   "complaint": null
+  }
+ },
+ "granola-01": {
+  "reviews": [
+   {
+    "stars": 4,
+    "text": "The oat clusters have a great crunch and natural honey sweetness, though I wish there were a few more almonds mixed in."
+   },
+   {
+    "stars": 5,
+    "text": "This is hands down the best granola I have ever put in my yogurt, with huge crispy clusters and plenty of real nuts."
+   },
+   {
+    "stars": 5,
+    "text": "I am completely obsessed with the warm honey flavor and the way the oat clumps stay crunchy in cold milk."
+   },
+   {
+    "stars": 5,
+    "text": "Super fresh and wholesome, making it my go-to morning breakfast when I need something quick and delicious."
+   },
+   {
+    "stars": 4,
+    "text": "Really tasty snack straight out of the bag, but the ziplock closure stopped working properly after a couple of days."
+   },
+   {
+    "stars": 3,
+    "text": "It tastes decent and has a nice crunch, but the bag contained way too many fine crumbs and not enough actual clusters."
+   },
+   {
+    "stars": 5,
+    "text": "The toasted almond flavor is incredible and the texture is wonderfully crunchy without feeling too hard on your teeth."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "great crunch",
+    "delicious honey flavor",
+    "fresh and wholesome"
+   ],
+   "cons": [
+    "faulty ziplock closure",
+    "too many fine crumbs",
+    "few almonds mixed in"
+   ],
+   "complaint": null
+  }
+ },
+ "chocolate-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "These rough-cut chunks melt down smoothly for baking, but they are also wonderfully bitter right out of the bag."
+   },
+   {
+    "stars": 5,
+    "text": "The texture is snap-firm and satisfying, hitting that sweet spot of intense cocoa flavor without being overly chalky."
+   },
+   {
+    "stars": 5,
+    "text": "I always keep a bag in the pantry because the resealable pouch keeps them fresh for late-night snacking."
+   },
+   {
+    "stars": 5,
+    "text": "As a baker, I appreciate the irregular sizes because they create pockets of deep chocolate goodness in my cookies."
+   },
+   {
+    "stars": 5,
+    "text": "The seventy percent cocoa content delivers a rich, complex taste that elevates any homemade brownie recipe."
+   },
+   {
+    "stars": 5,
+    "text": "These are my absolute favorite go-to baking chunks; they hold their shape remarkably well when heated."
+   },
+   {
+    "stars": 3,
+    "text": "The flavor is decent, but the bag I received had completely melted together into one giant solid block."
+   },
+   {
+    "stars": 5,
+    "text": "Deep, dark, and not too sweet, these chunks make a fantastic addition to my morning trail mix."
+   },
+   {
+    "stars": 5,
+    "text": "They have a lovely glossy finish and a clean snap that indicates high quality chocolate."
+   },
+   {
+    "stars": 5,
+    "text": "Straightforward ingredients and a robust cocoa punch make these a staple in my kitchen cabinet."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "intense cocoa flavor",
+    "melts smoothly for baking",
+    "convenient resealable pouch"
+   ],
+   "cons": [
+    "can melt into a solid block"
+   ],
+   "complaint": null
+  }
+ },
+ "journal-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The rich tan brown leather feels amazing in my hand and fits right into my jacket pocket."
+   },
+   {
+    "stars": 5,
+    "text": "I bought this as a gift for my sister and she absolutely loves using it for daily journaling."
+   },
+   {
+    "stars": 5,
+    "text": "The paper quality is surprisingly thick and handles my fountain pen ink without any bleeding through."
+   },
+   {
+    "stars": 5,
+    "text": "Stunning little notebook with gorgeous texture, making it a wonderful present for any writer."
+   },
+   {
+    "stars": 5,
+    "text": "It is compact, incredibly well constructed, and smells wonderfully like genuine leather right out of the box."
+   },
+   {
+    "stars": 5,
+    "text": "Such a classy little journal for quick sketches and notes on the go."
+   },
+   {
+    "stars": 3,
+    "text": "The cover leather is nice, but the blank pages are a bit too thin and ghosting happens with heavy markers."
+   },
+   {
+    "stars": 5,
+    "text": "Absolute perfection for anyone who appreciates classic stationery and minimalist design."
+   },
+   {
+    "stars": 4,
+    "text": "Really lovely little book, though the binding felt slightly stiff until I broke it in."
+   },
+   {
+    "stars": 5,
+    "text": "The size is ideal for carrying everywhere, and the rustic look gets better with every handling."
+   },
+   {
+    "stars": 5,
+    "text": "A gorgeous leather journal that makes a fantastic and thoughtful gift for friends."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "genuine leather cover",
+    "compact and portable size",
+    "good paper quality"
+   ],
+   "cons": [
+    "pages can be too thin",
+    "stiff binding initially"
+   ],
+   "complaint": null
+  }
+ },
+ "teddy-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "This little bear is exceptionally soft and the stitched face makes it completely safe for my newborn."
+   },
+   {
+    "stars": 5,
+    "text": "I was worried about shedding, but the plush material is high quality and holds up well to constant toddler cuddles."
+   },
+   {
+    "stars": 5,
+    "text": "The cream color is lovely and the stuffing is just the right firmness for a comforting bedtime companion."
+   },
+   {
+    "stars": 5,
+    "text": "It has a wonderfully classic look and sits perfectly on the nursery shelf as a charming decor piece."
+   },
+   {
+    "stars": 4,
+    "text": "The size is great for little hands, though I wish the surface wash instructions were a bit more forgiving for accidental spills."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "exceptionally soft plush",
+    "safe stitched face",
+    "ideal size for little hands"
+   ],
+   "cons": [
+    "surface wash only"
    ],
    "complaint": null
   }

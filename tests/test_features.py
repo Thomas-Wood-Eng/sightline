@@ -166,6 +166,14 @@ def test_approval_then_confirm_and_pin(client, fake):
     assert fake.count('capture') == 1
 
 
+def test_confirm_after_approval_goes_straight_to_pin(client, fake):
+    _, link = to_approval(client)
+    client.post(link + '/approve')
+    r = t(client, 'confirm')
+    assert r['say'].startswith('Alex approved') and r['state'] == 'awaiting_pin'
+    assert client.post('/api/pin', json={'pin': '1234'}).json()['state'] in ('captured', 'undo_window')
+
+
 def test_decline_voids(client, fake):
     _, link = to_approval(client)
     assert 'Declined' in client.post(link + '/decline').text
