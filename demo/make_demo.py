@@ -198,10 +198,11 @@ def tts(text, who):
     TTS.mkdir(parents=True, exist_ok=True)
     key = hashlib.sha1(f'{who}|{text}'.encode()).hexdigest()[:16]
     orp, gem, kok = TTS / f'{key}.orpheus.wav', TTS / f'{key}.wav', TTS / f'{key}.kokoro.wav'
-    path = next((p for p in (orp, gem) if p.exists()), None)
-    if path is None and _orpheus(text, who, orp):
+    local_only = os.environ.get('DEMO_TTS') == 'kokoro'  # test renders: no quota spent, hosted cache untouched
+    path = None if local_only else next((p for p in (orp, gem) if p.exists()), None)
+    if path is None and not local_only and _orpheus(text, who, orp):
         path = orp
-    if path is None and who != 'sightline' and len(_spent) < len(GEMINI_TTS) and _gemini(text, who, gem):
+    if path is None and not local_only and who != 'sightline' and len(_spent) < len(GEMINI_TTS) and _gemini(text, who, gem):
         path = gem
     if path is None:
         if not kok.exists():
