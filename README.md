@@ -3,6 +3,32 @@
 A voice- and keyboard-first shopping agent for blind and low-vision people, built for the PayPal AI Hackathon.
 PayPal holds the money, Sightline reads back PayPal's own numbers, and nothing is paid until you say "confirm" and type your PIN.
 
+## For judges
+
+- **Live app:** _link added after deploy_ · **Demo video:** _link added after upload_
+- **Try it instantly:** the live app has a pre-linked PayPal **sandbox** wallet (fake money). Answer the Setup questions
+  (any 4-digit PIN), then type or say: "find me a warm hoodie", "tell me about the first one", "add it", "medium",
+  "check out", "confirm", and type your PIN.
+- **Link your own sandbox account instead:** choose **Link PayPal** and log in with a PayPal sandbox **personal** (buyer)
+  account. A **business** account is the seller and PayPal will refuse it ("you are logging into the account of the seller").
+  Sandbox test-buyer credentials are in the Devpost testing instructions.
+- **Things worth trying:** a nut allergy ("a snack for my kid, she has a nut allergy"), "what do people say about it",
+  headphones (a pre-ticked protection plan is called out and not added), "undo" within 10 seconds of the PIN,
+  a trusted contact in Settings (orders above the amount need their approval), "return the hoodie".
+- Works with NVDA, JAWS, VoiceOver or no screen reader; voice input needs Chrome or Edge, typing works everywhere.
+
+## How it uses PayPal and AI
+
+- **PayPal (sandbox, REST, called only by our code, never by the AI):** the buyer saves PayPal once (Vault v3 setup token →
+  full-page PayPal login → payment token). Each purchase is an Orders v2 `AUTHORIZE` with that `vault_id`: PayPal holds the
+  money, Sightline reads back PayPal's own `amount.breakdown`, then captures on confirm + PIN or voids on cancel/undo.
+  Every checkout attempt has one `PayPal-Request-Id`, so a repeated "confirm" can never charge twice. Refunds use
+  `/v2/payments/captures/{id}/refund` behind the same Readback + PIN.
+- **AI (Gemini, free tier):** offline, Gemini with vision writes accessible product descriptions from the photos
+  ("listing says" vs "photo suggests", reviewed by hand). Live, a fast Gemini model handles free-form requests with tools,
+  but never sees a price and its text passes a money filter: every amount you hear is rendered from catalogue or PayPal data.
+  Fixed commands and the whole checkout run without any AI. **The AI suggests; it never holds the keys.**
+
 ## Features
 
 - Search, describe ("listing says" vs "photo suggests"), compare, cart, all by voice or keyboard; at most 3 results.
@@ -22,8 +48,8 @@ PayPal holds the money, Sightline reads back PayPal's own numbers, and nothing i
 
 ## Run locally
 
-1. Python 3.13 with `pip install fastapi uvicorn itsdangerous rank_bm25 httpx pytest`.
-2. Copy `.env.example` to `.env` and fill in the PayPal sandbox `PAYPAL_CLIENT_ID` / `PAYPAL_CLIENT_SECRET` and a random `SESSION_SECRET`.
+1. Python 3.13 with `pip install -r requirements.txt` (and `pytest` for the tests).
+2. Copy `.env.example` to `.env` and fill in the PayPal sandbox `PAYPAL_CLIENT_ID` / `PAYPAL_CLIENT_SECRET`, a free `GEMINI_API_KEY` (Google AI Studio) and a random `SESSION_SECRET`.
 3. Start the server: `python -m uvicorn app.main:app --host 127.0.0.1 --port 8000`, then open http://127.0.0.1:8000.
 4. Answer the Setup questions (screen reader yes/no, a 4-digit PIN, spending caps), then choose **Link PayPal** and log in as the
    sandbox **personal** buyer (the business account cannot approve).
