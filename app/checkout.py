@@ -152,6 +152,7 @@ def start(s):
             'gift': bool(desc)}
     say, rb = speech.readback(order, meta)
     s['co'] = {'state': CONFIRM, 'rid': rid, 'order_id': order['id'], 'auth_id': auth['id'], 'say': say, 'lines': rb,
+               'pay': f"Paying {speech.usd(order['purchase_units'][0]['amount']['value'])} to {meta['seller']}",
                'days': meta['delivery_days'],  # for the ledger: our ids beside PayPal's item names and unit prices
                'items': [[p['id'], it['name'], q, it['unit_amount']['value']]
                          for (p, q, _), it in zip(lines, order['purchase_units'][0].get('items', []))]}
@@ -270,7 +271,7 @@ def start_refund(s, o, i):
     amount = min(Decimal(line['unit']) * line['qty'] + Decimal(line['tax']), Decimal(o['total']) - db.refunded(o))
     say, rb = speech.refund_readback(o, line, amount)
     s['co'] = {'state': CONFIRM, 'kind': 'refund', 'rid': uuid.uuid4().hex, 'order_id': o['order_id'], 'line': i,
-               'amount': f'{amount:.2f}', 'say': say, 'lines': rb}
+               'amount': f'{amount:.2f}', 'say': say, 'lines': rb, 'pay': f'Refunding {speech.usd(amount)} to your PayPal'}
     return Reply(say, rb)
 
 

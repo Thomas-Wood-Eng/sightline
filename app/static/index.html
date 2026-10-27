@@ -58,14 +58,19 @@
 
     <form id="pin-form" hidden>
       <h3>Approve the payment</h3>
+      <p id="pin-amount" class="pay-amount"></p>
       <label for="pin">PIN, 4 digits</label>
       <div class="row">
-        <input id="pin" type="password" inputmode="numeric" autocomplete="off" maxlength="4">
+        <input id="pin" type="password" inputmode="numeric" autocomplete="off" maxlength="4" aria-describedby="pin-amount">
         <button type="submit">Pay</button>
         <button type="button" id="pin-cancel">Cancel payment</button>
       </div>
     </form>
-    <p id="undo-box" hidden><button type="button" id="undo-btn" aria-keyshortcuts="Escape">Undo payment (Escape)</button></p>
+    <div id="undo-box" class="pay-box" hidden>
+      <p id="undo-amount" class="pay-amount"></p>
+      <p id="countdown" class="countdown"></p>
+      <button type="button" id="undo-btn" aria-keyshortcuts="Escape">Undo payment (Escape)</button>
+    </div>
     <p id="pay-status" role="status" class="status pay-status"></p>
   </section>
 

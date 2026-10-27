@@ -45,7 +45,11 @@ button[aria-pressed=true] { background: #a40000; border-color: #a40000; color: #
 .status:empty { display: none; }
 .status { font-weight: 600; }
 
-#pin-form { border: 3px solid var(--accent); border-radius: 6px; padding: 0 1rem 1rem; margin-top: 1rem; }
+#pin-form, .pay-box { border: 3px solid var(--accent); border-radius: 6px; padding: 0 1rem 1rem; margin-top: 1rem; }
+.pay-amount { font-size: 1.3rem; font-weight: 700; }
+.pay-amount:empty, .countdown:empty { display: none; }
+.countdown { font-size: 1.6rem; font-weight: 700; margin: 0.5rem 0; }
+.pay-box .pay-amount { margin-top: 1rem; }
 figure { margin: 0; }
 #item-img { max-width: 100%; height: auto; max-height: 20rem; border: 1px solid var(--line); }
 figcaption { font-weight: 600; margin-top: 0.3rem; }

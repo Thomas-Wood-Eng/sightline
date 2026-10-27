@@ -38,3 +38,12 @@ def test_session_survives_restart_via_sqlite(client, fake):
     rows = db._conn().execute('SELECT data FROM sessions').fetchall()
     assert any('"pin"' in r['data'] for r in rows)
     assert client.get('/api/settings').json()['pin_set']
+
+
+# ---- bug 3: the PIN box states the amount, from PayPal's order, not computed in the page ----
+def test_reply_carries_payment_amount_text(client, fake):
+    setup(client)
+    t(client, 'hoodie'); t(client, 'add it in medium')
+    assert t(client, 'check out')['pay'] == 'Paying 41.73 US dollars to Sightline Demo Store'
+    assert t(client, 'confirm')['pay'] == 'Paying 41.73 US dollars to Sightline Demo Store'
+    assert client.get('/api/settings').json()['pay'] == 'Paying 41.73 US dollars to Sightline Demo Store'

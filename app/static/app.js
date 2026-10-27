@@ -61,9 +61,9 @@ function append(you, say, lines = []) {
 }
 
 // payment status: shown on screen, and spoken (app voice) or announced (screen reader), never both
-function payStatus(text) {
+function payStatus(text, quiet = false) {
   $('pay-status').textContent = text;
-  if (text) speak(text);
+  if (text && !(quiet && 'speechSynthesis' in window && speechSynthesis.speaking)) speak(text);  // quiet: never cut a reply
 }
 
 function showItem(f) {
@@ -75,16 +75,38 @@ function showItem(f) {
 }
 $('item-img').addEventListener('error', (e) => { e.target.hidden = true; });
 
-let finalizeTimer = null;
-function setState(s, dueIn = 0) {
+let finalizeTimer = null, tick = null, paying = false;
+const countdown = (t) => { $('countdown').textContent = t; };
+// pay: "Paying 59.59 US dollars to ...", from the server (PayPal's amount), never computed here
+function setState(s, dueIn = 0, pay = '', say = '') {
   const was = state; state = s;
-  // undo window: PayPal captures when it ends; until then Undo (or Escape) voids the hold
-  $('undo-box').hidden = s !== 'undo_window';
-  clearTimeout(finalizeTimer);
-  if (s === 'undo_window') finalizeTimer = setTimeout(() => turn('/api/finalize', {}, null), dueIn * 1000 + 300);
+  clearTimeout(finalizeTimer); clearInterval(tick);
+  const box = $('undo-box');
+  $('pin-amount').textContent = $('undo-amount').textContent = pay || '';
+  if (s === 'undo_window') {
+    // undo window: PayPal captures when it ends; until then Undo (or Escape) voids the hold.
+    // The countdown updates on screen every second but is announced only at the 5-second mark (not chatty).
+    paying = false; box.hidden = false; $('undo-btn').hidden = false;
+    const due = Date.now() + dueIn * 1000;
+    let warned = dueIn <= 5;
+    const update = () => {
+      const left = Math.max(0, Math.ceil((due - Date.now()) / 1000));
+      countdown(left === 1 ? 'Paying in 1 second' : `Paying in ${left} seconds`);
+      if (!warned && left <= 5) { warned = true; payStatus('Last 5 seconds to undo. Press Escape or Undo.', true); }
+    };
+    update(); tick = setInterval(update, 250);
+    finalizeTimer = setTimeout(() => {
+      clearInterval(tick); paying = true; $('undo-btn').hidden = true;
+      countdown('Paying now…'); payStatus('Paying now.');
+      turn('/api/finalize', {}, null);
+    }, dueIn * 1000 + 300);
+  } else if (was === 'undo_window' && say) {
+    paying = false; $('undo-btn').hidden = true; countdown(say);  // the result stays in the box until the next reply
+  } else { paying = false; box.hidden = true; }
   const showPin = s === 'awaiting_pin';
   pinForm.hidden = !showPin;
-  if (showPin && was !== 'awaiting_pin') pinInput.focus();
+  // also when the PIN is already waiting and the user is still in the message box
+  if (showPin && (was !== 'awaiting_pin' || document.activeElement === msg)) pinInput.focus();
   if (!showPin && document.activeElement === pinInput) msg.focus();
   if (s === 'captured' && was !== 'captured') earcon.success();
 }
@@ -106,7 +128,7 @@ async function turn(url, body, youText) {
     payStatus('');
     append(youText, r.say, r.lines);
     showItem(r.focus);
-    setState(r.state, r.due_in);
+    setState(r.state, r.due_in, r.pay, r.say);
     if (r.action === 'link') location.assign('/link/start');
   } catch (e) {
     earcon.error(); append(youText, e.message);
@@ -175,7 +197,8 @@ document.addEventListener('keydown', (e) => {
     // one press: stops the voice and listening AND acts on a waiting payment, so "press Escape" is always true
     if ('speechSynthesis' in window) speechSynthesis.cancel();
     if (rec) rec.abort();
-    if (state === 'undo_window') { payStatus('Undoing the payment.'); send('undo'); }
+    if (state === 'undo_window' && paying) payStatus('Too late to undo: PayPal is taking the payment now.');
+    else if (state === 'undo_window') { payStatus('Undoing the payment.'); send('undo'); }
     else if (HOLD.includes(state)) { payStatus('Cancelling the payment.'); send('cancel'); }
   }
 });
@@ -183,7 +206,7 @@ document.addEventListener('keydown', (e) => {
 // ---- setup and settings ----
 function fillSettings(s) {
   setMode(s.output_mode);
-  setState(s.state);
+  setState(s.state, s.due_in, s.pay);
   $('setup').hidden = s.onboarded;
   const f = $('settings-form');
   f.output_mode.value = s.output_mode;
@@ -238,5 +261,5 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').cat
     error: 'PayPal linking did not work. Please try Link PayPal again.' }[link];
   append(null, (linkMsg ? linkMsg + ' ' : '') + (s.onboarded ? 'Welcome back. What would you like to shop for?'
     : 'Welcome to Sightline. Please answer the Setup questions first, or start by typing what you want.'));
-  if (s.onboarded) msg.focus();
+  if (s.onboarded && state !== 'awaiting_pin') msg.focus();
 })();

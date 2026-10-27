@@ -86,7 +86,7 @@ def test_escape_undoes_on_first_press_while_voice_speaks(browser, server, fake, 
     assert 'Undoing the payment.' in page.evaluate('window.__spoken')  # spoken feedback straight away
     page.wait_for_function("document.querySelector('#log .turn:last-child').innerText.includes('Undone')")
     assert fake.count('void') == 1 and fake.count('capture') == 0
-    assert page.is_hidden('#undo-box')
+    assert page.is_hidden('#undo-btn') and page.inner_text('#countdown').startswith('Undone. Nothing was charged.')
 
 
 def test_escape_cancels_hold_in_screen_reader_mode(browser, server, fake):
@@ -97,3 +97,31 @@ def test_escape_cancels_hold_in_screen_reader_mode(browser, server, fake):
     page.wait_for_function("document.querySelector('#log .turn:last-child').innerText.includes('Cancelled')")
     assert 'Cancelling the payment.' in page.evaluate('window.__status')  # visible, and announced (role=status)
     assert fake.count('void') == 1 and page.evaluate('window.__spoken') == []  # screen reader mode: app stays silent
+
+
+# ---- bug 3/4/6/8: the PIN box shows the amount and takes focus; the undo window shows a countdown, then "Paying now" ----
+def test_pin_box_amount_focus_and_undo_countdown(browser, server, fake, monkeypatch):
+    from app import paypal
+    real = fake.capture
+    monkeypatch.setattr(paypal, 'capture', lambda a, r: (time.sleep(1.5), real(a, r))[1])
+    monkeypatch.setenv('SIGHTLINE_UNDO_SECONDS', '3')
+    page = open_app(browser, server)
+    to_pin(page)
+    assert page.inner_text('#pin-amount') == 'Paying 41.73 US dollars to Sightline Demo Store'
+    assert page.evaluate('document.activeElement.id') == 'pin'
+    page.focus('#message'); send(page, 'check out')  # "already on hold": focus goes back to the PIN box
+    assert page.evaluate('document.activeElement.id') == 'pin'
+    watch_status(page)
+    page.fill('#pin', '1234'); page.press('#pin', 'Enter')
+    page.wait_for_selector('#undo-box', state='visible')
+    assert page.inner_text('#undo-amount') == 'Paying 41.73 US dollars to Sightline Demo Store'
+    assert page.inner_text('#countdown') in ('Paying in 3 seconds', 'Paying in 2 seconds')
+    assert page.is_visible('#undo-btn')
+    page.wait_for_function("document.getElementById('countdown').textContent === 'Paying now…'")
+    assert page.is_hidden('#undo-btn')
+    page.keyboard.press('Escape')  # too late: says so, sends nothing
+    page.wait_for_function("document.getElementById('countdown').textContent.startsWith('Paid.')")
+    assert page.is_hidden('#undo-btn') and fake.count('capture') == 1 and fake.count('void') == 0
+    status = page.evaluate('window.__status')
+    assert 'Last 5 seconds to undo. Press Escape or Undo.' not in status  # a 3-second window starts under 5 s
+    assert 'Paying now.' in status and 'Too late to undo: PayPal is taking the payment now.' in status
