@@ -51,3 +51,11 @@ figure { margin: 0; }
 figcaption { font-weight: 600; margin-top: 0.3rem; }
 footer { margin-top: 2rem; padding-bottom: 2rem; color: var(--muted); }
 [hidden] { display: none !important; }
+
+/* Wide screens: keep the current product beside the conversation. Narrow or zoomed screens keep one column (WCAG 1.4.10 reflow). */
+@media (min-width: 72rem) {
+  header, footer { max-width: 74rem; }
+  main { max-width: 74rem; display: grid; grid-template-columns: minmax(0, 46rem) minmax(0, 24rem); column-gap: 2rem; align-items: start; }
+  main > section { grid-column: 1; }
+  main > section[aria-labelledby="item-h"] { grid-column: 2; grid-row: 1 / span 9; position: sticky; top: 1rem; }
+}

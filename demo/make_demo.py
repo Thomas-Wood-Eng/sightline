@@ -35,12 +35,15 @@ INTRO = [
      'This is an early prototype, recorded before testing with blind users.'),
     ('narrate', 'Blind shoppers can often find a product, then lose it at checkout to pop-ups, captchas and unlabelled buttons. '
                 'Sightline turns the whole purchase into a conversation.'),
-    ('setup', 'Setup happens once: a four-digit PIN, spending limits, and an optional trusted contact. '
-              "These can only be changed in settings, never by voice. PayPal was linked beforehand, on PayPal's own login page."),
+    ('setup', 'Setup happens once: a PIN, spending limits, and an optional trusted contact, changed only in settings, never by voice. '
+              "PayPal was linked beforehand on PayPal's own login page. Sightline's replies play faster, the way most "
+              'screen-reader users listen.'),
 ]
-SHOP = [
+ALLERGY = [
     ('narrate', 'Allergies are a hard filter in code, not a guess by the AI.'),
     ('say', 'I need a snack for my kid. She has a nut allergy.'),
+]
+HOODIE = [
     ('say', 'Find me a hoodie.'),
     ('say', 'Tell me about the first one.'),
     ('say', 'What do people say about it?'),
@@ -48,28 +51,23 @@ SHOP = [
     ('say', 'Medium.'),
     ('say', "It's a gift."),
     ('say', 'Happy birthday, Sam!'),
-    ('say', 'Check out.'),
-    ('narrate', "Every amount you just heard was read from PayPal's own order, not written by the AI. "
-                'The money is only on hold until the shopper confirms and types their PIN.'),
-    ('say', 'Confirm.'),
-    ('pin', '1234'),
 ]
-UNDO = [   # "Undo." must follow the PIN directly: the 10-second window is real time
-    ('say', 'Undo.'),
-    ('narrate', 'For ten seconds after the PIN, the shopper can still change their mind. Nothing was charged. '
-                'This time, we let it go through.'),
+PAY = [
     ('say', 'Check out.'),
+    ('narrate', "Every amount you just heard came from PayPal's own order, not from the AI. "
+                'The money stays on hold until the shopper confirms and types their PIN.'),
     ('say', 'Confirm.'),
     ('pin', '1234'),
     ('captured',),
 ]
-GUARDS = [
+SCAM = [
     ('narrate', 'Sightline also calls out sales tricks, like a protection plan the seller pre-ticks.'),
     ('say', 'Find headphones.'),
     ('say', 'Add the first one.'),
     ('say', 'Check out.'),
     ('say', 'Cancel.'),
-    ('say', 'Remove the headphones.'),
+]
+APPROVAL = [   # "Undo." must follow the PIN directly: the 10-second window is real time
     ('narrate', 'Above an amount the shopper chose, a trusted contact has to approve the order first.'),
     ('say', 'Find a rain jacket.'),
     ('say', 'Add it.'),
@@ -77,10 +75,10 @@ GUARDS = [
     ('approve', 'Alex gets a link, sees the same Readback, and approves.'),
     ('say', 'Confirm.'),
     ('pin', '1234'),
-    ('captured',),
+    ('say', 'Undo.'),
+    ('narrate', 'For ten seconds after the PIN, the shopper can still change their mind. Nothing was charged.'),
 ]
-AFTER = [
-    ('say', 'How much did I spend this week?'),
+REFUND = [
     ('say', 'Return the hoodie.'),
     ('say', 'Confirm.'),
     ('pin', '1234'),
@@ -89,8 +87,9 @@ OUTRO = [
     ('title', 'The AI suggests. It never holds the keys.', 'Next: testing with blind and low-vision shoppers.',
      'The agent does the clicking. The person makes every decision. Next, testing with blind and low-vision shoppers.'),
 ]
-SCRIPTS = {'full': INTRO + SHOP + UNDO + GUARDS + AFTER + OUTRO,
-           'short': INTRO + SHOP + [('captured',)] + GUARDS[6:] + OUTRO}   # aim: under 3 minutes for Devpost
+SCRIPTS = {'full': INTRO + ALLERGY + HOODIE + PAY + SCAM + [('say', 'Remove the headphones.')] + APPROVAL + REFUND + OUTRO,
+           # Devpost cut, aim under 3 minutes: the purchase, the trusted contact and undo
+           'short': INTRO + [HOODIE[0], HOODIE[3], HOODIE[4]] + PAY + APPROVAL + OUTRO}
 SCRIPT = SCRIPTS['full']
 
 
@@ -208,8 +207,17 @@ def tts(text, who):
         if not kok.exists():
             _kokoro_tts(text, who, kok)
         path = kok
+    if who == 'sightline':  # screen-reader users listen fast; 1.3x keeps it followable for sighted viewers
+        fast = path.with_name(path.stem + f'.x{SIGHTLINE_SPEED}.wav')
+        if not fast.exists():
+            subprocess.run(['ffmpeg', '-hide_banner', '-loglevel', 'error', '-y', '-i', str(path),
+                            '-filter:a', f'atempo={SIGHTLINE_SPEED}', str(fast)], check=True)
+        path = fast
     with wave.open(str(path)) as w:
         return path, w.getnframes() / w.getframerate()
+
+
+SIGHTLINE_SPEED = 1.3
 
 
 # ---------- recording ----------
@@ -232,8 +240,8 @@ def record():
     segments = []  # (start_s, end_s, wav or None, caption)
     with sync_playwright() as pw:
         browser = pw.chromium.launch()
-        ctx = browser.new_context(viewport={'width': 1280, 'height': 720}, record_video_dir=str(OUT / 'raw'),
-                                  record_video_size={'width': 1280, 'height': 720})
+        ctx = browser.new_context(viewport={'width': 1920, 'height': 1080}, record_video_dir=str(OUT / 'raw'),
+                                  record_video_size={'width': 1920, 'height': 1080})
         page = ctx.new_page()
         t0 = time.monotonic()
         now = lambda: time.monotonic() - t0
@@ -295,7 +303,7 @@ def record():
                 page.wait_for_timeout(600)
                 page.evaluate('''() => fetch('/api/settings', {method: 'POST', headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({contact_name: 'Alex', contact_email: 'alex@example.com',
-                                          approval_threshold: '75.00', current_pin: '1234'})})''')
+                                          approval_threshold: '75.00', verbosity: 'brief', current_pin: '1234'})})''')
                 page.wait_for_timeout(max(0, int(dur * 1000) - int((now() - a) * 1000)) + 350)
                 segments.append((a, now(), wav, step[1]))
             elif kind == 'say':
@@ -368,7 +376,7 @@ def edit(video, segments):
     (OUT / 'sightline_demo.srt').write_text(
         ''.join(f'{n}\n{stamp(a)} --> {stamp(b)}\n{c}\n\n' for n, (a, b, c) in enumerate(srt, 1)), encoding='utf-8')
     ff('-f', 'concat', '-safe', '0', '-i', 'parts.txt', '-c', 'copy', 'joined.mp4')
-    ff('-i', 'joined.mp4', '-vf', "subtitles=sightline_demo.srt:force_style='FontSize=18,BorderStyle=3,Outline=1,MarginV=18'",
+    ff('-i', 'joined.mp4', '-vf', "subtitles=sightline_demo.srt:force_style='FontSize=11,BorderStyle=3,Outline=1,MarginV=10,BackColour=&H60000000'",
        '-c:a', 'copy', 'sightline_demo.mp4')
     for p in parts:
         (OUT / p).unlink()
