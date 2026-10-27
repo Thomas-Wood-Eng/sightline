@@ -34,6 +34,7 @@ FIXED = [
     (r'no|nope|nah|no thanks', ('no',)),
     (r'cancel( it| that| the order| order| the payment| payment| purchase| the purchase| checkout)?|never ?mind|abort',
      ('cancel',)),
+    (r"undo( it| that| the (payment|order|purchase))?|(do not|don't) pay|stop (the )?payment", ('undo',)),
     (r'stop|quiet|shh+|be quiet', ('stop',)),
     (r'(open |show )?settings|preferences', ('settings',)),
     (r'(link|connect|set up|add) (my )?pay ?pal( account)?', ('link',)),
@@ -288,6 +289,10 @@ def handle(text, s):
     st = checkout.state(s)
     if st in checkout.HOLDING:
         return _holding(cmd, text, s, st)
+    if st == checkout.UNDO:  # PIN accepted, capture pending: only undo stops it; anything else hears the countdown
+        if cmd and cmd[0] in ('undo', 'cancel', 'no', 'stop'):
+            return checkout.undo(s)
+        return checkout.finalize(s)
     ask = s.pop('ask', None)
     if ask:
         r = _answer(ask, text, cmd, s)
@@ -398,6 +403,8 @@ def handle(text, s):
         return checkout.confirm(s)
     if name in ('cancel', 'no'):
         return checkout.cancel(s) if name == 'cancel' else Reply('OK.')
+    if name == 'undo':
+        return checkout.undo(s)
     return None
 
 
@@ -414,7 +421,7 @@ def _holding(cmd, text, s, st):
         return Reply('For your safety, type the PIN in the PIN box, not the message box. Nothing was sent.')
     if name in ('confirm', 'yes'):
         return checkout.confirm(s)
-    if name in ('cancel', 'no'):
+    if name in ('cancel', 'no', 'undo'):
         return checkout.cancel(s)
     if name in ('repeat', 'checkout'):
         last = s.get('last') if name == 'repeat' else None

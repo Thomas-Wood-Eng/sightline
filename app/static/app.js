@@ -62,8 +62,13 @@ function showItem(f) {
 }
 $('item-img').addEventListener('error', (e) => { e.target.hidden = true; });
 
-function setState(s) {
+let finalizeTimer = null;
+function setState(s, dueIn = 0) {
   const was = state; state = s;
+  // undo window: PayPal captures when it ends; until then Undo (or Escape) voids the hold
+  $('undo-box').hidden = s !== 'undo_window';
+  clearTimeout(finalizeTimer);
+  if (s === 'undo_window') finalizeTimer = setTimeout(() => turn('/api/finalize', {}, null), dueIn * 1000 + 300);
   const showPin = s === 'awaiting_pin';
   pinForm.hidden = !showPin;
   if (showPin && was !== 'awaiting_pin') pinInput.focus();
@@ -87,7 +92,7 @@ async function turn(url, body, youText) {
     const r = await post(url, body);
     append(youText, r.say, r.lines);
     showItem(r.focus);
-    setState(r.state);
+    setState(r.state, r.due_in);
     if (r.action === 'link') location.assign('/link/start');
   } catch (e) {
     earcon.error(); append(youText, e.message);
@@ -113,6 +118,7 @@ pinForm.addEventListener('submit', (e) => {
   turn('/api/pin', { pin }, 'PIN entered');
 });
 $('pin-cancel').addEventListener('click', () => send('cancel'));
+$('undo-btn').addEventListener('click', () => send('undo'));
 
 // ---- push to talk (Web Speech API, Chrome and Edge) ----
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -152,6 +158,7 @@ document.addEventListener('keydown', (e) => {
     if ('speechSynthesis' in window && speechSynthesis.speaking) speechSynthesis.cancel();
     else if (rec) rec.abort();
     else if (state === 'awaiting_confirm' || state === 'awaiting_pin') send('cancel');
+    else if (state === 'undo_window') send('undo');
   }
 });
 

@@ -30,7 +30,8 @@ app.mount('/static', StaticFiles(directory=STATIC), name='static')
 
 def out(s, r: Reply):
     s['last'] = {'say': r.say, 'lines': r.lines}
-    return {'say': r.say, 'lines': r.lines, 'state': checkout.state(s), 'focus': r.focus, 'action': r.action}
+    return {'say': r.say, 'lines': r.lines, 'state': checkout.state(s), 'focus': r.focus, 'action': r.action,
+            'due_in': checkout.seconds_left(s)}
 
 
 @app.get('/')
@@ -52,6 +53,12 @@ def turn(body: Turn, request: Request):
     except paypal.PayPalError as e:
         r = Reply(f'PayPal had a problem ({e}). Nothing was charged. Say repeat or try again.')
     return out(s, r)
+
+
+@app.post('/api/finalize')
+def finalize(request: Request):
+    """The page calls this when the undo window ends; any later turn would finalize too."""
+    return out(request.session, checkout.finalize(request.session))
 
 
 class Pin(BaseModel):

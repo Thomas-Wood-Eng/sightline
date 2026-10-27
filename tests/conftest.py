@@ -7,6 +7,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 os.environ['SIGHTLINE_CATALOG'] = 'sample_catalog.json'
 os.environ['SIGHTLINE_NO_LLM'] = '1'  # unit tests never call Gemini
+os.environ['SIGHTLINE_UNDO_SECONDS'] = '0'  # capture right after the PIN unless a test opens the undo window
 
 from app import checkout, paypal  # noqa: E402
 

@@ -3,7 +3,7 @@
 Deterministic and LLM-free: confirm, cancel and the PIN only ever reach this file.
 Caps are checked here before any hold. One PayPal-Request-Id per checkout attempt makes repeats replay, not re-charge.
 """
-import hashlib, hmac, os, secrets, uuid
+import hashlib, hmac, os, secrets, threading, time, uuid
 from datetime import date
 from decimal import Decimal, ROUND_HALF_UP
 
@@ -14,6 +14,7 @@ TAX_RATE = Decimal('0.05')  # flat demo rate
 MAX_TRIES = 3
 DEFAULT_CAPS = {'order': '100.00', 'daily': '250.00'}
 IDLE, READBACK, CONFIRM, PIN, CAPTURED, VOIDED = 'idle', 'readback_pending', 'awaiting_confirm', 'awaiting_pin', 'captured', 'voided'
+UNDO = 'undo_window'  # PIN accepted, capture waits a few seconds so "undo" can still void the hold
 HOLDING = (CONFIRM, PIN)
 LOCKED = ('Your PIN is locked after three wrong tries. Nothing was charged. '
           'To unlock, link PayPal again, which needs your PayPal login, then set a new PIN.')
@@ -21,11 +22,13 @@ LOCKED = ('Your PIN is locked after three wrong tries. Nothing was charged. '
 # shortcut: PIN tries, lockout and today's spend live in server memory keyed by session id, so replaying an old
 # signed cookie can't reset them; they are lost on restart. Move to a database before real money.
 LEDGER = {}
+_lock = threading.Lock()  # undo and capture of one hold never both go ahead
 
 
 def ledger(s):
     sid = s.setdefault('sid', uuid.uuid4().hex)
-    led = LEDGER.setdefault(sid, {'tries': 0, 'locked': False, 'day': '', 'spent': Decimal(0), 'captured': set()})
+    led = LEDGER.setdefault(sid, {'tries': 0, 'locked': False, 'day': '', 'spent': Decimal(0), 'captured': set(),
+                                  'undone': set()})
     today = date.today().isoformat()
     if led['day'] != today:
         led.update(day=today, spent=Decimal(0))
@@ -189,17 +192,63 @@ def pin(s, entered):
         return Reply(LOCKED + ' The hold was released.')
     if result == 'wrong':
         return Reply(speech.pin_wrong(MAX_TRIES - ledger(s)['tries']))
-    co = s['co']
-    try:
-        cap = paypal.capture(co['auth_id'], co['rid'] + '-capture')
-    except paypal.PayPalError as e:
-        return Reply(f'PayPal did not take the payment ({e}). Nothing was charged. '
-                     'Type the PIN to try again, or say cancel.')
+    delay = int(os.environ.get('SIGHTLINE_UNDO_SECONDS', '10'))
+    s['co'] = {**s['co'], 'state': UNDO, 'due': time.time() + delay}
+    if delay <= 0:
+        return finalize(s)
+    return Reply(f'PIN accepted. PayPal takes the payment in {delay} seconds. '
+                 'To stop it, say undo, or press Escape, or use the Undo button.')
+
+
+def seconds_left(s):
+    return max(0, round(s['co']['due'] - time.time())) if state(s) == UNDO else 0
+
+
+def finalize(s):
+    """Capture once the undo window has passed. Safe to call repeatedly: same request id, counted once."""
+    st, co = state(s), s.get('co', {})
+    if st == CAPTURED:
+        return Reply(f"Already paid. Order number {co['order_id']}.")
+    if st != UNDO:
+        return Reply('No payment is waiting.')
+    if seconds_left(s) > 0:
+        return Reply(f'Paying in {speech.plural(seconds_left(s), "second")}. Say undo to stop it.')
     led = ledger(s)
-    if co['rid'] not in led['captured']:
-        led['captured'].add(co['rid'])
-        led['spent'] += Decimal(cap['amount']['value'])
+    with _lock:
+        if co['rid'] in led['undone']:  # undone from another tab or an older cookie
+            s['co'] = {'state': VOIDED}
+            return Reply('That payment was undone. Nothing was charged.')
+        try:
+            cap = paypal.capture(co['auth_id'], co['rid'] + '-capture')
+        except paypal.PayPalError as e:
+            s['co'] = {**co, 'state': PIN}
+            return Reply(f'PayPal did not take the payment ({e}). Nothing was charged. '
+                         'Type the PIN to try again, or say cancel.')
+        if co['rid'] not in led['captured']:
+            led['captured'].add(co['rid'])
+            led['spent'] += Decimal(cap['amount']['value'])
     s['co'] = {'state': CAPTURED, 'order_id': co['order_id'], 'rid': co['rid']}
     s['cart'] = []
     s['spell'] = co['order_id']
     return Reply(speech.receipt(cap, co['order_id']))
+
+
+def undo(s):
+    st, co = state(s), s.get('co', {})
+    if st == CAPTURED:
+        return Reply('Too late to undo: PayPal has already taken the payment.')
+    if st in HOLDING:
+        return cancel(s)
+    if st != UNDO:
+        return Reply('There is nothing to undo.')
+    led = ledger(s)
+    with _lock:  # a capture still in flight for this hold wins; otherwise the hold is voided before any capture
+        if co['rid'] in led['captured']:
+            return finalize(s)
+        try:
+            _void(co['auth_id'], co['rid'])
+        except paypal.PayPalError as e:
+            return Reply(f'PayPal could not release the hold just now ({e}). Nothing was charged yet. Say undo again.')
+        led['undone'].add(co['rid'])
+    s['co'] = {'state': VOIDED}
+    return Reply('Undone. Nothing was charged. PayPal released the hold. Your cart is unchanged.')

@@ -94,3 +94,39 @@ def test_saved_allergens_filter_food_only():
     kept, note = lane1.saved_filter({'prefs': {'avoid': ['nuts']}}, items)
     assert [p['id'] for p in kept] == ['tea', 'hoodie'] and '2 items left out' in note
     assert lane1.saved_filter({}, items) == (items, '')
+
+
+# ---- 3. undo window ----
+def pin_with_undo(client, monkeypatch):
+    monkeypatch.setenv('SIGHTLINE_UNDO_SECONDS', '10')
+    setup(client)
+    t(client, 'hoodie'); t(client, 'add it in medium'); t(client, 'check out'); t(client, 'confirm')
+    return client.post('/api/pin', json={'pin': '1234'}).json()
+
+
+def test_undo_voids_before_capture(client, fake, monkeypatch):
+    r = pin_with_undo(client, monkeypatch)
+    assert r['state'] == 'undo_window' and 'say undo' in r['say'] and 8 <= r['due_in'] <= 10
+    assert client.post('/api/finalize').json()['state'] == 'undo_window'  # too early: nothing captured
+    stale = dict(client.cookies)
+    r = t(client, 'undo')
+    assert r['say'].startswith('Undone. Nothing was charged.') and r['state'] == 'voided'
+    assert fake.count('void') == 1 and fake.count('capture') == 0
+    client.cookies.clear(); client.cookies.update(stale)  # an old cookie cannot resurrect the undone payment
+    import time as _time
+    monkeypatch.setattr(_time, 'time', lambda real=_time.time: real() + 11)
+    assert 'undone' in client.post('/api/finalize').json()['say'] and fake.count('capture') == 0
+
+
+def test_capture_after_window_is_idempotent(client, fake, monkeypatch):
+    pin_with_undo(client, monkeypatch)
+    assert 'Paying in' in t(client, 'what is in my cart')['say']
+    import time as _time
+    monkeypatch.setattr(_time, 'time', lambda real=_time.time: real() + 11)
+    stale = dict(client.cookies)
+    r = client.post('/api/finalize').json()
+    assert r['state'] == 'captured' and r['say'].startswith('Paid.')
+    assert t(client, 'undo')['say'].startswith('Too late')
+    client.cookies.clear(); client.cookies.update(stale)
+    client.post('/api/finalize')
+    assert fake.count('capture') == 1 and fake.count('void') == 0
