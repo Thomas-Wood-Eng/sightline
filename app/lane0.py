@@ -95,6 +95,15 @@ def parse(text):
                      r'|when (?:will|does) (?:it|my order) (?:arrive|come|get here)', t)
     if m:
         return ('track', m.group(1) or '')
+    WL = r'(?:my |the )?(?:wish ?list|saved items|saved for later|saved list|favou?rites)'
+    if re.fullmatch(r'(?:show |read |open |what is in )?' + WL + r'|what (?:did i|have i) saved', t):
+        return ('wishlist',)
+    m = re.fullmatch(r'(?:save|keep|add|put) ?(.*?) (?:for later|to ' + WL + r')|save (it|this|that|this one|that one)', t)
+    if m:
+        return ('save', target(m.group(1) or m.group(2) or ''))
+    m = re.fullmatch(r'move ?(.*?) (?:to|into) (?:my |the )?(?:cart|basket)', t)
+    if m:
+        return ('move', target(m.group(1)))
     m = re.fullmatch(r'(?:order|buy|get) (.*?) again|reorder ?(.*)|(?:order|buy|get) my usual (.*)', t)
     if m:
         words = re.sub(r'\b(last|thing|things|order|one|item|stuff|usual|my|the|it|same)\b', ' ', next((g for g in m.groups() if g), ''))
@@ -438,6 +447,37 @@ def handle(text, s):
         since = {'today': today, 'week': today - timedelta(days=today.weekday()), 'month': today.replace(day=1),
                  'all': date.min}[args[0]]
         return Reply(speech.spending(args[0], *db.spent(_sid(s), since.isoformat())))
+    if name == 'save':
+        cart, wish = s.get('cart', []), s.get('wish', [])
+        pool = _results(s) + [catalog.get(l[0]) for l in cart]
+        p = resolve(s, args[0], pool if args[0] != 'it' else None)
+        if not p or p.get('addon_of'):
+            return which(s)
+        moved = [l for l in cart if l[0] == p['id']]
+        s['cart'] = [l for l in cart if l[0] != p['id']]
+        variant = moved[0][2] if moved and len(moved[0]) > 2 else ''
+        if [p['id'], variant] not in wish:
+            wish.append([p['id'], variant])
+        s['wish'] = wish[-20:]
+        _focus(s, p)
+        return Reply(f"Saved for later: {speech.item_name(p, variant)}." + (' Moved out of your cart.' if moved else '')
+                     + ' Say my saved items to hear them.', focus=card(p))
+    if name == 'wishlist':
+        say, lines = speech.wishlist([(catalog.get(i), v) for i, v in s.get('wish', []) if catalog.get(i)])
+        return Reply(say, lines)
+    if name == 'move':
+        wish = [(catalog.get(i), v) for i, v in s.get('wish', []) if catalog.get(i)]
+        pool = [p for p, _ in wish]
+        focus = catalog.get(s.get('focus') or '')
+        if args[0] == 'it':
+            p = focus if focus in pool else (pool[0] if len(pool) == 1 else None)
+        else:
+            p = resolve(s, args[0], pool)
+        if p not in pool:
+            return Reply('That is not in your saved items. Say my saved items to hear them.')
+        variant = next(v for q, v in wish if q is p)
+        s['wish'] = [l for l in s['wish'] if l != [p['id'], variant]]
+        return add(s, p, 1, variant)
     if name == 'reorder':
         rows = db.orders(_sid(s))
         want = set(catalog.tokens(args[0]))

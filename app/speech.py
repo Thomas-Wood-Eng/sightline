@@ -183,6 +183,14 @@ def ask_size(p, sizes):
     return f"Which size? {p['name']} comes in {_ns(sizes)}. Say the size, for example: {sizes[len(sizes) // 2]}."
 
 
+def wishlist(lines_in):
+    """lines_in: [(product, variant)]."""
+    if not lines_in:
+        return 'You have no saved items. Say save it for later about any item.', []
+    lines = [f"{i}. {item_name(p, v)}, {money(p['price'])}." for i, (p, v) in enumerate(lines_in, 1)]
+    return f"You have {plural(len(lines), 'saved item')}. Say move number 1 to my cart, for example.", lines
+
+
 def removed(p, cart_count):
     return f"Removed: {p['name']}. Cart has {plural(cart_count, 'item')}."
 

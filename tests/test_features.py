@@ -317,3 +317,25 @@ def test_reorder_starts_checkout(client, fake):
     t(client, 'cancel'); t(client, 'clear the cart')
     r = t(client, 'order my usual hoodie again')
     assert 'Item 1: Fleece-lined pullover hoodie (size M, heather grey).' in ' '.join(r['lines'])
+
+
+# ---- 10. wishlist ----
+def test_parse_wishlist():
+    assert parse('save it for later') == ('save', 'it')
+    assert parse('add number 2 to my wishlist') == ('save', ('n', 2))
+    assert parse('my saved items') == ('wishlist',) and parse('show my wish list') == ('wishlist',)
+    assert parse('move it to my cart') == ('move', 'it') and parse('move number 1 to the cart') == ('move', ('n', 1))
+
+
+def test_wishlist_flow(client, fake):
+    setup(client)
+    assert 'no saved items' in t(client, 'my saved items')['say']
+    t(client, 'hoodie'); t(client, 'add it in large')
+    r = t(client, 'save it for later')
+    assert r['say'].startswith('Saved for later: Fleece-lined pullover hoodie (size L, heather grey). Moved out of your cart.')
+    assert t(client, 'cart')['say'] == 'Your cart is empty.'
+    t(client, 'mug'); t(client, 'save it')
+    r = t(client, 'my saved items')
+    assert r['say'].startswith('You have 2 saved items') and r['lines'][1] == '2. Insulated travel mug, $18.50.'
+    assert '(size L, heather grey)' in t(client, 'move number 1 to my cart')['say']
+    assert len(t(client, 'my saved items')['lines']) == 1

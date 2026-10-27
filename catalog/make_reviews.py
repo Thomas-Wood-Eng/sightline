@@ -15,7 +15,7 @@ from google.genai import types  # noqa: E402
 from app import llm  # noqa: E402
 
 OUT = ROOT / 'catalog' / 'reviews.json'
-MODEL = os.environ.get('REVIEWS_MODEL', 'gemini-flash-latest')
+MODEL = os.environ.get('REVIEWS_MODEL', 'gemini-3.5-flash')
 ABOUT = 'Fictional demo reviews written with Gemini for this prototype. They are not from real customers.'
 
 
