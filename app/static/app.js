@@ -1,7 +1,8 @@
 // Sightline front end. Plain JS. Each reply is appended to the log ONCE, complete, so screen readers read it once.
 const $ = (id) => document.getElementById(id);
 const log = $('log'), msg = $('message'), talk = $('talk'), pinForm = $('pin-form'), pinInput = $('pin');
-let mode = 'screen_reader', state = 'idle', busy = false;
+let mode = 'screen_reader', state = 'idle', busy = false, queued = null;
+const HOLD = ['awaiting_confirm', 'awaiting_pin', 'awaiting_approval'];
 
 // ---- earcons: short, quiet WebAudio tones ----
 let audio;
@@ -33,6 +34,7 @@ function setMode(m) {
   mode = m;
   // never both: when the app speaks, the log stops announcing
   log.setAttribute('aria-live', m === 'voice' ? 'off' : 'polite');
+  $('pay-status').setAttribute('aria-live', m === 'voice' ? 'off' : 'polite');
   if (m !== 'voice' && 'speechSynthesis' in window) speechSynthesis.cancel();
 }
 
@@ -56,6 +58,12 @@ function append(you, say, lines = []) {
   log.append(turn);  // one insertion per reply
   turn.scrollIntoView({ block: 'nearest' });
   speak([say, ...lines].join(' '));
+}
+
+// payment status: shown on screen, and spoken (app voice) or announced (screen reader), never both
+function payStatus(text) {
+  $('pay-status').textContent = text;
+  if (text) speak(text);
 }
 
 function showItem(f) {
@@ -90,18 +98,22 @@ async function post(url, body) {
 }
 
 async function turn(url, body, youText) {
-  if (busy) return;
+  if (busy) { queued = [url, body, youText]; return; }  // e.g. Escape pressed while a reply is on its way
   busy = true; earcon.heard();
   const slow = setTimeout(earcon.working, 1000);
   try {
     const r = await post(url, body);
+    payStatus('');
     append(youText, r.say, r.lines);
     showItem(r.focus);
     setState(r.state, r.due_in);
     if (r.action === 'link') location.assign('/link/start');
   } catch (e) {
     earcon.error(); append(youText, e.message);
-  } finally { clearTimeout(slow); busy = false; }
+  } finally {
+    clearTimeout(slow); busy = false;
+    if (queued) { const q = queued; queued = null; turn(...q); }
+  }
 }
 
 const send = (text) => turn('/api/turn', { text }, text);
@@ -160,10 +172,11 @@ document.addEventListener('keydown', (e) => {
   if (e.altKey && e.shiftKey && e.code === 'KeyM') { e.preventDefault(); toggleTalk(); }
   else if (e.altKey && e.shiftKey && e.code === 'KeyR') { e.preventDefault(); send('repeat'); }
   else if (e.key === 'Escape') {
-    if ('speechSynthesis' in window && speechSynthesis.speaking) speechSynthesis.cancel();
-    else if (rec) rec.abort();
-    else if (['awaiting_confirm', 'awaiting_pin', 'awaiting_approval'].includes(state)) send('cancel');
-    else if (state === 'undo_window') send('undo');
+    // one press: stops the voice and listening AND acts on a waiting payment, so "press Escape" is always true
+    if ('speechSynthesis' in window) speechSynthesis.cancel();
+    if (rec) rec.abort();
+    if (state === 'undo_window') { payStatus('Undoing the payment.'); send('undo'); }
+    else if (HOLD.includes(state)) { payStatus('Cancelling the payment.'); send('cancel'); }
   }
 });
 
