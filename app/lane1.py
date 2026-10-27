@@ -62,7 +62,7 @@ def saved_filter(session, products):
 
 def noted(reply, note):
     if note:
-        reply.say, reply.lines = f'{note} {reply.say}', [note, *reply.lines]
+        reply.say = f'{note} {reply.say}'  # say + lines are both spoken: the note goes in one place only
     return reply
 
 
@@ -142,8 +142,7 @@ def with_allergens(reply, products):
     """Allergy mentioned: state each spoken result's allergens straight from the listing, never from the model."""
     notes = [f"Result {n}: allergens {(p['listing'].get('allergens') or 'not stated').rstrip('.')}."
              for n, p in enumerate(products[:3], 1)]
-    reply.say = ' '.join([reply.say, *notes])
-    reply.lines = [*reply.lines, *notes]
+    reply.lines = [*reply.lines, *notes]  # detail lines only; repeating them in say would be spoken twice
     return reply
 
 
@@ -185,7 +184,7 @@ def handle(text, session):
                 if excluded:
                     note += (f" {speech.plural(excluded, 'item')} left out because the listing contains, may contain,"
                              f" or does not state it.")
-                reply.say, reply.lines = f'{note} {reply.say}', [note, *reply.lines]
+                reply.say = f'{note} {reply.say}'
             return with_allergens(reply, products) if ALLERGY.search(text) else reply
     say = speech.guard(out['text'] or '')
     return Reply(say) if say else keyword(text, session)

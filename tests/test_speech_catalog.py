@@ -113,3 +113,12 @@ def test_allergen_filter_is_strict():
 def test_allergen_names_are_collapsed():
     assert {lane1.canon(a) for a in ['peanuts', 'tree nuts', 'almonds', 'cashews']} == {'nuts'}
     assert lane1.canon('wheat') in ('gluten', 'wheat') and lane1.canon('kiwi') == 'kiwi'
+
+
+def test_allergy_reply_says_each_fact_once():
+    from app.speech import Reply
+    r = lane1.with_allergens(Reply('3 results.', ['1. Tea']), [{'listing': {'allergens': 'None declared.'}}])
+    spoken = ' '.join([r.say, *r.lines])
+    assert spoken.count('allergens None declared') == 1
+    r = lane1.noted(Reply('3 results.', ['1. Tea']), 'From your settings: no nuts.')
+    assert ' '.join([r.say, *r.lines]).count('From your settings') == 1
