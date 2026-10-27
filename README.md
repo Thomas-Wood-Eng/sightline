@@ -39,3 +39,7 @@ Tests: `python -m pytest tests` (PayPal is mocked). Live sandbox hold/capture/vo
 `SIGHTLINE_LIVE=1 python -m pytest tests/test_live_sandbox.py` (needs `spike_state.json` with a `vault_id`).
 
 Behind a proxy (e.g. Render), run uvicorn with `--proxy-headers` and set `HTTPS_ONLY=1` so the PayPal return URL and cookie are https.
+
+## Licence
+
+Code: MIT (see LICENSE). Product photos in `app/static/img` keep their own licences (CC0, public domain, or CC BY), listed with attribution in CREDITS.md.
