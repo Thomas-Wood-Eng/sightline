@@ -162,6 +162,10 @@ function fillSettings(s) {
   $('setup').hidden = s.onboarded;
   const f = $('settings-form');
   f.output_mode.value = s.output_mode;
+  const p = s.prefs;
+  f.verbosity.value = p.verbosity; f.simple_mode.checked = p.simple; f.large_text.checked = p.large_text;
+  f.default_size.value = p.size; f.avoid_allergens.value = p.avoid.join(', ');
+  document.documentElement.classList.toggle('large', p.large_text);
   f.per_order_cap.value = s.per_order_cap; f.daily_cap.value = s.daily_cap;
   $('link-status').textContent = s.linked ? 'PayPal is linked.' : 'PayPal is not linked yet.';
   $('link-btn').textContent = s.linked ? 'Link PayPal again' : 'Link PayPal';
@@ -185,7 +189,9 @@ $('settings-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const f = e.target, status = $('settings-status');
   const body = { output_mode: f.output_mode.value || null, per_order_cap: f.per_order_cap.value || null,
-    daily_cap: f.daily_cap.value || null, new_pin: f.new_pin.value || null, current_pin: f.current_pin.value || null };
+    daily_cap: f.daily_cap.value || null, new_pin: f.new_pin.value || null, current_pin: f.current_pin.value || null,
+    verbosity: f.verbosity.value || null, simple_mode: f.simple_mode.checked, large_text: f.large_text.checked,
+    default_size: f.default_size.value, avoid_allergens: f.avoid_allergens.value };
   try {
     const s = await post('/api/settings', body);
     f.new_pin.value = ''; f.current_pin.value = '';

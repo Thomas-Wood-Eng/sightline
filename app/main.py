@@ -16,6 +16,8 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from starlette.middleware.sessions import SessionMiddleware
 
+import re
+
 from . import checkout, lane0, lane1, paypal, speech
 from .speech import Reply
 
@@ -77,9 +79,9 @@ def settings_view(s):
     return {'onboarded': bool(s.get('pin')) or led['locked'], 'pin_set': bool(s.get('pin')), 'locked': led['locked'],
             'linked': bool(checkout.vault_id(s)), 'per_order_cap': f"{c['order']:.2f}", 'daily_cap': f"{c['daily']:.2f}",
             'spent_today': f"{led['spent']:.2f}", 'output_mode': s.get('mode', 'screen_reader'),
-            'state': checkout.state(s),
+            'state': checkout.state(s), 'prefs': lane0.prefs(s),
             'summary': speech.settings_summary(c, s.get('mode', 'screen_reader'), bool(checkout.vault_id(s)),
-                                               bool(s.get('pin')), led['spent'])}
+                                               bool(s.get('pin')), led['spent'], lane0.prefs(s))}
 
 
 @app.get('/api/settings')
@@ -93,6 +95,30 @@ class Settings(BaseModel):
     daily_cap: str | None = None
     new_pin: str | None = None
     current_pin: str | None = None
+    default_size: str | None = Field(None, max_length=20)
+    avoid_allergens: str | None = Field(None, max_length=200)
+    verbosity: str | None = None
+    large_text: bool | None = None
+    simple_mode: bool | None = None
+
+
+def _prefs(s, body):
+    """Saved preferences: set only here (the Settings form), never by chat."""
+    p = lane0.prefs(s)
+    if body.verbosity is not None:
+        if body.verbosity not in ('brief', 'normal', 'detailed'):
+            raise HTTPException(422, 'Verbosity must be brief, normal or detailed.')
+        p['verbosity'] = body.verbosity
+    if body.default_size is not None:
+        p['size'] = body.default_size.strip()
+    if body.avoid_allergens is not None:
+        words = [w.strip().lower() for w in re.split(r',|\band\b', body.avoid_allergens) if w.strip()]
+        p['avoid'] = list(dict.fromkeys(lane1.canon(w)[:30] for w in words))[:8]
+    if body.large_text is not None:
+        p['large_text'] = body.large_text
+    if body.simple_mode is not None:
+        p['simple'] = body.simple_mode
+    s['prefs'] = p
 
 
 @app.post('/api/settings')
@@ -102,6 +128,12 @@ def post_settings(body: Settings, request: Request):
         if body.output_mode not in ('screen_reader', 'voice'):
             raise HTTPException(422, 'Output mode must be screen_reader or voice.')
         s['mode'] = body.output_mode
+    _prefs(s, body)
+    current = checkout.caps(s)  # the form sends the caps back unchanged; only a real change needs the PIN
+    if body.per_order_cap and _cap(body.per_order_cap) == f"{current['order']:.2f}":
+        body.per_order_cap = None
+    if body.daily_cap and _cap(body.daily_cap) == f"{current['daily']:.2f}":
+        body.daily_cap = None
     if body.per_order_cap or body.daily_cap or body.new_pin:
         # caps and PIN change only here, and only with the current PIN (or a fresh PayPal login when unset)
         if s.get('pin'):

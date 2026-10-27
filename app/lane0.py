@@ -78,6 +78,9 @@ def parse(text):
     if re.search(r'\b(cap|caps|limit|limits|budget|spending)\b', t):
         changing = r'\b(raise|increase|change|set|lower|remove|update|up|higher|bigger|double|lift|disable|turn off|make)\b'
         return ('caps',) if re.search(changing, t) else ('settings',)
+    if re.search(r'\b(i am|i wear) (a )?size\b|\bdefault size\b|\balways avoid\b|\b(no|never)\b.*\bever\b'
+                 r'|\b(remember|save) (that )?(i|my)\b|\b(verbosity|simple mode|large text)\b', t):
+        return ('prefs',)
     for pat, cmd in FIXED:
         if re.fullmatch(pat, t):
             return cmd
@@ -132,7 +135,7 @@ def show_results(s, products, what):
     """Shared with Lane 1: store up to 9 result ids, speak the first 3."""
     s['results'] = [p['id'] for p in products[:9]]
     s['page'], s['what'], s['focus'] = 0, what, None
-    say, lines = speech.results(products[:3], 0, len(s['results']), what)
+    say, lines = speech.results(products[:per(s)], 0, len(s['results']), what, level(s))
     if products:
         s['spell'] = products[0]['name']
     return Reply(say, lines)
@@ -270,6 +273,16 @@ def prefs(s):
     return {'size': '', 'avoid': [], 'verbosity': 'normal', 'large_text': False, 'simple': False, **(s.get('prefs') or {})}
 
 
+def level(s):
+    """Verbosity from Settings; simple mode means the shortest replies."""
+    return 'brief' if prefs(s)['simple'] else prefs(s)['verbosity']
+
+
+def per(s):
+    """Results spoken per page: one at a time in simple mode."""
+    return 1 if prefs(s)['simple'] else 3
+
+
 def handle(text, s):
     cmd = parse(text)
     st = checkout.state(s)
@@ -296,10 +309,13 @@ def handle(text, s):
         return Reply(speech.spell(s['spell'])) if s.get('spell') else Reply('Nothing to spell yet.')
     if name == 'stop':
         return Reply('Stopped.')
+    if name == 'prefs':
+        return Reply('Preferences can only be changed in the Settings form, never by chat, so nobody can change them '
+                     'by talking to me. Right now: ' + speech.prefs_summary(prefs(s)))
     if name in ('caps', 'settings'):
         lead = 'For your safety, spending caps cannot be changed by voice. ' if name == 'caps' else ''
         return Reply(lead + speech.settings_summary(checkout.caps(s), s.get('mode', 'screen_reader'),
-                                                    bool(checkout.vault_id(s)), bool(s.get('pin')), led_spent))
+                                                    bool(checkout.vault_id(s)), bool(s.get('pin')), led_spent, prefs(s)))
     if name == 'link':
         return Reply("Opening PayPal's login page. PayPal's login is your security boundary; we never see your password.",
                      action='link')
@@ -318,7 +334,7 @@ def handle(text, s):
         if not p:
             return which(s)
         _focus(s, p)
-        return Reply(speech.focus_line(s['results'].index(p['id']) + 1, p), focus=card(p))
+        return Reply(speech.focus_line(s['results'].index(p['id']) + 1, p, level(s)), focus=card(p))
     if name in ('next', 'back'):
         res = s.get('results', [])
         if not res:
@@ -329,16 +345,16 @@ def handle(text, s):
             return Reply('That was the last one. Say more, or search again.' if name == 'next' else 'That is the first one.')
         p = catalog.get(res[i])
         _focus(s, p)
-        s['page'] = i // 3 * 3
-        return Reply(speech.focus_line(i + 1, p), focus=card(p))
+        s['page'] = i // per(s) * per(s)
+        return Reply(speech.focus_line(i + 1, p, level(s)), focus=card(p))
     if name == 'more':
-        res, page = _results(s), s.get('page', 0)
-        if page + 3 < len(res) and (args[0] or not s.get('focus')):
-            s['page'], s['focus'] = page + 3, None
-            say, lines = speech.results(res[page + 3:page + 6], page + 3, len(res), s.get('what', ''))
+        res, page, n = _results(s), s.get('page', 0), per(s)
+        if page + n < len(res) and (args[0] or not s.get('focus')):
+            s['page'], s['focus'] = page + n, None
+            say, lines = speech.results(res[page + n:page + 2 * n], page + n, len(res), s.get('what', ''), level(s))
             return Reply(say, lines)
-        if s.get('focus'):
-            return _describe(s, catalog.get(s['focus']))
+        if s.get('focus'):  # "tell me more" about the item: one level more detail than the setting
+            return _describe(s, catalog.get(s['focus']), 'detailed' if level(s) == 'normal' else 'normal')
         return Reply('That is everything I found. Try a different search.' if res else which(s).say)
     if name == 'describe':
         p = resolve(s, args[0])
@@ -385,9 +401,9 @@ def handle(text, s):
     return None
 
 
-def _describe(s, p):
+def _describe(s, p, lvl=None):
     _focus(s, p)
-    lines = speech.describe(p)
+    lines = speech.describe(p, lvl or level(s))
     return Reply(lines[0], lines[1:], focus=card(p))
 
 

@@ -52,3 +52,45 @@ def test_size_question_dropped_by_other_command(client, fake):
     assert t(client, 'cancel')['say'] == 'OK, not added.'
     t(client, 'add it')
     assert t(client, 'what is in my cart')['say'] == 'Your cart is empty.'
+
+
+# ---- 2. saved preferences ----
+def test_prefs_set_only_in_settings(client, fake):
+    setup(client)
+    r = client.post('/api/settings', json={'per_order_cap': '100.00', 'daily_cap': '250.00', 'verbosity': 'brief',
+                                           'default_size': 'M', 'avoid_allergens': 'peanuts, Milk and eggs'})
+    assert r.status_code == 200, r.text  # unchanged caps need no PIN
+    p = r.json()['prefs']
+    assert p['verbosity'] == 'brief' and p['size'] == 'M' and p['avoid'] == ['nuts', 'milk', 'eggs']
+    assert client.post('/api/settings', json={'verbosity': 'loud'}).status_code == 422
+    r = t(client, "I'm a size L, remember that")
+    assert 'only be changed in the Settings form' in r['say'] and 'Default size M' in r['say']
+    assert client.get('/api/settings').json()['prefs']['size'] == 'M'
+
+
+def test_default_size_and_brief(client, fake):
+    setup(client)
+    client.post('/api/settings', json={'verbosity': 'brief', 'default_size': 'medium'})
+    r = t(client, 'anything under 100')
+    assert r['lines'][0].count('stars') == 0
+    t(client, 'hoodie')
+    assert '(size M, heather grey)' in t(client, 'add it')['say'] and 'default size' in t(client, 'repeat')['say']
+    assert len(t(client, 'describe it')['lines']) == 1  # brief: what it is, then the price line
+
+
+def test_simple_mode_one_result(client, fake):
+    setup(client)
+    client.post('/api/settings', json={'simple_mode': True})
+    r = t(client, 'anything under 100')
+    assert len(r['lines']) == 1
+    assert len(t(client, 'more results')['lines']) == 1
+
+
+def test_saved_allergens_filter_food_only():
+    from app import lane1
+    food = lambda i, a: {'id': i, 'category': 'grocery', 'listing': {'allergens': a}}
+    items = [food('trail', 'Contains peanuts.'), food('tea', 'No major allergens declared.'), food('mystery', None),
+             {'id': 'hoodie', 'category': 'clothing', 'listing': {'allergens': None}}]
+    kept, note = lane1.saved_filter({'prefs': {'avoid': ['nuts']}}, items)
+    assert [p['id'] for p in kept] == ['tea', 'hoodie'] and '2 items left out' in note
+    assert lane1.saved_filter({}, items) == (items, '')

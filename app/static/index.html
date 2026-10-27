@@ -88,6 +88,19 @@
         <label><input type="radio" name="output_mode" value="screen_reader"> My screen reader</label>
         <label><input type="radio" name="output_mode" value="voice"> The app voice</label>
       </fieldset>
+      <fieldset>
+        <legend>How much detail in replies?</legend>
+        <label><input type="radio" name="verbosity" value="brief"> Brief</label>
+        <label><input type="radio" name="verbosity" value="normal"> Normal</label>
+        <label><input type="radio" name="verbosity" value="detailed"> Detailed</label>
+      </fieldset>
+      <label class="check"><input type="checkbox" name="simple_mode"> Simple mode: one result at a time, shortest sentences</label>
+      <label class="check"><input type="checkbox" name="large_text"> Large text</label>
+      <label for="set-size">Default size, used when an item comes in it (for example M)</label>
+      <input id="set-size" name="default_size" maxlength="20" autocomplete="off">
+      <label for="set-avoid">Allergens to always avoid in food, separated by commas</label>
+      <p class="hint" id="avoid-hint">For example: nuts, milk. Every search then shows only food whose listing declares none of them.</p>
+      <input id="set-avoid" name="avoid_allergens" maxlength="200" autocomplete="off" aria-describedby="avoid-hint">
       <label for="set-order-cap">Per-order cap, US dollars</label>
       <input id="set-order-cap" name="per_order_cap" inputmode="decimal">
       <label for="set-daily-cap">Daily cap, US dollars</label>

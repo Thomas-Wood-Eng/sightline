@@ -9,7 +9,7 @@ import os
 import re
 
 from . import catalog, llm, speech
-from .lane0 import _results, show_results
+from .lane0 import _results, prefs, show_results
 from .speech import Reply
 
 PRICE_RE = re.compile(r'\b(?:under|below|less than|cheaper than|max(?:imum)?|up to|at most|no more than|within)'
@@ -42,7 +42,28 @@ def keyword(text, session):
     if not products and words and (max_price is not None or category):
         products = catalog.search('', max_price, category)  # filter matched but words didn't: show the filter
         words = ''
-    return show_results(session, products, speech.query_label(words, max_price, category))
+    products, note = saved_filter(session, products)
+    return noted(show_results(session, products, speech.query_label(words, max_price, category)), note)
+
+
+def saved_filter(session, products):
+    """Allergens from Settings: a hard filter on every search. Food (or anything listing allergens) must declare
+    none of them; other items stay. Returns (products, short note or '')."""
+    avoid = prefs(session)['avoid']
+    food = [p for p in products if p['category'] == 'grocery' or p['listing'].get('allergens')]
+    if not avoid or not food:
+        return products, ''
+    safe, excluded = allergen_filter(food, avoid)
+    note = f"From your settings: food only if its listing declares no {', '.join(avoid)}."
+    if excluded:
+        note += f" {speech.plural(excluded, 'item')} left out."
+    return [p for p in products if p not in food or p in safe], note
+
+
+def noted(reply, note):
+    if note:
+        reply.say, reply.lines = f'{note} {reply.say}', [note, *reply.lines]
+    return reply
 
 
 SYSTEM = """You are Sightline, a voice shopping assistant for blind and low-vision people.
@@ -84,9 +105,9 @@ def facts(p):
 def context(session):
     """The focused product plus the results the shopper just heard, so "is it warm?" or "which is softer?" works."""
     focus = catalog.get(session.get('focus') or '')
-    page = session.get('page', 0)
-    shown = _results(session)[page * 3: page * 3 + 3]
-    items = [dict(facts(p), heard_as=f'result {n}') for n, p in enumerate(shown, 1)]
+    page = session.get('page', 0)  # an index into the results, not a page number
+    shown = _results(session)[page: page + 3]
+    items = [dict(facts(p), heard_as=f'result {n}') for n, p in enumerate(shown, page + 1)]
     for item in items:
         item['focused'] = focus is not None and item['id'] == focus['id']
     if focus and not any(i['focused'] for i in items):
@@ -156,7 +177,8 @@ def handle(text, session):
             excluded = 0
             if avoid:
                 products, excluded = allergen_filter(products, avoid)
-            reply = show_results(session, products, speech.query_label(query, max_price, category))
+            products, saved_note = saved_filter(session, products)
+            reply = noted(show_results(session, products, speech.query_label(query, max_price, category)), saved_note)
             if avoid and (products or excluded):
                 named = list(dict.fromkeys(canon(a) for a in avoid))  # "nuts", not the model's list of every nut
                 note = f"Showing only items whose listing declares no {', '.join(named)}."

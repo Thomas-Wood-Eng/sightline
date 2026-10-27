@@ -24,7 +24,10 @@ fieldset { border: 2px solid var(--line); border-radius: 6px; margin: 0.5rem 0; 
 legend { font-weight: 600; padding: 0 0.3rem; }
 input:not([type=radio]) { font: inherit; padding: 0.5rem; border: 2px solid var(--line); border-radius: 4px;
   background: var(--bg); color: var(--fg); width: 100%; max-width: 22rem; min-height: 2.75rem; }
-input[type=radio] { width: 1.3rem; height: 1.3rem; }
+input[type=radio], input[type=checkbox] { width: 1.3rem; height: 1.3rem; }
+label.check { display: flex; gap: 0.5rem; align-items: center; font-weight: 400; }
+html.large { font-size: 150%; }
+html.large #item-img { max-height: 36rem; }
 button { font: inherit; font-weight: 600; min-height: 2.75rem; padding: 0.4rem 1rem; margin: 0.5rem 0.5rem 0.5rem 0;
   color: var(--bg); background: var(--accent); border: 2px solid var(--accent); border-radius: 4px; cursor: pointer; }
 button[aria-pressed=true] { background: #a40000; border-color: #a40000; color: #fff; }

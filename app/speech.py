@@ -47,22 +47,28 @@ def short_name(p, max_words=10):
     return ' '.join(w[:max_words])
 
 
-def result_line(n, p):
-    """"1. Fleece-lined pullover hoodie, $34.99, 4.6 stars" (15 words or fewer)."""
+def result_line(n, p, level='normal'):
+    """"1. Fleece-lined pullover hoodie, $34.99, 4.6 stars" (15 words or fewer at every verbosity level)."""
+    if level == 'brief':
+        return f"{n}. {short_name(p)}, {money(p['price'])}"
+    if level == 'detailed':
+        return f"{n}. {short_name(p, 7)}, {money(p['price'])}, {p['rating']} stars, {plural(p['review_count'], 'review')}"
     return f"{n}. {short_name(p)}, {money(p['price'])}, {p['rating']} stars"
 
 
-def results(products, start, total, what):
+def results(products, start, total, what, level='normal'):
     if not products:
         return f'No matches for {what}. Try other words, or say help.', []
     end = start + len(products)
     say = f'{plural(total, "result")} for {what}.' if start == 0 else f'Results {start + 1} to {end} of {total}.'
     if end < total:
         say += ' Say more for the next ones.'
-    return say, [result_line(start + i + 1, p) for i, p in enumerate(products)]
+    return say, [result_line(start + i + 1, p, level) for i, p in enumerate(products)]
 
 
-def focus_line(n, p):
+def focus_line(n, p, level='normal'):
+    if level == 'brief':
+        return f"Number {n}: {p['name']}, {money(p['price'])}. Say describe, or add it."
     return (f"Number {n}: {p['name']}, {money(p['price'])}, {p['rating']} stars from "
             f"{plural(p['review_count'], 'review')}. Say describe, or add it.")
 
@@ -80,8 +86,9 @@ def _ns(v):
     return str(v)
 
 
-def describe(p):
-    """What it is, size, colour, material, condition, in the box, allergens. Listing vs photo kept apart."""
+def describe(p, level='normal'):
+    """What it is, size, colour, material, condition, in the box, allergens. Listing vs photo kept apart.
+    brief: what it is and the price line; detailed: adds prepared questions and answers."""
     l, e = p.get('listing') or {}, p.get('enriched') or {}
     lines = [f"{p['name']}. " + (guard(e.get('description')) or guard(l.get('description')) or '')]
     size = l.get('sizes') or l.get('dimensions')
@@ -96,6 +103,12 @@ def describe(p):
     lines.append(f"{money(p['price'])}, {p['rating']} stars from {plural(p['review_count'], 'review')}. "
                  f"{'Free shipping' if not p['shipping'] else 'Shipping ' + money(p['shipping'])}. Arrives about {delivery_date(p['delivery_days'])}. "
                  f"Sold by {p['seller']}.")
+    if level == 'brief':  # food keeps its allergens even in brief mode: never left unsaid
+        food = [f"Listing says: allergens {_ns(l.get('allergens'))}."] if p['category'] == 'grocery' else []
+        return [lines[0], *food, lines[-1]]
+    if level == 'detailed':
+        qa = [guard(f"{q['q']} {q['a']}") for q in e.get('qa', [])[:3]]
+        lines += [f'Common question: {x}' for x in qa if x]
     return lines
 
 
@@ -207,8 +220,18 @@ def query_label(words, max_price=None, category=None):
     return out
 
 
-def settings_summary(caps, mode, linked, pin_set, spent):
+def settings_summary(caps, mode, linked, pin_set, spent, prefs=None):
     return (f"Per-order cap {usd(caps['order'])}. Daily cap {usd(caps['daily'])}, {usd(spent)} spent today. "
             f"Replies are read by {'your screen reader' if mode == 'screen_reader' else 'the app voice'}. "
             f"PayPal is {'linked' if linked else 'not linked'}. PIN is {'set' if pin_set else 'not set'}. "
-            'Caps and PIN can only be changed in the Settings form.')
+            + (prefs_summary(prefs) if prefs else '')
+            + 'Caps, PIN and preferences can only be changed in the Settings form.')
+
+
+def prefs_summary(p):
+    out = f"Replies are {'simple, one result at a time' if p['simple'] else p['verbosity']}. "
+    if p['size']:
+        out += f"Default size {p['size']}. "
+    if p['avoid']:
+        out += f"Always avoiding {_ns(p['avoid']).replace(' or ', ' and ')} in food. "
+    return out
