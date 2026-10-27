@@ -1,0 +1,8 @@
+*.pyc
+.env
+.venv/
+__pycache__/
+demo/*.wav
+demo/out/
+feedback.jsonl
+spike_state.json

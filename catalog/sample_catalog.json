@@ -1,0 +1,98 @@
+[
+ {
+  "id": "hoodie-01",
+  "name": "Fleece-lined pullover hoodie",
+  "category": "clothing",
+  "price": 34.99,
+  "rating": 4.6, "review_count": 212,
+  "shipping": 4.99, "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A warm pullover hoodie with a soft fleece lining and a front pocket.",
+   "colour": "heather grey", "sizes": ["S", "M", "L", "XL"], "material": "80% cotton, 20% polyester, fleece lining",
+   "dimensions": null, "in_box": "1 hoodie", "condition": "new", "allergens": null, "care": "machine wash cold"
+  },
+  "image": "img/hoodie-01.jpg",
+  "image_credit": {"title": "Sample", "creator": "Sample", "license": "CC0", "source_url": "", "license_url": ""},
+  "enriched": {
+   "short": "Fleece-lined grey hoodie, kangaroo pocket",
+   "description": "A heather grey pullover hoodie. The inside is lined with soft fleece. It has a drawstring hood and one front kangaroo pocket.",
+   "facts": [{"label": "colour", "value": "heather grey", "source": "listing"},
+             {"label": "pocket", "value": "front kangaroo pocket", "source": "photo"},
+             {"label": "hood", "value": "drawstring hood", "source": "photo"}],
+   "qa": [{"q": "Is it warm?", "a": "The listing says it has a fleece lining, so it is meant for cold weather.", "source": "listing"},
+          {"q": "Does it have a zip?", "a": "The photo suggests no zip; it is a pullover.", "source": "photo"}],
+   "similar": ["sweater-01"]
+  }
+ },
+ {
+  "id": "sweater-01",
+  "name": "Merino crew-neck sweater",
+  "category": "clothing",
+  "price": 59.0,
+  "rating": 4.8, "review_count": 87,
+  "shipping": 0.0, "delivery_days": 5,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A light, warm crew-neck sweater in fine merino wool.",
+   "colour": "navy blue", "sizes": ["S", "M", "L"], "material": "100% merino wool",
+   "dimensions": null, "in_box": "1 sweater", "condition": "new", "allergens": "wool", "care": "hand wash"
+  },
+  "image": "img/sweater-01.jpg",
+  "image_credit": {"title": "Sample", "creator": "Sample", "license": "CC0", "source_url": "", "license_url": ""},
+  "enriched": {
+   "short": "Navy merino wool crew-neck sweater",
+   "description": "A navy blue crew-neck sweater with a fine, smooth knit. Ribbed cuffs and hem.",
+   "facts": [{"label": "colour", "value": "navy blue", "source": "listing"},
+             {"label": "knit", "value": "fine, smooth knit with ribbed cuffs", "source": "photo"}],
+   "qa": [{"q": "Is it itchy?", "a": "Not stated. Merino is usually softer than ordinary wool.", "source": "not_stated"}],
+   "similar": ["hoodie-01"]
+  }
+ },
+ {
+  "id": "mug-01",
+  "name": "Insulated travel mug",
+  "category": "kitchen",
+  "price": 18.5,
+  "rating": 4.3, "review_count": 340,
+  "shipping": 3.99, "delivery_days": 2,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A stainless steel travel mug with a leak-proof lid that keeps drinks hot.",
+   "colour": "matte black", "sizes": null, "material": "stainless steel",
+   "dimensions": "16 oz, 18 cm tall", "in_box": "1 mug, 1 lid", "condition": "new", "allergens": null, "care": "hand wash"
+  },
+  "image": "img/mug-01.jpg",
+  "image_credit": {"title": "Sample", "creator": "Sample", "license": "CC0", "source_url": "", "license_url": ""},
+  "enriched": {
+   "short": "Matte black steel travel mug with lid",
+   "description": "A tall matte black travel mug with a screw-on lid and a slide-to-open sip hole.",
+   "facts": [{"label": "lid", "value": "screw-on lid with sliding sip hole", "source": "photo"}],
+   "qa": [{"q": "Is it dishwasher safe?", "a": "The listing says hand wash.", "source": "listing"}],
+   "similar": []
+  }
+ },
+ {
+  "id": "headphones-01",
+  "name": "Wireless over-ear headphones",
+  "category": "electronics",
+  "price": 79.99,
+  "rating": 4.4, "review_count": 1290,
+  "shipping": 5.99, "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Bluetooth over-ear headphones with up to 30 hours of battery life.",
+   "colour": "black", "sizes": null, "material": "plastic with padded ear cushions",
+   "dimensions": null, "in_box": "headphones, USB-C cable, carry pouch", "condition": "new", "allergens": null, "care": null
+  },
+  "image": "img/headphones-01.jpg",
+  "image_credit": {"title": "Sample", "creator": "Sample", "license": "CC0", "source_url": "", "license_url": ""},
+  "enriched": {
+   "short": "Black over-ear wireless headphones, padded cushions",
+   "description": "Black over-ear headphones with thick padded ear cushions and a padded headband. Buttons on the right ear cup.",
+   "facts": [{"label": "buttons", "value": "on the right ear cup", "source": "photo"}],
+   "qa": [{"q": "Do they fold?", "a": "Not stated.", "source": "not_stated"}],
+   "similar": []
+  }
+ }
+]

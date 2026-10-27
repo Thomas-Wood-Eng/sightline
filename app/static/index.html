@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sightline, accessible shopping</title>
+<link rel="stylesheet" href="/static/style.css">
+<script src="/static/app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#message">Skip to the message box</a>
+<header>
+  <h1>Sightline</h1>
+  <p>Shop by voice or keyboard. You make every decision. PayPal holds the money until you confirm and type your PIN.</p>
+  <p class="sandbox">Sandbox demo: fake shop, fake money.</p>
+</header>
+
+<main>
+  <section id="setup" aria-labelledby="setup-h" hidden>
+    <h2 id="setup-h">Setup</h2>
+    <form id="setup-form" novalidate>
+      <fieldset>
+        <legend>Are you using a screen reader?</legend>
+        <p class="hint" id="sr-hint">Yes: your screen reader reads replies in your own voice. No: the app reads replies aloud itself.</p>
+        <label><input type="radio" name="screen_reader" value="yes" checked aria-describedby="sr-hint"> Yes</label>
+        <label><input type="radio" name="screen_reader" value="no" aria-describedby="sr-hint"> No</label>
+      </fieldset>
+      <label for="setup-pin">Choose a 4-digit PIN</label>
+      <p class="hint" id="pin-hint">You type it to approve each payment. Never spoken aloud.</p>
+      <input id="setup-pin" name="pin" type="password" inputmode="numeric" autocomplete="new-password" maxlength="4" aria-describedby="pin-hint" required>
+      <label for="setup-pin2">Type the PIN again</label>
+      <input id="setup-pin2" type="password" inputmode="numeric" autocomplete="new-password" maxlength="4" required>
+      <label for="setup-order-cap">Most you will spend on one order, in US dollars</label>
+      <input id="setup-order-cap" name="per_order_cap" inputmode="decimal" value="100.00" required>
+      <label for="setup-daily-cap">Most you will spend in one day, in US dollars</label>
+      <input id="setup-daily-cap" name="daily_cap" inputmode="decimal" value="250.00" required>
+      <button type="submit">Save and start</button>
+      <p id="setup-status" role="status" class="status"></p>
+    </form>
+  </section>
+
+  <section aria-labelledby="talk-h">
+    <h2 id="talk-h">Conversation</h2>
+    <div id="log" role="log" aria-live="polite" aria-relevant="additions" aria-labelledby="talk-h"></div>
+    <form id="ask">
+      <label for="message">Message</label>
+      <div class="row">
+        <input id="message" name="message" autocomplete="off" maxlength="500" aria-describedby="message-hint">
+        <button type="submit">Send</button>
+      </div>
+      <p class="hint" id="message-hint">For example: warm hoodie under 40 dollars. Say or type help for all commands.</p>
+    </form>
+    <button id="talk" type="button" aria-pressed="false" aria-keyshortcuts="Alt+Shift+M">Talk (Alt+Shift+M)</button>
+    <p id="voice-status" role="status" class="status"></p>
+
+    <form id="pin-form" hidden>
+      <h3>Approve the payment</h3>
+      <label for="pin">PIN, 4 digits</label>
+      <div class="row">
+        <input id="pin" type="password" inputmode="numeric" autocomplete="off" maxlength="4">
+        <button type="submit">Pay</button>
+        <button type="button" id="pin-cancel">Cancel payment</button>
+      </div>
+    </form>
+  </section>
+
+  <section aria-labelledby="item-h">
+    <h2 id="item-h">Current item</h2>
+    <p id="no-item">No item selected yet.</p>
+    <figure id="item" hidden>
+      <img id="item-img" alt="">
+      <figcaption id="item-name"></figcaption>
+    </figure>
+  </section>
+
+  <section aria-labelledby="paypal-h">
+    <h2 id="paypal-h">PayPal</h2>
+    <p id="link-status">Checking whether PayPal is linked.</p>
+    <p><a id="link-btn" href="/link/start">Link PayPal</a></p>
+    <p>Linking opens PayPal's own login page. PayPal's login is your security boundary; we never see your password.</p>
+  </section>
+
+  <section aria-labelledby="settings-h">
+    <h2 id="settings-h">Settings</h2>
+    <form id="settings-form" novalidate>
+      <fieldset>
+        <legend>Who reads replies aloud?</legend>
+        <label><input type="radio" name="output_mode" value="screen_reader"> My screen reader</label>
+        <label><input type="radio" name="output_mode" value="voice"> The app voice</label>
+      </fieldset>
+      <label for="set-order-cap">Per-order cap, US dollars</label>
+      <input id="set-order-cap" name="per_order_cap" inputmode="decimal">
+      <label for="set-daily-cap">Daily cap, US dollars</label>
+      <input id="set-daily-cap" name="daily_cap" inputmode="decimal">
+      <label for="set-new-pin">New PIN, 4 digits (leave empty to keep)</label>
+      <input id="set-new-pin" name="new_pin" type="password" inputmode="numeric" autocomplete="new-password" maxlength="4">
+      <label for="set-current-pin">Current PIN, needed to change caps or PIN</label>
+      <input id="set-current-pin" name="current_pin" type="password" inputmode="numeric" autocomplete="off" maxlength="4">
+      <button type="submit">Save settings</button>
+      <p id="settings-status" role="status" class="status"></p>
+    </form>
+  </section>
+
+  <section aria-labelledby="keys-h">
+    <h2 id="keys-h">Keyboard shortcuts</h2>
+    <ul>
+      <li>Alt+Shift+M: talk (push to talk). Press again to stop listening.</li>
+      <li>Alt+Shift+R: repeat the last reply.</li>
+      <li>Escape: stop the app voice or listening. With a payment on hold, Escape cancels it.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="privacy-h">
+    <h2 id="privacy-h">Privacy</h2>
+    <p>The Talk button uses your browser's speech recognition. In Chrome, that sends your voice to Google to turn it into text.
+      Typing works just as well and sends nothing to Google. We keep no recordings, no photos and no transcripts.</p>
+  </section>
+</main>
+<footer><p>Sightline is a PayPal AI Hackathon prototype. Payments use the PayPal sandbox.</p></footer>
+</body>
+</html>
