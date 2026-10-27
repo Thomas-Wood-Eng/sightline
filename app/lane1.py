@@ -102,6 +102,12 @@ ALLERGEN_WORDS = {'nut': r'nut|peanut|almond|cashew|hazelnut|walnut|pecan|pistac
                   'egg': r'\begg', 'sesame': r'sesame', 'shellfish': r'shellfish|shrimp|crab|lobster', 'fish': r'\bfish'}
 
 
+def canon(allergen):
+    """'peanuts', 'tree nuts', 'almonds' -> 'nuts'; unknown words pass through."""
+    key = next((k for k, pat in ALLERGEN_WORDS.items() if re.search(pat, allergen, re.I)), None)
+    return {'nut': 'nuts', 'egg': 'eggs'}.get(key, key) if key else allergen
+
+
 def allergen_filter(products, avoid):
     """Keep only products whose listing states allergens and mentions none of `avoid` (incl. "may contain").
     Unknown allergens count as unsafe: we never guess. Returns (safe, excluded_count)."""
@@ -152,7 +158,8 @@ def handle(text, session):
                 products, excluded = allergen_filter(products, avoid)
             reply = show_results(session, products, speech.query_label(query, max_price, category))
             if avoid and (products or excluded):
-                note = f"Showing only items whose listing declares no {', '.join(avoid)}."
+                named = list(dict.fromkeys(canon(a) for a in avoid))  # "nuts", not the model's list of every nut
+                note = f"Showing only items whose listing declares no {', '.join(named)}."
                 if excluded:
                     note += (f" {speech.plural(excluded, 'item')} left out because the listing contains, may contain,"
                              f" or does not state it.")

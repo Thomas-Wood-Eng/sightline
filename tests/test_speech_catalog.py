@@ -37,8 +37,11 @@ def test_describe_labels_and_order():
     lines = speech.describe(prod())
     text = ' '.join(lines)
     assert 'Listing says:' in text and 'Photo suggests, unverified:' in text
-    assert 'Allergens not stated' in text
-    keys = ['size', 'Colour', 'Material', 'Condition', 'In the box', 'Allergens']
+    assert 'Allergens' not in text   # clothing: allergens are noise
+    food = dict(prod(), category='grocery')
+    food['listing'] = dict(food['listing'], allergens=None)
+    assert 'Allergens not stated' in ' '.join(speech.describe(food))   # food: unknown allergens are said out loud
+    keys = ['size', 'Colour', 'Material', 'Condition', 'In the box']
     pos = [lines[1].index(k) for k in keys]
     assert pos == sorted(pos)
 
@@ -105,3 +108,8 @@ def test_allergen_filter_is_strict():
     assert [p['id'] for p in safe] == ['tea'] and excluded == 4   # "may contain" and "not stated" are both excluded
     safe, _ = lane1.allergen_filter(items, ['milk'])
     assert 'choc' not in [p['id'] for p in safe] and 'mystery' not in [p['id'] for p in safe]
+
+
+def test_allergen_names_are_collapsed():
+    assert {lane1.canon(a) for a in ['peanuts', 'tree nuts', 'almonds', 'cashews']} == {'nuts'}
+    assert lane1.canon('wheat') in ('gluten', 'wheat') and lane1.canon('kiwi') == 'kiwi'

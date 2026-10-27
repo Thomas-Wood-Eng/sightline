@@ -86,8 +86,10 @@ def describe(p):
     lines = [f"{p['name']}. " + (guard(e.get('description')) or guard(l.get('description')) or '')]
     size = l.get('sizes') or l.get('dimensions')
     lines.append(f"Listing says: size {_ns(size)}. Colour {_ns(l.get('colour'))}. Material {_ns(l.get('material'))}. "
-                 f"Condition {_ns(l.get('condition'))}. In the box: {_ns(l.get('in_box'))}. "
-                 f"Allergens {_ns(l.get('allergens'))}." + (f" Care: {l['care']}." if l.get('care') else ''))
+                 f"Condition {_ns(l.get('condition'))}. In the box: {_ns(l.get('in_box'))}."
+                 # allergens matter for food; for a hoodie "allergens not stated" is just noise
+                 + (f" Allergens {_ns(l.get('allergens'))}." if p['category'] == 'grocery' or l.get('allergens') else '')
+                 + (f" Care: {l['care']}." if l.get('care') else ''))
     photo = [f"{f['label']}: {guard(f['value'])}" for f in e.get('facts', []) if f.get('source') == 'photo' and guard(f['value'])]
     if photo:
         lines.append('Photo suggests, unverified: ' + '; '.join(photo) + '.')
