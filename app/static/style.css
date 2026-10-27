@@ -35,7 +35,9 @@ button[aria-pressed=true] { background: #a40000; border-color: #a40000; color: #
 .row input { flex: 1 1 12rem; }
 .row button { margin: 0; }
 
-#log { border: 2px solid var(--line); border-radius: 6px; padding: 0.5rem 1rem; min-height: 6rem; max-height: none; }
+/* the log scrolls inside its own box, so the message and PIN boxes stay near the top however long the talk gets */
+#log { border: 2px solid var(--line); border-radius: 6px; padding: 0.5rem 1rem; min-height: 6rem;
+  max-height: max(8rem, 45vh); overflow-y: auto; position: relative; }
 .turn { border-bottom: 1px solid var(--line); padding: 0.5rem 0; }
 .turn:last-child { border-bottom: 0; }
 .turn p { margin: 0.2rem 0; overflow-wrap: anywhere; }

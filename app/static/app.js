@@ -56,7 +56,7 @@ function append(you, say, lines = []) {
     turn.append(p);
   });
   log.append(turn);  // one insertion per reply
-  turn.scrollIntoView({ block: 'nearest' });
+  log.scrollTop = turn.offsetTop;  // the start of the newest reply, inside the log's own scroll; the page stays put
   speak([say, ...lines].join(' '));
 }
 

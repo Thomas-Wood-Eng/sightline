@@ -125,3 +125,19 @@ def test_pin_box_amount_focus_and_undo_countdown(browser, server, fake, monkeypa
     status = page.evaluate('window.__status')
     assert 'Last 5 seconds to undo. Press Escape or Undo.' not in status  # a 3-second window starts under 5 s
     assert 'Paying now.' in status and 'Too late to undo: PayPal is taking the payment now.' in status
+
+
+# ---- bug 5: the log scrolls in its own box, so the message box does not drift down the page ----
+@pytest.mark.parametrize('width,height', [(640, 360), (320, 480)])
+def test_message_box_stays_put_as_log_grows(browser, server, fake, width, height):
+    page = open_app(browser, server, width=width, height=height)
+    top = lambda: page.evaluate("Math.round(document.getElementById('message').getBoundingClientRect().top + scrollY)")
+    send(page, 'help')
+    start = top()
+    for _ in range(6):
+        send(page, 'help')
+    assert top() == start
+    newest = page.evaluate("""(() => { const log = document.getElementById('log'), t = log.lastElementChild;
+      return t.offsetTop >= log.scrollTop && t.offsetTop < log.scrollTop + log.clientHeight; })()""")
+    assert newest  # the log scrolled to the newest reply
+    assert page.evaluate('document.documentElement.scrollWidth <= document.documentElement.clientWidth')  # reflow
