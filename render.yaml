@@ -1,0 +1,26 @@
+# One-click deploy on Render's free tier: New > Blueprint > pick this repo. Secrets are entered in the dashboard.
+services:
+  - type: web
+    name: sightline
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips '*'
+    healthCheckPath: /
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.1
+      - key: HTTPS_ONLY
+        value: "1"
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: SIGHTLINE_DB          # free tier disk is ephemeral; order history resets on redeploy
+        value: /tmp/sightline.db
+      - key: PAYPAL_CLIENT_ID      # sandbox app credentials
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: DEMO_VAULT_ID         # optional: a pre-approved sandbox wallet so judges can try checkout instantly
+        sync: false
