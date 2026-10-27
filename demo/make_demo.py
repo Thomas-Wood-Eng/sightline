@@ -29,38 +29,69 @@ PORT = 8765
 VOICES = {'narrator': 'Charon', 'you': 'Puck', 'sightline': 'Kore'}
 sys.path.insert(0, str(ROOT))
 
-SCRIPT = [
+INTRO = [
     ('title', 'Sightline', 'Shop by voice. Hear every dollar before it moves.',
      'This is Sightline: a voice and keyboard first shopping assistant for blind and low-vision people, built on PayPal. '
      'This is an early prototype, recorded before testing with blind users.'),
     ('narrate', 'Blind shoppers can often find a product, then lose it at checkout to pop-ups, captchas and unlabelled buttons. '
                 'Sightline turns the whole purchase into a conversation.'),
-    ('setup', 'Setup happens once: a four-digit PIN, and spending limits that can only be changed in settings. '
-              "PayPal was linked beforehand, on PayPal's own login page."),
+    ('setup', 'Setup happens once: a four-digit PIN, spending limits, and an optional trusted contact. '
+              "These can only be changed in settings, never by voice. PayPal was linked beforehand, on PayPal's own login page."),
+]
+SHOP = [
     ('narrate', 'Allergies are a hard filter in code, not a guess by the AI.'),
     ('say', 'I need a snack for my kid. She has a nut allergy.'),
     ('say', 'Find me a hoodie.'),
     ('say', 'Tell me about the first one.'),
-    ('say', 'What colour is it exactly?'),
-    ('say', 'Compare the first two.'),
-    ('say', 'Add the first one.'),
+    ('say', 'What do people say about it?'),
+    ('say', 'Add it.'),
+    ('say', 'Medium.'),
+    ('say', "It's a gift."),
+    ('say', 'Happy birthday, Sam!'),
     ('say', 'Check out.'),
     ('narrate', "Every amount you just heard was read from PayPal's own order, not written by the AI. "
                 'The money is only on hold until the shopper confirms and types their PIN.'),
     ('say', 'Confirm.'),
     ('pin', '1234'),
-    ('narrate', 'Safety limits are enforced by code too.'),
-    ('say', 'Find a rain jacket.'),
-    ('say', 'Add the first one.'),
-    ('say', 'Find jeans.'),
-    ('say', 'Add the first one.'),
+]
+UNDO = [   # "Undo." must follow the PIN directly: the 10-second window is real time
+    ('say', 'Undo.'),
+    ('narrate', 'For ten seconds after the PIN, the shopper can still change their mind. Nothing was charged. '
+                'This time, we let it go through.'),
     ('say', 'Check out.'),
-    ('say', 'Remove the jeans.'),
+    ('say', 'Confirm.'),
+    ('pin', '1234'),
+    ('captured',),
+]
+GUARDS = [
+    ('narrate', 'Sightline also calls out sales tricks, like a protection plan the seller pre-ticks.'),
+    ('say', 'Find headphones.'),
+    ('say', 'Add the first one.'),
     ('say', 'Check out.'),
     ('say', 'Cancel.'),
+    ('say', 'Remove the headphones.'),
+    ('narrate', 'Above an amount the shopper chose, a trusted contact has to approve the order first.'),
+    ('say', 'Find a rain jacket.'),
+    ('say', 'Add it.'),
+    ('say', 'Check out.'),
+    ('approve', 'Alex gets a link, sees the same Readback, and approves.'),
+    ('say', 'Confirm.'),
+    ('pin', '1234'),
+    ('captured',),
+]
+AFTER = [
+    ('say', 'How much did I spend this week?'),
+    ('say', 'Return the hoodie.'),
+    ('say', 'Confirm.'),
+    ('pin', '1234'),
+]
+OUTRO = [
     ('title', 'The AI suggests. It never holds the keys.', 'Next: testing with blind and low-vision shoppers.',
      'The agent does the clicking. The person makes every decision. Next, testing with blind and low-vision shoppers.'),
 ]
+SCRIPTS = {'full': INTRO + SHOP + UNDO + GUARDS + AFTER + OUTRO,
+           'short': INTRO + SHOP + [('captured',)] + GUARDS[6:] + OUTRO}   # aim: under 3 minutes for Devpost
+SCRIPT = SCRIPTS['full']
 
 
 # ---------- speech ----------
@@ -224,6 +255,10 @@ def record():
             return page.evaluate('''() => { const t = [...document.querySelectorAll('#log .turn')].pop();
                 return [...t.querySelectorAll('p:not(.you)')].map(p => p.textContent).join(' '); }''')
 
+        def wait_turn(n):
+            page.wait_for_function(f"document.querySelectorAll('#log .turn').length > {n}", timeout=60000)
+            page.wait_for_timeout(250)
+
         def submit(selector, text, voiced):
             n = page.locator('#log .turn').count()
             wav, dur = tts(voiced, 'you')
@@ -231,8 +266,7 @@ def record():
             page.click(selector)
             page.keyboard.type(text, delay=max(20, min(90, int(dur * 800 / max(len(text), 1)))))
             page.keyboard.press('Enter')
-            page.wait_for_function(f"document.querySelectorAll('#log .turn').length > {n}", timeout=30000)
-            page.wait_for_timeout(250)
+            wait_turn(n)
             segments.append((a, now(), wav, f'You: {voiced}'))
             reply = last_reply()
             wav, dur = tts(reply, 'sightline')  # generated while the screen is static; this gap is cut later
@@ -240,7 +274,7 @@ def record():
 
         for step in SCRIPT:
             kind = step[0]
-            print(kind, '|', (step[-1] if kind != 'pin' else 'PIN')[:70])
+            print(kind, '|', (step[-1] if kind not in ('pin', 'captured') else kind)[:70])
             if kind == 'title':
                 overlay(step[1], step[2])
                 wav, dur = tts(step[3], 'narrator')
@@ -257,12 +291,39 @@ def record():
                     page.fill(sel, '')
                     page.type(sel, '1234', delay=120)
                 page.locator('#setup-form [type=submit]').click()
+                page.wait_for_timeout(600)
+                page.evaluate('''() => fetch('/api/settings', {method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({contact_name: 'Alex', contact_email: 'alex@example.com',
+                                          approval_threshold: '75.00', current_pin: '1234'})})''')
                 page.wait_for_timeout(max(0, int(dur * 1000) - int((now() - a) * 1000)) + 350)
                 segments.append((a, now(), wav, step[1]))
             elif kind == 'say':
                 submit('#message', step[1], step[1])
             elif kind == 'pin':
                 submit('#pin', step[1], 'Types the PIN.')
+            elif kind == 'captured':  # the page captures by itself when the undo window ends; the wait is cut
+                page.wait_for_function('''() => { const t = [...document.querySelectorAll('#log .turn')].pop();
+                    return t && /PayPal captured/.test(t.textContent); }''', timeout=60000)
+                page.wait_for_timeout(250)
+                reply = last_reply()
+                wav, dur = tts(reply, 'sightline')
+                hold(wav, dur, f'Sightline: {reply}')
+            elif kind == 'approve':  # Alex's side, shown as a phone-sized overlay on the same recording
+                href = page.evaluate('''() => [...document.querySelectorAll('#log a[href^="/approve/"]')].pop().getAttribute('href')''')
+                page.evaluate('''(h) => { const d = document.createElement('div'); d.id = 'demo-phone';
+                    d.style.cssText = 'position:fixed;inset:0;z-index:99;background:rgba(11,31,58,.75);display:flex;'
+                      + 'align-items:center;justify-content:center;gap:28px;font:600 26px system-ui;color:#fff';
+                    d.innerHTML = '<div>Alex\\'s phone</div><iframe title="Approval page" style="width:420px;height:640px;'
+                      + 'border:10px solid #111;border-radius:28px;background:#fff"></iframe>';
+                    d.querySelector('iframe').src = h; document.body.append(d); }''', href)
+                page.wait_for_timeout(1500)
+                wav, dur = tts(step[1], 'narrator')
+                a = now()
+                page.wait_for_timeout(int(dur * 600))
+                page.frame_locator('#demo-phone iframe').get_by_role('button', name='Approve this order').click()
+                page.wait_for_timeout(max(1200, int(dur * 400) + 350))
+                segments.append((a, now(), wav, step[1]))
+                page.evaluate("document.getElementById('demo-phone').remove()")
         video = page.video.path()
         ctx.close()
         browser.close()
@@ -313,8 +374,23 @@ def edit(video, segments):
     print(f'done: {OUT / "sightline_demo.mp4"} ({t:.0f} s)')
 
 
+def prefetch():
+    """Voice every line known in advance before recording, so real-time steps (the 10 s undo window) aren't
+    slowed by speech generation."""
+    for step in SCRIPT:
+        if step[0] in ('title', 'narrate', 'setup', 'approve'):
+            tts(step[-1], 'narrator')
+        elif step[0] == 'say':
+            tts(step[1], 'you')
+    tts('Types the PIN.', 'you')
+    tts('PIN accepted. PayPal takes the payment in 10 seconds. To stop it, say undo, or press Escape, '
+        'or use the Undo button.', 'sightline')
+
+
 if __name__ == '__main__':
     OUT.mkdir(parents=True, exist_ok=True)
+    SCRIPT = SCRIPTS[sys.argv[1] if len(sys.argv) > 1 else 'full']
+    prefetch()
     server = start_server()
     try:
         video, segments = record()
