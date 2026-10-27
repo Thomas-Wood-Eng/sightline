@@ -159,7 +159,7 @@ def test_approval_then_confirm_and_pin(client, fake):
     assert 'Approval link not valid' in client.get(link[:-2] + 'xx').text  # tampered signature
     assert 'Approved' in client.post(link + '/approve').text
     assert 'Already answered' in client.post(link + '/approve').text  # single use
-    r = t(client, 'what now')
+    r = t(client, 'is it approved yet')
     assert r['say'].startswith('Alex approved') and r['state'] == 'awaiting_confirm'
     t(client, 'confirm')
     assert client.post('/api/pin', json={'pin': '1234'}).json()['state'] == 'captured'
