@@ -204,3 +204,38 @@ def test_preticked_addon_never_added_unless_asked(client, fake):
     assert 'Added: 2-year protection plan for' in t(client, 'add the protection plan')['say']
     rb = ' '.join(t(client, 'check out')['lines'])
     assert 'pre-ticks' not in rb and 'Item 2: 2-year protection plan' in rb and 'Unit price 9.99 US dollars' in rb
+
+
+# ---- 6. review summaries ----
+def test_parse_reviews():
+    assert parse('what do people say about it') == ('reviews', 'it')
+    assert parse('reviews for number 2') == ('reviews', ('n', 2))
+    assert parse('is it any good') == ('reviews', 'it')
+    assert parse('read the reviews') == ('reviews', 'it')
+
+
+def test_review_summary_numbers_from_data():
+    from app import speech
+    p = {'name': 'Mug'}
+    data = {'reviews': [{'stars': 5, 'text': 'x'}, {'stars': 4, 'text': 'y'}, {'stars': 2, 'text': 'z'}],
+            'summary': {'pros': ['keeps tea hot', 'lasts 10 years'], 'cons': ['heavy', 'costs $5 too much'],
+                        'complaint': 'lid leaks'}}
+    say, lines = speech.reviews(p, data)
+    assert say == 'Reviews say, from 3 demo reviews averaging 3.7 stars:'
+    assert lines == ['People like: keeps tea hot.', 'Downsides: heavy.', 'Most repeated complaint: lid leaks.']
+    assert speech.reviews(p, None)[0] == 'There are no reviews for Mug yet.'
+
+
+def test_reviews_file_is_labelled_and_consistent():
+    from app import catalog
+    if not catalog.REVIEWS:
+        return
+    assert 'not from real customers' in catalog.REVIEWS['_about']
+    for pid, r in catalog.REVIEWS.items():
+        if pid == '_about':
+            continue
+        assert 5 <= len(r['reviews']) <= 12
+        stars = [x['stars'] for x in r['reviews']]
+        p = catalog.get(pid)
+        if p:
+            assert abs(sum(stars) / len(stars) - p['rating']) <= 0.5 / len(stars) + 1e-9

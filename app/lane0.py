@@ -114,6 +114,10 @@ def parse(text):
                      r'|what (?:does|do) (.*?) look like|what is (.*?) like|what is (.*?) made of)\s*(.*)', t)
     if m:
         return ('describe', target(next((g for g in m.groups() if g), '')))
+    m = re.fullmatch(r'what (?:do|did) (?:people|reviewers|customers|buyers|others|users) (?:say|think)(?: (?:about|of) (.*))?'
+                     r'|(?:read |any |show |the )*reviews?(?: (?:for|of|on|about) (.*))?|is (it|this|that) any good', t)
+    if m:
+        return ('reviews', target(next((g for g in m.groups() if g), '')))
     m = re.fullmatch(r'compare(?: (?:them|these|those|all|the results|both))?(.*)'
                      r'|which (?:one )?is (?:cheaper|cheapest|better|best)(.*)', t)
     if m:
@@ -379,6 +383,13 @@ def handle(text, s):
     if name == 'describe':
         p = resolve(s, args[0])
         return _describe(s, p) if p else which(s)
+    if name == 'reviews':
+        p = resolve(s, args[0])
+        if not p:
+            return which(s)
+        _focus(s, p)
+        say, lines = speech.reviews(p, catalog.REVIEWS.get(p['id']))
+        return Reply(say, lines, focus=card(p))
     if name == 'compare':
         res = _results(s)
         nums = args[0] or list(range(s.get('page', 0) + 1, min(s.get('page', 0) + 3, len(res)) + 1))

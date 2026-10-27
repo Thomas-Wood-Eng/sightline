@@ -114,6 +114,25 @@ def describe(p, level='normal'):
     return lines
 
 
+def reviews(p, data):
+    """'What do people say?': the precomputed summary of the demo reviews. Counts and the average come from the
+    review data; summary phrases are model-written, so any with a digit or money is dropped."""
+    if not data or not data.get('reviews'):
+        return f"There are no reviews for {p['name']} yet.", []
+    stars = [r['stars'] for r in data['reviews']]
+    avg = (Decimal(sum(stars)) / len(stars)).quantize(Decimal('0.1'))
+    clean = lambda xs: [x.strip().rstrip('.') for x in xs or [] if isinstance(x, str) and guard(x) and not re.search(r'\d', x)]
+    sm = data.get('summary') or {}
+    lines = []
+    if clean(sm.get('pros')):
+        lines.append(f"People like: {'; '.join(clean(sm['pros']))}.")
+    if clean(sm.get('cons')):
+        lines.append(f"Downsides: {'; '.join(clean(sm['cons']))}.")
+    if clean([sm.get('complaint')]):
+        lines.append(f"Most repeated complaint: {clean([sm['complaint']])[0]}.")
+    return f"Reviews say, from {plural(len(stars), 'demo review')} averaging {avg} stars:", lines
+
+
 def _best(items, key, reverse=False):
     """items: [(n, product)]; returns the winners' numbers and the winning value."""
     vals = [key(p) for _, p in items]

@@ -48,6 +48,8 @@ for _p in PRODUCTS:  # a seller's add-on (e.g. a protection plan) is its own car
             'id': _p['id'] + '-addon', 'name': f"{_a['name']} for {_p['name']}", 'plan': _a['name'], 'addon_of': _p['id'],
             'category': 'service', 'price': _a['price'], 'shipping': 0, 'delivery_days': 0, 'seller': _p['seller'],
             'rating': 0, 'review_count': 0, 'listing': {}}
+_rev = DIR / 'reviews.json'  # fictional demo reviews + precomputed summaries (catalog/make_reviews.py)
+REVIEWS = json.loads(_rev.read_text(encoding='utf-8')) if _rev.exists() else {}
 CATEGORIES = sorted({p['category'] for p in PRODUCTS})
 _bm25 = BM25Okapi([_doc(p) for p in PRODUCTS]) if PRODUCTS else None
 _docs = [set(_doc(p)) for p in PRODUCTS]
