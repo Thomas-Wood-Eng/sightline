@@ -214,6 +214,8 @@ $('settings-form').addEventListener('submit', async (e) => {
   } catch (err) { status.textContent = 'Error: ' + err.message; f.current_pin.focus(); }
 });
 
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});  // installable (PWA)
+
 (async function init() {
   const s = await fetch('/api/settings').then((r) => r.json());
   fillSettings(s);

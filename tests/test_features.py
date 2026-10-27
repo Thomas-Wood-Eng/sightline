@@ -361,3 +361,14 @@ def test_gift_without_note(client, fake):
     t(client, 'mug'); t(client, 'add it'); t(client, 'this is a gift')
     assert 'no note' in t(client, 'no note')['say']
     assert 'This is a gift, with no note.' in t(client, 'check out')['lines']
+
+
+# ---- 12. PWA ----
+def test_pwa_files(client):
+    import json
+    m = json.loads(client.get('/static/manifest.webmanifest').text)
+    assert m['display'] == 'standalone' and {i['sizes'] for i in m['icons']} == {'192x192', '512x512'}
+    assert client.get('/static/icon-512.png').status_code == 200
+    sw = client.get('/sw.js')
+    assert sw.status_code == 200 and 'javascript' in sw.headers['content-type'] and '/api' in sw.text
+    assert 'manifest.webmanifest' in client.get('/').text

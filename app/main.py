@@ -42,6 +42,12 @@ def index():
     return FileResponse(STATIC / 'index.html')
 
 
+@app.get('/sw.js')
+def service_worker():
+    # served from the root so its scope covers the whole app
+    return FileResponse(STATIC / 'sw.js', media_type='text/javascript')
+
+
 class Turn(BaseModel):
     text: str = Field(max_length=500)
 
