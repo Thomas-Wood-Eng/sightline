@@ -46,7 +46,12 @@ function append(you, say, lines = []) {
   lines.forEach((l) => {
     const p = document.createElement('p');
     p.className = /^Total:/.test(l) ? 'line total' : 'line';
-    p.textContent = l; turn.append(p);
+    const link = /^Approval link: (\/approve\/\S+)$/.exec(l);
+    if (link) {  // shown instead of emailed in this prototype
+      const a = document.createElement('a'); a.href = link[1]; a.target = '_blank'; a.textContent = location.origin + link[1];
+      p.append('Approval link: ', a);
+    } else p.textContent = l;
+    turn.append(p);
   });
   log.append(turn);  // one insertion per reply
   turn.scrollIntoView({ block: 'nearest' });
@@ -157,7 +162,7 @@ document.addEventListener('keydown', (e) => {
   else if (e.key === 'Escape') {
     if ('speechSynthesis' in window && speechSynthesis.speaking) speechSynthesis.cancel();
     else if (rec) rec.abort();
-    else if (state === 'awaiting_confirm' || state === 'awaiting_pin') send('cancel');
+    else if (['awaiting_confirm', 'awaiting_pin', 'awaiting_approval'].includes(state)) send('cancel');
     else if (state === 'undo_window') send('undo');
   }
 });
@@ -172,6 +177,8 @@ function fillSettings(s) {
   const p = s.prefs;
   f.verbosity.value = p.verbosity; f.simple_mode.checked = p.simple; f.large_text.checked = p.large_text;
   f.default_size.value = p.size; f.avoid_allergens.value = p.avoid.join(', ');
+  const c = s.contact || { name: '', email: '', threshold: '' };
+  f.contact_name.value = c.name; f.contact_email.value = c.email; f.approval_threshold.value = c.threshold;
   document.documentElement.classList.toggle('large', p.large_text);
   f.per_order_cap.value = s.per_order_cap; f.daily_cap.value = s.daily_cap;
   $('link-status').textContent = s.linked ? 'PayPal is linked.' : 'PayPal is not linked yet.';
@@ -198,7 +205,8 @@ $('settings-form').addEventListener('submit', async (e) => {
   const body = { output_mode: f.output_mode.value || null, per_order_cap: f.per_order_cap.value || null,
     daily_cap: f.daily_cap.value || null, new_pin: f.new_pin.value || null, current_pin: f.current_pin.value || null,
     verbosity: f.verbosity.value || null, simple_mode: f.simple_mode.checked, large_text: f.large_text.checked,
-    default_size: f.default_size.value, avoid_allergens: f.avoid_allergens.value };
+    default_size: f.default_size.value, avoid_allergens: f.avoid_allergens.value,
+    contact_name: f.contact_name.value, contact_email: f.contact_email.value, approval_threshold: f.approval_threshold.value };
   try {
     const s = await post('/api/settings', body);
     f.new_pin.value = ''; f.current_pin.value = '';

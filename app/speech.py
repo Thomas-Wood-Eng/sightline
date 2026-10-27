@@ -197,6 +197,12 @@ def readback(order, meta):
     return 'PayPal is holding the payment. Here is the Readback.', lines
 
 
+def approval_sent(name, threshold, total):
+    return [f'This order totals {usd(total)}, which is over your approval amount of {usd(threshold)}.',
+            f'Sent to {name} for approval. When {name} approves, say confirm and type your PIN. Say cancel to release the hold.',
+            'In this prototype the approval link is shown here instead of emailed.']
+
+
 def receipt(capture, order_id):
     return (f"Paid. PayPal captured {usd(capture['amount']['value'])}. Order number {order_id}. "
             'Say spell that to hear the order number letter by letter.')
@@ -220,11 +226,12 @@ def query_label(words, max_price=None, category=None):
     return out
 
 
-def settings_summary(caps, mode, linked, pin_set, spent, prefs=None):
+def settings_summary(caps, mode, linked, pin_set, spent, prefs=None, contact=None):
     return (f"Per-order cap {usd(caps['order'])}. Daily cap {usd(caps['daily'])}, {usd(spent)} spent today. "
             f"Replies are read by {'your screen reader' if mode == 'screen_reader' else 'the app voice'}. "
             f"PayPal is {'linked' if linked else 'not linked'}. PIN is {'set' if pin_set else 'not set'}. "
             + (prefs_summary(prefs) if prefs else '')
+            + (f"{contact['name']} approves orders over {usd(contact['threshold'])}. " if contact else '')
             + 'Caps, PIN and preferences can only be changed in the Settings form.')
 
 

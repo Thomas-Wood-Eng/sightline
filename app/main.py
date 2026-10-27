@@ -11,7 +11,10 @@ for line in (ROOT / '.env').read_text().splitlines() if (ROOT / '.env').exists()
             os.environ.setdefault(k.strip(), v.strip())
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import FileResponse, RedirectResponse
+from html import escape
+
+from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
+from itsdangerous import BadSignature
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from starlette.middleware.sessions import SessionMiddleware
@@ -86,9 +89,9 @@ def settings_view(s):
     return {'onboarded': bool(s.get('pin')) or led['locked'], 'pin_set': bool(s.get('pin')), 'locked': led['locked'],
             'linked': bool(checkout.vault_id(s)), 'per_order_cap': f"{c['order']:.2f}", 'daily_cap': f"{c['daily']:.2f}",
             'spent_today': f"{led['spent']:.2f}", 'output_mode': s.get('mode', 'screen_reader'),
-            'state': checkout.state(s), 'prefs': lane0.prefs(s),
+            'state': checkout.state(s), 'prefs': lane0.prefs(s), 'contact': s.get('contact'),
             'summary': speech.settings_summary(c, s.get('mode', 'screen_reader'), bool(checkout.vault_id(s)),
-                                               bool(s.get('pin')), led['spent'], lane0.prefs(s))}
+                                               bool(s.get('pin')), led['spent'], lane0.prefs(s), s.get('contact'))}
 
 
 @app.get('/api/settings')
@@ -107,6 +110,20 @@ class Settings(BaseModel):
     verbosity: str | None = None
     large_text: bool | None = None
     simple_mode: bool | None = None
+    contact_name: str | None = Field(None, max_length=40)
+    contact_email: str | None = Field(None, max_length=120)
+    approval_threshold: str | None = None
+
+
+def _contact(body):
+    """Trusted contact from the form, validated; None when the name is empty (no contact)."""
+    name = (body.contact_name or '').strip()
+    if not name:
+        return None
+    email = (body.contact_email or '').strip()
+    if not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+', email):
+        raise HTTPException(422, 'The trusted contact needs a valid email address.')
+    return {'name': name, 'email': email, 'threshold': _cap(body.approval_threshold or '')}
 
 
 def _prefs(s, body):
@@ -141,8 +158,9 @@ def post_settings(body: Settings, request: Request):
         body.per_order_cap = None
     if body.daily_cap and _cap(body.daily_cap) == f"{current['daily']:.2f}":
         body.daily_cap = None
-    if body.per_order_cap or body.daily_cap or body.new_pin:
-        # caps and PIN change only here, and only with the current PIN (or a fresh PayPal login when unset)
+    contact = _contact(body) if body.contact_name is not None else s.get('contact')
+    if body.per_order_cap or body.daily_cap or body.new_pin or contact != s.get('contact'):
+        # caps, PIN and the trusted contact change only here, and only with the current PIN (or a fresh PayPal login when unset)
         if s.get('pin'):
             result = checkout.verify_pin(s, (body.current_pin or '').strip())
             if result != 'ok':
@@ -159,6 +177,7 @@ def post_settings(body: Settings, request: Request):
                 raise HTTPException(422, 'The PIN must be exactly 4 digits.')
             checkout.set_pin(s, body.new_pin.strip())
         s['caps'] = caps
+        s['contact'] = contact
     return settings_view(s)
 
 
@@ -180,6 +199,49 @@ def onboarding(body: Onboarding, request: Request):
     s['mode'] = 'screen_reader' if body.screen_reader else 'voice'
     checkout.set_pin(s, body.pin.strip())
     return settings_view(s)
+
+
+# ---- trusted-contact approval page: signed, single-use, no login (the link is the secret) ----
+def _approval(token):
+    try:
+        return checkout.signer().loads(token)
+    except BadSignature:
+        return None
+
+
+def _page(title, body):
+    return HTMLResponse(f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>{escape(title)} - Sightline</title>
+<link rel="stylesheet" href="/static/style.css"></head><body><main><h1>{escape(title)}</h1>{body}</main></body></html>""")
+
+
+@app.get('/approve/{token}')
+def approve_page(token: str):
+    aid = _approval(token)
+    a = checkout.APPROVALS.get(aid)
+    if not a:
+        return _page('Approval link not valid', '<p>This approval link is not valid, or the app was restarted.</p>')
+    if a['state'] != 'pending':
+        return _page('Already answered', f"<p>This request was already {escape(a['state'])}. Nothing more to do.</p>")
+    items = ''.join(f'<li>{escape(l)}</li>' for l in a['lines'])
+    buttons = ''.join(f'<form method="post" action="/approve/{escape(token)}/{d}"><button type="submit">{label}</button></form>'
+                      for d, label in (('approve', 'Approve this order'), ('decline', 'Decline this order')))
+    return _page(f"{a['name']}, please approve or decline this order",
+                 '<p>Someone who listed you as their trusted contact wants to buy this with Sightline. PayPal is holding '
+                 'the payment. Nothing is charged unless you approve and they then confirm with their own PIN.</p>'
+                 f'<h2>The Readback, from PayPal</h2><ul>{items}</ul>{buttons}')
+
+
+@app.post('/approve/{token}/{decision}')
+def approve_decide(token: str, decision: str):
+    if decision not in ('approve', 'decline'):
+        raise HTTPException(404)
+    a = checkout.decide(_approval(token), decision == 'approve')
+    if not a:
+        return _page('Already answered', '<p>This link was already used, or is not valid. Nothing changed.</p>')
+    if decision == 'approve':
+        return _page('Approved', '<p>Thank you. They can now finish the order with their PIN. Nothing is charged until they do.</p>')
+    return _page('Declined', '<p>Declined. PayPal released the hold, so nothing was charged.</p>')
 
 
 @app.get('/link/start')

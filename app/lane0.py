@@ -320,7 +320,8 @@ def handle(text, s):
     if name in ('caps', 'settings'):
         lead = 'For your safety, spending caps cannot be changed by voice. ' if name == 'caps' else ''
         return Reply(lead + speech.settings_summary(checkout.caps(s), s.get('mode', 'screen_reader'),
-                                                    bool(checkout.vault_id(s)), bool(s.get('pin')), led_spent, prefs(s)))
+                                                    bool(checkout.vault_id(s)), bool(s.get('pin')), led_spent, prefs(s),
+                                                    s.get('contact')))
     if name == 'link':
         return Reply("Opening PayPal's login page. PayPal's login is your security boundary; we never see your password.",
                      action='link')
@@ -417,6 +418,10 @@ def _describe(s, p, lvl=None):
 def _holding(cmd, text, s, st):
     """A payment is on hold: only checkout words, repeat, spell, help and feedback are accepted."""
     name = cmd[0] if cmd else None
+    if st == checkout.APPROVAL and name not in ('cancel', 'no', 'undo', 'repeat', 'spell'):
+        news = checkout.approval_news(s)
+        if news:
+            return news
     if st == checkout.PIN and re.fullmatch(r'[\d\s-]{4,}', text.strip()):
         return Reply('For your safety, type the PIN in the PIN box, not the message box. Nothing was sent.')
     if name in ('confirm', 'yes'):
@@ -431,5 +436,8 @@ def _holding(cmd, text, s, st):
     if name == 'wrong':
         _log_feedback(s, text)
         return Reply('Thanks, I noted that. If the Readback is wrong, say cancel and nothing will be charged.')
+    if st == checkout.APPROVAL:
+        return Reply('This order is waiting for approval from your trusted contact. Say cancel to release the hold, '
+                     'or say repeat to hear the Readback.')
     step = 'type your PIN in the PIN box' if st == checkout.PIN else 'say confirm'
     return Reply(f'A payment is on hold. To pay, {step}. To release it, say cancel. Say repeat to hear the Readback.')

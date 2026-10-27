@@ -7,6 +7,8 @@ import hashlib, hmac, os, secrets, threading, time, uuid
 from datetime import date
 from decimal import Decimal, ROUND_HALF_UP
 
+from itsdangerous import URLSafeSerializer
+
 from . import catalog, paypal, speech
 from .speech import Reply
 
@@ -15,7 +17,8 @@ MAX_TRIES = 3
 DEFAULT_CAPS = {'order': '100.00', 'daily': '250.00'}
 IDLE, READBACK, CONFIRM, PIN, CAPTURED, VOIDED = 'idle', 'readback_pending', 'awaiting_confirm', 'awaiting_pin', 'captured', 'voided'
 UNDO = 'undo_window'  # PIN accepted, capture waits a few seconds so "undo" can still void the hold
-HOLDING = (CONFIRM, PIN)
+APPROVAL = 'awaiting_approval'  # over the trusted contact's threshold: held until they approve or decline
+HOLDING = (CONFIRM, PIN, APPROVAL)
 LOCKED = ('Your PIN is locked after three wrong tries. Nothing was charged. '
           'To unlock, link PayPal again, which needs your PayPal login, then set a new PIN.')
 
@@ -23,6 +26,12 @@ LOCKED = ('Your PIN is locked after three wrong tries. Nothing was charged. '
 # signed cookie can't reset them; they are lost on restart. Move to a database before real money.
 LEDGER = {}
 _lock = threading.Lock()  # undo and capture of one hold never both go ahead
+# shortcut: approval requests live in memory (lost on restart, the hold then just expires); move to SQLite before real use
+APPROVALS = {}
+
+
+def signer():
+    return URLSafeSerializer(os.environ['SESSION_SECRET'], salt='approve')
 
 
 def ledger(s):
@@ -140,11 +149,51 @@ def start(s):
             'seller': ', '.join(sorted({p['seller'] for p, _, _ in lines}))}
     say, rb = speech.readback(order, meta)
     s['co'] = {'state': CONFIRM, 'rid': rid, 'order_id': order['id'], 'auth_id': auth['id'], 'say': say, 'lines': rb}
+    contact = s.get('contact')
+    if contact and total > Decimal(contact['threshold']):
+        aid = secrets.token_urlsafe(16)
+        APPROVALS[aid] = {'state': 'pending', 'name': contact['name'], 'lines': rb[:-1], 'auth_id': auth['id'], 'rid': rid}
+        link = '/approve/' + signer().dumps(aid)
+        rb = rb[:-1] + speech.approval_sent(contact['name'], contact['threshold'], total) + [f'Approval link: {link}']
+        s['co'].update(state=APPROVAL, approval=aid, lines=rb)
     return Reply(say, rb)
+
+
+def approval_news(s):
+    """Shopper side: has the trusted contact decided? Returns a Reply when something changed."""
+    a = APPROVALS.get(s['co'].get('approval'))
+    if a is None:
+        return Reply('The approval request was lost when the app restarted. Say cancel to release the hold, '
+                     'then check out again.')
+    if a['state'] == 'approved':
+        say = f"{a['name']} approved this order. Say confirm to continue to your PIN, or say cancel."
+        s['co'].update(state=CONFIRM, say=say, lines=a['lines'])
+        return Reply(say, s['co']['lines'])
+    if a['state'] == 'declined':
+        s['co'] = {'state': VOIDED}
+        return Reply(f"{a['name']} declined this order, so PayPal released the hold. Nothing was charged.")
+    return None
+
+
+def decide(aid, approve):
+    """Approver side, single use. Decline voids the hold at once. Returns the request, or None if not pending."""
+    a = APPROVALS.get(aid)
+    if not a or a['state'] != 'pending':
+        return None
+    if not approve:
+        try:
+            _void(a['auth_id'], a['rid'])
+        except paypal.PayPalError:
+            pass  # an unreleased hold is never captured and expires on its own
+    a['state'] = 'approved' if approve else 'declined'
+    return a
 
 
 def confirm(s):
     st = state(s)
+    if st == APPROVAL:
+        return Reply(f"Still waiting for {APPROVALS.get(s['co']['approval'], {}).get('name', 'your trusted contact')} "
+                     'to approve. Say cancel to release the hold.')
     if st == CONFIRM:
         s['co'] = {**s['co'], 'state': PIN}
         return Reply('Confirmed. Now type your 4-digit PIN in the PIN box and press Enter. Or say cancel.')
@@ -175,6 +224,8 @@ def cancel(s):
         _void(s['co']['auth_id'], s['co']['rid'])
     except paypal.PayPalError as e:
         return Reply(f'PayPal could not release the hold just now ({e}). Nothing was charged. Say cancel to try again.')
+    if s['co'].get('approval') in APPROVALS:
+        APPROVALS[s['co']['approval']]['state'] = 'cancelled'
     s['co'] = {'state': VOIDED}
     return Reply('Cancelled. PayPal released the hold. Nothing was charged. Your cart is unchanged.')
 

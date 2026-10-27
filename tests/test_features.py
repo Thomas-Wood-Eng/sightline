@@ -130,3 +130,51 @@ def test_capture_after_window_is_idempotent(client, fake, monkeypatch):
     client.cookies.clear(); client.cookies.update(stale)
     client.post('/api/finalize')
     assert fake.count('capture') == 1 and fake.count('void') == 0
+
+
+# ---- 4. trusted contact ----
+def contact(client, threshold='20.00'):
+    body = {'contact_name': 'Alex', 'contact_email': 'alex@example.com', 'approval_threshold': threshold}
+    assert client.post('/api/settings', json=body).status_code == 403  # needs the current PIN
+    assert client.post('/api/settings', json={**body, 'current_pin': '1234'}).json()['contact']['name'] == 'Alex'
+
+
+def to_approval(client):
+    setup(client); contact(client)
+    t(client, 'hoodie'); t(client, 'add it in medium')
+    r = t(client, 'check out')
+    link = next(l for l in r['lines'] if l.startswith('Approval link: '))[len('Approval link: '):]
+    return r, link
+
+
+def test_approval_then_confirm_and_pin(client, fake):
+    r, link = to_approval(client)
+    text = ' '.join(r['lines'])
+    assert r['state'] == 'awaiting_approval' and 'Sent to Alex for approval' in text
+    assert 'over your approval amount of 20.00 US dollars' in text and 'instead of emailed' in text
+    assert 'Still waiting for Alex' in t(client, 'confirm')['say']
+    assert client.post('/api/pin', json={'pin': '1234'}).json()['state'] == 'awaiting_approval'
+    page = client.get(link).text
+    assert 'Total: 41.73 US dollars.' in page and 'Approve this order' in page
+    assert 'Approval link not valid' in client.get(link[:-2] + 'xx').text  # tampered signature
+    assert 'Approved' in client.post(link + '/approve').text
+    assert 'Already answered' in client.post(link + '/approve').text  # single use
+    r = t(client, 'what now')
+    assert r['say'].startswith('Alex approved') and r['state'] == 'awaiting_confirm'
+    t(client, 'confirm')
+    assert client.post('/api/pin', json={'pin': '1234'}).json()['state'] == 'captured'
+    assert fake.count('capture') == 1
+
+
+def test_decline_voids(client, fake):
+    _, link = to_approval(client)
+    assert 'Declined' in client.post(link + '/decline').text
+    assert fake.count('void') == 1
+    r = t(client, 'confirm')
+    assert 'Alex declined' in r['say'] and r['state'] == 'voided' and fake.count('capture') == 0
+
+
+def test_under_threshold_needs_no_approval(client, fake):
+    setup(client); contact(client, threshold='90.00')
+    t(client, 'hoodie'); t(client, 'add it in medium')
+    assert t(client, 'check out')['state'] == 'awaiting_confirm'
