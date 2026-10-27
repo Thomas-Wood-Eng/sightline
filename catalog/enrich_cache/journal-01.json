@@ -1,0 +1,99 @@
+{
+ "short": "Tan brown pocket leather notebook",
+ "description": "This is a pocket-sized notebook with a textured leather cover and plain pages. The listing states the colour is tan brown and the material includes a leather cover with 120 pages of 100 gsm paper. The photo seems to show a silver-coloured pen and a metal binder clip placed next to the notebook, which are not included.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "tan brown",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "leather cover, 120 pages of 100 gsm paper",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "A6 (10.5 x 15 cm)",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 journal",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Visible props",
+   "value": "The photo appears to show a pen and a binder clip beside the notebook.",
+   "source": "photo"
+  },
+  {
+   "label": "Cover appearance",
+   "value": "The photo seems to show a textured pattern on the cover.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What exact colour is the notebook?",
+   "a": "The listing states the colour is tan brown.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions and size?",
+   "a": "The listing states the dimensions are A6 (10.5 x 15 cm).",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made of and how does it feel?",
+   "a": "The listing states it has a leather cover and 120 pages of 100 gsm paper.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The listing states the box contains 1 journal.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the care or cleaning instructions?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 95 reviews averaging 4.7 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Are there any other items shown in the photo that come with it?",
+   "a": "The photo appears to show a pen and a metal binder clip, but the listing specifies only 1 journal is included.",
+   "source": "photo"
+  },
+  {
+   "q": "What kind of pages does the notebook have?",
+   "a": "The listing states it features plain pages.",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

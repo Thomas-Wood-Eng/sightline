@@ -1,0 +1,89 @@
+{
+ "short": "Loose-leaf green tea",
+ "description": "The photo seems to show loose-leaf green tea with dry green leaves in white bowls and a brewed cup of tea, though these serving dishes are not part of the product. The listing describes it as a loose-leaf green tea with a fresh, grassy taste.",
+ "facts": [
+  {
+   "label": "Category",
+   "value": "grocery",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "100 g (3.5 oz) tin",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "1 tin",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "No major allergens declared.",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "store sealed, away from light",
+   "source": "listing"
+  },
+  {
+   "label": "Appearance",
+   "value": "The photo appears to show dry green tea leaves and brewed yellow-green tea.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour of the tea?",
+   "a": "Not stated in the listing.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What are the dimensions of the tea package?",
+   "a": "It is a 100 g (3.5 oz) tin.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is the product made of?",
+   "a": "Not stated in the listing.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "1 tin is included.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the allergens and ingredients?",
+   "a": "No major allergens declared.",
+   "source": "listing"
+  },
+  {
+   "q": "How should this tea be stored?",
+   "a": "Store sealed, away from light.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 96 reviews averaging 4.5 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "What does the tea taste like?",
+   "a": "It has a fresh, grassy taste according to the listing.",
+   "source": "listing"
+  },
+  {
+   "q": "Are the bowls shown in the photo included?",
+   "a": "The photo appears to show bowls and a cup of brewed tea, but only the tin is included.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

@@ -1,0 +1,5062 @@
+[
+ {
+  "id": "hoodie-01",
+  "name": "Fleece-lined pullover hoodie",
+  "category": "clothing",
+  "price": 34.99,
+  "rating": 4.6,
+  "review_count": 212,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A warm pullover hoodie with a soft brushed fleece lining and a drawstring hood.",
+   "colour": "heather grey",
+   "sizes": [
+    "S",
+    "M",
+    "L",
+    "XL"
+   ],
+   "material": "80% cotton, 20% polyester, fleece lining",
+   "dimensions": null,
+   "in_box": "1 hoodie",
+   "condition": "new",
+   "allergens": null,
+   "care": "machine wash cold, tumble dry low"
+  },
+  "image": "img/hoodie-01.jpg",
+  "image_credit": {
+   "title": "Woman in sweatshirt and yoga pants sitting on a log with her hood on",
+   "creator": "Shixart1985",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Woman_in_sweatshirt_and_yoga_pants_sitting_on_a_log_with_her_hood_on.jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  },
+  "enriched": {
+   "short": "Heather grey fleece-lined pullover hoodie",
+   "description": "This is a warm pullover hoodie in heather grey with a soft brushed fleece lining and a drawstring hood. The photo seems to show a person wearing it outdoors while seated on a wooden bench next to a pink water bottle.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "heather grey",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "S, M, L, XL",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "80% cotton, 20% polyester, fleece lining",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "1 hoodie",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care instructions",
+     "value": "machine wash cold, tumble dry low",
+     "source": "listing"
+    },
+    {
+     "label": "Hood style",
+     "value": "drawstring hood",
+     "source": "listing"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What exact colour is the hoodie?",
+     "a": "The listing states the colour is heather grey.",
+     "source": "listing"
+    },
+    {
+     "q": "What sizes are available?",
+     "a": "Available sizes are S, M, L, and XL.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made from and how does it feel?",
+     "a": "It is made from 80% cotton and 20% polyester with a soft brushed fleece lining.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The box includes 1 hoodie.",
+     "source": "listing"
+    },
+    {
+     "q": "How should I care for and clean this hoodie?",
+     "a": "Machine wash cold and tumble dry low.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 212 reviews averaging 4.6 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Does the photo show any accessories that come with it?",
+     "a": "The photo appears to show a pink water bottle on the bench next to the wearer, which is not part of the product.",
+     "source": "photo"
+    },
+    {
+     "q": "Does the hood feature any adjustments?",
+     "a": "Yes. The listing says it has a drawstring hood.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions of the hoodie?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "scarf-01",
+    "sneakers-01",
+    "tshirt-01"
+   ]
+  }
+ },
+ {
+  "id": "hoodie-02",
+  "name": "Heavyweight pullover hoodie",
+  "category": "clothing",
+  "price": 52.0,
+  "rating": 4.3,
+  "review_count": 87,
+  "shipping": 4.99,
+  "delivery_days": 5,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A heavyweight plain pullover hoodie with a lined hood and a front kangaroo pocket.",
+   "colour": "black",
+   "sizes": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL",
+    "XXL"
+   ],
+   "material": "100% cotton, 400 gsm",
+   "dimensions": null,
+   "in_box": "1 hoodie",
+   "condition": "new",
+   "allergens": null,
+   "care": "machine wash cold, hang dry"
+  },
+  "image": "img/hoodie-02.jpg",
+  "image_credit": {
+   "title": "Hoodie man",
+   "creator": "SteelAvenger",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Hoodie_man.jpg",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  },
+  "enriched": {
+   "short": "Heavyweight black pullover hoodie",
+   "description": "A heavyweight black pullover hoodie featuring a lined hood, front kangaroo pocket, and long sleeves. The photo seems to show it worn by a person with the hood up.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "black",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "XS, S, M, L, XL, XXL",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "100% cotton, 400 gsm",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "1 hoodie",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "machine wash cold, hang dry",
+     "source": "listing"
+    },
+    {
+     "label": "Hood",
+     "value": "The photo appears to show a lined hood attached at the neckline.",
+     "source": "photo"
+    },
+    {
+     "label": "Pocket",
+     "value": "The photo seems to show a front kangaroo pocket near the lower waist.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour of the hoodie?",
+     "a": "The listing states the colour is black.",
+     "source": "listing"
+    },
+    {
+     "q": "What sizes are available?",
+     "a": "The available sizes are XS, S, M, L, XL, and XXL.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made of and how does it feel?",
+     "a": "It is made of 100% cotton at 400 gsm, making it a heavyweight fabric.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The package includes 1 hoodie.",
+     "source": "listing"
+    },
+    {
+     "q": "How should I care for and clean this hoodie?",
+     "a": "The care instructions are to machine wash cold and hang dry.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say about this hoodie?",
+     "a": "It has 87 reviews averaging 4.3 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Does the hoodie have a front pocket?",
+     "a": "Yes, the listing states it features a front kangaroo pocket.",
+     "source": "listing"
+    },
+    {
+     "q": "Is the hood lined?",
+     "a": "Yes, the listing notes that the hood is lined.",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "jeans-01",
+    "sneakers-01",
+    "hoodie-01"
+   ]
+  }
+ },
+ {
+  "id": "tshirt-01",
+  "name": "Organic cotton crew-neck T-shirt",
+  "category": "clothing",
+  "price": 18.5,
+  "rating": 4.4,
+  "review_count": 356,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A classic short-sleeved crew-neck T-shirt in soft organic cotton.",
+   "colour": "white",
+   "sizes": [
+    "S",
+    "M",
+    "L",
+    "XL"
+   ],
+   "material": "100% organic cotton jersey",
+   "dimensions": null,
+   "in_box": "1 T-shirt",
+   "condition": "new",
+   "allergens": null,
+   "care": "machine wash warm"
+  },
+  "image": "img/tshirt-01.jpg",
+  "image_credit": {
+   "title": "Young North Indian man with beard in white t-shirt",
+   "creator": "Singhjayreena",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Young_North_Indian_man_with_beard_in_white_t-shirt.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "enriched": {
+   "short": "White organic cotton crew-neck T-shirt",
+   "description": "A classic short-sleeved crew-neck T-shirt in soft organic cotton jersey. The photo seems to show a textured diamond pattern across the fabric.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "white",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "S, M, L, XL",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "100% organic cotton jersey",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "1 T-shirt",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "machine wash warm",
+     "source": "listing"
+    },
+    {
+     "label": "Texture",
+     "value": "The photo appears to show a subtle diamond pattern on the fabric.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What exact colour is the T-shirt?",
+     "a": "The listing states the colour is white.",
+     "source": "listing"
+    },
+    {
+     "q": "What sizes are available?",
+     "a": "The listing offers S, M, L, and XL.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made of and how does it feel?",
+     "a": "It is made of 100% organic cotton jersey, described as soft.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The package contains 1 T-shirt.",
+     "source": "listing"
+    },
+    {
+     "q": "How should I care for this T-shirt?",
+     "a": "The care instructions recommend machine wash warm.",
+     "source": "listing"
+    },
+    {
+     "q": "What do reviews say about this T-shirt?",
+     "a": "It has 356 reviews averaging 4.4 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Does the T-shirt have any visible pattern?",
+     "a": "The photo seems to show a textured diamond pattern across the fabric.",
+     "source": "photo"
+    },
+    {
+     "q": "What type of neckline does it have?",
+     "a": "The listing describes it as a crew-neck T-shirt.",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "beanie-01",
+    "scarf-01",
+    "hoodie-01"
+   ]
+  }
+ },
+ {
+  "id": "jeans-01",
+  "name": "Straight-leg jeans",
+  "category": "clothing",
+  "price": 58.0,
+  "rating": 4.1,
+  "review_count": 143,
+  "shipping": 0.0,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Mid-rise straight-leg jeans with five pockets and a button fly.",
+   "colour": "medium blue wash",
+   "sizes": [
+    "28x30",
+    "30x30",
+    "32x32",
+    "34x32",
+    "36x32"
+   ],
+   "material": "99% cotton, 1% elastane denim",
+   "dimensions": null,
+   "in_box": "1 pair of jeans",
+   "condition": "new",
+   "allergens": null,
+   "care": "machine wash cold inside out"
+  },
+  "image": "img/jeans-01.jpg",
+  "image_credit": {
+   "title": "Jeans",
+   "creator": "uploaded by Juanmak",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Jeans.jpg",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  },
+  "enriched": {
+   "short": "Straight-leg jeans in medium blue wash",
+   "description": "Straight-leg jeans in medium blue wash. They feature five pockets and a button fly. The photo appears to show a pair of denim jeans laid out flat on a patterned surface.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "medium blue wash",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "28x30, 30x30, 32x32, 34x32, 36x32",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "99% cotton, 1% elastane denim",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 pair of jeans",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "machine wash cold inside out",
+     "source": "listing"
+    },
+    {
+     "label": "Visual appearance",
+     "value": "The photo appears to show five pockets and belt loops.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour of the jeans?",
+     "a": "The listing states the colour is medium blue wash.",
+     "source": "listing"
+    },
+    {
+     "q": "What sizes are available?",
+     "a": "Available sizes are 28x30, 30x30, 32x32, 34x32, and 36x32.",
+     "source": "listing"
+    },
+    {
+     "q": "What is the material and how does it feel?",
+     "a": "The material is 99% cotton and 1% elastane denim.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the package?",
+     "a": "The package includes 1 pair of jeans.",
+     "source": "listing"
+    },
+    {
+     "q": "How should these jeans be cleaned?",
+     "a": "Machine wash cold inside out.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 143 reviews averaging 4.1 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Do the jeans have a button fly?",
+     "a": "Yes, the listing states they have a button fly.",
+     "source": "listing"
+    },
+    {
+     "q": "Are there pockets?",
+     "a": "Yes, they feature five pockets.",
+     "source": "listing"
+    },
+    {
+     "q": "What rise are the jeans?",
+     "a": "The listing describes them as mid-rise.",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "hoodie-02",
+    "sneakers-01",
+    "raincoat-01"
+   ]
+  }
+ },
+ {
+  "id": "scarf-01",
+  "name": "Knitted scarf with pom-poms",
+  "category": "clothing",
+  "price": 26.0,
+  "rating": 4.7,
+  "review_count": 64,
+  "shipping": 3.99,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A long knitted wool scarf finished with a pom-pom at each end.",
+   "colour": "deep red",
+   "sizes": [
+    "one size"
+   ],
+   "material": "100% merino wool",
+   "dimensions": "180 cm long, 25 cm wide",
+   "in_box": "1 scarf",
+   "condition": "new",
+   "allergens": null,
+   "care": "hand wash cold, dry flat"
+  },
+  "image": "img/scarf-01.jpg",
+  "image_credit": {
+   "title": "Small Homemade Knitted Scarf - DPLA - fcde1f6bb3c41863d0b2f99f6d5379b3 (page 1)",
+   "creator": "Unknown",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Small_Homemade_Knitted_Scarf_-_DPLA_-_fcde1f6bb3c41863d0b2f99f6d5379b3_(page_1).jpg",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  },
+  "enriched": {
+   "short": "Deep red knitted wool scarf with pom-poms",
+   "description": "A long deep red knitted wool scarf featuring a pom-pom at each end. The photo seems to show a soft, ribbed knit texture and the scarf is folded in half.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "deep red",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "one size",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "100% merino wool",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "180 cm long, 25 cm wide",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 scarf",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "hand wash cold, dry flat",
+     "source": "listing"
+    },
+    {
+     "label": "Visible detail",
+     "value": "The photo appears to show pom-poms attached to both ends.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What colour is the scarf?",
+     "a": "The listing states the colour is deep red.",
+     "source": "listing"
+    },
+    {
+     "q": "What size is the scarf?",
+     "a": "The listing states the size is one size.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made of and how does it feel?",
+     "a": "It is made of 100% merino wool, which generally feels soft and warm.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the exact dimensions?",
+     "a": "It is 180 cm long and 25 cm wide.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The box contains 1 scarf.",
+     "source": "listing"
+    },
+    {
+     "q": "How should I care for and clean this scarf?",
+     "a": "It requires hand wash cold and dry flat.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 64 reviews averaging 4.7 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Does the scarf have any decorative finishes?",
+     "a": "The photo seems to show a pom-pom attached at each end of the scarf.",
+     "source": "photo"
+    },
+    {
+     "q": "What knit pattern is visible in the photo?",
+     "a": "The photo appears to show a fine ribbed knit texture throughout the scarf.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "tshirt-01",
+    "hoodie-01",
+    "beanie-01"
+   ]
+  }
+ },
+ {
+  "id": "beanie-01",
+  "name": "Pom-pom knit beanie",
+  "category": "clothing",
+  "price": 14.99,
+  "rating": 4.5,
+  "review_count": 298,
+  "shipping": 0.0,
+  "delivery_days": 2,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A chunky ribbed beanie with a fold-up cuff and a pom-pom on top.",
+   "colour": "navy blue with a cream stripe on the cuff",
+   "sizes": [
+    "one size"
+   ],
+   "material": "100% acrylic",
+   "dimensions": null,
+   "in_box": "1 beanie",
+   "condition": "new",
+   "allergens": null,
+   "care": "hand wash cold"
+  },
+  "image": "img/beanie-01.jpg",
+  "image_credit": {
+   "title": "Beanie hat by Polo Ralph Lauren",
+   "creator": "Menswear Market",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Beanie_hat_by_Polo_Ralph_Lauren.jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  },
+  "enriched": {
+   "short": "Navy blue and cream knit beanie with pom-pom",
+   "description": "The photo seems to show a chunky ribbed beanie in navy blue with a wide cream stripe around the fold-up cuff and a pom-pom on top. It is made of 100% acrylic.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "navy blue with a cream stripe on the cuff",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "one size",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "100% acrylic",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 beanie",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "hand wash cold",
+     "source": "listing"
+    },
+    {
+     "label": "Design details",
+     "value": "The photo appears to show a ribbed knit texture with a top pom-pom.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour of the beanie?",
+     "a": "The listing states it is navy blue with a cream stripe on the cuff.",
+     "source": "listing"
+    },
+    {
+     "q": "What sizes are available?",
+     "a": "It is available in one size.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made from?",
+     "a": "It is made of 100% acrylic.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The package contains 1 beanie.",
+     "source": "listing"
+    },
+    {
+     "q": "How should I clean this beanie?",
+     "a": "The listing recommends hand wash cold.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 298 reviews averaging 4.5 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Does the photo show a pom-pom?",
+     "a": "The photo appears to show a pom-pom on the top of the beanie.",
+     "source": "photo"
+    },
+    {
+     "q": "Is there a cuff on the hat?",
+     "a": "The photo seems to show a fold-up cuff with a contrasting stripe.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "tshirt-01",
+    "scarf-01",
+    "hoodie-01"
+   ]
+  }
+ },
+ {
+  "id": "sneakers-01",
+  "name": "Canvas low-top sneakers",
+  "category": "clothing",
+  "price": 45.0,
+  "rating": 4.2,
+  "review_count": 521,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Lace-up low-top canvas sneakers with a rubber sole.",
+   "colour": "navy blue with white rubber sole",
+   "sizes": [
+    "US 6",
+    "US 7",
+    "US 8",
+    "US 9",
+    "US 10",
+    "US 11",
+    "US 12"
+   ],
+   "material": "cotton canvas upper, rubber sole",
+   "dimensions": null,
+   "in_box": "1 pair of shoes",
+   "condition": "new",
+   "allergens": null,
+   "care": "spot clean"
+  },
+  "image": "img/sneakers-01.jpg",
+  "image_credit": {
+   "title": "Superga Cotu Classic Sneaker 2750 Canvas blau (1)",
+   "creator": "SPERA.de Designerschuhe, Taschen und Accessoires",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Superga_Cotu_Classic_Sneaker_2750_Canvas_blau_(1).jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  },
+  "enriched": {
+   "short": "Navy blue and white canvas low-top sneakers",
+   "description": "Lace-up low-top canvas sneakers with a rubber sole in navy blue with white rubber sole. The photo seems to show low-top shoes with textured white rubber toe caps and metal eyelets for the laces.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "navy blue with white rubber sole",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "US 6, US 7, US 8, US 9, US 10, US 11, US 12",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "cotton canvas upper, rubber sole",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "1 pair of shoes",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "spot clean",
+     "source": "listing"
+    },
+    {
+     "label": "Toe Cap",
+     "value": "The photo appears to show a textured rubber toe cap.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What colour are the sneakers?",
+     "a": "They are navy blue with a white rubber sole.",
+     "source": "listing"
+    },
+    {
+     "q": "What sizes are available?",
+     "a": "Available sizes are US 6, US 7, US 8, US 9, US 10, US 11, and US 12.",
+     "source": "listing"
+    },
+    {
+     "q": "What material are the shoes made of?",
+     "a": "They have a cotton canvas upper and a rubber sole.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "One pair of shoes is included.",
+     "source": "listing"
+    },
+    {
+     "q": "How should these shoes be cleaned?",
+     "a": "They can be spot cleaned.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 521 reviews averaging 4.2 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "What closure type do the sneakers use?",
+     "a": "They are lace-up sneakers.",
+     "source": "listing"
+    },
+    {
+     "q": "Are there any visible eyelets for the laces in the photo?",
+     "a": "The photo appears to show multiple metal eyelets along the lace line.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "hoodie-02",
+    "hoodie-01",
+    "jeans-01"
+   ]
+  }
+ },
+ {
+  "id": "raincoat-01",
+  "name": "Hooded rain jacket",
+  "category": "clothing",
+  "price": 72.0,
+  "rating": 4.0,
+  "review_count": 39,
+  "shipping": 5.99,
+  "delivery_days": 6,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A lightweight waterproof rain jacket with a zip front, an adjustable hood, a drawstring waist and two flap pockets.",
+   "colour": "burnt orange",
+   "sizes": null,
+   "material": "nylon with a waterproof coating",
+   "dimensions": null,
+   "in_box": "1 jacket",
+   "condition": "new",
+   "allergens": null,
+   "care": "wipe clean"
+  },
+  "image": "img/raincoat-01.jpg",
+  "image_credit": {
+   "title": "Terracotta Polo Ralph Lauren hooded Jacket",
+   "creator": "Menswear Market",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Terracotta_Polo_Ralph_Lauren_hooded_Jacket.jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  },
+  "enriched": {
+   "short": "Burnt orange hooded rain jacket",
+   "description": "A lightweight waterproof rain jacket in burnt orange made from nylon with a waterproof coating. The photo seems to show a zip front with a storm flap, an adjustable hood with drawstrings, a drawstring waist, and two front flap pockets.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "burnt orange",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "nylon with a waterproof coating",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 jacket",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "wipe clean",
+     "source": "listing"
+    },
+    {
+     "label": "Hood",
+     "value": "The photo appears to show an attached hood with drawstrings.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What exact colour is the jacket?",
+     "a": "The listing states the colour is burnt orange.",
+     "source": "listing"
+    },
+    {
+     "q": "What sizes are available?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What material is it made of and how does it feel?",
+     "a": "The listing states it is made of nylon with a waterproof coating.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The listing states it includes 1 jacket.",
+     "source": "listing"
+    },
+    {
+     "q": "How should this jacket be cared for?",
+     "a": "The listing states to wipe clean.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 39 reviews averaging 4.0 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Does the jacket have a hood?",
+     "a": "The photo seems to show an adjustable hood with drawstrings.",
+     "source": "photo"
+    },
+    {
+     "q": "Does the jacket have pockets?",
+     "a": "The listing states it has two flap pockets.",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "jeans-01",
+    "hoodie-02",
+    "sneakers-01"
+   ]
+  }
+ },
+ {
+  "id": "mug-01",
+  "name": "Glazed earthenware mug",
+  "category": "kitchen",
+  "price": 12.99,
+  "rating": 4.8,
+  "review_count": 402,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A tall, straight-sided earthenware mug with a rich glaze and a curved handle.",
+   "colour": "olive brown glaze",
+   "sizes": null,
+   "material": "glazed earthenware",
+   "dimensions": "holds 350 ml (12 oz)",
+   "in_box": "1 mug",
+   "condition": "new",
+   "allergens": null,
+   "care": "hand wash; not microwave safe"
+  },
+  "image": "img/mug-01.jpg",
+  "image_credit": {
+   "title": "Mug MET DP207772",
+   "creator": "Unknown",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mug_MET_DP207772.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "enriched": {
+   "short": "Glazed earthenware mug in olive brown glaze",
+   "description": "This is a glazed earthenware mug featuring an olive brown glaze with subtle orange spotting. The photo seems to show a tall, straight-sided cylindrical body and a curved handle on the side.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "olive brown glaze",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "glazed earthenware",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "holds 350 ml (12 oz)",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 mug",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "hand wash; not microwave safe",
+     "source": "listing"
+    },
+    {
+     "label": "Surface",
+     "value": "The photo appears to show a dark glaze with speckled orange highlights.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour of the mug?",
+     "a": "The listing states the colour is olive brown glaze.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions or capacity of the mug?",
+     "a": "The listing states it holds 350 ml (12 oz).",
+     "source": "listing"
+    },
+    {
+     "q": "What material is the mug made of and how does it feel?",
+     "a": "The listing specifies glazed earthenware.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The listing states it contains 1 mug.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the care or cleaning instructions?",
+     "a": "The listing states to hand wash and that it is not microwave safe.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say about this mug?",
+     "a": "It has 402 reviews averaging 4.8 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Does the mug have a handle?",
+     "a": "The photo seems to show a curved handle attached to the side.",
+     "source": "photo"
+    },
+    {
+     "q": "What is the shape of the mug?",
+     "a": "The photo appears to show a tall, straight-sided cylindrical shape.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "cutting-board-01",
+    "colander-01",
+    "french-press-01"
+   ]
+  }
+ },
+ {
+  "id": "kettle-01",
+  "name": "Electric kettle",
+  "category": "kitchen",
+  "price": 39.99,
+  "rating": 4.5,
+  "review_count": 188,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A cordless electric kettle with automatic shut-off and a 360-degree base.",
+   "colour": "white",
+   "sizes": null,
+   "material": "plastic body, stainless steel heating plate",
+   "dimensions": "1.7 litre capacity",
+   "in_box": "kettle, power base",
+   "condition": "new",
+   "allergens": null,
+   "care": "descale monthly; do not immerse"
+  },
+  "image": "img/kettle-01.jpg",
+  "image_credit": {
+   "title": "Electric kettle phillips white",
+   "creator": "Rafa",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Electric_kettle_phillips_white.JPG",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  },
+  "enriched": {
+   "short": "White electric kettle",
+   "description": "This is a white electric kettle. The photo seems to show a white plastic body with a curved handle and a water level indicator.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "white",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "plastic body, stainless steel heating plate",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "1.7 litre capacity",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "kettle, power base",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "descale monthly; do not immerse",
+     "source": "listing"
+    },
+    {
+     "label": "Appearance",
+     "value": "the photo appears to show a water level window and a lid on top",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour of the kettle?",
+     "a": "The listing states the colour is white.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions or capacity?",
+     "a": "The listing states it has a 1.7 litre capacity.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made of?",
+     "a": "It has a plastic body and a stainless steel heating plate.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The box includes the kettle and a power base.",
+     "source": "listing"
+    },
+    {
+     "q": "How do I care for and clean this product?",
+     "a": "Descale monthly and do not immerse it in water.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 188 reviews averaging 4.5 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Is it cordless?",
+     "a": "Yes, the listing describes a cordless electric kettle with a 360-degree base.",
+     "source": "listing"
+    },
+    {
+     "q": "Does it have an automatic shut-off feature?",
+     "a": "Yes, it features automatic shut-off.",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "skillet-01",
+    "knife-01",
+    "french-press-01"
+   ]
+  }
+ },
+ {
+  "id": "skillet-01",
+  "name": "Cast iron skillet",
+  "category": "kitchen",
+  "price": 32.0,
+  "rating": 4.7,
+  "review_count": 610,
+  "shipping": 6.99,
+  "delivery_days": 5,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A pre-seasoned cast iron frying pan for stovetop, oven or campfire.",
+   "colour": "black",
+   "sizes": null,
+   "material": "cast iron",
+   "dimensions": "26 cm (10.25 inch) diameter",
+   "in_box": "1 skillet",
+   "condition": "new",
+   "allergens": null,
+   "care": "hand wash, dry immediately, oil lightly"
+  },
+  "image": "img/skillet-01.jpg",
+  "image_credit": {
+   "title": "Cast-Iron-Pan",
+   "creator": "Evan-Amos",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Cast-Iron-Pan.jpg",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  },
+  "enriched": {
+   "short": "Black pre-seasoned cast iron skillet",
+   "description": "A black cast iron skillet featuring a long handle with a hanging hole and a helper handle opposite it. The photo seems to show a pre-seasoned dark metallic cooking surface with a pouring spout on each side.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "black",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "cast iron",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "26 cm (10.25 inch) diameter",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 skillet",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "hand wash, dry immediately, oil lightly",
+     "source": "listing"
+    },
+    {
+     "label": "Handles",
+     "value": "The photo seems to show one main handle and a smaller helper handle.",
+     "source": "photo"
+    },
+    {
+     "label": "Spouts",
+     "value": "The photo appears to show dual pouring lips on the sides.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What colour is the skillet?",
+     "a": "The listing states the colour is black.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions of the skillet?",
+     "a": "The listing states the dimensions are 26 cm (10.25 inch) diameter.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made from?",
+     "a": "The listing states it is made from cast iron.",
+     "source": "listing"
+    },
+    {
+     "q": "What does it feel like?",
+     "a": "The photo appears to show a textured cast iron surface.",
+     "source": "photo"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The listing states it includes 1 skillet.",
+     "source": "listing"
+    },
+    {
+     "q": "How should I care for and clean this skillet?",
+     "a": "The listing states to hand wash, dry immediately, and oil lightly.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 610 reviews averaging 4.7 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Can this be used over a campfire?",
+     "a": "The listing states it is suitable for stovetop, oven, or campfire.",
+     "source": "listing"
+    },
+    {
+     "q": "Does it have a helper handle?",
+     "a": "The photo seems to show a small helper handle opposite the main handle.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "french-press-01",
+    "kettle-01",
+    "colander-01"
+   ]
+  }
+ },
+ {
+  "id": "knife-01",
+  "name": "8-inch chef's knife",
+  "category": "kitchen",
+  "price": 49.0,
+  "rating": 4.6,
+  "review_count": 233,
+  "shipping": 0.0,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A forged stainless steel chef's knife for everyday chopping and slicing.",
+   "colour": "dark steel blade, black handle",
+   "sizes": null,
+   "material": "high-carbon stainless steel blade",
+   "dimensions": "20 cm (8 inch) blade",
+   "in_box": "1 knife, blade guard",
+   "condition": "new",
+   "allergens": null,
+   "care": "hand wash only"
+  },
+  "image": "img/knife-01.jpg",
+  "image_credit": {
+   "title": "Zwilling 8in chef knife",
+   "creator": "WLU at English Wikipedia",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Zwilling_8in_chef_knife.JPG",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  },
+  "enriched": {
+   "short": "8-inch chef's knife with dark steel blade and black handle",
+   "description": "An 8-inch chef's knife designed for everyday chopping and slicing. The photo seems to show a forged stainless steel chef's knife featuring a dark steel blade and a black handle with an integrated bolster.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "dark steel blade, black handle",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "high-carbon stainless steel blade",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "20 cm (8 inch) blade",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 knife, blade guard",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "hand wash only",
+     "source": "listing"
+    },
+    {
+     "label": "Blade Appearance",
+     "value": "The photo seems to show a dark steel blade with a curved edge.",
+     "source": "photo"
+    },
+    {
+     "label": "Handle Appearance",
+     "value": "The photo appears to show a contoured black handle.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour of the knife?",
+     "a": "The listing states the colour is dark steel blade, black handle.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions of the knife?",
+     "a": "The listing states the dimensions are 20 cm (8 inch) blade.",
+     "source": "listing"
+    },
+    {
+     "q": "What is the material of the knife?",
+     "a": "The listing states the material is high-carbon stainless steel blade.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The listing states the box contains 1 knife, blade guard.",
+     "source": "listing"
+    },
+    {
+     "q": "How should this knife be cared for or cleaned?",
+     "a": "The listing states to hand wash only.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 233 reviews averaging 4.6 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "What is the condition of the item?",
+     "a": "The listing states the condition is new.",
+     "source": "listing"
+    },
+    {
+     "q": "What does the handle look like?",
+     "a": "The photo appears to show a smooth, contoured black handle with a metal bolster.",
+     "source": "photo"
+    },
+    {
+     "q": "Are there any specific sizes available other than what is listed?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "not_stated"
+    }
+   ],
+   "similar": [
+    "kettle-01",
+    "skillet-01",
+    "french-press-01"
+   ]
+  }
+ },
+ {
+  "id": "cutting-board-01",
+  "name": "Plastic cutting board",
+  "category": "kitchen",
+  "price": 22.0,
+  "rating": 4.5,
+  "review_count": 175,
+  "shipping": 3.99,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A lightweight, flexible-edged chopping board that is easy to clean.",
+   "colour": "lime green",
+   "sizes": null,
+   "material": "polypropylene plastic",
+   "dimensions": null,
+   "in_box": "1 board",
+   "condition": "new",
+   "allergens": null,
+   "care": "dishwasher safe"
+  },
+  "image": "img/cutting-board-01.jpg",
+  "image_credit": {
+   "title": "11. place vegetables on cutting board",
+   "creator": "Datariumrex",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:11._place_vegetables_on_cutting_board.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "enriched": {
+   "short": "Plastic cutting board in lime green",
+   "description": "The photo seems to show a plastic cutting board in lime green. It appears to be rectangular with a handle cutout on the right side. The listing describes it as a lightweight, flexible-edged chopping board that is easy to clean. Please note that the food items shown on the board in the photo are not included with the product.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "lime green",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "polypropylene plastic",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 board",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "dishwasher safe",
+     "source": "listing"
+    },
+    {
+     "label": "Appearance",
+     "value": "The photo appears to show a textured surface with a handle slot.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour of the cutting board?",
+     "a": "The listing states the colour is lime green.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions or size of the board?",
+     "a": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is the cutting board made of?",
+     "a": "The listing states it is made of polypropylene plastic.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The listing states it includes 1 board.",
+     "source": "listing"
+    },
+    {
+     "q": "How do I clean and care for this product?",
+     "a": "The listing states it is dishwasher safe.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say about this product?",
+     "a": "It has 175 reviews averaging 4.5 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Are the vegetables shown in the photo included?",
+     "a": "No, food items shown in the photo are props and not part of the product.",
+     "source": "photo"
+    },
+    {
+     "q": "Does the board have a handle?",
+     "a": "The photo appears to show an integrated handle cutout at one end.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "colander-01",
+    "french-press-01",
+    "mug-01"
+   ]
+  }
+ },
+ {
+  "id": "french-press-01",
+  "name": "Stainless steel French press",
+  "category": "kitchen",
+  "price": 27.5,
+  "rating": 4.4,
+  "review_count": 290,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A double-walled stainless steel French press coffee maker with a plunger lid.",
+   "colour": "brushed stainless steel",
+   "sizes": null,
+   "material": "stainless steel",
+   "dimensions": "1 litre (34 oz)",
+   "in_box": "French press, spare filter",
+   "condition": "new",
+   "allergens": null,
+   "care": "dishwasher safe"
+  },
+  "image": "img/french-press-01.jpg",
+  "image_credit": {
+   "title": "French Press",
+   "creator": "Joe King",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:French_Press.jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  },
+  "enriched": {
+   "short": "Brushed stainless steel French press coffee maker",
+   "description": "The photo seems to show a brushed stainless steel French press coffee maker with a clear glass body insert and a plunger lid with a round knob. It has a sturdy handle attached to the metal housing.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "brushed stainless steel",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "stainless steel",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "1 litre (34 oz)",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "French press, spare filter",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care instructions",
+     "value": "dishwasher safe",
+     "source": "listing"
+    },
+    {
+     "label": "Design details",
+     "value": "The photo appears to show a clear glass body section held within the metal frame.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What colour is the French press?",
+     "a": "It is brushed stainless steel.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions or capacity?",
+     "a": "It has a capacity of 1 litre (34 oz).",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made of and how does it feel?",
+     "a": "It is made of stainless steel, and the photo appears to show a metal housing with a smooth metallic finish.",
+     "source": "photo"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The box contains the French press and a spare filter.",
+     "source": "listing"
+    },
+    {
+     "q": "How should I clean and care for it?",
+     "a": "It is dishwasher safe.",
+     "source": "listing"
+    },
+    {
+     "q": "What do customer reviews say?",
+     "a": "It has 290 reviews averaging 4.4 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Does it have a glass insert?",
+     "a": "The photo seems to show a clear glass body insert within the metal frame.",
+     "source": "photo"
+    },
+    {
+     "q": "How does the plunger operate?",
+     "a": "It features a plunger lid with a round top knob.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "colander-01",
+    "skillet-01",
+    "cutting-board-01"
+   ]
+  }
+ },
+ {
+  "id": "colander-01",
+  "name": "Ceramic colander",
+  "category": "kitchen",
+  "price": 24.0,
+  "rating": 4.3,
+  "review_count": 121,
+  "shipping": 4.99,
+  "delivery_days": 5,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A glazed stoneware colander with two small handles, for draining pasta and rinsing fruit.",
+   "colour": "white",
+   "sizes": null,
+   "material": "glazed stoneware",
+   "dimensions": "25 cm (10 inch) across",
+   "in_box": "1 colander",
+   "condition": "new",
+   "allergens": null,
+   "care": "dishwasher safe"
+  },
+  "image": "img/colander-01.jpg",
+  "image_credit": {
+   "title": "White Colander (53504734684)",
+   "creator": "Chris Williams",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:White_Colander_(53504734684).jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "enriched": {
+   "short": "White ceramic colander",
+   "description": "This is a white glazed stoneware colander for draining pasta and rinsing fruit. The photo appears to show a round bowl with two handles and concentric rings of drainage holes.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "white",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "glazed stoneware",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "25 cm (10 inch) across",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 colander",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care instructions",
+     "value": "dishwasher safe",
+     "source": "listing"
+    },
+    {
+     "label": "Design details",
+     "value": "The photo seems to show a round shape with two side handles and drainage holes arranged in circles.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What exact colour is the colander?",
+     "a": "It is white.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions or capacity of the colander?",
+     "a": "It measures 25 cm (10 inch) across.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made of and how does it feel?",
+     "a": "It is made of glazed stoneware.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The box contains 1 colander.",
+     "source": "listing"
+    },
+    {
+     "q": "How should I care for or clean this item?",
+     "a": "It is dishwasher safe.",
+     "source": "listing"
+    },
+    {
+     "q": "What do reviews say about this colander?",
+     "a": "It has 121 reviews averaging 4.3 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Does it have handles?",
+     "a": "The photo appears to show two small handles on the sides.",
+     "source": "photo"
+    },
+    {
+     "q": "How are the drainage holes arranged?",
+     "a": "The photo seems to show holes arranged in concentric circular patterns.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "cutting-board-01",
+    "french-press-01",
+    "skillet-01"
+   ]
+  }
+ },
+ {
+  "id": "headphones-01",
+  "name": "Over-ear headphones",
+  "category": "electronics",
+  "price": 59.99,
+  "rating": 4.4,
+  "review_count": 845,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Cushioned over-ear headphones with a 3.5 mm wired connection.",
+   "colour": "black",
+   "sizes": null,
+   "material": "plastic headband, padded ear cushions",
+   "dimensions": null,
+   "in_box": "headphones, 1.5 m cable",
+   "condition": "new",
+   "allergens": null,
+   "care": "wipe clean"
+  },
+  "image": "img/headphones-01.jpg",
+  "image_credit": {
+   "title": "Headphones (56330)",
+   "creator": "17mdnasim89",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Headphones_(56330).jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "enriched": {
+   "short": "Black over-ear headphones",
+   "description": "Black over-ear headphones featuring cushioned ear pads and a plastic headband. The photo seems to show a wired design resting on a solid yellow surface.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "black",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "plastic headband, padded ear cushions",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "headphones, 1.5 m cable",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care instructions",
+     "value": "wipe clean",
+     "source": "listing"
+    },
+    {
+     "label": "Design details",
+     "value": "The photo appears to show adjustable hinges on the headband.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What exact colour are the headphones?",
+     "a": "They are black according to the listing.",
+     "source": "listing"
+    },
+    {
+     "q": "What size are they?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What are the dimensions?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What material are they made of and how do they feel?",
+     "a": "They have a plastic headband and padded ear cushions as stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The box contains the headphones and a 1.5 m cable.",
+     "source": "listing"
+    },
+    {
+     "q": "How should I care for or clean them?",
+     "a": "They should be wiped clean.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 845 reviews averaging 4.4 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "What type of connection do these headphones use?",
+     "a": "They feature a 3.5 mm wired connection.",
+     "source": "listing"
+    },
+    {
+     "q": "Are the ear cups padded?",
+     "a": "Yes, the listing notes they have padded ear cushions.",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "keyboard-01",
+    "powerbank-01",
+    "mouse-01"
+   ]
+  }
+ },
+ {
+  "id": "earbuds-01",
+  "name": "Wired in-ear earphones",
+  "category": "electronics",
+  "price": 14.99,
+  "rating": 3.9,
+  "review_count": 1204,
+  "shipping": 0.0,
+  "delivery_days": 2,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Lightweight in-ear earphones with a 3.5 mm plug and a flat, tangle-resistant cable.",
+   "colour": "lilac purple",
+   "sizes": null,
+   "material": "plastic, silicone ear tips",
+   "dimensions": null,
+   "in_box": "earphones, 3 sizes of ear tips",
+   "condition": "new",
+   "allergens": null,
+   "care": "wipe clean, keep dry"
+  },
+  "image": "img/earbuds-01.jpg",
+  "image_credit": {
+   "title": "Earphones, 940074 001",
+   "creator": "Auckland Museum Tāmaki Paenga Hira",
+   "license": "CC BY 4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Earphones,_940074_001.jpg",
+   "license_url": "https://creativecommons.org/licenses/by/4.0"
+  },
+  "enriched": {
+   "short": "Wired in-ear earphones in lilac purple",
+   "description": "Lightweight in-ear earphones in lilac purple with a flat cable and silicone ear tips. The photo seems to show angled earbud nozzles and a right-angled 3.5 millimeter audio plug.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "lilac purple",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "plastic, silicone ear tips",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "earphones, 3 sizes of ear tips",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care instructions",
+     "value": "wipe clean, keep dry",
+     "source": "listing"
+    },
+    {
+     "label": "Plug type",
+     "value": "The photo appears to show an L-shaped 3.5mm audio jack.",
+     "source": "photo"
+    },
+    {
+     "label": "Cable design",
+     "value": "The photo seems to show a flat cable style.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What colour are the earphones?",
+     "a": "They are lilac purple.",
+     "source": "listing"
+    },
+    {
+     "q": "What sizes are available?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "listing"
+    },
+    {
+     "q": "What materials are used?",
+     "a": "They are made of plastic with silicone ear tips.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The box contains the earphones and three sizes of ear tips.",
+     "source": "listing"
+    },
+    {
+     "q": "How do I care for and clean them?",
+     "a": "Wipe clean and keep dry.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 1204 reviews averaging 3.9 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "What type of audio plug do they have?",
+     "a": "The listing states they feature a .5 mm plug, and the photo appears to show a right-angled connector.",
+     "source": "listing"
+    },
+    {
+     "q": "Are the cables tangle-resistant?",
+     "a": "Yes, the listing describes them as having a flat, tangle-resistant cable.",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "charger-01",
+    "cable-01",
+    "mouse-01"
+   ]
+  }
+ },
+ {
+  "id": "charger-01",
+  "name": "Dual USB wall charger",
+  "category": "electronics",
+  "price": 19.99,
+  "rating": 4.5,
+  "review_count": 667,
+  "shipping": 0.0,
+  "delivery_days": 2,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A compact wall charger with two USB ports and a European two-pin plug.",
+   "colour": "white",
+   "sizes": null,
+   "material": "plastic",
+   "dimensions": null,
+   "in_box": "1 charger",
+   "condition": "new",
+   "allergens": null,
+   "care": null
+  },
+  "image": "img/charger-01.jpg",
+  "image_credit": {
+   "title": "Pisen MF-08EU 12W USB charger-0",
+   "creator": "Imgrenb",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Pisen_MF-08EU_12W_USB_charger-0.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "enriched": {
+   "short": "White dual USB wall charger with European two-pin plug",
+   "description": "A compact white wall charger with two USB ports and a European two-pin plug. The photo seems to show a smooth plastic casing with two round metal prongs.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "white",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "plastic",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "1 charger",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Plug type",
+     "value": "European two-pin plug",
+     "source": "listing"
+    },
+    {
+     "label": "Design details",
+     "value": "The photo appears to show a smooth rectangular body with rounded edges.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What exact colour is the charger?",
+     "a": "The listing states the colour is white.",
+     "source": "listing"
+    },
+    {
+     "q": "What size is the charger?",
+     "a": "Not stated in the listing. You could ask the seller for specific dimensions.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What material is it made of and how does it feel?",
+     "a": "The listing states the material is plastic. The photo appears to show a smooth surface.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The listing states it includes 1 charger.",
+     "source": "listing"
+    },
+    {
+     "q": "How do I care for or clean this product?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 667 reviews averaging 4.5 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "What type of plug does it have?",
+     "a": "The listing states it has a European two-pin plug.",
+     "source": "listing"
+    },
+    {
+     "q": "How many USB ports are there?",
+     "a": "The listing states it has two USB ports.",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "mouse-01",
+    "earbuds-01",
+    "cable-01"
+   ]
+  }
+ },
+ {
+  "id": "cable-01",
+  "name": "Braided USB cable",
+  "category": "electronics",
+  "price": 9.99,
+  "rating": 4.2,
+  "review_count": 930,
+  "shipping": 0.0,
+  "delivery_days": 2,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A USB charging and data cable.",
+   "colour": "white connectors with a silver-grey braided cord",
+   "sizes": null,
+   "material": "braided nylon cord",
+   "dimensions": "1 metre long",
+   "in_box": "1 cable",
+   "condition": "new",
+   "allergens": null,
+   "care": null
+  },
+  "image": "img/cable-01.jpg",
+  "image_credit": {
+   "title": "Matias Tactile Pro 3 -- transparent USB cable",
+   "creator": "Daniel beardsmore",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Matias_Tactile_Pro_3_--_transparent_USB_cable.jpg",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  },
+  "enriched": {
+   "short": "Braided USB cable in white and silver-grey",
+   "description": "A USB charging and data cable with white connectors and a silver-grey braided cord. The photo seems to show a standard USB Type-A connector with a visible USB icon on the casing.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "white connectors with a silver-grey braided cord",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "braided nylon cord",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "1 metre long",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "1 cable",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Connector",
+     "value": "The photo appears to show a standard USB Type-A connector.",
+     "source": "photo"
+    },
+    {
+     "label": "Icon",
+     "value": "The photo seems to show a USB logo stamped on the white connector casing.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What exact colour is the cable?",
+     "a": "It has white connectors with a silver-grey braided cord.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions of the cable?",
+     "a": "It is 1 metre long.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made from?",
+     "a": "It is made with a braided nylon cord.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "There is 1 cable included.",
+     "source": "listing"
+    },
+    {
+     "q": "How do you care for or clean this cable?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 930 reviews averaging 4.2 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "What type of connector is visible?",
+     "a": "The photo appears to show a rectangular USB Type-A connector.",
+     "source": "photo"
+    },
+    {
+     "q": "Are there any markings on the connector housing?",
+     "a": "The photo seems to show a small USB icon stamped on the white plastic housing.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "earbuds-01",
+    "charger-01",
+    "mouse-01"
+   ]
+  }
+ },
+ {
+  "id": "powerbank-01",
+  "name": "Slim power bank",
+  "category": "electronics",
+  "price": 29.99,
+  "rating": 4.3,
+  "review_count": 412,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A slim battery pack with two USB ports for charging a phone on the go.",
+   "colour": "champagne gold",
+   "sizes": null,
+   "material": "aluminium casing",
+   "dimensions": "10,000 mAh capacity",
+   "in_box": "power bank, USB cable",
+   "condition": "new",
+   "allergens": null,
+   "care": "keep away from heat"
+  },
+  "image": "img/powerbank-01.jpg",
+  "image_credit": {
+   "title": "Powerbank Xiaomi, 1",
+   "creator": "Cybularny",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Powerbank_Xiaomi,_1.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "enriched": {
+   "short": "Slim power bank in champagne gold",
+   "description": "The product is a slim power bank featuring an aluminium casing in champagne gold. The photo seems to show a rectangular shape with rounded edges, a small power button, tiny indicator lights, a micro-USB port, and two standard USB ports on one end, resting on a wooden surface.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "champagne gold",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "aluminium casing",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "10,000 mAh capacity",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "power bank, USB cable",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "keep away from heat",
+     "source": "listing"
+    },
+    {
+     "label": "Appearance",
+     "value": "appears to have two USB ports and indicator lights",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What exact colour is the power bank?",
+     "a": "It is champagne gold according to the listing.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions or capacity?",
+     "a": "It has a 10,000 mAh capacity.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made of and how does it feel?",
+     "a": "It features an aluminium casing.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The box contains the power bank and a USB cable.",
+     "source": "listing"
+    },
+    {
+     "q": "How should I care for or clean this item?",
+     "a": "Keep it away from heat.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 412 reviews averaging 4.3 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "What ports are visible on the device?",
+     "a": "The photo seems to show a micro-USB port and two standard USB output ports.",
+     "source": "photo"
+    },
+    {
+     "q": "Does it have a power button and indicator lights?",
+     "a": "The photo appears to show a small power button next to a row of tiny indicator lights.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "keyboard-01",
+    "mouse-01",
+    "charger-01"
+   ]
+  }
+ },
+ {
+  "id": "keyboard-01",
+  "name": "Full-size wired keyboard",
+  "category": "electronics",
+  "price": 34.99,
+  "rating": 4.1,
+  "review_count": 256,
+  "shipping": 0.0,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A full-size keyboard with a number pad and a USB cable.",
+   "colour": "off-white",
+   "sizes": null,
+   "material": "plastic",
+   "dimensions": null,
+   "in_box": "1 keyboard with attached cable",
+   "condition": "new",
+   "allergens": null,
+   "care": "wipe clean"
+  },
+  "image": "img/keyboard-01.jpg",
+  "image_credit": {
+   "title": "Sega-Dreamcast-Keyboard",
+   "creator": "Evan-Amos",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Sega-Dreamcast-Keyboard.jpg",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  },
+  "enriched": {
+   "short": "Off-white full-size wired keyboard",
+   "description": "The photo seems to show an off-white plastic full-size wired keyboard with a number pad. It features standard QWERTY key layout and directional arrow keys.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "off-white",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "plastic",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 keyboard with attached cable",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "wipe clean",
+     "source": "listing"
+    },
+    {
+     "label": "Layout",
+     "value": "The photo appears to show a standard QWERTY layout with a number pad.",
+     "source": "photo"
+    },
+    {
+     "label": "Cable",
+     "value": "The photo seems to show an attached wired cable at the top.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour?",
+     "a": "The listing states the colour is off-white.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions or size?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "listing"
+    },
+    {
+     "q": "What is the material and texture?",
+     "a": "The listing states the material is plastic.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The listing states it includes 1 keyboard with attached cable.",
+     "source": "listing"
+    },
+    {
+     "q": "How do I care for or clean it?",
+     "a": "The listing states to wipe clean.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 256 reviews averaging 4.1 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Does it have a number pad?",
+     "a": "Yes. The listing says it has a number pad.",
+     "source": "listing"
+    },
+    {
+     "q": "Is it wireless?",
+     "a": "The listing states it is a wired keyboard, and the photo appears to show a connected cable.",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "powerbank-01",
+    "mouse-01",
+    "charger-01"
+   ]
+  }
+ },
+ {
+  "id": "mouse-01",
+  "name": "Wired optical mouse",
+  "category": "electronics",
+  "price": 21.0,
+  "rating": 4.4,
+  "review_count": 389,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A comfortable two-button wired mouse with a scroll wheel.",
+   "colour": "black",
+   "sizes": null,
+   "material": "plastic",
+   "dimensions": null,
+   "in_box": "1 mouse with attached USB cable",
+   "condition": "new",
+   "allergens": null,
+   "care": "wipe clean"
+  },
+  "image": "img/mouse-01.jpg",
+  "image_credit": {
+   "title": "Generic computer mouse with scrollwheel",
+   "creator": "Peter Astbury",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Generic_computer_mouse_with_scrollwheel.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "enriched": {
+   "short": "Wired optical mouse in black",
+   "description": "A comfortable two-button wired mouse made of plastic with a scroll wheel. The photo seems to show a smooth black surface with an ergonomic shape and an attached wire.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "black",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "plastic",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "1 mouse with attached USB cable",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "wipe clean",
+     "source": "listing"
+    },
+    {
+     "label": "Visible appearance",
+     "value": "The photo appears to show an oval-shaped black mouse with a central scroll wheel.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour of the mouse?",
+     "a": "The listing states the colour is black.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions or size of the mouse?",
+     "a": "Not stated in the listing.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What material is it made of and how does it feel?",
+     "a": "The listing states it is made of plastic.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The box includes 1 mouse with an attached USB cable.",
+     "source": "listing"
+    },
+    {
+     "q": "How should this product be cared for and cleaned?",
+     "a": "The listing recommends to wipe clean.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say about this mouse?",
+     "a": "It has 389 reviews averaging 4.4 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Does the mouse have a scroll wheel?",
+     "a": "Yes, the listing describes it as having two buttons and a scroll wheel.",
+     "source": "listing"
+    },
+    {
+     "q": "Is the cable attached to the mouse?",
+     "a": "Yes, the listing indicates it comes with an attached USB cable.",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "charger-01",
+    "earbuds-01",
+    "powerbank-01"
+   ]
+  }
+ },
+ {
+  "id": "trail-mix-01",
+  "name": "Classic trail mix",
+  "category": "grocery",
+  "price": 8.99,
+  "rating": 4.6,
+  "review_count": 318,
+  "shipping": 2.99,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A salty-sweet mix of roasted nuts, raisins and chocolate candies.",
+   "colour": null,
+   "sizes": null,
+   "material": null,
+   "dimensions": "400 g (14 oz) resealable bag",
+   "in_box": "1 bag",
+   "condition": "new",
+   "allergens": "Contains peanuts, almonds, cashews, milk and soy. Made in a facility that also processes wheat.",
+   "care": "store in a cool, dry place"
+  },
+  "image": "img/trail-mix-01.jpg",
+  "image_credit": {
+   "title": "Planters-Trail-Mix",
+   "creator": "Evan-Amos",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Planters-Trail-Mix.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "enriched": {
+   "short": "Classic trail mix",
+   "description": "A salty-sweet mix of roasted nuts, raisins and chocolate candies. The photo seems to show a loose pile of peanuts, almonds, cashews, raisins, and colorful candy-coated chocolates.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "null",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "null",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "null",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "400 g (14 oz) resealable bag",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 bag",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "Contains peanuts, almonds, cashews, milk and soy. Made in a facility that also processes wheat.",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "store in a cool, dry place",
+     "source": "listing"
+    },
+    {
+     "label": "Visible contents",
+     "value": "The photo appears to show a loose, textured mix of small pieces.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour of the product?",
+     "a": "Not stated in the listing.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What are the dimensions or size?",
+     "a": "400 g (14 oz) resealable bag",
+     "source": "listing"
+    },
+    {
+     "q": "What is the material, texture, and how does it feel?",
+     "a": "Not stated in the listing.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "1 bag",
+     "source": "listing"
+    },
+    {
+     "q": "What are the allergens and ingredients?",
+     "a": "Contains peanuts, almonds, cashews, milk and soy. Made in a facility that also processes wheat.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the care or cleaning instructions?",
+     "a": "Store in a cool, dry place",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 318 reviews averaging 4.6 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "What is in it?",
+     "a": "The listing says it contains peanuts, almonds and cashews, plus milk and soy, and is made in a facility that also processes wheat.",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "tea-01",
+    "honey-01",
+    "granola-01"
+   ]
+  }
+ },
+ {
+  "id": "granola-01",
+  "name": "Honey almond granola",
+  "category": "grocery",
+  "price": 6.49,
+  "rating": 4.4,
+  "review_count": 142,
+  "shipping": 2.99,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Crunchy baked oat clusters with almonds, sweetened with honey.",
+   "colour": null,
+   "sizes": null,
+   "material": null,
+   "dimensions": "500 g (17.6 oz) bag",
+   "in_box": "1 bag",
+   "condition": "new",
+   "allergens": "Contains oats and wheat (gluten), almonds and cashews (tree nuts).",
+   "care": "store in a cool, dry place"
+  },
+  "image": "img/granola-01.jpg",
+  "image_credit": {
+   "title": "Granola Blueberry Top",
+   "creator": "Bajinra",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Granola_Blueberry_Top.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "enriched": {
+   "short": "Honey almond granola",
+   "description": "Honey almond granola, which appears in the photo to be a mixture of rolled oats, whole almonds, cashews, and raisins.",
+   "facts": [
+    {
+     "label": "Description",
+     "value": "Crunchy baked oat clusters with almonds, sweetened with honey.",
+     "source": "listing"
+    },
+    {
+     "label": "Colour",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "500 g (17.6 oz) bag",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 bag",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "Contains almonds (tree nuts), oats and wheat (gluten).",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "store in a cool, dry place",
+     "source": "listing"
+    },
+    {
+     "label": "Visual appearance",
+     "value": "The photo appears to show a loose, textured mix of small pieces.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour?",
+     "a": "Not stated in the listing.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What are the dimensions of the product?",
+     "a": "It is a 500 g (17.6 oz) bag.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made of and how does it feel?",
+     "a": "Not stated in the listing.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "1 bag.",
+     "source": "listing"
+    },
+    {
+     "q": "What allergens and ingredients are present?",
+     "a": "Contains almonds (tree nuts), oats and wheat (gluten).",
+     "source": "listing"
+    },
+    {
+     "q": "What are the care or storage instructions?",
+     "a": "Store in a cool, dry place.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 142 reviews averaging 4.4 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "What is in it?",
+     "a": "The listing says it contains almonds (tree nuts), oats and wheat (gluten).",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "tea-01",
+    "chocolate-01",
+    "trail-mix-01"
+   ]
+  }
+ },
+ {
+  "id": "coffee-01",
+  "name": "Whole bean coffee, medium roast",
+  "category": "grocery",
+  "price": 14.0,
+  "rating": 4.7,
+  "review_count": 509,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Medium-roast whole coffee beans with notes of chocolate and caramel.",
+   "colour": null,
+   "sizes": null,
+   "material": null,
+   "dimensions": "340 g (12 oz) bag",
+   "in_box": "1 bag",
+   "condition": "new",
+   "allergens": "No major allergens declared.",
+   "care": "store sealed, away from light"
+  },
+  "image": "img/coffee-01.jpg",
+  "image_credit": {
+   "title": "Roasted coffee beans in white bowl",
+   "creator": "Alorin",
+   "license": "CC BY 4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Roasted_coffee_beans_in_white_bowl.png",
+   "license_url": "https://creativecommons.org/licenses/by/4.0"
+  },
+  "enriched": {
+   "short": "Whole bean coffee, medium roast",
+   "description": "Medium-roast whole coffee beans with notes of chocolate and caramel. The photo appears to show light brown coffee beans piled inside a small white bowl.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "340 g (12 oz) bag",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "1 bag",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "No major allergens declared.",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "store sealed, away from light",
+     "source": "listing"
+    },
+    {
+     "label": "Visual appearance",
+     "value": "The photo appears to show light brown whole coffee beans.",
+     "source": "photo"
+    },
+    {
+     "label": "Container",
+     "value": "The photo seems to show the beans in a white bowl.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour?",
+     "a": "The listing does not state a colour.",
+     "source": "listing"
+    },
+    {
+     "q": "What is the size and weight?",
+     "a": "It is a 340 g (12 oz) bag.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions?",
+     "a": "The listing provides the weight as 340 g (12 oz) bag.",
+     "source": "listing"
+    },
+    {
+     "q": "What is the material and texture?",
+     "a": "The listing does not state the material or texture.",
+     "source": "listing"
+    },
+    {
+     "q": "What is in the box?",
+     "a": "The package contains 1 bag.",
+     "source": "listing"
+    },
+    {
+     "q": "Are there any allergens or ingredients listed?",
+     "a": "No major allergens declared. The listing mentions medium-roast whole coffee beans with notes of chocolate and caramel.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the care instructions?",
+     "a": "Store sealed, away from light.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 509 reviews averaging 4.7 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Is the white bowl included with the product?",
+     "a": "The white bowl appears in the photo, but it is not stated whether it is included with the product.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "honey-01",
+    "trail-mix-01",
+    "tea-01"
+   ]
+  }
+ },
+ {
+  "id": "tea-01",
+  "name": "Loose-leaf green tea",
+  "category": "grocery",
+  "price": 7.5,
+  "rating": 4.5,
+  "review_count": 96,
+  "shipping": 2.99,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Loose-leaf green tea with a fresh, grassy taste.",
+   "colour": null,
+   "sizes": null,
+   "material": null,
+   "dimensions": "100 g (3.5 oz) tin",
+   "in_box": "1 tin",
+   "condition": "new",
+   "allergens": "No major allergens declared.",
+   "care": "store sealed, away from light"
+  },
+  "image": "img/tea-01.jpg",
+  "image_credit": {
+   "title": "Green tea 3 appearances",
+   "creator": "Alessandro Martini",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Green_tea_3_appearances.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "enriched": {
+   "short": "Loose-leaf green tea",
+   "description": "The photo seems to show loose-leaf green tea with dry green leaves in white bowls and a brewed cup of tea, though these serving dishes are not part of the product. The listing describes it as a loose-leaf green tea with a fresh, grassy taste.",
+   "facts": [
+    {
+     "label": "Category",
+     "value": "grocery",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "100 g (3.5 oz) tin",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "1 tin",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "No major allergens declared.",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "store sealed, away from light",
+     "source": "listing"
+    },
+    {
+     "label": "Appearance",
+     "value": "The photo appears to show dry green tea leaves and brewed yellow-green tea.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour of the tea?",
+     "a": "Not stated in the listing.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What are the dimensions of the tea package?",
+     "a": "It is a 100 g (3.5 oz) tin.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is the product made of?",
+     "a": "Not stated in the listing.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "1 tin is included.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the allergens and ingredients?",
+     "a": "No major allergens declared.",
+     "source": "listing"
+    },
+    {
+     "q": "How should this tea be stored?",
+     "a": "Store sealed, away from light.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 96 reviews averaging 4.5 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "What does the tea taste like?",
+     "a": "It has a fresh, grassy taste according to the listing.",
+     "source": "listing"
+    },
+    {
+     "q": "Are the bowls shown in the photo included?",
+     "a": "The photo appears to show bowls and a cup of brewed tea, but only the tin is included.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "granola-01",
+    "trail-mix-01",
+    "chocolate-01"
+   ]
+  }
+ },
+ {
+  "id": "chocolate-01",
+  "name": "Dark chocolate chunks, 70% cocoa",
+  "category": "grocery",
+  "price": 4.25,
+  "rating": 4.8,
+  "review_count": 731,
+  "shipping": 2.99,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Rough-cut chunks of dark chocolate with 70% cocoa solids, for baking or snacking.",
+   "colour": null,
+   "sizes": null,
+   "material": null,
+   "dimensions": "200 g (7 oz) resealable bag",
+   "in_box": "1 bag",
+   "condition": "new",
+   "allergens": "Contains milk and soy. May contain hazelnuts and almonds.",
+   "care": "store below 20 C"
+  },
+  "image": "img/chocolate-01.jpg",
+  "image_credit": {
+   "title": "Brownies with chocolate chunks",
+   "creator": "Rob Walker",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Brownies_with_chocolate_chunks.jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  },
+  "enriched": {
+   "short": "Dark chocolate chunks, 70% cocoa",
+   "description": "Rough-cut dark chocolate chunks with 70% cocoa solids. The photo seems to show rough, irregular dark pieces.",
+   "facts": [
+    {
+     "label": "Category",
+     "value": "grocery",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "200 g (7 oz) resealable bag",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 bag",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "Contains milk and soy. May contain hazelnuts and almonds.",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "store below 20 C",
+     "source": "listing"
+    },
+    {
+     "label": "Appearance",
+     "value": "The photo appears to show rough-cut pieces.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour?",
+     "a": "Not stated in the listing.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What are the dimensions and weight?",
+     "a": "It is a 200 g (7 oz) resealable bag.",
+     "source": "listing"
+    },
+    {
+     "q": "What is the material or texture?",
+     "a": "The listing describes them as rough-cut chunks of dark chocolate.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "1 bag is included.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the allergens and ingredients?",
+     "a": "Contains milk and soy. May contain hazelnuts and almonds.",
+     "source": "listing"
+    },
+    {
+     "q": "How should it be stored?",
+     "a": "Store below 20 C.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 731 reviews averaging 4.8 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "What is the cocoa content?",
+     "a": "It contains 70% cocoa solids.",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "granola-01",
+    "tea-01",
+    "trail-mix-01"
+   ]
+  }
+ },
+ {
+  "id": "honey-01",
+  "name": "Wildflower honey",
+  "category": "grocery",
+  "price": 11.0,
+  "rating": 4.9,
+  "review_count": 204,
+  "shipping": 3.99,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Raw wildflower honey in a plastic jar. Not suitable for infants under 12 months.",
+   "colour": null,
+   "sizes": null,
+   "material": null,
+   "dimensions": "454 g (1 lb) jar",
+   "in_box": "1 jar",
+   "condition": "new",
+   "allergens": "No major allergens declared.",
+   "care": "store at room temperature"
+  },
+  "image": "img/honey-01.jpg",
+  "image_credit": {
+   "title": "HoneyJar",
+   "creator": "Vicki Nunn",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:HoneyJar.JPG",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  },
+  "enriched": {
+   "short": "Wildflower honey",
+   "description": "Raw wildflower honey contained in a plastic jar. The photo seems to show a clear plastic jar filled with a dark amber liquid and topped with a bright yellow ribbed lid.",
+   "facts": [
+    {
+     "label": "Dimensions",
+     "value": "454 g (1 lb) jar",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 jar",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "No major allergens declared.",
+     "source": "listing"
+    },
+    {
+     "label": "Care instructions",
+     "value": "store at room temperature",
+     "source": "listing"
+    },
+    {
+     "label": "Lid appearance",
+     "value": "The photo appears to show a bright yellow ribbed lid.",
+     "source": "photo"
+    },
+    {
+     "label": "Jar appearance",
+     "value": "The photo seems to show a clear jar containing a dark liquid.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What exact colour is it?",
+     "a": "The listing does not state the colour, but the photo appears to show a dark amber liquid inside a clear jar with a yellow lid.",
+     "source": "photo"
+    },
+    {
+     "q": "What are the dimensions or capacity?",
+     "a": "It is a 454 g (1 lb) jar.",
+     "source": "listing"
+    },
+    {
+     "q": "What is the material and how does it feel?",
+     "a": "The listing states the jar is made of plastic.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The package contains 1 jar.",
+     "source": "listing"
+    },
+    {
+     "q": "Are there any allergens or specific ingredients?",
+     "a": "No major allergens declared. Not suitable for infants under 12 months.",
+     "source": "listing"
+    },
+    {
+     "q": "How should this product be stored?",
+     "a": "Store at room temperature.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 204 reviews averaging 4.9 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Is the honey raw?",
+     "a": "Yes, the listing describes it as raw wildflower honey.",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "trail-mix-01",
+    "coffee-01",
+    "tea-01"
+   ]
+  }
+ },
+ {
+  "id": "candle-01",
+  "name": "Scented soy candle",
+  "category": "home",
+  "price": 18.0,
+  "rating": 4.5,
+  "review_count": 267,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A soy wax candle in a glass jar, scented with vanilla and cedar.",
+   "colour": "white wax in a clear glass jar",
+   "sizes": null,
+   "material": "soy wax, cotton wick, glass jar",
+   "dimensions": "about 40 hours burn time",
+   "in_box": "1 candle",
+   "condition": "new",
+   "allergens": null,
+   "care": "trim wick before lighting; never leave burning unattended"
+  },
+  "image": "img/candle-01.jpg",
+  "image_credit": {
+   "title": "Yahrtzeit candle",
+   "creator": "Elipongo",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Yahrtzeit_candle.JPG",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  },
+  "enriched": {
+   "short": "White scented soy candle in glass jar",
+   "description": "The product appears to be a white wax candle burning inside a clear glass jar on a dark surface.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "white wax in a clear glass jar",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "soy wax, cotton wick, glass jar",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "about 40 hours burn time",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 candle",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "trim wick before lighting; never leave burning unattended",
+     "source": "listing"
+    },
+    {
+     "label": "Visual appearance",
+     "value": "The photo seems to show a lit candle with a glowing flame.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour of the item?",
+     "a": "The listing states the colour is white wax in a clear glass jar.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions or size?",
+     "a": "The listing gives dimensions as about 40 hours burn time.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made from and how does it feel?",
+     "a": "It is made of soy wax, a cotton wick, and a glass jar.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The box contains 1 candle.",
+     "source": "listing"
+    },
+    {
+     "q": "How should I care for or clean this item?",
+     "a": "Trim the wick before lighting and never leave burning unattended.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 267 reviews averaging 4.5 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "What scent is the candle?",
+     "a": "It is scented with vanilla and cedar.",
+     "source": "listing"
+    },
+    {
+     "q": "Is the candle currently burning in the picture?",
+     "a": "The photo appears to show the candle lit with a visible flame.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "planter-01",
+    "clock-01",
+    "towel-01"
+   ]
+  }
+ },
+ {
+  "id": "blanket-01",
+  "name": "Lace-knit throw blanket",
+  "category": "home",
+  "price": 42.0,
+  "rating": 4.6,
+  "review_count": 158,
+  "shipping": 0.0,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A light, open lace-knit throw for the sofa or the end of the bed.",
+   "colour": "pale grey",
+   "sizes": null,
+   "material": "100% cotton",
+   "dimensions": "127 x 152 cm (50 x 60 inch)",
+   "in_box": "1 throw",
+   "condition": "new",
+   "allergens": null,
+   "care": "machine wash cold, gentle cycle"
+  },
+  "image": "img/blanket-01.jpg",
+  "image_credit": {
+   "title": "Frost Flowers lace baby blanket, detail",
+   "creator": "Lisa Dusseault",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Frost_Flowers_lace_baby_blanket,_detail.jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  },
+  "enriched": {
+   "short": "Pale grey lace-knit throw blanket",
+   "description": "A pale grey 100% cotton lace-knit throw blanket designed for the sofa or bed. The photo seems to show a delicate, open lace pattern with scalloped edges and light green undertones.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "pale grey",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "100% cotton",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "127 x 152 cm (50 x 60 inch)",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 throw",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "machine wash cold, gentle cycle",
+     "source": "listing"
+    },
+    {
+     "label": "Pattern",
+     "value": "The photo appears to show an intricate openwork lace pattern.",
+     "source": "photo"
+    },
+    {
+     "label": "Edge",
+     "value": "The photo seems to show a scalloped decorative border pinned down.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What exact colour is the throw blanket?",
+     "a": "The listing states the colour is pale grey.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions of the throw blanket?",
+     "a": "The dimensions are 127 x 152 cm (50 x 60 inch).",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made from?",
+     "a": "It is made from 100% cotton.",
+     "source": "listing"
+    },
+    {
+     "q": "What does the texture and pattern look like?",
+     "a": "The photo appears to show a light, open lace-knit texture with a detailed pattern and scalloped edges.",
+     "source": "photo"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The box contains 1 throw blanket.",
+     "source": "listing"
+    },
+    {
+     "q": "How should this blanket be cared for or cleaned?",
+     "a": "The listing recommends machine wash cold on a gentle cycle.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say about this blanket?",
+     "a": "It has 158 reviews averaging 4.6 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Are there any available sizes listed?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "lamp-01",
+    "towel-01",
+    "clock-01"
+   ]
+  }
+ },
+ {
+  "id": "lamp-01",
+  "name": "Adjustable desk lamp",
+  "category": "home",
+  "price": 46.0,
+  "rating": 4.3,
+  "review_count": 211,
+  "shipping": 5.99,
+  "delivery_days": 5,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A desk lamp with an adjustable arm and head.",
+   "colour": "chrome and black",
+   "sizes": null,
+   "material": "metal",
+   "dimensions": null,
+   "in_box": "lamp",
+   "condition": "new",
+   "allergens": null,
+   "care": "unplug before cleaning"
+  },
+  "image": "img/lamp-01.jpg",
+  "image_credit": {
+   "title": "Equipoise desk-lamp prototype, designed and manufactured by George Carwardine, 1932 - Design Museum, Kensington - London - DSC01574",
+   "creator": "Daderot",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Equipoise_desk-lamp_prototype,_designed_and_manufactured_by_George_Carwardine,_1932_-_Design_Museum,_Kensington_-_London_-_DSC01574.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "enriched": {
+   "short": "Adjustable chrome and black desk lamp",
+   "description": "This is an adjustable desk lamp in chrome and black. The photo seems to show a metal body with a pivoting arm and a conical shade mounted on a dark base.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "chrome and black",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "metal",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "lamp",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "unplug before cleaning",
+     "source": "listing"
+    },
+    {
+     "label": "Appearance",
+     "value": "The photo appears to show an articulated arm with exposed springs.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour of the lamp?",
+     "a": "The listing states the colour is chrome and black.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions or size of the lamp?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What material is it made of and how does it feel?",
+     "a": "The listing states it is made of metal.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The box includes the lamp.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the care or cleaning instructions?",
+     "a": "The listing states to unplug before cleaning.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 211 reviews averaging 4.3 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "How is the arm adjusted?",
+     "a": "The photo appears to show an articulating arm held together with springs.",
+     "source": "photo"
+    },
+    {
+     "q": "Does the lamp have a shade?",
+     "a": "The photo seems to show a metal conical shade at the end of the arm.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "blanket-01",
+    "towel-01",
+    "clock-01"
+   ]
+  }
+ },
+ {
+  "id": "planter-01",
+  "name": "Ceramic plant pot",
+  "category": "home",
+  "price": 16.5,
+  "rating": 4.4,
+  "review_count": 77,
+  "shipping": 3.99,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A glazed ceramic plant pot with a drainage hole.",
+   "colour": "teal blue glaze",
+   "sizes": null,
+   "material": "glazed ceramic",
+   "dimensions": "15 cm (6 inch) diameter",
+   "in_box": "1 pot",
+   "condition": "new",
+   "allergens": null,
+   "care": "wipe clean"
+  },
+  "image": "img/planter-01.jpg",
+  "image_credit": {
+   "title": "Flower pot with five circular drainage holes, Jun ware, China, Yuxian, Henan, Northern Song dynasty, c. 1100-1127, stoneware with glaze - Asian Art Museum - San Francisco, CA - DSC07197",
+   "creator": "Daderot",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Flower_pot_with_five_circular_drainage_holes,_Jun_ware,_China,_Yuxian,_Henan,_Northern_Song_dynasty,_c._1100-1127,_stoneware_with_glaze_-_Asian_Art_Museum_-_San_Francisco,_CA_-_DSC07197.jpg",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  },
+  "enriched": {
+   "short": "Teal blue glazed ceramic plant pot",
+   "description": "A new teal blue glazed ceramic plant pot. The photo seems to show a flared rim, rounded body, and a small pedestal base.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "teal blue glaze",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "glazed ceramic",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "15 cm (6 inch) diameter",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "1 pot",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "wipe clean",
+     "source": "listing"
+    },
+    {
+     "label": "Visible appearance",
+     "value": "The photo appears to show a flared opening at the top and a rounded body.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour?",
+     "a": "The listing states the colour is teal blue glaze.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions or capacity?",
+     "a": "The dimensions are 15 cm (6 inch) diameter.",
+     "source": "listing"
+    },
+    {
+     "q": "What is the material and how does it feel?",
+     "a": "It is made of glazed ceramic.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The box includes 1 pot.",
+     "source": "listing"
+    },
+    {
+     "q": "How do I care for or clean it?",
+     "a": "The care instructions are to wipe clean.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 77 reviews averaging 4.4 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Does it have a drainage hole?",
+     "a": "Yes, the description states it has a drainage hole.",
+     "source": "listing"
+    },
+    {
+     "q": "What is the overall shape shown in the photo?",
+     "a": "The photo seems to show a wide flared rim that tapers down to a rounded body and a small base.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "candle-01",
+    "clock-01",
+    "towel-01"
+   ]
+  }
+ },
+ {
+  "id": "towel-01",
+  "name": "Cotton bath towel set",
+  "category": "home",
+  "price": 29.0,
+  "rating": 4.5,
+  "review_count": 340,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A set of soft, absorbent cotton bath towels.",
+   "colour": "coral pink",
+   "sizes": null,
+   "material": "100% cotton terry",
+   "dimensions": "bath towel 70 x 140 cm, hand towel 40 x 70 cm",
+   "in_box": "1 bath towel, 1 hand towel",
+   "condition": "new",
+   "allergens": null,
+   "care": "machine wash warm, tumble dry"
+  },
+  "image": "img/towel-01.jpg",
+  "image_credit": {
+   "title": "Bathroom towels",
+   "creator": "Toilet_view.jpg: Jessica F.; derivative work: Vearthy (talk)",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Bathroom_towels.jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  },
+  "enriched": {
+   "short": "Coral pink cotton bath towel set",
+   "description": "A set of soft, absorbent 100% cotton terry bath and hand towels. The photo appears to show a coral pink bath towel and a smaller hand towel hanging neatly side by side on a metal wall-mounted towel bar.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "coral pink",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "100% cotton terry",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "bath towel 70 x 140 cm, hand towel 40 x 70 cm",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "1 bath towel, 1 hand towel",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "machine wash warm, tumble dry",
+     "source": "listing"
+    },
+    {
+     "label": "Hanging arrangement",
+     "value": "The photo seems to show the towels draped over a metal towel bar.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What exact colour are the towels?",
+     "a": "The listing states the colour is coral pink.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions of the towels?",
+     "a": "The bath towel is 70 x 140 cm, and the hand towel is 40 x 70 cm.",
+     "source": "listing"
+    },
+    {
+     "q": "What material are they made of and how do they feel?",
+     "a": "They are made of 100% cotton terry, described as soft and absorbent.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The set includes one bath towel and one hand towel.",
+     "source": "listing"
+    },
+    {
+     "q": "How should I care for and clean these towels?",
+     "a": "Machine wash warm and tumble dry.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 340 reviews averaging 4.5 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Are there any visible patterns or decorative borders?",
+     "a": "The photo appears to show a woven decorative border near the bottom edge of each towel.",
+     "source": "photo"
+    },
+    {
+     "q": "How are the towels displayed in the image?",
+     "a": "The photo seems to show both towels draped over a horizontal metal bar attached to a wall.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "clock-01",
+    "candle-01",
+    "planter-01"
+   ]
+  }
+ },
+ {
+  "id": "clock-01",
+  "name": "Round wall clock",
+  "category": "home",
+  "price": 24.99,
+  "rating": 4.2,
+  "review_count": 119,
+  "shipping": 4.99,
+  "delivery_days": 5,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A round wall clock with a silent sweep movement and clear numbers.",
+   "colour": "dark brown frame, cream face, black numbers",
+   "sizes": null,
+   "material": null,
+   "dimensions": "30 cm (12 inch) diameter",
+   "in_box": "clock (1 AA battery not included)",
+   "condition": "new",
+   "allergens": null,
+   "care": "dust with a dry cloth"
+  },
+  "image": "img/clock-01.jpg",
+  "image_credit": {
+   "title": "Antique Wooden SEC Wall Clock",
+   "creator": "Amitbalani",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Antique_Wooden_SEC_Wall_Clock.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "enriched": {
+   "short": "Round wall clock with dark brown frame",
+   "description": "A round wall clock featuring a dark brown frame, a cream face, and black numbers. The photo appears to show a traditional analog clock face.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "dark brown frame, cream face, black numbers",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "30 cm (12 inch) diameter",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "clock (1 AA battery not included)",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "dust with a dry cloth",
+     "source": "listing"
+    },
+    {
+     "label": "Visual appearance",
+     "value": "The photo seems to show an analog clock with Arabic numerals.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour?",
+     "a": "It has a dark brown frame, a cream face, and black numbers.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions?",
+     "a": "It has a 30 cm (12 inch) diameter.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made of?",
+     "a": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The box contains the clock, though one AA battery is not included.",
+     "source": "listing"
+    },
+    {
+     "q": "How do you care for or clean it?",
+     "a": "Dust with a dry cloth.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 119 reviews averaging 4.2 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Does it have a silent movement?",
+     "a": "Yes, the listing states it features a silent sweep movement.",
+     "source": "listing"
+    },
+    {
+     "q": "What numbers are displayed on the clock face?",
+     "a": "The photo appears to show standard Arabic numerals from 1 through 12.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "towel-01",
+    "candle-01",
+    "planter-01"
+   ]
+  }
+ },
+ {
+  "id": "puzzle-01",
+  "name": "1000-piece jigsaw puzzle",
+  "category": "gifts",
+  "price": 19.99,
+  "rating": 4.6,
+  "review_count": 188,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A 1000-piece jigsaw puzzle for adults.",
+   "colour": null,
+   "sizes": null,
+   "material": "recycled cardboard",
+   "dimensions": "finished puzzle 69 x 51 cm",
+   "in_box": "1000 pieces",
+   "condition": "new",
+   "allergens": null,
+   "care": null
+  },
+  "image": "img/puzzle-01.jpg",
+  "image_credit": {
+   "title": "Red jigsaw puzzle pieces 2",
+   "creator": "Profpcde",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Red_jigsaw_puzzle_pieces_2.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "enriched": {
+   "short": "1000-piece jigsaw puzzle made of recycled cardboard",
+   "description": "A 1000-piece jigsaw puzzle for adults, made of recycled cardboard with finished puzzle dimensions of 69 by 51 cm. The photo seems to show scattered puzzle pieces on a wooden table, featuring shades of red, white, and dark tones with mottled patterns.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "recycled cardboard",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "finished puzzle 69 x 51 cm",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1000 pieces",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Piece Appearance",
+     "value": "The photo appears to show red and white mottled puzzle pieces scattered on a wooden surface.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour of the puzzle?",
+     "a": "Not stated in the listing.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions and finished size?",
+     "a": "The finished puzzle dimensions are 69 by 51 cm.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made of and how does it feel?",
+     "a": "It is made of recycled cardboard.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The box contains 1000 pieces.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the care or cleaning instructions?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 188 reviews averaging 4.6 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "What pattern or design is visible on the pieces?",
+     "a": "The photo seems to show pieces with mottled red and white patterns.",
+     "source": "photo"
+    },
+    {
+     "q": "Is the wooden surface shown in the photo included?",
+     "a": "No, the wooden surface is a prop and is not part of the product.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "teddy-01",
+    "journal-01",
+    "paints-01"
+   ]
+  }
+ },
+ {
+  "id": "journal-01",
+  "name": "Pocket leather notebook",
+  "category": "gifts",
+  "price": 24.0,
+  "rating": 4.7,
+  "review_count": 95,
+  "shipping": 0.0,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A pocket-sized notebook with a textured leather cover and plain pages.",
+   "colour": "tan brown",
+   "sizes": null,
+   "material": "leather cover, 120 pages of 100 gsm paper",
+   "dimensions": "A6 (10.5 x 15 cm)",
+   "in_box": "1 journal",
+   "condition": "new",
+   "allergens": null,
+   "care": null
+  },
+  "image": "img/journal-01.jpg",
+  "image_credit": {
+   "title": "Leather notebook (Unsplash)",
+   "creator": "Kelly Jean kellyjean",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Leather_notebook_(Unsplash).jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "enriched": {
+   "short": "Tan brown pocket leather notebook",
+   "description": "This is a pocket-sized notebook with a textured leather cover and plain pages. The listing states the colour is tan brown and the material includes a leather cover with 120 pages of 100 gsm paper. The photo seems to show a silver-coloured pen and a metal binder clip placed next to the notebook, which are not included.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "tan brown",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "leather cover, 120 pages of 100 gsm paper",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "A6 (10.5 x 15 cm)",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 journal",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Visible props",
+     "value": "The photo appears to show a pen and a binder clip beside the notebook.",
+     "source": "photo"
+    },
+    {
+     "label": "Cover appearance",
+     "value": "The photo seems to show a textured pattern on the cover.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What exact colour is the notebook?",
+     "a": "The listing states the colour is tan brown.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions and size?",
+     "a": "The listing states the dimensions are A6 (10.5 x 15 cm).",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made of and how does it feel?",
+     "a": "The listing states it has a leather cover and 120 pages of 100 gsm paper.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The listing states the box contains 1 journal.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the care or cleaning instructions?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 95 reviews averaging 4.7 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Are there any other items shown in the photo that come with it?",
+     "a": "The photo appears to show a pen and a metal binder clip, but the listing specifies only 1 journal is included.",
+     "source": "photo"
+    },
+    {
+     "q": "What kind of pages does the notebook have?",
+     "a": "The listing states it features plain pages.",
+     "source": "listing"
+    }
+   ],
+   "similar": [
+    "teddy-01",
+    "paints-01",
+    "puzzle-01"
+   ]
+  }
+ },
+ {
+  "id": "teddy-01",
+  "name": "Classic teddy bear",
+  "category": "gifts",
+  "price": 21.5,
+  "rating": 4.8,
+  "review_count": 263,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A soft, huggable plush teddy bear with stitched eyes and nose. Suitable from birth.",
+   "colour": "cream",
+   "sizes": null,
+   "material": "polyester plush, polyester fibre filling",
+   "dimensions": "30 cm (12 inch) tall",
+   "in_box": "1 teddy bear",
+   "condition": "new",
+   "allergens": null,
+   "care": "surface wash only"
+  },
+  "image": "img/teddy-01.jpg",
+  "image_credit": {
+   "title": "Toy, teddy (AM 1999.141.1-1)",
+   "creator": "Cyclops",
+   "license": "CC BY 4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Toy,_teddy_(AM_1999.141.1-1).jpg",
+   "license_url": "https://creativecommons.org/licenses/by/4.0"
+  },
+  "enriched": {
+   "short": "Classic cream teddy bear",
+   "description": "The photo seems to show a soft, cream-colored plush teddy bear with dark stitched eyes and a black stitched nose. A measuring tape appears alongside it in the image.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "cream",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "polyester plush, polyester fibre filling",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "30 cm (12 inch) tall",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "1 teddy bear",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "surface wash only",
+     "source": "listing"
+    },
+    {
+     "label": "Visible Details",
+     "value": "The photo seems to show dark stitched eyes and nose.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What exact colour is the teddy bear?",
+     "a": "The listing states the colour is cream.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions of the teddy bear?",
+     "a": "The listing states it is 30 cm (12 inch) tall.",
+     "source": "listing"
+    },
+    {
+     "q": "What material is it made of and how does it feel?",
+     "a": "The listing states it is made of polyester plush with polyester fibre filling and describes it as soft and huggable.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The listing states it includes 1 teddy bear.",
+     "source": "listing"
+    },
+    {
+     "q": "How should I care for or clean it?",
+     "a": "The listing states surface wash only.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 263 reviews averaging 4.8 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "What facial features can be seen in the photo?",
+     "a": "The photo seems to show dark stitched eyes and a black stitched nose.",
+     "source": "photo"
+    },
+    {
+     "q": "Is a measuring tape included in the product?",
+     "a": "The measuring tape shown in the photo is for scale only and is not part of the product.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "puzzle-01",
+    "journal-01",
+    "paints-01"
+   ]
+  }
+ },
+ {
+  "id": "paints-01",
+  "name": "Watercolour paint set",
+  "category": "gifts",
+  "price": 27.0,
+  "rating": 4.5,
+  "review_count": 142,
+  "shipping": 3.99,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A travel watercolour set of pans in a hinged tin.",
+   "colour": "assorted",
+   "sizes": null,
+   "material": null,
+   "dimensions": null,
+   "in_box": "paint tray with colour pans, brushes",
+   "condition": "new",
+   "allergens": null,
+   "care": null
+  },
+  "image": "img/paints-01.jpg",
+  "image_credit": {
+   "title": "Soil watercolor paints used by Northern Arapaho artist Colleen Friday and Adrienne Vetter (53070193587)",
+   "creator": "YellowstoneNPS",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Soil_watercolor_paints_used_by_Northern_Arapaho_artist_Colleen_Friday_and_Adrienne_Vetter_(53070193587).jpg",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  },
+  "enriched": {
+   "short": "Watercolour paint set in assorted colours",
+   "description": "A travel watercolour set of pans in a hinged tin. The photo seems to show a tray filled with numerous small square paint pans in assorted colours alongside several paintbrushes.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "assorted",
+     "source": "listing"
+    },
+    {
+     "label": "Sizes",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Dimensions",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "In the box",
+     "value": "paint tray with colour pans, brushes",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Allergens",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Visual appearance",
+     "value": "The photo appears to show numerous small square paint pans inside a tray with brushes.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What exact colour is the watercolour paint set?",
+     "a": "The listing states the colour is assorted.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the size and dimensions of the set?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What material is it made of and how does it feel?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The listing states it includes a paint tray with colour pans and brushes.",
+     "source": "listing"
+    },
+    {
+     "q": "How do you care for or clean this set?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What do the reviews say?",
+     "a": "It has 142 reviews averaging 4.5 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Are the paint pans removable?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What kind of brushes are included?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "not_stated"
+    }
+   ],
+   "similar": [
+    "journal-01",
+    "teddy-01",
+    "puzzle-01"
+   ]
+  }
+ },
+ {
+  "id": "chess-01",
+  "name": "Wooden chess set",
+  "category": "gifts",
+  "price": 45.0,
+  "rating": 4.6,
+  "review_count": 176,
+  "shipping": 6.99,
+  "delivery_days": 6,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A classic wooden chess set with a board and 32 pieces.",
+   "colour": "light and dark wood",
+   "sizes": null,
+   "material": "wood",
+   "dimensions": null,
+   "in_box": "board, 32 chess pieces",
+   "condition": "new",
+   "allergens": null,
+   "care": "wipe with a dry cloth"
+  },
+  "image": "img/chess-01.jpg",
+  "image_credit": {
+   "title": "Chess game Staunton No. 6 perfil view 8",
+   "creator": "Wilfredor",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Chess_game_Staunton_No._6_perfil_view_8.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  },
+  "enriched": {
+   "short": "Classic wooden chess set in light and dark wood",
+   "description": "A classic wooden chess set with a board and thirty-two pieces, crafted from wood in light and dark wood tones. The photo seems to show a full set of carved wooden chess pieces arranged on the board, plus two extra spare pieces placed on the side.",
+   "facts": [
+    {
+     "label": "Colour",
+     "value": "light and dark wood",
+     "source": "listing"
+    },
+    {
+     "label": "Material",
+     "value": "wood",
+     "source": "listing"
+    },
+    {
+     "label": "In box",
+     "value": "board, 32 chess pieces",
+     "source": "listing"
+    },
+    {
+     "label": "Condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "Care",
+     "value": "wipe with a dry cloth",
+     "source": "listing"
+    },
+    {
+     "label": "Design details",
+     "value": "The photo appears to show traditional carved chess pieces with numbered and lettered coordinates along the board edges.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What colour is the chess set?",
+     "a": "The listing states the colour is light and dark wood.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions of the board?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "not_stated"
+    },
+    {
+     "q": "What material is it made from?",
+     "a": "The listing states the material is wood.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The listing states it includes a board and 32 chess pieces.",
+     "source": "listing"
+    },
+    {
+     "q": "How should I care for and clean the chess set?",
+     "a": "The listing states to wipe it with a dry cloth.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say about this chess set?",
+     "a": "It has 176 reviews averaging 4.6 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "Are there any extra pieces visible in the photo?",
+     "a": "The photo seems to show two extra spare pieces placed on the left side, outside of the main board setup.",
+     "source": "photo"
+    },
+    {
+     "q": "Are the board coordinates clearly visible?",
+     "a": "The photo appears to show letters along the bottom edge and numbers along the side edges.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "pen-01",
+    "paints-01",
+    "journal-01"
+   ]
+  }
+ },
+ {
+  "id": "pen-01",
+  "name": "Fountain pen",
+  "category": "gifts",
+  "price": 35.0,
+  "rating": 4.4,
+  "review_count": 58,
+  "shipping": 0.0,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A refillable fountain pen with a medium steel nib.",
+   "colour": "green marbled with gold-coloured trim",
+   "sizes": null,
+   "material": "steel nib",
+   "dimensions": null,
+   "in_box": "pen, 2 ink cartridges",
+   "condition": "new",
+   "allergens": null,
+   "care": null
+  },
+  "image": "img/pen-01.jpg",
+  "image_credit": {
+   "title": "Vintage Wearever Combination Fountain Pen and Mechanical Pencil (10297046826)",
+   "creator": "Joe Haupt from USA",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Vintage_Wearever_Combination_Fountain_Pen_and_Mechanical_Pencil_(10297046826).jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  },
+  "enriched": {
+   "short": "Fountain pen in green marbled with gold-coloured trim",
+   "description": "This is a refillable fountain pen in green marbled with gold-coloured trim, featuring a medium steel nib. The photo appears to show a marbled pattern body with a separate cap and a metal clip.",
+   "facts": [
+    {
+     "label": "colour",
+     "value": "green marbled with gold-coloured trim",
+     "source": "listing"
+    },
+    {
+     "label": "sizes",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "material",
+     "value": "steel nib",
+     "source": "listing"
+    },
+    {
+     "label": "dimensions",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "in_box",
+     "value": "pen, 2 ink cartridges",
+     "source": "listing"
+    },
+    {
+     "label": "condition",
+     "value": "new",
+     "source": "listing"
+    },
+    {
+     "label": "allergens",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "care",
+     "value": "Not stated",
+     "source": "listing"
+    },
+    {
+     "label": "Visual appearance",
+     "value": "The photo appears to show a marbled green body and cap with metallic trim.",
+     "source": "photo"
+    }
+   ],
+   "qa": [
+    {
+     "q": "What is the exact colour of the fountain pen?",
+     "a": "The listing states the colour is green marbled with gold-coloured trim.",
+     "source": "listing"
+    },
+    {
+     "q": "What are the dimensions or size of the pen?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "listing"
+    },
+    {
+     "q": "What materials is it made from?",
+     "a": "The listing specifies a steel nib.",
+     "source": "listing"
+    },
+    {
+     "q": "What is included in the box?",
+     "a": "The box contains the pen and 2 ink cartridges.",
+     "source": "listing"
+    },
+    {
+     "q": "How do you care for or clean the pen?",
+     "a": "Not stated in the listing. You could ask the seller.",
+     "source": "listing"
+    },
+    {
+     "q": "What do the reviews say about this pen?",
+     "a": "It has 58 reviews averaging 4.4 out of 5 stars.",
+     "source": "listing"
+    },
+    {
+     "q": "What does the pen look like in the photo?",
+     "a": "The photo seems to show a marbled green finish with gold-toned metal accents and a removable cap.",
+     "source": "photo"
+    },
+    {
+     "q": "Is the nib visible in the photo?",
+     "a": "The photo appears to show a metallic nib section at the front of the pen.",
+     "source": "photo"
+    }
+   ],
+   "similar": [
+    "paints-01",
+    "chess-01",
+    "journal-01"
+   ]
+  }
+ }
+]

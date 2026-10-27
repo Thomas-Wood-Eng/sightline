@@ -1,0 +1,94 @@
+{
+ "short": "Adjustable chrome and black desk lamp",
+ "description": "This is an adjustable desk lamp in chrome and black. The photo seems to show a metal body with a pivoting arm and a conical shade mounted on a dark base.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "chrome and black",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "metal",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "lamp",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "unplug before cleaning",
+   "source": "listing"
+  },
+  {
+   "label": "Appearance",
+   "value": "The photo appears to show an articulated arm with exposed springs.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour of the lamp?",
+   "a": "The listing states the colour is chrome and black.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions or size of the lamp?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What material is it made of and how does it feel?",
+   "a": "The listing states it is made of metal.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The box includes the lamp.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the care or cleaning instructions?",
+   "a": "The listing states to unplug before cleaning.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 211 reviews averaging 4.3 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "How is the arm adjusted?",
+   "a": "The photo appears to show an articulating arm held together with springs.",
+   "source": "photo"
+  },
+  {
+   "q": "Does the lamp have a shade?",
+   "a": "The photo seems to show a metal conical shade at the end of the arm.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

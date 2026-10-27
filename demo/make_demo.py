@@ -7,11 +7,15 @@
 Shopper input is typed by the script (narrated as speech); everything the app says and does is real.
 """
 import hashlib
+import io
 import json
 import os
+import re
+import struct
 import subprocess
 import sys
 import time
+import urllib.error
 import urllib.request
 import wave
 from pathlib import Path
@@ -60,28 +64,118 @@ SCRIPT = [
 
 
 # ---------- speech ----------
-def tts(text, who):
-    """Gemini TTS -> cached wav path. The API returns a complete WAV file, so the bytes are saved as-is."""
+# Narrator and shopper: Gemini TTS (most natural; free tier = 10 clips/day per model, so rotate models and cache).
+# Sightline: local Kokoro (unlimited; its even delivery suits a screen-reader-style assistant). If Gemini's daily
+# quota is gone, Kokoro voices stand in so a render always finishes; the next run retries Gemini for those clips.
+GEMINI_TTS = ['gemini-3.8-flash-tts', 'gemini-3.1-flash-tts-preview', 'gemini-3.8-flash-lite-tts', 'gemini-2.5-flash-preview-tts']
+KOKORO_VOICES = {'sightline': 'af_heart', 'narrator': 'bm_george', 'you': 'am_puck'}
+_spent = set()   # Gemini models whose daily quota ran out this run
+_kokoro = None
+
+
+def _gemini(text, who, path):
     from google.genai import types
     from app.llm import client
-    TTS.mkdir(parents=True, exist_ok=True)
-    path = TTS / (hashlib.sha1(f'{who}|{text}'.encode()).hexdigest()[:16] + '.wav')
-    if not path.exists():
-        prompt = {'narrator': 'Read like a calm documentary narrator: ', 'you': 'Say naturally, like a person talking to an assistant: ',
-                  'sightline': 'Read clearly and briskly, like a helpful screen reader voice: '}[who] + text
-        for attempt in range(5):
-            try:
-                r = client().models.generate_content(
-                    model='gemini-3.8-flash-tts', contents=prompt,
-                    config=types.GenerateContentConfig(response_modalities=['AUDIO'], speech_config=types.SpeechConfig(
-                        voice_config=types.VoiceConfig(prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=VOICES[who])))))
-                path.write_bytes(r.candidates[0].content.parts[0].inline_data.data)
+    prompt = {'narrator': 'Read like a calm, warm documentary narrator: ',
+              'you': 'Say naturally, like a person casually talking to a voice assistant: '}[who] + text
+    config = types.GenerateContentConfig(response_modalities=['AUDIO'], speech_config=types.SpeechConfig(
+        voice_config=types.VoiceConfig(prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=VOICES[who]))))
+    for model in GEMINI_TTS:
+        for attempt in (1, 2):  # second try only after a per-minute limit (3/min)
+            if model in _spent:
                 break
-            except Exception as e:  # free tier: back off on 429/503
-                print(f'  tts retry {attempt + 1}: {str(e)[:80]}')
-                time.sleep(10 * (attempt + 1))
+            try:
+                r = client().models.generate_content(model=model, contents=prompt, config=config)
+                path.write_bytes(r.candidates[0].content.parts[0].inline_data.data)  # already a complete WAV file
+                return True
+            except Exception as e:
+                print(f'  {model}: {str(e)[:70]}')
+                if attempt == 2 or 'PerDay' in str(e) or 'NOT_FOUND' in str(e) or '404' in str(e):
+                    _spent.add(model)
+                else:
+                    time.sleep(25)
+    return False
+
+
+def _kokoro_tts(text, who, path):
+    global _kokoro
+    import soundfile as sf
+    from kokoro_onnx import Kokoro
+    if _kokoro is None:
+        _kokoro = Kokoro(str(ROOT / 'demo/models/kokoro-v1.0.onnx'), str(ROOT / 'demo/models/voices-v1.0.bin'))
+    audio, sr = _kokoro.create(text, voice=KOKORO_VOICES[who], speed=1.0, lang='en-us')
+    sf.write(str(path), audio, sr)
+
+
+# Orpheus (Groq, free key in .env as GROQ_API_KEY): the most expressive voices; tried first for every role.
+ORPHEUS_VOICES = {'narrator': 'daniel', 'you': 'hannah', 'sightline': 'diana'}
+_orpheus_off = False
+
+
+def _fix_wav(raw):
+    """Groq streams WAV with placeholder RIFF/data lengths; rewrite them from the real byte count."""
+    i = raw.find(b'data')
+    if raw[:4] != b'RIFF' or i < 0:
+        return raw
+    out = bytearray(raw)
+    struct.pack_into('<I', out, 4, len(raw) - 8)
+    struct.pack_into('<I', out, i + 4, len(raw) - (i + 8))
+    return bytes(out)
+
+
+def _orpheus(text, who, path):
+    global _orpheus_off
+    env = dict(l.split('=', 1) for l in (ROOT / '.env').read_text().splitlines() if '=' in l)
+    key = os.environ.get('GROQ_API_KEY') or env.get('GROQ_API_KEY', '').strip()
+    if _orpheus_off or not key:
+        return False
+    # short requests sound best and stay under per-request input limits: one sentence group per call, then join
+    chunks, cur = [], ''
+    for s in re.split(r'(?<=[.!?])\s+', text.strip()):
+        if cur and len(cur) + len(s) > 180:
+            chunks.append(cur)
+            cur = s
         else:
-            raise RuntimeError(f'TTS failed for: {text[:60]}')
+            cur = f'{cur} {s}'.strip()
+    chunks.append(cur)
+    frames, params = [], None
+    for c in chunks:
+        req = urllib.request.Request('https://api.groq.com/openai/v1/audio/speech', method='POST', data=json.dumps(
+            {'model': 'canopylabs/orpheus-v1-english', 'input': c, 'voice': ORPHEUS_VOICES[who], 'response_format': 'wav'}).encode(),
+            headers={'Authorization': f'Bearer {key}', 'Content-Type': 'application/json'})
+        try:
+            raw = _fix_wav(urllib.request.urlopen(req, timeout=60).read())
+        except urllib.error.HTTPError as e:
+            print(f'  orpheus HTTP {e.code}: {e.read().decode(errors="replace")[:160]}')
+            if e.code in (400, 401, 403) or 'day' in str(e).lower():
+                _orpheus_off = True   # bad key, terms not accepted, or daily limit: stop trying this run
+            return False
+        except OSError as e:
+            print(f'  orpheus network: {e}')
+            return False
+        with wave.open(io.BytesIO(raw)) as w:
+            params = params or w.getparams()
+            frames.append(w.readframes(w.getnframes()))
+    with wave.open(str(path), 'wb') as w:
+        w.setparams(params)
+        w.writeframes(b''.join(frames))
+    return True
+
+
+def tts(text, who):
+    """-> (cached wav path, seconds). Orpheus first, then Gemini (narrator/shopper), then local Kokoro."""
+    TTS.mkdir(parents=True, exist_ok=True)
+    key = hashlib.sha1(f'{who}|{text}'.encode()).hexdigest()[:16]
+    orp, gem, kok = TTS / f'{key}.orpheus.wav', TTS / f'{key}.wav', TTS / f'{key}.kokoro.wav'
+    path = next((p for p in (orp, gem) if p.exists()), None)
+    if path is None and _orpheus(text, who, orp):
+        path = orp
+    if path is None and who != 'sightline' and len(_spent) < len(GEMINI_TTS) and _gemini(text, who, gem):
+        path = gem
+    if path is None:
+        if not kok.exists():
+            _kokoro_tts(text, who, kok)
+        path = kok
     with wave.open(str(path)) as w:
         return path, w.getnframes() / w.getframerate()
 

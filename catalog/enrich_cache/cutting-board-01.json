@@ -1,0 +1,94 @@
+{
+ "short": "Plastic cutting board in lime green",
+ "description": "The photo seems to show a plastic cutting board in lime green. It appears to be rectangular with a handle cutout on the right side. The listing describes it as a lightweight, flexible-edged chopping board that is easy to clean. Please note that the food items shown on the board in the photo are not included with the product.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "lime green",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "polypropylene plastic",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 board",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "dishwasher safe",
+   "source": "listing"
+  },
+  {
+   "label": "Appearance",
+   "value": "The photo appears to show a textured surface with a handle slot.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour of the cutting board?",
+   "a": "The listing states the colour is lime green.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions or size of the board?",
+   "a": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is the cutting board made of?",
+   "a": "The listing states it is made of polypropylene plastic.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The listing states it includes 1 board.",
+   "source": "listing"
+  },
+  {
+   "q": "How do I clean and care for this product?",
+   "a": "The listing states it is dishwasher safe.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say about this product?",
+   "a": "It has 175 reviews averaging 4.5 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Are the vegetables shown in the photo included?",
+   "a": "No, food items shown in the photo are props and not part of the product.",
+   "source": "photo"
+  },
+  {
+   "q": "Does the board have a handle?",
+   "a": "The photo appears to show an integrated handle cutout at one end.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

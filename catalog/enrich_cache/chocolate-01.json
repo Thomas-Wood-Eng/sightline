@@ -1,0 +1,85 @@
+{
+ "short": "Dark chocolate chunks, 70% cocoa",
+ "description": "Rough-cut dark chocolate chunks with 70% cocoa solids. The photo seems to show rough, irregular dark pieces.",
+ "facts": [
+  {
+   "label": "Category",
+   "value": "grocery",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "200 g (7 oz) resealable bag",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 bag",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "Contains milk and soy. May contain hazelnuts and almonds.",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "store below 20 C",
+   "source": "listing"
+  },
+  {
+   "label": "Appearance",
+   "value": "The photo appears to show rough-cut pieces.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour?",
+   "a": "Not stated in the listing.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What are the dimensions and weight?",
+   "a": "It is a 200 g (7 oz) resealable bag.",
+   "source": "listing"
+  },
+  {
+   "q": "What is the material or texture?",
+   "a": "The listing describes them as rough-cut chunks of dark chocolate.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "1 bag is included.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the allergens and ingredients?",
+   "a": "Contains milk and soy. May contain hazelnuts and almonds.",
+   "source": "listing"
+  },
+  {
+   "q": "How should it be stored?",
+   "a": "Store below 20 C.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 731 reviews averaging 4.8 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "What is the cocoa content?",
+   "a": "It contains 70% cocoa solids.",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite",
+ "_hand_edited": true
+}

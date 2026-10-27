@@ -1,0 +1,89 @@
+{
+ "short": "White dual USB wall charger with European two-pin plug",
+ "description": "A compact white wall charger with two USB ports and a European two-pin plug. The photo seems to show a smooth plastic casing with two round metal prongs.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "white",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "plastic",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "1 charger",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Plug type",
+   "value": "European two-pin plug",
+   "source": "listing"
+  },
+  {
+   "label": "Design details",
+   "value": "The photo appears to show a smooth rectangular body with rounded edges.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What exact colour is the charger?",
+   "a": "The listing states the colour is white.",
+   "source": "listing"
+  },
+  {
+   "q": "What size is the charger?",
+   "a": "Not stated in the listing. You could ask the seller for specific dimensions.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What material is it made of and how does it feel?",
+   "a": "The listing states the material is plastic. The photo appears to show a smooth surface.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The listing states it includes 1 charger.",
+   "source": "listing"
+  },
+  {
+   "q": "How do I care for or clean this product?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 667 reviews averaging 4.5 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "What type of plug does it have?",
+   "a": "The listing states it has a European two-pin plug.",
+   "source": "listing"
+  },
+  {
+   "q": "How many USB ports are there?",
+   "a": "The listing states it has two USB ports.",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

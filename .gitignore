@@ -7,3 +7,5 @@ demo/out/
 feedback.jsonl
 spike_state.json
 data/
+demo/models/
+demo/render.log

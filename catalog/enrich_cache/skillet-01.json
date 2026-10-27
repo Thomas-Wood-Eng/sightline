@@ -1,0 +1,94 @@
+{
+ "short": "Black pre-seasoned cast iron skillet",
+ "description": "A black cast iron skillet featuring a long handle with a hanging hole and a helper handle opposite it. The photo seems to show a pre-seasoned dark metallic cooking surface with a pouring spout on each side.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "black",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "cast iron",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "26 cm (10.25 inch) diameter",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 skillet",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "hand wash, dry immediately, oil lightly",
+   "source": "listing"
+  },
+  {
+   "label": "Handles",
+   "value": "The photo seems to show one main handle and a smaller helper handle.",
+   "source": "photo"
+  },
+  {
+   "label": "Spouts",
+   "value": "The photo appears to show dual pouring lips on the sides.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What colour is the skillet?",
+   "a": "The listing states the colour is black.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions of the skillet?",
+   "a": "The listing states the dimensions are 26 cm (10.25 inch) diameter.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made from?",
+   "a": "The listing states it is made from cast iron.",
+   "source": "listing"
+  },
+  {
+   "q": "What does it feel like?",
+   "a": "The photo appears to show a textured cast iron surface.",
+   "source": "photo"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The listing states it includes 1 skillet.",
+   "source": "listing"
+  },
+  {
+   "q": "How should I care for and clean this skillet?",
+   "a": "The listing states to hand wash, dry immediately, and oil lightly.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 610 reviews averaging 4.7 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Can this be used over a campfire?",
+   "a": "The listing states it is suitable for stovetop, oven, or campfire.",
+   "source": "listing"
+  },
+  {
+   "q": "Does it have a helper handle?",
+   "a": "The photo seems to show a small helper handle opposite the main handle.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

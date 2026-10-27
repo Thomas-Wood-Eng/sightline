@@ -1,0 +1,89 @@
+{
+ "short": "Navy blue and cream knit beanie with pom-pom",
+ "description": "The photo seems to show a chunky ribbed beanie in navy blue with a wide cream stripe around the fold-up cuff and a pom-pom on top. It is made of 100% acrylic.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "navy blue with a cream stripe on the cuff",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "one size",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "100% acrylic",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 beanie",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "hand wash cold",
+   "source": "listing"
+  },
+  {
+   "label": "Design details",
+   "value": "The photo appears to show a ribbed knit texture with a top pom-pom.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour of the beanie?",
+   "a": "The listing states it is navy blue with a cream stripe on the cuff.",
+   "source": "listing"
+  },
+  {
+   "q": "What sizes are available?",
+   "a": "It is available in one size.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made from?",
+   "a": "It is made of 100% acrylic.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The package contains 1 beanie.",
+   "source": "listing"
+  },
+  {
+   "q": "How should I clean this beanie?",
+   "a": "The listing recommends hand wash cold.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 298 reviews averaging 4.5 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Does the photo show a pom-pom?",
+   "a": "The photo appears to show a pom-pom on the top of the beanie.",
+   "source": "photo"
+  },
+  {
+   "q": "Is there a cuff on the hat?",
+   "a": "The photo seems to show a fold-up cuff with a contrasting stripe.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

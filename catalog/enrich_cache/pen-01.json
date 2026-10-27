@@ -1,0 +1,94 @@
+{
+ "short": "Fountain pen in green marbled with gold-coloured trim",
+ "description": "This is a refillable fountain pen in green marbled with gold-coloured trim, featuring a medium steel nib. The photo appears to show a marbled pattern body with a separate cap and a metal clip.",
+ "facts": [
+  {
+   "label": "colour",
+   "value": "green marbled with gold-coloured trim",
+   "source": "listing"
+  },
+  {
+   "label": "sizes",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "material",
+   "value": "steel nib",
+   "source": "listing"
+  },
+  {
+   "label": "dimensions",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "in_box",
+   "value": "pen, 2 ink cartridges",
+   "source": "listing"
+  },
+  {
+   "label": "condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "allergens",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "care",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Visual appearance",
+   "value": "The photo appears to show a marbled green body and cap with metallic trim.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour of the fountain pen?",
+   "a": "The listing states the colour is green marbled with gold-coloured trim.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions or size of the pen?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "listing"
+  },
+  {
+   "q": "What materials is it made from?",
+   "a": "The listing specifies a steel nib.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The box contains the pen and 2 ink cartridges.",
+   "source": "listing"
+  },
+  {
+   "q": "How do you care for or clean the pen?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say about this pen?",
+   "a": "It has 58 reviews averaging 4.4 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "What does the pen look like in the photo?",
+   "a": "The photo seems to show a marbled green finish with gold-toned metal accents and a removable cap.",
+   "source": "photo"
+  },
+  {
+   "q": "Is the nib visible in the photo?",
+   "a": "The photo appears to show a metallic nib section at the front of the pen.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

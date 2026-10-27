@@ -1,0 +1,84 @@
+{
+ "short": "White ceramic colander",
+ "description": "This is a white glazed stoneware colander for draining pasta and rinsing fruit. The photo appears to show a round bowl with two handles and concentric rings of drainage holes.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "white",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "glazed stoneware",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "25 cm (10 inch) across",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 colander",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care instructions",
+   "value": "dishwasher safe",
+   "source": "listing"
+  },
+  {
+   "label": "Design details",
+   "value": "The photo seems to show a round shape with two side handles and drainage holes arranged in circles.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What exact colour is the colander?",
+   "a": "It is white.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions or capacity of the colander?",
+   "a": "It measures 25 cm (10 inch) across.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made of and how does it feel?",
+   "a": "It is made of glazed stoneware.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The box contains 1 colander.",
+   "source": "listing"
+  },
+  {
+   "q": "How should I care for or clean this item?",
+   "a": "It is dishwasher safe.",
+   "source": "listing"
+  },
+  {
+   "q": "What do reviews say about this colander?",
+   "a": "It has 121 reviews averaging 4.3 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Does it have handles?",
+   "a": "The photo appears to show two small handles on the sides.",
+   "source": "photo"
+  },
+  {
+   "q": "How are the drainage holes arranged?",
+   "a": "The photo seems to show holes arranged in concentric circular patterns.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

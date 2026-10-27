@@ -1,0 +1,89 @@
+{
+ "short": "Navy blue and white canvas low-top sneakers",
+ "description": "Lace-up low-top canvas sneakers with a rubber sole in navy blue with white rubber sole. The photo seems to show low-top shoes with textured white rubber toe caps and metal eyelets for the laces.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "navy blue with white rubber sole",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "US 6, US 7, US 8, US 9, US 10, US 11, US 12",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "cotton canvas upper, rubber sole",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "1 pair of shoes",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "spot clean",
+   "source": "listing"
+  },
+  {
+   "label": "Toe Cap",
+   "value": "The photo appears to show a textured rubber toe cap.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What colour are the sneakers?",
+   "a": "They are navy blue with a white rubber sole.",
+   "source": "listing"
+  },
+  {
+   "q": "What sizes are available?",
+   "a": "Available sizes are US 6, US 7, US 8, US 9, US 10, US 11, and US 12.",
+   "source": "listing"
+  },
+  {
+   "q": "What material are the shoes made of?",
+   "a": "They have a cotton canvas upper and a rubber sole.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "One pair of shoes is included.",
+   "source": "listing"
+  },
+  {
+   "q": "How should these shoes be cleaned?",
+   "a": "They can be spot cleaned.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 521 reviews averaging 4.2 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "What closure type do the sneakers use?",
+   "a": "They are lace-up sneakers.",
+   "source": "listing"
+  },
+  {
+   "q": "Are there any visible eyelets for the laces in the photo?",
+   "a": "The photo appears to show multiple metal eyelets along the lace line.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

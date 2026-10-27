@@ -1,0 +1,1237 @@
+[
+ {
+  "id": "hoodie-01",
+  "name": "Fleece-lined pullover hoodie",
+  "category": "clothing",
+  "price": 34.99,
+  "rating": 4.6,
+  "review_count": 212,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A warm pullover hoodie with a soft brushed fleece lining and a drawstring hood.",
+   "colour": "heather grey",
+   "sizes": [
+    "S",
+    "M",
+    "L",
+    "XL"
+   ],
+   "material": "80% cotton, 20% polyester, fleece lining",
+   "dimensions": null,
+   "in_box": "1 hoodie",
+   "condition": "new",
+   "allergens": null,
+   "care": "machine wash cold, tumble dry low"
+  },
+  "image": "img/hoodie-01.jpg",
+  "image_credit": {
+   "title": "Woman in sweatshirt and yoga pants sitting on a log with her hood on",
+   "creator": "Shixart1985",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Woman_in_sweatshirt_and_yoga_pants_sitting_on_a_log_with_her_hood_on.jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  }
+ },
+ {
+  "id": "hoodie-02",
+  "name": "Heavyweight pullover hoodie",
+  "category": "clothing",
+  "price": 52.0,
+  "rating": 4.3,
+  "review_count": 87,
+  "shipping": 4.99,
+  "delivery_days": 5,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A heavyweight plain pullover hoodie with a lined hood and a front kangaroo pocket.",
+   "colour": "black",
+   "sizes": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL",
+    "XXL"
+   ],
+   "material": "100% cotton, 400 gsm",
+   "dimensions": null,
+   "in_box": "1 hoodie",
+   "condition": "new",
+   "allergens": null,
+   "care": "machine wash cold, hang dry"
+  },
+  "image": "img/hoodie-02.jpg",
+  "image_credit": {
+   "title": "Hoodie man",
+   "creator": "SteelAvenger",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Hoodie_man.jpg",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  }
+ },
+ {
+  "id": "tshirt-01",
+  "name": "Organic cotton crew-neck T-shirt",
+  "category": "clothing",
+  "price": 18.5,
+  "rating": 4.4,
+  "review_count": 356,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A classic short-sleeved crew-neck T-shirt in soft organic cotton.",
+   "colour": "white",
+   "sizes": [
+    "S",
+    "M",
+    "L",
+    "XL"
+   ],
+   "material": "100% organic cotton jersey",
+   "dimensions": null,
+   "in_box": "1 T-shirt",
+   "condition": "new",
+   "allergens": null,
+   "care": "machine wash warm"
+  },
+  "image": "img/tshirt-01.jpg",
+  "image_credit": {
+   "title": "Young North Indian man with beard in white t-shirt",
+   "creator": "Singhjayreena",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Young_North_Indian_man_with_beard_in_white_t-shirt.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  }
+ },
+ {
+  "id": "jeans-01",
+  "name": "Straight-leg jeans",
+  "category": "clothing",
+  "price": 58.0,
+  "rating": 4.1,
+  "review_count": 143,
+  "shipping": 0.0,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Mid-rise straight-leg jeans with five pockets and a button fly.",
+   "colour": "medium blue wash",
+   "sizes": [
+    "28x30",
+    "30x30",
+    "32x32",
+    "34x32",
+    "36x32"
+   ],
+   "material": "99% cotton, 1% elastane denim",
+   "dimensions": null,
+   "in_box": "1 pair of jeans",
+   "condition": "new",
+   "allergens": null,
+   "care": "machine wash cold inside out"
+  },
+  "image": "img/jeans-01.jpg",
+  "image_credit": {
+   "title": "Jeans",
+   "creator": "uploaded by Juanmak",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Jeans.jpg",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  }
+ },
+ {
+  "id": "scarf-01",
+  "name": "Knitted scarf with pom-poms",
+  "category": "clothing",
+  "price": 26.0,
+  "rating": 4.7,
+  "review_count": 64,
+  "shipping": 3.99,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A long knitted wool scarf finished with a pom-pom at each end.",
+   "colour": "deep red",
+   "sizes": [
+    "one size"
+   ],
+   "material": "100% merino wool",
+   "dimensions": "180 cm long, 25 cm wide",
+   "in_box": "1 scarf",
+   "condition": "new",
+   "allergens": null,
+   "care": "hand wash cold, dry flat"
+  },
+  "image": "img/scarf-01.jpg",
+  "image_credit": {
+   "title": "Small Homemade Knitted Scarf - DPLA - fcde1f6bb3c41863d0b2f99f6d5379b3 (page 1)",
+   "creator": "Unknown",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Small_Homemade_Knitted_Scarf_-_DPLA_-_fcde1f6bb3c41863d0b2f99f6d5379b3_(page_1).jpg",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  }
+ },
+ {
+  "id": "beanie-01",
+  "name": "Pom-pom knit beanie",
+  "category": "clothing",
+  "price": 14.99,
+  "rating": 4.5,
+  "review_count": 298,
+  "shipping": 0.0,
+  "delivery_days": 2,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A chunky ribbed beanie with a fold-up cuff and a pom-pom on top.",
+   "colour": "navy blue with a cream stripe on the cuff",
+   "sizes": [
+    "one size"
+   ],
+   "material": "100% acrylic",
+   "dimensions": null,
+   "in_box": "1 beanie",
+   "condition": "new",
+   "allergens": null,
+   "care": "hand wash cold"
+  },
+  "image": "img/beanie-01.jpg",
+  "image_credit": {
+   "title": "Beanie hat by Polo Ralph Lauren",
+   "creator": "Menswear Market",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Beanie_hat_by_Polo_Ralph_Lauren.jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  }
+ },
+ {
+  "id": "sneakers-01",
+  "name": "Canvas low-top sneakers",
+  "category": "clothing",
+  "price": 45.0,
+  "rating": 4.2,
+  "review_count": 521,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Lace-up low-top canvas sneakers with a rubber sole.",
+   "colour": "navy blue with white rubber sole",
+   "sizes": [
+    "US 6",
+    "US 7",
+    "US 8",
+    "US 9",
+    "US 10",
+    "US 11",
+    "US 12"
+   ],
+   "material": "cotton canvas upper, rubber sole",
+   "dimensions": null,
+   "in_box": "1 pair of shoes",
+   "condition": "new",
+   "allergens": null,
+   "care": "spot clean"
+  },
+  "image": "img/sneakers-01.jpg",
+  "image_credit": {
+   "title": "Superga Cotu Classic Sneaker 2750 Canvas blau (1)",
+   "creator": "SPERA.de Designerschuhe, Taschen und Accessoires",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Superga_Cotu_Classic_Sneaker_2750_Canvas_blau_(1).jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  }
+ },
+ {
+  "id": "raincoat-01",
+  "name": "Hooded rain jacket",
+  "category": "clothing",
+  "price": 72.0,
+  "rating": 4.0,
+  "review_count": 39,
+  "shipping": 5.99,
+  "delivery_days": 6,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A lightweight waterproof rain jacket with a zip front, an adjustable hood, a drawstring waist and two flap pockets.",
+   "colour": "burnt orange",
+   "sizes": null,
+   "material": "nylon with a waterproof coating",
+   "dimensions": null,
+   "in_box": "1 jacket",
+   "condition": "new",
+   "allergens": null,
+   "care": "wipe clean"
+  },
+  "image": "img/raincoat-01.jpg",
+  "image_credit": {
+   "title": "Terracotta Polo Ralph Lauren hooded Jacket",
+   "creator": "Menswear Market",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Terracotta_Polo_Ralph_Lauren_hooded_Jacket.jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  }
+ },
+ {
+  "id": "mug-01",
+  "name": "Glazed earthenware mug",
+  "category": "kitchen",
+  "price": 12.99,
+  "rating": 4.8,
+  "review_count": 402,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A tall, straight-sided earthenware mug with a rich glaze and a curved handle.",
+   "colour": "olive brown glaze",
+   "sizes": null,
+   "material": "glazed earthenware",
+   "dimensions": "holds 350 ml (12 oz)",
+   "in_box": "1 mug",
+   "condition": "new",
+   "allergens": null,
+   "care": "hand wash; not microwave safe"
+  },
+  "image": "img/mug-01.jpg",
+  "image_credit": {
+   "title": "Mug MET DP207772",
+   "creator": "Unknown",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Mug_MET_DP207772.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  }
+ },
+ {
+  "id": "kettle-01",
+  "name": "Electric kettle",
+  "category": "kitchen",
+  "price": 39.99,
+  "rating": 4.5,
+  "review_count": 188,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A cordless electric kettle with automatic shut-off and a 360-degree base.",
+   "colour": "white",
+   "sizes": null,
+   "material": "plastic body, stainless steel heating plate",
+   "dimensions": "1.7 litre capacity",
+   "in_box": "kettle, power base",
+   "condition": "new",
+   "allergens": null,
+   "care": "descale monthly; do not immerse"
+  },
+  "image": "img/kettle-01.jpg",
+  "image_credit": {
+   "title": "Electric kettle phillips white",
+   "creator": "Rafa",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Electric_kettle_phillips_white.JPG",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  }
+ },
+ {
+  "id": "skillet-01",
+  "name": "Cast iron skillet",
+  "category": "kitchen",
+  "price": 32.0,
+  "rating": 4.7,
+  "review_count": 610,
+  "shipping": 6.99,
+  "delivery_days": 5,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A pre-seasoned cast iron frying pan for stovetop, oven or campfire.",
+   "colour": "black",
+   "sizes": null,
+   "material": "cast iron",
+   "dimensions": "26 cm (10.25 inch) diameter",
+   "in_box": "1 skillet",
+   "condition": "new",
+   "allergens": null,
+   "care": "hand wash, dry immediately, oil lightly"
+  },
+  "image": "img/skillet-01.jpg",
+  "image_credit": {
+   "title": "Cast-Iron-Pan",
+   "creator": "Evan-Amos",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Cast-Iron-Pan.jpg",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  }
+ },
+ {
+  "id": "knife-01",
+  "name": "8-inch chef's knife",
+  "category": "kitchen",
+  "price": 49.0,
+  "rating": 4.6,
+  "review_count": 233,
+  "shipping": 0.0,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A forged stainless steel chef's knife for everyday chopping and slicing.",
+   "colour": "dark steel blade, black handle",
+   "sizes": null,
+   "material": "high-carbon stainless steel blade",
+   "dimensions": "20 cm (8 inch) blade",
+   "in_box": "1 knife, blade guard",
+   "condition": "new",
+   "allergens": null,
+   "care": "hand wash only"
+  },
+  "image": "img/knife-01.jpg",
+  "image_credit": {
+   "title": "Zwilling 8in chef knife",
+   "creator": "WLU at English Wikipedia",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Zwilling_8in_chef_knife.JPG",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  }
+ },
+ {
+  "id": "cutting-board-01",
+  "name": "Plastic cutting board",
+  "category": "kitchen",
+  "price": 22.0,
+  "rating": 4.5,
+  "review_count": 175,
+  "shipping": 3.99,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A lightweight, flexible-edged chopping board that is easy to clean.",
+   "colour": "lime green",
+   "sizes": null,
+   "material": "polypropylene plastic",
+   "dimensions": null,
+   "in_box": "1 board",
+   "condition": "new",
+   "allergens": null,
+   "care": "dishwasher safe"
+  },
+  "image": "img/cutting-board-01.jpg",
+  "image_credit": {
+   "title": "11. place vegetables on cutting board",
+   "creator": "Datariumrex",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:11._place_vegetables_on_cutting_board.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  }
+ },
+ {
+  "id": "french-press-01",
+  "name": "Stainless steel French press",
+  "category": "kitchen",
+  "price": 27.5,
+  "rating": 4.4,
+  "review_count": 290,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A double-walled stainless steel French press coffee maker with a plunger lid.",
+   "colour": "brushed stainless steel",
+   "sizes": null,
+   "material": "stainless steel",
+   "dimensions": "1 litre (34 oz)",
+   "in_box": "French press, spare filter",
+   "condition": "new",
+   "allergens": null,
+   "care": "dishwasher safe"
+  },
+  "image": "img/french-press-01.jpg",
+  "image_credit": {
+   "title": "French Press",
+   "creator": "Joe King",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:French_Press.jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  }
+ },
+ {
+  "id": "colander-01",
+  "name": "Ceramic colander",
+  "category": "kitchen",
+  "price": 24.0,
+  "rating": 4.3,
+  "review_count": 121,
+  "shipping": 4.99,
+  "delivery_days": 5,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A glazed stoneware colander with two small handles, for draining pasta and rinsing fruit.",
+   "colour": "white",
+   "sizes": null,
+   "material": "glazed stoneware",
+   "dimensions": "25 cm (10 inch) across",
+   "in_box": "1 colander",
+   "condition": "new",
+   "allergens": null,
+   "care": "dishwasher safe"
+  },
+  "image": "img/colander-01.jpg",
+  "image_credit": {
+   "title": "White Colander (53504734684)",
+   "creator": "Chris Williams",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:White_Colander_(53504734684).jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  }
+ },
+ {
+  "id": "headphones-01",
+  "name": "Over-ear headphones",
+  "category": "electronics",
+  "price": 59.99,
+  "rating": 4.4,
+  "review_count": 845,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Cushioned over-ear headphones with a 3.5 mm wired connection.",
+   "colour": "black",
+   "sizes": null,
+   "material": "plastic headband, padded ear cushions",
+   "dimensions": null,
+   "in_box": "headphones, 1.5 m cable",
+   "condition": "new",
+   "allergens": null,
+   "care": "wipe clean"
+  },
+  "image": "img/headphones-01.jpg",
+  "image_credit": {
+   "title": "Headphones (56330)",
+   "creator": "17mdnasim89",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Headphones_(56330).jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  }
+ },
+ {
+  "id": "earbuds-01",
+  "name": "Wired in-ear earphones",
+  "category": "electronics",
+  "price": 14.99,
+  "rating": 3.9,
+  "review_count": 1204,
+  "shipping": 0.0,
+  "delivery_days": 2,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Lightweight in-ear earphones with a 3.5 mm plug and a flat, tangle-resistant cable.",
+   "colour": "lilac purple",
+   "sizes": null,
+   "material": "plastic, silicone ear tips",
+   "dimensions": null,
+   "in_box": "earphones, 3 sizes of ear tips",
+   "condition": "new",
+   "allergens": null,
+   "care": "wipe clean, keep dry"
+  },
+  "image": "img/earbuds-01.jpg",
+  "image_credit": {
+   "title": "Earphones, 940074 001",
+   "creator": "Auckland Museum Tāmaki Paenga Hira",
+   "license": "CC BY 4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Earphones,_940074_001.jpg",
+   "license_url": "https://creativecommons.org/licenses/by/4.0"
+  }
+ },
+ {
+  "id": "charger-01",
+  "name": "Dual USB wall charger",
+  "category": "electronics",
+  "price": 19.99,
+  "rating": 4.5,
+  "review_count": 667,
+  "shipping": 0.0,
+  "delivery_days": 2,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A compact wall charger with two USB ports and a European two-pin plug.",
+   "colour": "white",
+   "sizes": null,
+   "material": "plastic",
+   "dimensions": null,
+   "in_box": "1 charger",
+   "condition": "new",
+   "allergens": null,
+   "care": null
+  },
+  "image": "img/charger-01.jpg",
+  "image_credit": {
+   "title": "Pisen MF-08EU 12W USB charger-0",
+   "creator": "Imgrenb",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Pisen_MF-08EU_12W_USB_charger-0.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  }
+ },
+ {
+  "id": "cable-01",
+  "name": "Braided USB cable",
+  "category": "electronics",
+  "price": 9.99,
+  "rating": 4.2,
+  "review_count": 930,
+  "shipping": 0.0,
+  "delivery_days": 2,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A USB charging and data cable.",
+   "colour": "white connectors with a silver-grey braided cord",
+   "sizes": null,
+   "material": "braided nylon cord",
+   "dimensions": "1 metre long",
+   "in_box": "1 cable",
+   "condition": "new",
+   "allergens": null,
+   "care": null
+  },
+  "image": "img/cable-01.jpg",
+  "image_credit": {
+   "title": "Matias Tactile Pro 3 -- transparent USB cable",
+   "creator": "Daniel beardsmore",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Matias_Tactile_Pro_3_--_transparent_USB_cable.jpg",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  }
+ },
+ {
+  "id": "powerbank-01",
+  "name": "Slim power bank",
+  "category": "electronics",
+  "price": 29.99,
+  "rating": 4.3,
+  "review_count": 412,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A slim battery pack with two USB ports for charging a phone on the go.",
+   "colour": "champagne gold",
+   "sizes": null,
+   "material": "aluminium casing",
+   "dimensions": "10,000 mAh capacity",
+   "in_box": "power bank, USB cable",
+   "condition": "new",
+   "allergens": null,
+   "care": "keep away from heat"
+  },
+  "image": "img/powerbank-01.jpg",
+  "image_credit": {
+   "title": "Powerbank Xiaomi, 1",
+   "creator": "Cybularny",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Powerbank_Xiaomi,_1.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  }
+ },
+ {
+  "id": "keyboard-01",
+  "name": "Full-size wired keyboard",
+  "category": "electronics",
+  "price": 34.99,
+  "rating": 4.1,
+  "review_count": 256,
+  "shipping": 0.0,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A full-size keyboard with a number pad and a USB cable.",
+   "colour": "off-white",
+   "sizes": null,
+   "material": "plastic",
+   "dimensions": null,
+   "in_box": "1 keyboard with attached cable",
+   "condition": "new",
+   "allergens": null,
+   "care": "wipe clean"
+  },
+  "image": "img/keyboard-01.jpg",
+  "image_credit": {
+   "title": "Sega-Dreamcast-Keyboard",
+   "creator": "Evan-Amos",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Sega-Dreamcast-Keyboard.jpg",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  }
+ },
+ {
+  "id": "mouse-01",
+  "name": "Wired optical mouse",
+  "category": "electronics",
+  "price": 21.0,
+  "rating": 4.4,
+  "review_count": 389,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A comfortable two-button wired mouse with a scroll wheel.",
+   "colour": "black",
+   "sizes": null,
+   "material": "plastic",
+   "dimensions": null,
+   "in_box": "1 mouse with attached USB cable",
+   "condition": "new",
+   "allergens": null,
+   "care": "wipe clean"
+  },
+  "image": "img/mouse-01.jpg",
+  "image_credit": {
+   "title": "Generic computer mouse with scrollwheel",
+   "creator": "Peter Astbury",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Generic_computer_mouse_with_scrollwheel.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  }
+ },
+ {
+  "id": "trail-mix-01",
+  "name": "Classic trail mix",
+  "category": "grocery",
+  "price": 8.99,
+  "rating": 4.6,
+  "review_count": 318,
+  "shipping": 2.99,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A salty-sweet mix of roasted nuts, raisins and chocolate candies.",
+   "colour": null,
+   "sizes": null,
+   "material": null,
+   "dimensions": "400 g (14 oz) resealable bag",
+   "in_box": "1 bag",
+   "condition": "new",
+   "allergens": "Contains peanuts, almonds, cashews, milk and soy. Made in a facility that also processes wheat.",
+   "care": "store in a cool, dry place"
+  },
+  "image": "img/trail-mix-01.jpg",
+  "image_credit": {
+   "title": "Planters-Trail-Mix",
+   "creator": "Evan-Amos",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Planters-Trail-Mix.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  }
+ },
+ {
+  "id": "granola-01",
+  "name": "Honey almond granola",
+  "category": "grocery",
+  "price": 6.49,
+  "rating": 4.4,
+  "review_count": 142,
+  "shipping": 2.99,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Crunchy baked oat clusters with almonds, sweetened with honey.",
+   "colour": null,
+   "sizes": null,
+   "material": null,
+   "dimensions": "500 g (17.6 oz) bag",
+   "in_box": "1 bag",
+   "condition": "new",
+   "allergens": "Contains oats and wheat (gluten), almonds and cashews (tree nuts).",
+   "care": "store in a cool, dry place"
+  },
+  "image": "img/granola-01.jpg",
+  "image_credit": {
+   "title": "Granola Blueberry Top",
+   "creator": "Bajinra",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Granola_Blueberry_Top.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  }
+ },
+ {
+  "id": "coffee-01",
+  "name": "Whole bean coffee, medium roast",
+  "category": "grocery",
+  "price": 14.0,
+  "rating": 4.7,
+  "review_count": 509,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Medium-roast whole coffee beans with notes of chocolate and caramel.",
+   "colour": null,
+   "sizes": null,
+   "material": null,
+   "dimensions": "340 g (12 oz) bag",
+   "in_box": "1 bag",
+   "condition": "new",
+   "allergens": "No major allergens declared.",
+   "care": "store sealed, away from light"
+  },
+  "image": "img/coffee-01.jpg",
+  "image_credit": {
+   "title": "Roasted coffee beans in white bowl",
+   "creator": "Alorin",
+   "license": "CC BY 4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Roasted_coffee_beans_in_white_bowl.png",
+   "license_url": "https://creativecommons.org/licenses/by/4.0"
+  }
+ },
+ {
+  "id": "tea-01",
+  "name": "Loose-leaf green tea",
+  "category": "grocery",
+  "price": 7.5,
+  "rating": 4.5,
+  "review_count": 96,
+  "shipping": 2.99,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Loose-leaf green tea with a fresh, grassy taste.",
+   "colour": null,
+   "sizes": null,
+   "material": null,
+   "dimensions": "100 g (3.5 oz) tin",
+   "in_box": "1 tin",
+   "condition": "new",
+   "allergens": "No major allergens declared.",
+   "care": "store sealed, away from light"
+  },
+  "image": "img/tea-01.jpg",
+  "image_credit": {
+   "title": "Green tea 3 appearances",
+   "creator": "Alessandro Martini",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Green_tea_3_appearances.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  }
+ },
+ {
+  "id": "chocolate-01",
+  "name": "Dark chocolate chunks, 70% cocoa",
+  "category": "grocery",
+  "price": 4.25,
+  "rating": 4.8,
+  "review_count": 731,
+  "shipping": 2.99,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Rough-cut chunks of dark chocolate with 70% cocoa solids, for baking or snacking.",
+   "colour": null,
+   "sizes": null,
+   "material": null,
+   "dimensions": "200 g (7 oz) resealable bag",
+   "in_box": "1 bag",
+   "condition": "new",
+   "allergens": "Contains milk and soy. May contain hazelnuts and almonds.",
+   "care": "store below 20 C"
+  },
+  "image": "img/chocolate-01.jpg",
+  "image_credit": {
+   "title": "Brownies with chocolate chunks",
+   "creator": "Rob Walker",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Brownies_with_chocolate_chunks.jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  }
+ },
+ {
+  "id": "honey-01",
+  "name": "Wildflower honey",
+  "category": "grocery",
+  "price": 11.0,
+  "rating": 4.9,
+  "review_count": 204,
+  "shipping": 3.99,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "Raw wildflower honey in a plastic jar. Not suitable for infants under 12 months.",
+   "colour": null,
+   "sizes": null,
+   "material": null,
+   "dimensions": "454 g (1 lb) jar",
+   "in_box": "1 jar",
+   "condition": "new",
+   "allergens": "No major allergens declared.",
+   "care": "store at room temperature"
+  },
+  "image": "img/honey-01.jpg",
+  "image_credit": {
+   "title": "HoneyJar",
+   "creator": "Vicki Nunn",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:HoneyJar.JPG",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  }
+ },
+ {
+  "id": "candle-01",
+  "name": "Scented soy candle",
+  "category": "home",
+  "price": 18.0,
+  "rating": 4.5,
+  "review_count": 267,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A soy wax candle in a glass jar, scented with vanilla and cedar.",
+   "colour": "white wax in a clear glass jar",
+   "sizes": null,
+   "material": "soy wax, cotton wick, glass jar",
+   "dimensions": "about 40 hours burn time",
+   "in_box": "1 candle",
+   "condition": "new",
+   "allergens": null,
+   "care": "trim wick before lighting; never leave burning unattended"
+  },
+  "image": "img/candle-01.jpg",
+  "image_credit": {
+   "title": "Yahrtzeit candle",
+   "creator": "Elipongo",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Yahrtzeit_candle.JPG",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  }
+ },
+ {
+  "id": "blanket-01",
+  "name": "Lace-knit throw blanket",
+  "category": "home",
+  "price": 42.0,
+  "rating": 4.6,
+  "review_count": 158,
+  "shipping": 0.0,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A light, open lace-knit throw for the sofa or the end of the bed.",
+   "colour": "pale grey",
+   "sizes": null,
+   "material": "100% cotton",
+   "dimensions": "127 x 152 cm (50 x 60 inch)",
+   "in_box": "1 throw",
+   "condition": "new",
+   "allergens": null,
+   "care": "machine wash cold, gentle cycle"
+  },
+  "image": "img/blanket-01.jpg",
+  "image_credit": {
+   "title": "Frost Flowers lace baby blanket, detail",
+   "creator": "Lisa Dusseault",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Frost_Flowers_lace_baby_blanket,_detail.jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  }
+ },
+ {
+  "id": "lamp-01",
+  "name": "Adjustable desk lamp",
+  "category": "home",
+  "price": 46.0,
+  "rating": 4.3,
+  "review_count": 211,
+  "shipping": 5.99,
+  "delivery_days": 5,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A desk lamp with an adjustable arm and head.",
+   "colour": "chrome and black",
+   "sizes": null,
+   "material": "metal",
+   "dimensions": null,
+   "in_box": "lamp",
+   "condition": "new",
+   "allergens": null,
+   "care": "unplug before cleaning"
+  },
+  "image": "img/lamp-01.jpg",
+  "image_credit": {
+   "title": "Equipoise desk-lamp prototype, designed and manufactured by George Carwardine, 1932 - Design Museum, Kensington - London - DSC01574",
+   "creator": "Daderot",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Equipoise_desk-lamp_prototype,_designed_and_manufactured_by_George_Carwardine,_1932_-_Design_Museum,_Kensington_-_London_-_DSC01574.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  }
+ },
+ {
+  "id": "planter-01",
+  "name": "Ceramic plant pot",
+  "category": "home",
+  "price": 16.5,
+  "rating": 4.4,
+  "review_count": 77,
+  "shipping": 3.99,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A glazed ceramic plant pot with a drainage hole.",
+   "colour": "teal blue glaze",
+   "sizes": null,
+   "material": "glazed ceramic",
+   "dimensions": "15 cm (6 inch) diameter",
+   "in_box": "1 pot",
+   "condition": "new",
+   "allergens": null,
+   "care": "wipe clean"
+  },
+  "image": "img/planter-01.jpg",
+  "image_credit": {
+   "title": "Flower pot with five circular drainage holes, Jun ware, China, Yuxian, Henan, Northern Song dynasty, c. 1100-1127, stoneware with glaze - Asian Art Museum - San Francisco, CA - DSC07197",
+   "creator": "Daderot",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Flower_pot_with_five_circular_drainage_holes,_Jun_ware,_China,_Yuxian,_Henan,_Northern_Song_dynasty,_c._1100-1127,_stoneware_with_glaze_-_Asian_Art_Museum_-_San_Francisco,_CA_-_DSC07197.jpg",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  }
+ },
+ {
+  "id": "towel-01",
+  "name": "Cotton bath towel set",
+  "category": "home",
+  "price": 29.0,
+  "rating": 4.5,
+  "review_count": 340,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A set of soft, absorbent cotton bath towels.",
+   "colour": "coral pink",
+   "sizes": null,
+   "material": "100% cotton terry",
+   "dimensions": "bath towel 70 x 140 cm, hand towel 40 x 70 cm",
+   "in_box": "1 bath towel, 1 hand towel",
+   "condition": "new",
+   "allergens": null,
+   "care": "machine wash warm, tumble dry"
+  },
+  "image": "img/towel-01.jpg",
+  "image_credit": {
+   "title": "Bathroom towels",
+   "creator": "Toilet_view.jpg: Jessica F.; derivative work: Vearthy (talk)",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Bathroom_towels.jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  }
+ },
+ {
+  "id": "clock-01",
+  "name": "Round wall clock",
+  "category": "home",
+  "price": 24.99,
+  "rating": 4.2,
+  "review_count": 119,
+  "shipping": 4.99,
+  "delivery_days": 5,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A round wall clock with a silent sweep movement and clear numbers.",
+   "colour": "dark brown frame, cream face, black numbers",
+   "sizes": null,
+   "material": null,
+   "dimensions": "30 cm (12 inch) diameter",
+   "in_box": "clock (1 AA battery not included)",
+   "condition": "new",
+   "allergens": null,
+   "care": "dust with a dry cloth"
+  },
+  "image": "img/clock-01.jpg",
+  "image_credit": {
+   "title": "Antique Wooden SEC Wall Clock",
+   "creator": "Amitbalani",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Antique_Wooden_SEC_Wall_Clock.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  }
+ },
+ {
+  "id": "puzzle-01",
+  "name": "1000-piece jigsaw puzzle",
+  "category": "gifts",
+  "price": 19.99,
+  "rating": 4.6,
+  "review_count": 188,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A 1000-piece jigsaw puzzle for adults.",
+   "colour": null,
+   "sizes": null,
+   "material": "recycled cardboard",
+   "dimensions": "finished puzzle 69 x 51 cm",
+   "in_box": "1000 pieces",
+   "condition": "new",
+   "allergens": null,
+   "care": null
+  },
+  "image": "img/puzzle-01.jpg",
+  "image_credit": {
+   "title": "Red jigsaw puzzle pieces 2",
+   "creator": "Profpcde",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Red_jigsaw_puzzle_pieces_2.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  }
+ },
+ {
+  "id": "journal-01",
+  "name": "Pocket leather notebook",
+  "category": "gifts",
+  "price": 24.0,
+  "rating": 4.7,
+  "review_count": 95,
+  "shipping": 0.0,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A pocket-sized notebook with a textured leather cover and plain pages.",
+   "colour": "tan brown",
+   "sizes": null,
+   "material": "leather cover, 120 pages of 100 gsm paper",
+   "dimensions": "A6 (10.5 x 15 cm)",
+   "in_box": "1 journal",
+   "condition": "new",
+   "allergens": null,
+   "care": null
+  },
+  "image": "img/journal-01.jpg",
+  "image_credit": {
+   "title": "Leather notebook (Unsplash)",
+   "creator": "Kelly Jean kellyjean",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Leather_notebook_(Unsplash).jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  }
+ },
+ {
+  "id": "teddy-01",
+  "name": "Classic teddy bear",
+  "category": "gifts",
+  "price": 21.5,
+  "rating": 4.8,
+  "review_count": 263,
+  "shipping": 0.0,
+  "delivery_days": 3,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A soft, huggable plush teddy bear with stitched eyes and nose. Suitable from birth.",
+   "colour": "cream",
+   "sizes": null,
+   "material": "polyester plush, polyester fibre filling",
+   "dimensions": "30 cm (12 inch) tall",
+   "in_box": "1 teddy bear",
+   "condition": "new",
+   "allergens": null,
+   "care": "surface wash only"
+  },
+  "image": "img/teddy-01.jpg",
+  "image_credit": {
+   "title": "Toy, teddy (AM 1999.141.1-1)",
+   "creator": "Cyclops",
+   "license": "CC BY 4.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Toy,_teddy_(AM_1999.141.1-1).jpg",
+   "license_url": "https://creativecommons.org/licenses/by/4.0"
+  }
+ },
+ {
+  "id": "paints-01",
+  "name": "Watercolour paint set",
+  "category": "gifts",
+  "price": 27.0,
+  "rating": 4.5,
+  "review_count": 142,
+  "shipping": 3.99,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A travel watercolour set of pans in a hinged tin.",
+   "colour": "assorted",
+   "sizes": null,
+   "material": null,
+   "dimensions": null,
+   "in_box": "paint tray with colour pans, brushes",
+   "condition": "new",
+   "allergens": null,
+   "care": null
+  },
+  "image": "img/paints-01.jpg",
+  "image_credit": {
+   "title": "Soil watercolor paints used by Northern Arapaho artist Colleen Friday and Adrienne Vetter (53070193587)",
+   "creator": "YellowstoneNPS",
+   "license": "Public domain",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Soil_watercolor_paints_used_by_Northern_Arapaho_artist_Colleen_Friday_and_Adrienne_Vetter_(53070193587).jpg",
+   "license_url": "https://creativecommons.org/publicdomain/mark/1.0/"
+  }
+ },
+ {
+  "id": "chess-01",
+  "name": "Wooden chess set",
+  "category": "gifts",
+  "price": 45.0,
+  "rating": 4.6,
+  "review_count": 176,
+  "shipping": 6.99,
+  "delivery_days": 6,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A classic wooden chess set with a board and 32 pieces.",
+   "colour": "light and dark wood",
+   "sizes": null,
+   "material": "wood",
+   "dimensions": null,
+   "in_box": "board, 32 chess pieces",
+   "condition": "new",
+   "allergens": null,
+   "care": "wipe with a dry cloth"
+  },
+  "image": "img/chess-01.jpg",
+  "image_credit": {
+   "title": "Chess game Staunton No. 6 perfil view 8",
+   "creator": "Wilfredor",
+   "license": "CC0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Chess_game_Staunton_No._6_perfil_view_8.jpg",
+   "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+  }
+ },
+ {
+  "id": "pen-01",
+  "name": "Fountain pen",
+  "category": "gifts",
+  "price": 35.0,
+  "rating": 4.4,
+  "review_count": 58,
+  "shipping": 0.0,
+  "delivery_days": 4,
+  "seller": "Sightline Demo Store",
+  "listing": {
+   "description": "A refillable fountain pen with a medium steel nib.",
+   "colour": "green marbled with gold-coloured trim",
+   "sizes": null,
+   "material": "steel nib",
+   "dimensions": null,
+   "in_box": "pen, 2 ink cartridges",
+   "condition": "new",
+   "allergens": null,
+   "care": null
+  },
+  "image": "img/pen-01.jpg",
+  "image_credit": {
+   "title": "Vintage Wearever Combination Fountain Pen and Mechanical Pencil (10297046826)",
+   "creator": "Joe Haupt from USA",
+   "license": "CC BY 2.0",
+   "source_url": "https://commons.wikimedia.org/wiki/File:Vintage_Wearever_Combination_Fountain_Pen_and_Mechanical_Pencil_(10297046826).jpg",
+   "license_url": "https://creativecommons.org/licenses/by/2.0"
+  }
+ }
+]

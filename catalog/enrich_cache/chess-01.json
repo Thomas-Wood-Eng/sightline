@@ -1,0 +1,79 @@
+{
+ "short": "Classic wooden chess set in light and dark wood",
+ "description": "A classic wooden chess set with a board and thirty-two pieces, crafted from wood in light and dark wood tones. The photo seems to show a full set of carved wooden chess pieces arranged on the board, plus two extra spare pieces placed on the side.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "light and dark wood",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "wood",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "board, 32 chess pieces",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "wipe with a dry cloth",
+   "source": "listing"
+  },
+  {
+   "label": "Design details",
+   "value": "The photo appears to show traditional carved chess pieces with numbered and lettered coordinates along the board edges.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What colour is the chess set?",
+   "a": "The listing states the colour is light and dark wood.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions of the board?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What material is it made from?",
+   "a": "The listing states the material is wood.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The listing states it includes a board and 32 chess pieces.",
+   "source": "listing"
+  },
+  {
+   "q": "How should I care for and clean the chess set?",
+   "a": "The listing states to wipe it with a dry cloth.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say about this chess set?",
+   "a": "It has 176 reviews averaging 4.6 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Are there any extra pieces visible in the photo?",
+   "a": "The photo seems to show two extra spare pieces placed on the left side, outside of the main board setup.",
+   "source": "photo"
+  },
+  {
+   "q": "Are the board coordinates clearly visible?",
+   "a": "The photo appears to show letters along the bottom edge and numbers along the side edges.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

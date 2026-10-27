@@ -1,0 +1,94 @@
+{
+ "short": "1000-piece jigsaw puzzle made of recycled cardboard",
+ "description": "A 1000-piece jigsaw puzzle for adults, made of recycled cardboard with finished puzzle dimensions of 69 by 51 cm. The photo seems to show scattered puzzle pieces on a wooden table, featuring shades of red, white, and dark tones with mottled patterns.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "recycled cardboard",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "finished puzzle 69 x 51 cm",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1000 pieces",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Piece Appearance",
+   "value": "The photo appears to show red and white mottled puzzle pieces scattered on a wooden surface.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour of the puzzle?",
+   "a": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions and finished size?",
+   "a": "The finished puzzle dimensions are 69 by 51 cm.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made of and how does it feel?",
+   "a": "It is made of recycled cardboard.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The box contains 1000 pieces.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the care or cleaning instructions?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 188 reviews averaging 4.6 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "What pattern or design is visible on the pieces?",
+   "a": "The photo seems to show pieces with mottled red and white patterns.",
+   "source": "photo"
+  },
+  {
+   "q": "Is the wooden surface shown in the photo included?",
+   "a": "No, the wooden surface is a prop and is not part of the product.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

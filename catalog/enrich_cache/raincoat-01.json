@@ -1,0 +1,89 @@
+{
+ "short": "Burnt orange hooded rain jacket",
+ "description": "A lightweight waterproof rain jacket in burnt orange made from nylon with a waterproof coating. The photo seems to show a zip front with a storm flap, an adjustable hood with drawstrings, a drawstring waist, and two front flap pockets.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "burnt orange",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "nylon with a waterproof coating",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 jacket",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "wipe clean",
+   "source": "listing"
+  },
+  {
+   "label": "Hood",
+   "value": "The photo appears to show an attached hood with drawstrings.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What exact colour is the jacket?",
+   "a": "The listing states the colour is burnt orange.",
+   "source": "listing"
+  },
+  {
+   "q": "What sizes are available?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What material is it made of and how does it feel?",
+   "a": "The listing states it is made of nylon with a waterproof coating.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The listing states it includes 1 jacket.",
+   "source": "listing"
+  },
+  {
+   "q": "How should this jacket be cared for?",
+   "a": "The listing states to wipe clean.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 39 reviews averaging 4.0 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Does the jacket have a hood?",
+   "a": "The photo seems to show an adjustable hood with drawstrings.",
+   "source": "photo"
+  },
+  {
+   "q": "Does the jacket have pockets?",
+   "a": "The listing states it has two flap pockets.",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

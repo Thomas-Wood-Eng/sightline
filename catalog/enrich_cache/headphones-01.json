@@ -1,0 +1,94 @@
+{
+ "short": "Black over-ear headphones",
+ "description": "Black over-ear headphones featuring cushioned ear pads and a plastic headband. The photo seems to show a wired design resting on a solid yellow surface.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "black",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "plastic headband, padded ear cushions",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "headphones, 1.5 m cable",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care instructions",
+   "value": "wipe clean",
+   "source": "listing"
+  },
+  {
+   "label": "Design details",
+   "value": "The photo appears to show adjustable hinges on the headband.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What exact colour are the headphones?",
+   "a": "They are black according to the listing.",
+   "source": "listing"
+  },
+  {
+   "q": "What size are they?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What are the dimensions?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What material are they made of and how do they feel?",
+   "a": "They have a plastic headband and padded ear cushions as stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The box contains the headphones and a 1.5 m cable.",
+   "source": "listing"
+  },
+  {
+   "q": "How should I care for or clean them?",
+   "a": "They should be wiped clean.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 845 reviews averaging 4.4 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "What type of connection do these headphones use?",
+   "a": "They feature a 3.5 mm wired connection.",
+   "source": "listing"
+  },
+  {
+   "q": "Are the ear cups padded?",
+   "a": "Yes, the listing notes they have padded ear cushions.",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

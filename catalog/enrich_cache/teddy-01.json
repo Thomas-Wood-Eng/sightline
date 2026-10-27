@@ -1,0 +1,94 @@
+{
+ "short": "Classic cream teddy bear",
+ "description": "The photo seems to show a soft, cream-colored plush teddy bear with dark stitched eyes and a black stitched nose. A measuring tape appears alongside it in the image.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "cream",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "polyester plush, polyester fibre filling",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "30 cm (12 inch) tall",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 teddy bear",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "surface wash only",
+   "source": "listing"
+  },
+  {
+   "label": "Visible Details",
+   "value": "The photo seems to show dark stitched eyes and nose.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What exact colour is the teddy bear?",
+   "a": "The listing states the colour is cream.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions of the teddy bear?",
+   "a": "The listing states it is 30 cm (12 inch) tall.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made of and how does it feel?",
+   "a": "The listing states it is made of polyester plush with polyester fibre filling and describes it as soft and huggable.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The listing states it includes 1 teddy bear.",
+   "source": "listing"
+  },
+  {
+   "q": "How should I care for or clean it?",
+   "a": "The listing states surface wash only.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 263 reviews averaging 4.8 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "What facial features can be seen in the photo?",
+   "a": "The photo seems to show dark stitched eyes and a black stitched nose.",
+   "source": "photo"
+  },
+  {
+   "q": "Is a measuring tape included in the product?",
+   "a": "The measuring tape shown in the photo is for scale only and is not part of the product.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

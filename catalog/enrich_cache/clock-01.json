@@ -1,0 +1,90 @@
+{
+ "short": "Round wall clock with dark brown frame",
+ "description": "A round wall clock featuring a dark brown frame, a cream face, and black numbers. The photo appears to show a traditional analog clock face.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "dark brown frame, cream face, black numbers",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "30 cm (12 inch) diameter",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "clock (1 AA battery not included)",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "dust with a dry cloth",
+   "source": "listing"
+  },
+  {
+   "label": "Visual appearance",
+   "value": "The photo seems to show an analog clock with Arabic numerals.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour?",
+   "a": "It has a dark brown frame, a cream face, and black numbers.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions?",
+   "a": "It has a 30 cm (12 inch) diameter.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made of?",
+   "a": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The box contains the clock, though one AA battery is not included.",
+   "source": "listing"
+  },
+  {
+   "q": "How do you care for or clean it?",
+   "a": "Dust with a dry cloth.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 119 reviews averaging 4.2 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Does it have a silent movement?",
+   "a": "Yes, the listing states it features a silent sweep movement.",
+   "source": "listing"
+  },
+  {
+   "q": "What numbers are displayed on the clock face?",
+   "a": "The photo appears to show standard Arabic numerals from 1 through 12.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite",
+ "_hand_edited": true
+}

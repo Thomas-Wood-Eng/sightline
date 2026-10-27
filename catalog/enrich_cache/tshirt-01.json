@@ -1,0 +1,94 @@
+{
+ "short": "White organic cotton crew-neck T-shirt",
+ "description": "A classic short-sleeved crew-neck T-shirt in soft organic cotton jersey. The photo seems to show a textured diamond pattern across the fabric.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "white",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "S, M, L, XL",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "100% organic cotton jersey",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "1 T-shirt",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "machine wash warm",
+   "source": "listing"
+  },
+  {
+   "label": "Texture",
+   "value": "The photo appears to show a subtle diamond pattern on the fabric.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What exact colour is the T-shirt?",
+   "a": "The listing states the colour is white.",
+   "source": "listing"
+  },
+  {
+   "q": "What sizes are available?",
+   "a": "The listing offers S, M, L, and XL.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made of and how does it feel?",
+   "a": "It is made of 100% organic cotton jersey, described as soft.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The package contains 1 T-shirt.",
+   "source": "listing"
+  },
+  {
+   "q": "How should I care for this T-shirt?",
+   "a": "The care instructions recommend machine wash warm.",
+   "source": "listing"
+  },
+  {
+   "q": "What do reviews say about this T-shirt?",
+   "a": "It has 356 reviews averaging 4.4 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Does the T-shirt have any visible pattern?",
+   "a": "The photo seems to show a textured diamond pattern across the fabric.",
+   "source": "photo"
+  },
+  {
+   "q": "What type of neckline does it have?",
+   "a": "The listing describes it as a crew-neck T-shirt.",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

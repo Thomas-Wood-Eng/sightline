@@ -1,0 +1,95 @@
+{
+ "short": "Classic trail mix",
+ "description": "A salty-sweet mix of roasted nuts, raisins and chocolate candies. The photo seems to show a loose pile of peanuts, almonds, cashews, raisins, and colorful candy-coated chocolates.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "null",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "null",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "null",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "400 g (14 oz) resealable bag",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 bag",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "Contains peanuts, almonds, cashews, milk and soy. Made in a facility that also processes wheat.",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "store in a cool, dry place",
+   "source": "listing"
+  },
+  {
+   "label": "Visible contents",
+   "value": "The photo appears to show a loose, textured mix of small pieces.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour of the product?",
+   "a": "Not stated in the listing.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What are the dimensions or size?",
+   "a": "400 g (14 oz) resealable bag",
+   "source": "listing"
+  },
+  {
+   "q": "What is the material, texture, and how does it feel?",
+   "a": "Not stated in the listing.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "1 bag",
+   "source": "listing"
+  },
+  {
+   "q": "What are the allergens and ingredients?",
+   "a": "Contains peanuts, almonds, cashews, milk and soy. Made in a facility that also processes wheat.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the care or cleaning instructions?",
+   "a": "Store in a cool, dry place",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 318 reviews averaging 4.6 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "What is in it?",
+   "a": "The listing says it contains peanuts, almonds and cashews, plus milk and soy, and is made in a facility that also processes wheat.",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite",
+ "_hand_edited": true
+}

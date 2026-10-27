@@ -1,0 +1,84 @@
+{
+ "short": "Wildflower honey",
+ "description": "Raw wildflower honey contained in a plastic jar. The photo seems to show a clear plastic jar filled with a dark amber liquid and topped with a bright yellow ribbed lid.",
+ "facts": [
+  {
+   "label": "Dimensions",
+   "value": "454 g (1 lb) jar",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 jar",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "No major allergens declared.",
+   "source": "listing"
+  },
+  {
+   "label": "Care instructions",
+   "value": "store at room temperature",
+   "source": "listing"
+  },
+  {
+   "label": "Lid appearance",
+   "value": "The photo appears to show a bright yellow ribbed lid.",
+   "source": "photo"
+  },
+  {
+   "label": "Jar appearance",
+   "value": "The photo seems to show a clear jar containing a dark liquid.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What exact colour is it?",
+   "a": "The listing does not state the colour, but the photo appears to show a dark amber liquid inside a clear jar with a yellow lid.",
+   "source": "photo"
+  },
+  {
+   "q": "What are the dimensions or capacity?",
+   "a": "It is a 454 g (1 lb) jar.",
+   "source": "listing"
+  },
+  {
+   "q": "What is the material and how does it feel?",
+   "a": "The listing states the jar is made of plastic.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The package contains 1 jar.",
+   "source": "listing"
+  },
+  {
+   "q": "Are there any allergens or specific ingredients?",
+   "a": "No major allergens declared. Not suitable for infants under 12 months.",
+   "source": "listing"
+  },
+  {
+   "q": "How should this product be stored?",
+   "a": "Store at room temperature.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 204 reviews averaging 4.9 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Is the honey raw?",
+   "a": "Yes, the listing describes it as raw wildflower honey.",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

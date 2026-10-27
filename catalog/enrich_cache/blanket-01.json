@@ -1,0 +1,94 @@
+{
+ "short": "Pale grey lace-knit throw blanket",
+ "description": "A pale grey 100% cotton lace-knit throw blanket designed for the sofa or bed. The photo seems to show a delicate, open lace pattern with scalloped edges and light green undertones.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "pale grey",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "100% cotton",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "127 x 152 cm (50 x 60 inch)",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 throw",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "machine wash cold, gentle cycle",
+   "source": "listing"
+  },
+  {
+   "label": "Pattern",
+   "value": "The photo appears to show an intricate openwork lace pattern.",
+   "source": "photo"
+  },
+  {
+   "label": "Edge",
+   "value": "The photo seems to show a scalloped decorative border pinned down.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What exact colour is the throw blanket?",
+   "a": "The listing states the colour is pale grey.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions of the throw blanket?",
+   "a": "The dimensions are 127 x 152 cm (50 x 60 inch).",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made from?",
+   "a": "It is made from 100% cotton.",
+   "source": "listing"
+  },
+  {
+   "q": "What does the texture and pattern look like?",
+   "a": "The photo appears to show a light, open lace-knit texture with a detailed pattern and scalloped edges.",
+   "source": "photo"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The box contains 1 throw blanket.",
+   "source": "listing"
+  },
+  {
+   "q": "How should this blanket be cared for or cleaned?",
+   "a": "The listing recommends machine wash cold on a gentle cycle.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say about this blanket?",
+   "a": "It has 158 reviews averaging 4.6 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Are there any available sizes listed?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

@@ -1,0 +1,95 @@
+{
+ "short": "Heavyweight black pullover hoodie",
+ "description": "A heavyweight black pullover hoodie featuring a lined hood, front kangaroo pocket, and long sleeves. The photo seems to show it worn by a person with the hood up.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "black",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "XS, S, M, L, XL, XXL",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "100% cotton, 400 gsm",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "1 hoodie",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "machine wash cold, hang dry",
+   "source": "listing"
+  },
+  {
+   "label": "Hood",
+   "value": "The photo appears to show a lined hood attached at the neckline.",
+   "source": "photo"
+  },
+  {
+   "label": "Pocket",
+   "value": "The photo seems to show a front kangaroo pocket near the lower waist.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour of the hoodie?",
+   "a": "The listing states the colour is black.",
+   "source": "listing"
+  },
+  {
+   "q": "What sizes are available?",
+   "a": "The available sizes are XS, S, M, L, XL, and XXL.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made of and how does it feel?",
+   "a": "It is made of 100% cotton at 400 gsm, making it a heavyweight fabric.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The package includes 1 hoodie.",
+   "source": "listing"
+  },
+  {
+   "q": "How should I care for and clean this hoodie?",
+   "a": "The care instructions are to machine wash cold and hang dry.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say about this hoodie?",
+   "a": "It has 87 reviews averaging 4.3 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Does the hoodie have a front pocket?",
+   "a": "Yes, the listing states it features a front kangaroo pocket.",
+   "source": "listing"
+  },
+  {
+   "q": "Is the hood lined?",
+   "a": "Yes, the listing notes that the hood is lined.",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite",
+ "_hand_edited": true
+}

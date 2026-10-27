@@ -1,0 +1,84 @@
+{
+ "short": "Slim power bank in champagne gold",
+ "description": "The product is a slim power bank featuring an aluminium casing in champagne gold. The photo seems to show a rectangular shape with rounded edges, a small power button, tiny indicator lights, a micro-USB port, and two standard USB ports on one end, resting on a wooden surface.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "champagne gold",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "aluminium casing",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "10,000 mAh capacity",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "power bank, USB cable",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "keep away from heat",
+   "source": "listing"
+  },
+  {
+   "label": "Appearance",
+   "value": "appears to have two USB ports and indicator lights",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What exact colour is the power bank?",
+   "a": "It is champagne gold according to the listing.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions or capacity?",
+   "a": "It has a 10,000 mAh capacity.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made of and how does it feel?",
+   "a": "It features an aluminium casing.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The box contains the power bank and a USB cable.",
+   "source": "listing"
+  },
+  {
+   "q": "How should I care for or clean this item?",
+   "a": "Keep it away from heat.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 412 reviews averaging 4.3 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "What ports are visible on the device?",
+   "a": "The photo seems to show a micro-USB port and two standard USB output ports.",
+   "source": "photo"
+  },
+  {
+   "q": "Does it have a power button and indicator lights?",
+   "a": "The photo appears to show a small power button next to a row of tiny indicator lights.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

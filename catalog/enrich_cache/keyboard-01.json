@@ -1,0 +1,100 @@
+{
+ "short": "Off-white full-size wired keyboard",
+ "description": "The photo seems to show an off-white plastic full-size wired keyboard with a number pad. It features standard QWERTY key layout and directional arrow keys.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "off-white",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "plastic",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 keyboard with attached cable",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "wipe clean",
+   "source": "listing"
+  },
+  {
+   "label": "Layout",
+   "value": "The photo appears to show a standard QWERTY layout with a number pad.",
+   "source": "photo"
+  },
+  {
+   "label": "Cable",
+   "value": "The photo seems to show an attached wired cable at the top.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour?",
+   "a": "The listing states the colour is off-white.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions or size?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "listing"
+  },
+  {
+   "q": "What is the material and texture?",
+   "a": "The listing states the material is plastic.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The listing states it includes 1 keyboard with attached cable.",
+   "source": "listing"
+  },
+  {
+   "q": "How do I care for or clean it?",
+   "a": "The listing states to wipe clean.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 256 reviews averaging 4.1 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Does it have a number pad?",
+   "a": "Yes. The listing says it has a number pad.",
+   "source": "listing"
+  },
+  {
+   "q": "Is it wireless?",
+   "a": "The listing states it is a wired keyboard, and the photo appears to show a connected cable.",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite",
+ "_hand_edited": true
+}

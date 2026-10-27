@@ -1,0 +1,94 @@
+{
+ "short": "8-inch chef's knife with dark steel blade and black handle",
+ "description": "An 8-inch chef's knife designed for everyday chopping and slicing. The photo seems to show a forged stainless steel chef's knife featuring a dark steel blade and a black handle with an integrated bolster.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "dark steel blade, black handle",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "high-carbon stainless steel blade",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "20 cm (8 inch) blade",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 knife, blade guard",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "hand wash only",
+   "source": "listing"
+  },
+  {
+   "label": "Blade Appearance",
+   "value": "The photo seems to show a dark steel blade with a curved edge.",
+   "source": "photo"
+  },
+  {
+   "label": "Handle Appearance",
+   "value": "The photo appears to show a contoured black handle.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour of the knife?",
+   "a": "The listing states the colour is dark steel blade, black handle.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions of the knife?",
+   "a": "The listing states the dimensions are 20 cm (8 inch) blade.",
+   "source": "listing"
+  },
+  {
+   "q": "What is the material of the knife?",
+   "a": "The listing states the material is high-carbon stainless steel blade.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The listing states the box contains 1 knife, blade guard.",
+   "source": "listing"
+  },
+  {
+   "q": "How should this knife be cared for or cleaned?",
+   "a": "The listing states to hand wash only.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 233 reviews averaging 4.6 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "What is the condition of the item?",
+   "a": "The listing states the condition is new.",
+   "source": "listing"
+  },
+  {
+   "q": "What does the handle look like?",
+   "a": "The photo appears to show a smooth, contoured black handle with a metal bolster.",
+   "source": "photo"
+  },
+  {
+   "q": "Are there any specific sizes available other than what is listed?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "not_stated"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

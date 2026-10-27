@@ -1,0 +1,95 @@
+{
+ "short": "Heather grey fleece-lined pullover hoodie",
+ "description": "This is a warm pullover hoodie in heather grey with a soft brushed fleece lining and a drawstring hood. The photo seems to show a person wearing it outdoors while seated on a wooden bench next to a pink water bottle.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "heather grey",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "S, M, L, XL",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "80% cotton, 20% polyester, fleece lining",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "1 hoodie",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care instructions",
+   "value": "machine wash cold, tumble dry low",
+   "source": "listing"
+  },
+  {
+   "label": "Hood style",
+   "value": "drawstring hood",
+   "source": "listing"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What exact colour is the hoodie?",
+   "a": "The listing states the colour is heather grey.",
+   "source": "listing"
+  },
+  {
+   "q": "What sizes are available?",
+   "a": "Available sizes are S, M, L, and XL.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made from and how does it feel?",
+   "a": "It is made from 80% cotton and 20% polyester with a soft brushed fleece lining.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The box includes 1 hoodie.",
+   "source": "listing"
+  },
+  {
+   "q": "How should I care for and clean this hoodie?",
+   "a": "Machine wash cold and tumble dry low.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 212 reviews averaging 4.6 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Does the photo show any accessories that come with it?",
+   "a": "The photo appears to show a pink water bottle on the bench next to the wearer, which is not part of the product.",
+   "source": "photo"
+  },
+  {
+   "q": "Does the hood feature any adjustments?",
+   "a": "Yes. The listing says it has a drawstring hood.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions of the hoodie?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite",
+ "_hand_edited": true
+}

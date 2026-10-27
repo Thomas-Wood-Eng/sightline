@@ -1,0 +1,89 @@
+{
+ "short": "Teal blue glazed ceramic plant pot",
+ "description": "A new teal blue glazed ceramic plant pot. The photo seems to show a flared rim, rounded body, and a small pedestal base.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "teal blue glaze",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "glazed ceramic",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "15 cm (6 inch) diameter",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "1 pot",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "wipe clean",
+   "source": "listing"
+  },
+  {
+   "label": "Visible appearance",
+   "value": "The photo appears to show a flared opening at the top and a rounded body.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour?",
+   "a": "The listing states the colour is teal blue glaze.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions or capacity?",
+   "a": "The dimensions are 15 cm (6 inch) diameter.",
+   "source": "listing"
+  },
+  {
+   "q": "What is the material and how does it feel?",
+   "a": "It is made of glazed ceramic.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The box includes 1 pot.",
+   "source": "listing"
+  },
+  {
+   "q": "How do I care for or clean it?",
+   "a": "The care instructions are to wipe clean.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 77 reviews averaging 4.4 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Does it have a drainage hole?",
+   "a": "Yes, the description states it has a drainage hole.",
+   "source": "listing"
+  },
+  {
+   "q": "What is the overall shape shown in the photo?",
+   "a": "The photo seems to show a wide flared rim that tapers down to a rounded body and a small base.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

@@ -1,0 +1,94 @@
+{
+ "short": "Watercolour paint set in assorted colours",
+ "description": "A travel watercolour set of pans in a hinged tin. The photo seems to show a tray filled with numerous small square paint pans in assorted colours alongside several paintbrushes.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "assorted",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "paint tray with colour pans, brushes",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Visual appearance",
+   "value": "The photo appears to show numerous small square paint pans inside a tray with brushes.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What exact colour is the watercolour paint set?",
+   "a": "The listing states the colour is assorted.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the size and dimensions of the set?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What material is it made of and how does it feel?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The listing states it includes a paint tray with colour pans and brushes.",
+   "source": "listing"
+  },
+  {
+   "q": "How do you care for or clean this set?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 142 reviews averaging 4.5 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Are the paint pans removable?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What kind of brushes are included?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "not_stated"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

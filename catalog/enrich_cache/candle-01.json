@@ -1,0 +1,89 @@
+{
+ "short": "White scented soy candle in glass jar",
+ "description": "The product appears to be a white wax candle burning inside a clear glass jar on a dark surface.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "white wax in a clear glass jar",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "soy wax, cotton wick, glass jar",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "about 40 hours burn time",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 candle",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "trim wick before lighting; never leave burning unattended",
+   "source": "listing"
+  },
+  {
+   "label": "Visual appearance",
+   "value": "The photo seems to show a lit candle with a glowing flame.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour of the item?",
+   "a": "The listing states the colour is white wax in a clear glass jar.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions or size?",
+   "a": "The listing gives dimensions as about 40 hours burn time.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made from and how does it feel?",
+   "a": "It is made of soy wax, a cotton wick, and a glass jar.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The box contains 1 candle.",
+   "source": "listing"
+  },
+  {
+   "q": "How should I care for or clean this item?",
+   "a": "Trim the wick before lighting and never leave burning unattended.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 267 reviews averaging 4.5 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "What scent is the candle?",
+   "a": "It is scented with vanilla and cedar.",
+   "source": "listing"
+  },
+  {
+   "q": "Is the candle currently burning in the picture?",
+   "a": "The photo appears to show the candle lit with a visible flame.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

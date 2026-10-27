@@ -1,0 +1,94 @@
+{
+ "short": "Deep red knitted wool scarf with pom-poms",
+ "description": "A long deep red knitted wool scarf featuring a pom-pom at each end. The photo seems to show a soft, ribbed knit texture and the scarf is folded in half.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "deep red",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "one size",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "100% merino wool",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "180 cm long, 25 cm wide",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 scarf",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "hand wash cold, dry flat",
+   "source": "listing"
+  },
+  {
+   "label": "Visible detail",
+   "value": "The photo appears to show pom-poms attached to both ends.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What colour is the scarf?",
+   "a": "The listing states the colour is deep red.",
+   "source": "listing"
+  },
+  {
+   "q": "What size is the scarf?",
+   "a": "The listing states the size is one size.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made of and how does it feel?",
+   "a": "It is made of 100% merino wool, which generally feels soft and warm.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the exact dimensions?",
+   "a": "It is 180 cm long and 25 cm wide.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The box contains 1 scarf.",
+   "source": "listing"
+  },
+  {
+   "q": "How should I care for and clean this scarf?",
+   "a": "It requires hand wash cold and dry flat.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 64 reviews averaging 4.7 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Does the scarf have any decorative finishes?",
+   "a": "The photo seems to show a pom-pom attached at each end of the scarf.",
+   "source": "photo"
+  },
+  {
+   "q": "What knit pattern is visible in the photo?",
+   "a": "The photo appears to show a fine ribbed knit texture throughout the scarf.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

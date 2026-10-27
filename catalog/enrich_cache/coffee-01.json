@@ -1,0 +1,104 @@
+{
+ "short": "Whole bean coffee, medium roast",
+ "description": "Medium-roast whole coffee beans with notes of chocolate and caramel. The photo appears to show light brown coffee beans piled inside a small white bowl.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "340 g (12 oz) bag",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "1 bag",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "No major allergens declared.",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "store sealed, away from light",
+   "source": "listing"
+  },
+  {
+   "label": "Visual appearance",
+   "value": "The photo appears to show light brown whole coffee beans.",
+   "source": "photo"
+  },
+  {
+   "label": "Container",
+   "value": "The photo seems to show the beans in a white bowl.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour?",
+   "a": "The listing does not state a colour.",
+   "source": "listing"
+  },
+  {
+   "q": "What is the size and weight?",
+   "a": "It is a 340 g (12 oz) bag.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions?",
+   "a": "The listing provides the weight as 340 g (12 oz) bag.",
+   "source": "listing"
+  },
+  {
+   "q": "What is the material and texture?",
+   "a": "The listing does not state the material or texture.",
+   "source": "listing"
+  },
+  {
+   "q": "What is in the box?",
+   "a": "The package contains 1 bag.",
+   "source": "listing"
+  },
+  {
+   "q": "Are there any allergens or ingredients listed?",
+   "a": "No major allergens declared. The listing mentions medium-roast whole coffee beans with notes of chocolate and caramel.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the care instructions?",
+   "a": "Store sealed, away from light.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 509 reviews averaging 4.7 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Is the white bowl included with the product?",
+   "a": "The white bowl appears in the photo, but it is not stated whether it is included with the product.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

@@ -1,0 +1,94 @@
+{
+ "short": "Wired optical mouse in black",
+ "description": "A comfortable two-button wired mouse made of plastic with a scroll wheel. The photo seems to show a smooth black surface with an ergonomic shape and an attached wire.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "black",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "plastic",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "1 mouse with attached USB cable",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "wipe clean",
+   "source": "listing"
+  },
+  {
+   "label": "Visible appearance",
+   "value": "The photo appears to show an oval-shaped black mouse with a central scroll wheel.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour of the mouse?",
+   "a": "The listing states the colour is black.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions or size of the mouse?",
+   "a": "Not stated in the listing.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What material is it made of and how does it feel?",
+   "a": "The listing states it is made of plastic.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The box includes 1 mouse with an attached USB cable.",
+   "source": "listing"
+  },
+  {
+   "q": "How should this product be cared for and cleaned?",
+   "a": "The listing recommends to wipe clean.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say about this mouse?",
+   "a": "It has 389 reviews averaging 4.4 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Does the mouse have a scroll wheel?",
+   "a": "Yes, the listing describes it as having two buttons and a scroll wheel.",
+   "source": "listing"
+  },
+  {
+   "q": "Is the cable attached to the mouse?",
+   "a": "Yes, the listing indicates it comes with an attached USB cable.",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

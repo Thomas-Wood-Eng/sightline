@@ -1,0 +1,100 @@
+{
+ "short": "Honey almond granola",
+ "description": "Honey almond granola, which appears in the photo to be a mixture of rolled oats, whole almonds, cashews, and raisins.",
+ "facts": [
+  {
+   "label": "Description",
+   "value": "Crunchy baked oat clusters with almonds, sweetened with honey.",
+   "source": "listing"
+  },
+  {
+   "label": "Colour",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "500 g (17.6 oz) bag",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 bag",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "Contains almonds (tree nuts), oats and wheat (gluten).",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "store in a cool, dry place",
+   "source": "listing"
+  },
+  {
+   "label": "Visual appearance",
+   "value": "The photo appears to show a loose, textured mix of small pieces.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour?",
+   "a": "Not stated in the listing.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What are the dimensions of the product?",
+   "a": "It is a 500 g (17.6 oz) bag.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made of and how does it feel?",
+   "a": "Not stated in the listing.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "1 bag.",
+   "source": "listing"
+  },
+  {
+   "q": "What allergens and ingredients are present?",
+   "a": "Contains almonds (tree nuts), oats and wheat (gluten).",
+   "source": "listing"
+  },
+  {
+   "q": "What are the care or storage instructions?",
+   "a": "Store in a cool, dry place.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 142 reviews averaging 4.4 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "What is in it?",
+   "a": "The listing says it contains almonds (tree nuts), oats and wheat (gluten).",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite",
+ "_hand_edited": true
+}

@@ -1,0 +1,84 @@
+{
+ "short": "Glazed earthenware mug in olive brown glaze",
+ "description": "This is a glazed earthenware mug featuring an olive brown glaze with subtle orange spotting. The photo seems to show a tall, straight-sided cylindrical body and a curved handle on the side.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "olive brown glaze",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "glazed earthenware",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "holds 350 ml (12 oz)",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 mug",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "hand wash; not microwave safe",
+   "source": "listing"
+  },
+  {
+   "label": "Surface",
+   "value": "The photo appears to show a dark glaze with speckled orange highlights.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour of the mug?",
+   "a": "The listing states the colour is olive brown glaze.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions or capacity of the mug?",
+   "a": "The listing states it holds 350 ml (12 oz).",
+   "source": "listing"
+  },
+  {
+   "q": "What material is the mug made of and how does it feel?",
+   "a": "The listing specifies glazed earthenware.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The listing states it contains 1 mug.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the care or cleaning instructions?",
+   "a": "The listing states to hand wash and that it is not microwave safe.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say about this mug?",
+   "a": "It has 402 reviews averaging 4.8 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Does the mug have a handle?",
+   "a": "The photo seems to show a curved handle attached to the side.",
+   "source": "photo"
+  },
+  {
+   "q": "What is the shape of the mug?",
+   "a": "The photo appears to show a tall, straight-sided cylindrical shape.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

@@ -1,0 +1,94 @@
+{
+ "short": "Wired in-ear earphones in lilac purple",
+ "description": "Lightweight in-ear earphones in lilac purple with a flat cable and silicone ear tips. The photo seems to show angled earbud nozzles and a right-angled 3.5 millimeter audio plug.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "lilac purple",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "plastic, silicone ear tips",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "earphones, 3 sizes of ear tips",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care instructions",
+   "value": "wipe clean, keep dry",
+   "source": "listing"
+  },
+  {
+   "label": "Plug type",
+   "value": "The photo appears to show an L-shaped 3.5mm audio jack.",
+   "source": "photo"
+  },
+  {
+   "label": "Cable design",
+   "value": "The photo seems to show a flat cable style.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What colour are the earphones?",
+   "a": "They are lilac purple.",
+   "source": "listing"
+  },
+  {
+   "q": "What sizes are available?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "listing"
+  },
+  {
+   "q": "What materials are used?",
+   "a": "They are made of plastic with silicone ear tips.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The box contains the earphones and three sizes of ear tips.",
+   "source": "listing"
+  },
+  {
+   "q": "How do I care for and clean them?",
+   "a": "Wipe clean and keep dry.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 1204 reviews averaging 3.9 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "What type of audio plug do they have?",
+   "a": "The listing states they feature a .5 mm plug, and the photo appears to show a right-angled connector.",
+   "source": "listing"
+  },
+  {
+   "q": "Are the cables tangle-resistant?",
+   "a": "Yes, the listing describes them as having a flat, tangle-resistant cable.",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

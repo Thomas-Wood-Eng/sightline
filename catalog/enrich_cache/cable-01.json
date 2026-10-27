@@ -1,0 +1,99 @@
+{
+ "short": "Braided USB cable in white and silver-grey",
+ "description": "A USB charging and data cable with white connectors and a silver-grey braided cord. The photo seems to show a standard USB Type-A connector with a visible USB icon on the casing.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "white connectors with a silver-grey braided cord",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "braided nylon cord",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "1 metre long",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "1 cable",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "Not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Connector",
+   "value": "The photo appears to show a standard USB Type-A connector.",
+   "source": "photo"
+  },
+  {
+   "label": "Icon",
+   "value": "The photo seems to show a USB logo stamped on the white connector casing.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What exact colour is the cable?",
+   "a": "It has white connectors with a silver-grey braided cord.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions of the cable?",
+   "a": "It is 1 metre long.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made from?",
+   "a": "It is made with a braided nylon cord.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "There is 1 cable included.",
+   "source": "listing"
+  },
+  {
+   "q": "How do you care for or clean this cable?",
+   "a": "Not stated in the listing. You could ask the seller.",
+   "source": "not_stated"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 930 reviews averaging 4.2 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "What type of connector is visible?",
+   "a": "The photo appears to show a rectangular USB Type-A connector.",
+   "source": "photo"
+  },
+  {
+   "q": "Are there any markings on the connector housing?",
+   "a": "The photo seems to show a small USB icon stamped on the white plastic housing.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

@@ -1,0 +1,84 @@
+{
+ "short": "Brushed stainless steel French press coffee maker",
+ "description": "The photo seems to show a brushed stainless steel French press coffee maker with a clear glass body insert and a plunger lid with a round knob. It has a sturdy handle attached to the metal housing.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "brushed stainless steel",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "stainless steel",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "1 litre (34 oz)",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "French press, spare filter",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care instructions",
+   "value": "dishwasher safe",
+   "source": "listing"
+  },
+  {
+   "label": "Design details",
+   "value": "The photo appears to show a clear glass body section held within the metal frame.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What colour is the French press?",
+   "a": "It is brushed stainless steel.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions or capacity?",
+   "a": "It has a capacity of 1 litre (34 oz).",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made of and how does it feel?",
+   "a": "It is made of stainless steel, and the photo appears to show a metal housing with a smooth metallic finish.",
+   "source": "photo"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The box contains the French press and a spare filter.",
+   "source": "listing"
+  },
+  {
+   "q": "How should I clean and care for it?",
+   "a": "It is dishwasher safe.",
+   "source": "listing"
+  },
+  {
+   "q": "What do customer reviews say?",
+   "a": "It has 290 reviews averaging 4.4 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Does it have a glass insert?",
+   "a": "The photo seems to show a clear glass body insert within the metal frame.",
+   "source": "photo"
+  },
+  {
+   "q": "How does the plunger operate?",
+   "a": "It features a plunger lid with a round top knob.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

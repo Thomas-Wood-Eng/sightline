@@ -1,0 +1,94 @@
+{
+ "short": "White electric kettle",
+ "description": "This is a white electric kettle. The photo seems to show a white plastic body with a curved handle and a water level indicator.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "white",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "plastic body, stainless steel heating plate",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "1.7 litre capacity",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "kettle, power base",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Allergens",
+   "value": "not stated",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "descale monthly; do not immerse",
+   "source": "listing"
+  },
+  {
+   "label": "Appearance",
+   "value": "the photo appears to show a water level window and a lid on top",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour of the kettle?",
+   "a": "The listing states the colour is white.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions or capacity?",
+   "a": "The listing states it has a 1.7 litre capacity.",
+   "source": "listing"
+  },
+  {
+   "q": "What material is it made of?",
+   "a": "It has a plastic body and a stainless steel heating plate.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The box includes the kettle and a power base.",
+   "source": "listing"
+  },
+  {
+   "q": "How do I care for and clean this product?",
+   "a": "Descale monthly and do not immerse it in water.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 188 reviews averaging 4.5 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Is it cordless?",
+   "a": "Yes, the listing describes a cordless electric kettle with a 360-degree base.",
+   "source": "listing"
+  },
+  {
+   "q": "Does it have an automatic shut-off feature?",
+   "a": "Yes, it features automatic shut-off.",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

@@ -1,0 +1,89 @@
+{
+ "short": "Coral pink cotton bath towel set",
+ "description": "A set of soft, absorbent 100% cotton terry bath and hand towels. The photo appears to show a coral pink bath towel and a smaller hand towel hanging neatly side by side on a metal wall-mounted towel bar.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "coral pink",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "Not stated in the listing.",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "100% cotton terry",
+   "source": "listing"
+  },
+  {
+   "label": "Dimensions",
+   "value": "bath towel 70 x 140 cm, hand towel 40 x 70 cm",
+   "source": "listing"
+  },
+  {
+   "label": "In the box",
+   "value": "1 bath towel, 1 hand towel",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "machine wash warm, tumble dry",
+   "source": "listing"
+  },
+  {
+   "label": "Hanging arrangement",
+   "value": "The photo seems to show the towels draped over a metal towel bar.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What exact colour are the towels?",
+   "a": "The listing states the colour is coral pink.",
+   "source": "listing"
+  },
+  {
+   "q": "What are the dimensions of the towels?",
+   "a": "The bath towel is 70 x 140 cm, and the hand towel is 40 x 70 cm.",
+   "source": "listing"
+  },
+  {
+   "q": "What material are they made of and how do they feel?",
+   "a": "They are made of 100% cotton terry, described as soft and absorbent.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the box?",
+   "a": "The set includes one bath towel and one hand towel.",
+   "source": "listing"
+  },
+  {
+   "q": "How should I care for and clean these towels?",
+   "a": "Machine wash warm and tumble dry.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 340 reviews averaging 4.5 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Are there any visible patterns or decorative borders?",
+   "a": "The photo appears to show a woven decorative border near the bottom edge of each towel.",
+   "source": "photo"
+  },
+  {
+   "q": "How are the towels displayed in the image?",
+   "a": "The photo seems to show both towels draped over a horizontal metal bar attached to a wall.",
+   "source": "photo"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}

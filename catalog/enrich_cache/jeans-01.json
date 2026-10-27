@@ -1,0 +1,89 @@
+{
+ "short": "Straight-leg jeans in medium blue wash",
+ "description": "Straight-leg jeans in medium blue wash. They feature five pockets and a button fly. The photo appears to show a pair of denim jeans laid out flat on a patterned surface.",
+ "facts": [
+  {
+   "label": "Colour",
+   "value": "medium blue wash",
+   "source": "listing"
+  },
+  {
+   "label": "Sizes",
+   "value": "28x30, 30x30, 32x32, 34x32, 36x32",
+   "source": "listing"
+  },
+  {
+   "label": "Material",
+   "value": "99% cotton, 1% elastane denim",
+   "source": "listing"
+  },
+  {
+   "label": "Condition",
+   "value": "new",
+   "source": "listing"
+  },
+  {
+   "label": "In box",
+   "value": "1 pair of jeans",
+   "source": "listing"
+  },
+  {
+   "label": "Care",
+   "value": "machine wash cold inside out",
+   "source": "listing"
+  },
+  {
+   "label": "Visual appearance",
+   "value": "The photo appears to show five pockets and belt loops.",
+   "source": "photo"
+  }
+ ],
+ "qa": [
+  {
+   "q": "What is the exact colour of the jeans?",
+   "a": "The listing states the colour is medium blue wash.",
+   "source": "listing"
+  },
+  {
+   "q": "What sizes are available?",
+   "a": "Available sizes are 28x30, 30x30, 32x32, 34x32, and 36x32.",
+   "source": "listing"
+  },
+  {
+   "q": "What is the material and how does it feel?",
+   "a": "The material is 99% cotton and 1% elastane denim.",
+   "source": "listing"
+  },
+  {
+   "q": "What is included in the package?",
+   "a": "The package includes 1 pair of jeans.",
+   "source": "listing"
+  },
+  {
+   "q": "How should these jeans be cleaned?",
+   "a": "Machine wash cold inside out.",
+   "source": "listing"
+  },
+  {
+   "q": "What do the reviews say?",
+   "a": "It has 143 reviews averaging 4.1 out of 5 stars.",
+   "source": "listing"
+  },
+  {
+   "q": "Do the jeans have a button fly?",
+   "a": "Yes, the listing states they have a button fly.",
+   "source": "listing"
+  },
+  {
+   "q": "Are there pockets?",
+   "a": "Yes, they feature five pockets.",
+   "source": "listing"
+  },
+  {
+   "q": "What rise are the jeans?",
+   "a": "The listing describes them as mid-rise.",
+   "source": "listing"
+  }
+ ],
+ "_model": "gemini-3.5-flash-lite"
+}
