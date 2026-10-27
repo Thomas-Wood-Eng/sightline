@@ -223,7 +223,7 @@ HELP = ['Search by saying what you want, for example: warm hoodie under 40 dolla
 def _log_feedback(s, text):
     with FEEDBACK.open('a', encoding='utf-8') as f:
         f.write(json.dumps({'t': datetime.now().isoformat(timespec='seconds'), 'said': text,
-                            'last': s.get('last'), 'focus': s.get('focus')}) + '\n')
+                            'last': checkout.ledger(s).get('last'), 'focus': s.get('focus')}) + '\n')
 
 
 # ---- sizes and colours ----------------------------------------------------------------------------------------
@@ -380,7 +380,7 @@ def handle(text, s):
         return None
     name, args = cmd[0], cmd[1:]
     if name == 'repeat':
-        last = s.get('last')
+        last = checkout.ledger(s).get('last')
         return Reply(last['say'], last['lines']) if last else Reply('Nothing to repeat yet.')
     if name == 'help':
         return Reply('You can say:', HELP)
@@ -605,7 +605,7 @@ def _holding(cmd, text, s, st):
     if name in ('cancel', 'no', 'undo'):
         return checkout.cancel(s)
     if name in ('repeat', 'checkout'):
-        last = s.get('last') if name == 'repeat' else None
+        last = checkout.ledger(s).get('last') if name == 'repeat' else None
         return Reply(last['say'], last['lines']) if last else checkout.start(s)
     if name == 'spell' and s.get('spell'):
         return Reply(speech.spell(s['spell']))

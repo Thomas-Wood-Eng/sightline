@@ -32,7 +32,9 @@ app.mount('/static', StaticFiles(directory=STATIC), name='static')
 
 
 def out(s, r: Reply):
-    s['last'] = {'say': r.say, 'lines': r.lines}
+    s.pop('last', None)  # older cookies kept it here
+    s['co'] = dict(s.get('co') or {})  # a top-level write marks the session changed, so in-place edits (cart, co) persist
+    checkout.ledger(s)['last'] = {'say': r.say, 'lines': r.lines}  # server-side: keeps the signed cookie under 4 KB
     return {'say': r.say, 'lines': r.lines, 'state': checkout.state(s), 'focus': r.focus, 'action': r.action,
             'due_in': checkout.seconds_left(s)}
 

@@ -227,18 +227,18 @@ def test_review_summary_numbers_from_data():
 
 
 def test_reviews_file_is_labelled_and_consistent():
+    import json
     from app import catalog
     if not catalog.REVIEWS:
         return
+    ratings = {p['id']: p['rating'] for p in json.loads((catalog.DIR / 'catalog.json').read_text(encoding='utf-8'))}
     assert 'not from real customers' in catalog.REVIEWS['_about']
     for pid, r in catalog.REVIEWS.items():
         if pid == '_about':
             continue
         assert 5 <= len(r['reviews']) <= 12
         stars = [x['stars'] for x in r['reviews']]
-        p = catalog.get(pid)
-        if p:
-            assert abs(sum(stars) / len(stars) - p['rating']) <= 0.5 / len(stars) + 1e-9
+        assert abs(sum(stars) / len(stars) - ratings[pid]) <= 0.5 / len(stars) + 1e-9
 
 
 # ---- 7. order history, tracking, spending ----
