@@ -9,4 +9,5 @@ demo/out/
 demo/render.log
 feedback.jsonl
 qa/shots/
+qa/state_*.json
 spike_state.json
