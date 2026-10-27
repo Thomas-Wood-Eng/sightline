@@ -1493,5 +1493,646 @@
    ],
    "complaint": null
   }
+ },
+ "candle-01": {
+  "reviews": [
+   {
+    "stars": 2,
+    "text": "The cotton wick keeps curling over and drowning itself in the melted soy wax, so I have to keep fishing it out."
+   },
+   {
+    "stars": 5,
+    "text": "This vanilla and cedar combination is absolutely heavenly for the living room."
+   },
+   {
+    "stars": 5,
+    "text": "It burns so cleanly and evenly without leaving any black soot on the glass jar."
+   },
+   {
+    "stars": 5,
+    "text": "The scent is subtle yet warm, creating such a cozy atmosphere during movie nights."
+   },
+   {
+    "stars": 5,
+    "text": "I am obsessed with how long this little candle lasts while still filling the whole hallway with fragrance."
+   },
+   {
+    "stars": 5,
+    "text": "The blend of sweet vanilla and earthy cedar is just perfection."
+   },
+   {
+    "stars": 5,
+    "text": "It makes my entire bedroom smell like a luxury spa."
+   },
+   {
+    "stars": 5,
+    "text": "The glass jar looks minimal and matches every piece of decor on my shelves."
+   },
+   {
+    "stars": 5,
+    "text": "Lighting this up at the end of a long workday instantly helps me unwind."
+   },
+   {
+    "stars": 3,
+    "text": "The vanilla note is a bit too sweet for my taste, though the cedar helps balance it out."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "heavenly scent combination",
+    "burns cleanly and evenly",
+    "long lasting fragrance"
+   ],
+   "cons": [
+    "wick curls and drowns",
+    "vanilla note too sweet"
+   ],
+   "complaint": "wick curls and drowns"
+  }
+ },
+ "blanket-01": {
+  "reviews": [
+   {
+    "stars": 4,
+    "text": "The pale grey color is lovely, but the open knit tends to catch on my rings a bit too easily."
+   },
+   {
+    "stars": 5,
+    "text": "This cotton blanket is wonderfully soft and adds such an elegant texture to the foot of our bed."
+   },
+   {
+    "stars": 5,
+    "text": "It is the perfect lightweight throw for chilly summer evenings when you just need a little cover on the sofa."
+   },
+   {
+    "stars": 5,
+    "text": "I was worried it might feel rough, but the breathable cotton is surprisingly cozy and drapes beautifully."
+   },
+   {
+    "stars": 2,
+    "text": "The weave is far too loose for my liking; my cat's claws went straight through it and pulled a thread on day one."
+   },
+   {
+    "stars": 5,
+    "text": "Washing it on the gentle cycle was a breeze, and it came out of the machine looking just as good as new."
+   },
+   {
+    "stars": 5,
+    "text": "The subtle lace pattern gives it a charming vintage look that brightens up our entire living room."
+   },
+   {
+    "stars": 5,
+    "text": "It is just the right size to curl up under with a book without feeling weighed down by heavy fabric."
+   },
+   {
+    "stars": 5,
+    "text": "The quality of the stitching is fantastic, and the pale grey shade matches every single pillow we own."
+   },
+   {
+    "stars": 5,
+    "text": "Absolute perfection for draping over the armchair, offering just enough warmth while still looking chic."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "wonderfully soft",
+    "lightweight and breathable",
+    "charming vintage look"
+   ],
+   "cons": [
+    "catches on rings",
+    "weave is too loose"
+   ],
+   "complaint": "loose weave catches easily"
+  }
+ },
+ "lamp-01": {
+  "reviews": [
+   {
+    "stars": 4,
+    "text": "The chrome finish looks sleek on my workbench, though the base could use a bit more weight to stay firmly planted."
+   },
+   {
+    "stars": 2,
+    "text": "The pivot joint near the shade became completely loose after just a couple of weeks, making it impossible to direct the light properly."
+   },
+   {
+    "stars": 5,
+    "text": "I love how easily I can angle the arm to light up my sketchbook without any glare."
+   },
+   {
+    "stars": 5,
+    "text": "The metal build feels exceptionally sturdy and adds a modern touch to my home office setup."
+   },
+   {
+    "stars": 5,
+    "text": "It is super simple to adjust the head to any position I need for late-night reading."
+   },
+   {
+    "stars": 2,
+    "text": "The switch on the cord stopped working reliably, which makes turning it on and off a frustrating chore."
+   },
+   {
+    "stars": 5,
+    "text": "This is the perfect minimalist task light for my writing desk."
+   },
+   {
+    "stars": 5,
+    "text": "The arm glides smoothly into place and holds its position without drooping at all."
+   },
+   {
+    "stars": 5,
+    "text": "Cleaning the chrome surface is a breeze, and it really brightens up my entire workspace."
+   },
+   {
+    "stars": 5,
+    "text": "The sleek design fits my minimalist aesthetic perfectly and provides brilliant illumination."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "sleek design",
+    "easy to adjust",
+    "sturdy metal build"
+   ],
+   "cons": [
+    "loose pivot joint",
+    "faulty switch",
+    "light base"
+   ],
+   "complaint": null
+  }
+ },
+ "planter-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The teal color is absolutely gorgeous in my living room light. It feels sturdy, and my succulent is thriving with the built-in drainage hole."
+   },
+   {
+    "stars": 5,
+    "text": "The glossy finish wipes clean easily with a damp cloth. It holds my pothos plant perfectly without tipping over."
+   },
+   {
+    "stars": 5,
+    "text": "This glaze has a lovely depth to it that brightens up my windowsill. The ceramic feels smooth, heavy, and very well-crafted."
+   },
+   {
+    "stars": 2,
+    "text": "The drainage hole at the bottom was partially blocked by excess glaze, causing water to pool inside. I had to scrape it open myself to avoid rotting my plant's roots."
+   },
+   {
+    "stars": 4,
+    "text": "It looks lovely on my shelf and the vibrant blue shade is very striking. I just wish it came with a matching saucer to catch runoff."
+   },
+   {
+    "stars": 5,
+    "text": "My plastic nursery liner dropped right inside without any fuss. The ceramic feels solid and durable, definitely built to last."
+   },
+   {
+    "stars": 5,
+    "text": "The teal glaze looks even better in person than in the photos. Dirt wipes clean from the smooth surface without leaving any marks."
+   },
+   {
+    "stars": 4,
+    "text": "Solid ceramic construction with a nice shiny finish that is simple to keep dust-free. The color is slightly darker than pictured, but it still looks great."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "vibrant color",
+    "sturdy ceramic build",
+    "easy to clean surface"
+   ],
+   "cons": [
+    "drainage hole blocked by glaze",
+    "lacks matching saucer",
+    "color darker than pictured"
+   ],
+   "complaint": "drainage hole blocked by excess glaze"
+  }
+ },
+ "towel-01": {
+  "reviews": [
+   {
+    "stars": 4,
+    "text": "The coral pink shade brightens up the bathroom nicely and the fabric feels quite plush."
+   },
+   {
+    "stars": 4,
+    "text": "Good everyday towels that absorb moisture well, though the hand towel is a bit smaller than expected."
+   },
+   {
+    "stars": 5,
+    "text": "These are exceptionally soft against the skin and dry you off completely after a warm shower."
+   },
+   {
+    "stars": 3,
+    "text": "The color is lovely and the material is decent, but unfortunately they shed a lot of lint during the first few washes."
+   },
+   {
+    "stars": 5,
+    "text": "Absolute luxury for the guest bathroom with a wonderful texture that holds up great in the laundry."
+   },
+   {
+    "stars": 5,
+    "text": "Gorgeous vibrant color and the stitching is very neat and durable around the edges."
+   },
+   {
+    "stars": 5,
+    "text": "They wrap around you comfortably and dry much faster than my old synthetic ones."
+   },
+   {
+    "stars": 5,
+    "text": "Super absorbent right out of the box and the fabric gets even softer with every cycle."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "plush and soft fabric",
+    "absorbs moisture well",
+    "vibrant and lovely color"
+   ],
+   "cons": [
+    "sheds lint initially",
+    "hand towel is small"
+   ],
+   "complaint": "sheds a lot of lint"
+  }
+ },
+ "clock-01": {
+  "reviews": [
+   {
+    "stars": 4,
+    "text": "The dark brown frame matches my living room shelves nicely, though it took me a minute to find the battery."
+   },
+   {
+    "stars": 2,
+    "text": "The cream face looks dull in person and the second hand started lagging after just two days."
+   },
+   {
+    "stars": 5,
+    "text": "Completely silent just as promised, which is a huge relief for the bedroom."
+   },
+   {
+    "stars": 5,
+    "text": "The bold black numbers make it so easy to read the time from across the kitchen."
+   },
+   {
+    "stars": 4,
+    "text": "Very lightweight and simple to hang up, but I wish a battery came in the box."
+   },
+   {
+    "stars": 5,
+    "text": "Looks sleek and high quality against the painted wall."
+   },
+   {
+    "stars": 5,
+    "text": "The silent sweep movement is wonderful because there is zero annoying ticking noise."
+   },
+   {
+    "stars": 3,
+    "text": "It is an okay clock, but the frame feels a bit more plastic than I expected."
+   },
+   {
+    "stars": 5,
+    "text": "A gorgeous minimalist design that ties the whole office space together."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "silent movement",
+    "stylish design",
+    "easy to read"
+   ],
+   "cons": [
+    "dull face",
+    "lagging hands",
+    "plastic frame"
+   ],
+   "complaint": null
+  }
+ },
+ "puzzle-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The colors are remarkably vibrant, and the sturdy recycled cardboard pieces snap together with a satisfying click."
+   },
+   {
+    "stars": 5,
+    "text": "Working on this landscape scene was such a relaxing weekend project, and the finished image looks gorgeous framed on the wall."
+   },
+   {
+    "stars": 3,
+    "text": "A couple of edge pieces were slightly bent straight out of the box, which made the initial border assembly a bit frustrating."
+   },
+   {
+    "stars": 5,
+    "text": "The matte finish prevents overhead glare completely, making it easy to work on under bright lights for hours."
+   },
+   {
+    "stars": 5,
+    "text": "Every single piece has a unique shape, so there was never any annoying false fits."
+   },
+   {
+    "stars": 4,
+    "text": "The box comes with a helpful full-sized poster inside, though the cardboard dust at the bottom was a bit messy."
+   },
+   {
+    "stars": 5,
+    "text": "Bought this as a present for my mom, and she absolutely loved the challenging yet rewarding image quality."
+   },
+   {
+    "stars": 4,
+    "text": "The interlocking fit is secure enough that you can carefully lift whole sections once completed."
+   },
+   {
+    "stars": 5,
+    "text": "Such a fun and engaging activity for a rainy afternoon, the quality exceeded all my expectations."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "vibrant colors",
+    "sturdy pieces",
+    "helpful poster"
+   ],
+   "cons": [
+    "bent edge pieces",
+    "cardboard dust"
+   ],
+   "complaint": null
+  }
+ },
+ "journal-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The leather feels wonderfully soft and the cream pages take ink without any bleeding."
+   },
+   {
+    "stars": 5,
+    "text": "Bought this as a graduation present and my friend literally cried when she opened it."
+   },
+   {
+    "stars": 5,
+    "text": "A gorgeous tan brown notebook that smells amazing right out of the box."
+   },
+   {
+    "stars": 5,
+    "text": "The refillable design means I can keep using this beautiful cover forever."
+   },
+   {
+    "stars": 5,
+    "text": "Perfect pocket size for daily journaling and the strap keeps everything securely shut."
+   },
+   {
+    "stars": 5,
+    "text": "Stunning craftsmanship with neat stitching and thick paper that feels luxurious."
+   },
+   {
+    "stars": 3,
+    "text": "The leather cover is nice, but the spine glue started cracking after just a week of opening it flat."
+   },
+   {
+    "stars": 5,
+    "text": "An absolute home run for a birthday gift, the packaging was so elegant."
+   },
+   {
+    "stars": 4,
+    "text": "Very handsome journal with sturdy pages, though it takes a little while to break in the binding."
+   },
+   {
+    "stars": 5,
+    "text": "The paper weight is ideal for fountain pens and sketching alike."
+   },
+   {
+    "stars": 5,
+    "text": "Exceeded my expectations in every way, from the supple texture to the rich color."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "soft leather cover",
+    "fountain pen friendly paper",
+    "refillable design"
+   ],
+   "cons": [
+    "stiff binding initially",
+    "fragile spine glue"
+   ],
+   "complaint": null
+  }
+ },
+ "teddy-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The golden brown fur is unbelievably soft and the little red scarf adds such a charming touch. My newborn daughter snuggles with it every night."
+   },
+   {
+    "stars": 5,
+    "text": "This bear has a wonderful, huggable build and sits up perfectly on the nursery shelf. The polyester filling is just plush enough without being too stiff."
+   },
+   {
+    "stars": 5,
+    "text": "Bought this as a keepsake and the quality is fantastic right out of the box. It feels durable enough to last for years of gentle play."
+   },
+   {
+    "stars": 5,
+    "text": "The fabric feels so cozy and the size is ideal for little hands to hold. It makes a sweet addition to any nursery gift basket."
+   },
+   {
+    "stars": 4,
+    "text": "Really adorable plush bear with a lovely scarf, though I wish it were fully machine washable instead of surface wash only for easier cleanup."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "incredibly soft fur",
+    "huggable build",
+    "charming red scarf"
+   ],
+   "cons": [
+    "surface wash only"
+   ],
+   "complaint": null
+  }
+ },
+ "paints-01": {
+  "reviews": [
+   {
+    "stars": 2,
+    "text": "The hinged tin feels sturdy enough, but the two yellow pans were completely dried out and crumbled immediately."
+   },
+   {
+    "stars": 5,
+    "text": "Bought this little paint set for my daughter's birthday and she has not put it down all weekend."
+   },
+   {
+    "stars": 5,
+    "text": "The colours blend together so smoothly on cold-press paper and the metallic tin is gorgeous."
+   },
+   {
+    "stars": 5,
+    "text": "I love taking this compact kit on my morning walks because it fits right into my jacket pocket."
+   },
+   {
+    "stars": 5,
+    "text": "The little brushes included actually hold a decent point and do not shed bristles all over the paper."
+   },
+   {
+    "stars": 5,
+    "text": "Giving this as a present was a huge hit since the assorted pigment selection is so vibrant and fun."
+   },
+   {
+    "stars": 4,
+    "text": "The paint tray shifts around a tiny bit inside the metal tin, but otherwise it is a lovely portable kit."
+   },
+   {
+    "stars": 5,
+    "text": "Such a thoughtful present for any creative friend who enjoys sketching outdoors on sunny afternoons."
+   },
+   {
+    "stars": 4,
+    "text": "The pans are a bit small to load with a large wash brush, but the actual pigment quality is surprisingly good."
+   },
+   {
+    "stars": 5,
+    "text": "The packaging looks very charming and makes for an effortless, ready-to-wrap present for artists."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "smooth blending colors",
+    "compact and portable",
+    "vibrant pigments"
+   ],
+   "cons": [
+    "pans shift slightly",
+    "small pans for large brushes",
+    "dried out pans"
+   ],
+   "complaint": null
+  }
+ },
+ "chess-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The craftsmanship on this chess set is simply stunning, and it made an unforgettable birthday present."
+   },
+   {
+    "stars": 5,
+    "text": "Every piece has a nice weight to it, making our weekend matches feel wonderfully authentic."
+   },
+   {
+    "stars": 5,
+    "text": "The contrasting wood tones look gorgeous on my coffee table even when we are not playing."
+   },
+   {
+    "stars": 5,
+    "text": "Opening the box revealed a pristine, beautifully finished board with zero blemishes."
+   },
+   {
+    "stars": 5,
+    "text": "My brother was thrilled to receive this for the holidays, and we immediately started a game."
+   },
+   {
+    "stars": 4,
+    "text": "The board folds nicely for storage, though one of the hinges feels a bit stiff."
+   },
+   {
+    "stars": 3,
+    "text": "It is a lovely set overall, but a couple of the pawns wobble slightly on the board because their bases are uneven."
+   },
+   {
+    "stars": 5,
+    "text": "The smooth felt bottoms on the pieces glide effortlessly across the wood surface."
+   },
+   {
+    "stars": 4,
+    "text": "The wood smells amazing right out of the box, though I wish the king was slightly taller."
+   },
+   {
+    "stars": 5,
+    "text": "Such a classic and elegant design that will definitely be passed down as an heirloom."
+   },
+   {
+    "stars": 5,
+    "text": "The grain on the light and dark squares is gorgeous, and the packaging protected everything perfectly during shipping."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "stunning craftsmanship",
+    "nice piece weight",
+    "gorgeous wood tones"
+   ],
+   "cons": [
+    "stiff hinge",
+    "wobbling pawns",
+    "short king"
+   ],
+   "complaint": null
+  }
+ },
+ "pen-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The green marbled finish is stunning in person, and the medium steel nib glides smoothly across the page without any catching."
+   },
+   {
+    "stars": 2,
+    "text": "Unfortunately, the cap doesn't post securely on the back, and the feed constantly starves the nib of ink during long writing sessions."
+   },
+   {
+    "stars": 5,
+    "text": "I bought this for my sister's promotion, and she absolutely adores the classic weight and the elegant gold-coloured trim."
+   },
+   {
+    "stars": 5,
+    "text": "The pen feels remarkably balanced in the hand, making it a joy to use for daily journaling and correspondence."
+   },
+   {
+    "stars": 5,
+    "text": "It came packaged in a lovely presentation box with two starter cartridges, making it an effortless and thoughtful present to give."
+   },
+   {
+    "stars": 5,
+    "text": "Starting up was a breeze, and the ink flow is wonderfully consistent right out of the box."
+   },
+   {
+    "stars": 5,
+    "text": "The acrylic body has a gorgeous depth of color that catches the light beautifully, and the grip section is very comfortable."
+   },
+   {
+    "stars": 3,
+    "text": "It is an okay writing instrument, but the nib writes much broader than expected and tends to bleed through standard notebook paper."
+   },
+   {
+    "stars": 5,
+    "text": "Giving this as a graduation gift was a huge hit; the recipient receives compliments on the classy aesthetic every time they use it."
+   },
+   {
+    "stars": 4,
+    "text": "Writing with this pen is a very pleasant experience, though I wish the included cartridges held just a bit more ink."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "smooth writing nib",
+    "comfortable balanced feel",
+    "stunning marbled finish"
+   ],
+   "cons": [
+    "insecure cap posting",
+    "ink flow issues",
+    "nib writes too broad"
+   ],
+   "complaint": null
+  }
  }
 }
