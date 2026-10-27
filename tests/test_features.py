@@ -339,3 +339,25 @@ def test_wishlist_flow(client, fake):
     assert r['say'].startswith('You have 2 saved items') and r['lines'][1] == '2. Insulated travel mug, $18.50.'
     assert '(size L, heather grey)' in t(client, 'move number 1 to my cart')['say']
     assert len(t(client, 'my saved items')['lines']) == 1
+
+
+# ---- 11. gift mode ----
+def test_gift_note_sent_to_paypal_and_read_back(client, fake):
+    setup(client)
+    assert parse("it's a gift") == ('gift',) and parse('not a gift') == ('gift_off',)
+    t(client, 'mug'); t(client, 'add it')
+    assert 'What should the gift note say' in t(client, "it's a gift")['say']
+    assert t(client, 'Happy birthday, Sam! Love, Jo')['say'].startswith('Gift note saved: Happy birthday, Sam! Love, Jo.')
+    rb = t(client, 'check out')['lines']
+    assert 'Gift note: Happy birthday, Sam! Love, Jo.' in rb
+    assert next(iter(fake.seen.values()))['purchase_units'][0]['description'] == 'Gift note: Happy birthday, Sam! Love, Jo'
+    t(client, 'confirm'); client.post('/api/pin', json={'pin': '1234'})
+    t(client, 'mug'); t(client, 'add it')
+    assert not any('Gift' in l for l in t(client, 'check out')['lines'])  # gift mode ends with the order
+
+
+def test_gift_without_note(client, fake):
+    setup(client)
+    t(client, 'mug'); t(client, 'add it'); t(client, 'this is a gift')
+    assert 'no note' in t(client, 'no note')['say']
+    assert 'This is a gift, with no note.' in t(client, 'check out')['lines']

@@ -95,6 +95,10 @@ def parse(text):
                      r'|when (?:will|does) (?:it|my order) (?:arrive|come|get here)', t)
     if m:
         return ('track', m.group(1) or '')
+    if re.fullmatch(r'(?:it is|this is|make it|make this|send it as|mark it as) a gift|gift mode( on)?|add a gift note', t):
+        return ('gift',)
+    if re.fullmatch(r'(?:it is |this is )?not a gift|(?:no|cancel|remove|turn off) (?:the )?gift(?: mode| note)?|gift mode off', t):
+        return ('gift_off',)
     WL = r'(?:my |the )?(?:wish ?list|saved items|saved for later|saved list|favou?rites)'
     if re.fullmatch(r'(?:show |read |open |what is in )?' + WL + r'|what (?:did i|have i) saved', t):
         return ('wishlist',)
@@ -304,7 +308,16 @@ def add(s, p, qty, opt=''):
 
 
 def _answer(ask, text, cmd, s):
-    """The shopper was asked which size. A size adds the item; another command drops the question."""
+    """The shopper was asked a question (gift note, or which size). Another command drops the question."""
+    if 'gift' in ask:
+        if cmd and cmd[0] in ('cancel', 'stop'):
+            s.pop('gift', None)
+            return Reply('Gift mode is off.')
+        if re.fullmatch(r'no( note)?|none|skip|no thanks|nothing|without a note', norm(text)):
+            return Reply('A gift with no note. Say check out when ready.')
+        s['gift'] = text.strip()[:120]
+        cut = ' I kept the first 120 characters.' if len(text.strip()) > 120 else ''
+        return Reply(f"Gift note saved: {s['gift']}.{cut} It is sent to PayPal and read back before you pay.")
     pid, qty, colour = ask['add']
     p = catalog.get(pid)
     if p and match_size(text, sizes_of(p)):
@@ -447,6 +460,12 @@ def handle(text, s):
         since = {'today': today, 'week': today - timedelta(days=today.weekday()), 'month': today.replace(day=1),
                  'all': date.min}[args[0]]
         return Reply(speech.spending(args[0], *db.spent(_sid(s), since.isoformat())))
+    if name == 'gift':
+        s['gift'], s['ask'] = s.get('gift') or '', {'gift': 1}
+        return Reply('Gift mode on. What should the gift note say? Type or say it now, or say no note.')
+    if name == 'gift_off':
+        s.pop('gift', None)
+        return Reply('Gift mode is off. No gift note will be sent.')
     if name == 'save':
         cart, wish = s.get('cart', []), s.get('wish', [])
         pool = _results(s) + [catalog.get(l[0]) for l in cart]

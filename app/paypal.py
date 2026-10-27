@@ -56,7 +56,7 @@ def link_return(setup_token):
     return j['id'], j.get('customer', {}).get('id')
 
 
-def create_hold(vault_id, items, shipping, tax, request_id):
+def create_hold(vault_id, items, shipping, tax, request_id, description=None):
     """items: [{'name', 'quantity', 'unit_amount'}] with Decimal amounts. Creates an AUTHORIZE order (money held,
     not moved) and returns PayPal's order JSON, whose amount.breakdown is what the Readback speaks."""
     s = lambda d: f'{d:.2f}'
@@ -68,7 +68,8 @@ def create_hold(vault_id, items, shipping, tax, request_id):
                 'amount': {**usd(total), 'breakdown': {'item_total': usd(item_total), 'shipping': usd(shipping),
                                                        'tax_total': usd(tax)}},
                 'items': [{'name': i['name'][:127], 'quantity': str(i['quantity']), 'unit_amount': usd(i['unit_amount']),
-                           'category': 'PHYSICAL_GOODS'} for i in items]}],
+                           'category': 'PHYSICAL_GOODS'} for i in items],
+                **({'description': description[:127]} if description else {})}],
             'payment_source': {'paypal': {'vault_id': vault_id}}}
     return _call('POST', '/v2/checkout/orders', body, request_id)
 

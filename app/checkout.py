@@ -136,7 +136,9 @@ def start(s):
     rid = uuid.uuid4().hex  # one id per checkout attempt; suffixes keep hold/capture/void distinct
     s['co'] = {'state': READBACK, 'rid': rid}
     try:
-        order = paypal.create_hold(vault_id(s), items, shipping, tax, rid + '-hold')
+        gift = s.get('gift')  # None: not a gift; '' : a gift with no note
+        desc = None if gift is None else (f'Gift note: {gift}' if gift else 'This is a gift, with no note')
+        order = paypal.create_hold(vault_id(s), items, shipping, tax, rid + '-hold', desc)
         auth = order['purchase_units'][0]['payments']['authorizations'][0]
     except (paypal.PayPalError, KeyError, IndexError) as e:
         s['co'] = {'state': IDLE}
@@ -316,6 +318,7 @@ def finalize(s):
         db.record(s['sid'], co['order_id'], cap['id'], cap['amount']['value'], lines, co.get('days', 0))
     s['co'] = {'state': CAPTURED, 'order_id': co['order_id'], 'rid': co['rid']}
     s['cart'] = []
+    s.pop('gift', None)
     s['spell'] = co['order_id']
     return Reply(speech.receipt(cap, co['order_id']))
 

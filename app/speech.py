@@ -241,6 +241,7 @@ def readback(order, meta):
               f"Total: {usd(amt['value'])}.",
               f"Delivery by {delivery_date(meta['delivery_days'])}.",
               f"Seller: {meta['seller']}.",
+              *([pu['description'].rstrip('.') + '.'] if pu.get('description') else []),  # gift note, as PayPal has it
               *meta.get('warnings', []),
               'Say confirm to continue to your PIN, or cancel to release the hold.']
     return 'PayPal is holding the payment. Here is the Readback.', lines

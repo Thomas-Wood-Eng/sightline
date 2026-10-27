@@ -19,7 +19,7 @@ class FakePayPal:
     def __init__(self):
         self.calls, self.seen = [], {}
 
-    def create_hold(self, vault_id, items, shipping, tax, request_id):
+    def create_hold(self, vault_id, items, shipping, tax, request_id, description=None):
         self.calls.append(('hold', request_id))
         if request_id in self.seen:
             return self.seen[request_id]
@@ -31,6 +31,8 @@ class FakePayPal:
                        'breakdown': {'item_total': usd(item_total), 'shipping': usd(shipping), 'tax_total': usd(tax)}},
             'items': [{'name': i['name'], 'quantity': str(i['quantity']), 'unit_amount': usd(i['unit_amount'])} for i in items],
             'payments': {'authorizations': [{'id': f'AUTH{n}', 'status': 'CREATED', 'amount': usd(item_total + shipping + tax)}]}}]}
+        if description:
+            order['purchase_units'][0]['description'] = description
         self.seen[request_id] = order
         return order
 
