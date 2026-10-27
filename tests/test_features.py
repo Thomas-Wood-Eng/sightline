@@ -294,3 +294,26 @@ def test_return_one_line_with_readback_confirm_pin(client, fake):
     assert '36.74 US dollars refunded' in ' '.join(t(client, 'my orders')['lines'])
     assert 'Return cancelled' in (t(client, 'return the mug'), t(client, 'cancel'))[1]['say']
     assert fake.count('refund') == 1
+
+
+# ---- 9. reorder ----
+def test_parse_reorder():
+    assert parse('order my usual coffee again') == ('reorder', 'coffee')
+    assert parse('reorder the last thing') == ('reorder', '')
+    assert parse('buy it again') == ('reorder', '')
+
+
+def test_reorder_starts_checkout(client, fake):
+    setup(client)
+    assert 'could not find' in t(client, 'reorder the last thing')['say']
+    buy(client)
+    buy(client, 'mug', 'add it')
+    buy(client, 'mug', 'add it')
+    r = t(client, 'order my usual mug again')
+    assert r['say'].startswith('Added again: Insulated travel mug.') and r['state'] == 'awaiting_confirm'
+    t(client, 'cancel'); t(client, 'clear the cart')
+    r = t(client, 'reorder the last thing')
+    assert r['state'] == 'awaiting_confirm' and 'Item 1: Insulated travel mug.' in ' '.join(r['lines'])
+    t(client, 'cancel'); t(client, 'clear the cart')
+    r = t(client, 'order my usual hoodie again')
+    assert 'Item 1: Fleece-lined pullover hoodie (size M, heather grey).' in ' '.join(r['lines'])

@@ -95,6 +95,10 @@ def parse(text):
                      r'|when (?:will|does) (?:it|my order) (?:arrive|come|get here)', t)
     if m:
         return ('track', m.group(1) or '')
+    m = re.fullmatch(r'(?:order|buy|get) (.*?) again|reorder ?(.*)|(?:order|buy|get) my usual (.*)', t)
+    if m:
+        words = re.sub(r'\b(last|thing|things|order|one|item|stuff|usual|my|the|it|same)\b', ' ', next((g for g in m.groups() if g), ''))
+        return ('reorder', ' '.join(words.split()))
     m = re.fullmatch(r'(?:return|refund|send back)\s+(.+?)(?: for a refund| please)?', t)
     if m:
         return ('return', m.group(1))
@@ -434,6 +438,27 @@ def handle(text, s):
         since = {'today': today, 'week': today - timedelta(days=today.weekday()), 'month': today.replace(day=1),
                  'all': date.min}[args[0]]
         return Reply(speech.spending(args[0], *db.spent(_sid(s), since.isoformat())))
+    if name == 'reorder':
+        rows = db.orders(_sid(s))
+        want = set(catalog.tokens(args[0]))
+        past = [l for o in rows for l in o['lines'] if want & set(catalog.tokens(l['name']))]
+        if want and past:  # "my usual coffee": the matching line ordered most often
+            names = [l['name'] for l in past]
+            lines = [next(l for l in past if l['name'] == max(set(names), key=names.count))]
+        else:
+            lines = rows[0]['lines'] if rows and not want else []
+        lines = [l for l in lines if catalog.get(l['pid'])]
+        if not lines:
+            return Reply('I could not find that in your past orders. Say my orders to hear them.')
+        cart = s.get('cart', [])
+        for l in lines:
+            p = catalog.get(l['pid'])
+            variant = l['name'][len(p['name']) + 2:-1] if l['name'].startswith(p['name'] + ' (') else ''
+            cart.append([l['pid'], l['qty'], variant])
+        s['cart'] = cart
+        r = checkout.start(s)
+        r.say = f"Added again: {', '.join(l['name'] for l in lines)}. {r.say}"
+        return r
     if name == 'return':
         words = args[0]
         if target(words) == 'it':
