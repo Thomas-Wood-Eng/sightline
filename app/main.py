@@ -17,24 +17,23 @@ from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 from itsdangerous import BadSignature
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
-from starlette.middleware.sessions import SessionMiddleware
 
 import re
 
 from . import checkout, lane0, lane1, paypal, speech
+from .sessions import ServerSessions
 from .speech import Reply
 
 STATIC = Path(__file__).resolve().parent / 'static'
 app = FastAPI(title='Sightline')
-app.add_middleware(SessionMiddleware, secret_key=os.environ['SESSION_SECRET'], same_site='lax',
+app.add_middleware(ServerSessions, secret_key=os.environ['SESSION_SECRET'],
                    https_only=os.environ.get('HTTPS_ONLY') == '1')
 app.mount('/static', StaticFiles(directory=STATIC), name='static')
 
 
 def out(s, r: Reply):
     s.pop('last', None)  # older cookies kept it here
-    s['co'] = dict(s.get('co') or {})  # a top-level write marks the session changed, so in-place edits (cart, co) persist
-    checkout.ledger(s)['last'] = {'say': r.say, 'lines': r.lines}  # server-side: keeps the signed cookie under 4 KB
+    checkout.ledger(s)['last'] = {'say': r.say, 'lines': r.lines}
     return {'say': r.say, 'lines': r.lines, 'state': checkout.state(s), 'focus': r.focus, 'action': r.action,
             'due_in': checkout.seconds_left(s)}
 

@@ -115,7 +115,8 @@ def test_undo_voids_before_capture(client, fake, monkeypatch):
     client.cookies.clear(); client.cookies.update(stale)  # an old cookie cannot resurrect the undone payment
     import time as _time
     monkeypatch.setattr(_time, 'time', lambda real=_time.time: real() + 11)
-    assert 'undone' in client.post('/api/finalize').json()['say'] and fake.count('capture') == 0
+    r = client.post('/api/finalize').json()  # the cookie is only an id now, so this sees the voided state
+    assert r['state'] == 'voided' and fake.count('capture') == 0
 
 
 def test_capture_after_window_is_idempotent(client, fake, monkeypatch):

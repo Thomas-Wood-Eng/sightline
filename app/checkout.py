@@ -63,7 +63,7 @@ def valid_pin(pin):
 
 
 def _hash(pin, salt):
-    # server secret as pepper: the hash sits in the client's cookie, so offline guessing needs the secret too
+    # server secret as pepper: a leaked session row alone is not enough for offline guessing
     return hashlib.scrypt((pin + os.environ.get('SESSION_SECRET', '')).encode(), salt=bytes.fromhex(salt),
                           n=2 ** 14, r=8, p=1).hex()
 

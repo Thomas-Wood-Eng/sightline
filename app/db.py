@@ -18,6 +18,7 @@ def _conn():
     c.row_factory = sqlite3.Row
     c.execute('CREATE TABLE IF NOT EXISTS orders (order_id TEXT PRIMARY KEY, sid TEXT, capture_id TEXT, created TEXT, '
               'total TEXT, lines TEXT, delivery_days INTEGER)')
+    c.execute('CREATE TABLE IF NOT EXISTS sessions (key TEXT PRIMARY KEY, data TEXT, updated TEXT)')
     return c
 
 
@@ -56,3 +57,15 @@ def spent(sid, since):
     """Captured minus refunded, for orders created on or after `since` (an ISO date). Returns (amount, order count)."""
     rows = [o for o in orders(sid) if o['created'] >= since]
     return sum((Decimal(o['total']) - refunded(o) for o in rows), Decimal(0)), len(rows)
+
+
+def load_session(key):
+    """Server-side session state (PIN hash, caps, contact, prefs, cart, checkout), so a restart keeps it."""
+    with _conn() as c:
+        r = c.execute('SELECT data FROM sessions WHERE key=?', (key,)).fetchone()
+    return json.loads(r['data']) if r else {}
+
+
+def save_session(key, data):
+    with _conn() as c:
+        c.execute('INSERT OR REPLACE INTO sessions VALUES (?,?,?)', (key, data, datetime.now().isoformat(timespec='seconds')))
