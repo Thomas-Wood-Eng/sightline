@@ -12,8 +12,13 @@ from pathlib import Path
 from google import genai
 from google.genai import errors, types
 
-PRIMARY = 'gemini-flash-lite-latest'   # D1 timing: median 0.87 s for a tool call
-FALLBACK = 'gemini-3.5-flash-lite'     # D1 timing: median 1.43 s
+# Concrete model ids (not "-latest" aliases, which can change under us), overridable by env.
+# Oct 27 timing, one tool call: 3.5-flash-lite ~0.5 s, 3.1-flash-lite ~1.1 s.
+PRIMARY = os.environ.get('GEMINI_MODEL', 'gemini-3.5-flash-lite')
+FALLBACK = os.environ.get('GEMINI_FALLBACK_MODEL', 'gemini-3.1-flash-lite')
+# Optional Claude path: LLM_PROVIDER=anthropic, only if the anthropic package is installed (default stays Gemini).
+PROVIDER = os.environ.get('LLM_PROVIDER', 'gemini')
+CLAUDE_MODEL = os.environ.get('ANTHROPIC_MODEL', 'claude-opus-5-5')
 TIMEOUT_MS = 4000                      # free-tier calls occasionally stall 15-30 s; never make the user wait that long
 
 MONEY = re.compile(r'[$€£]|\b\d+(?:\.\d{1,2})?\s*(?:dollars?|cents?|bucks|usd)\b|\bprice\s+(?:is|of)\b', re.I)
@@ -41,10 +46,35 @@ def say_ok(text):
     return not MONEY.search(text or '')
 
 
+def _claude(system, contents, tools):
+    """Same contract as chat(), via the Anthropic Messages API. None on any failure (caller falls back)."""
+    try:
+        import anthropic
+    except ImportError:
+        print('llm: LLM_PROVIDER=anthropic but the anthropic package is not installed; using the no-AI fallback')
+        return None
+    t = time.perf_counter()
+    try:
+        r = anthropic.Anthropic(timeout=TIMEOUT_MS / 1000, max_retries=0).messages.create(
+            model=CLAUDE_MODEL, max_tokens=1024, system=system, output_config={'effort': 'low'},  # short voice turns
+            messages=[{'role': 'user', 'content': contents}],
+            tools=[{'name': d['name'], 'description': d['description'], 'input_schema': d['parameters']} for d in tools or []])
+    except anthropic.APIError as e:  # 429/5xx, timeout, network
+        print(f'llm: {CLAUDE_MODEL} failed: {type(e).__name__} {str(e)[:80]}')
+        return None
+    if r.stop_reason == 'refusal':
+        return None
+    return {'text': ''.join(b.text for b in r.content if b.type == 'text').strip() or None,
+            'calls': [(b.name, dict(b.input)) for b in r.content if b.type == 'tool_use'],
+            'parts': r.content, 'model': CLAUDE_MODEL, 'ms': int((time.perf_counter() - t) * 1000)}
+
+
 def chat(system, contents, tools):
     """One model turn. tools: list of function-declaration dicts. Returns {'text', 'calls', 'model', 'ms'} or None.
 
     Tries PRIMARY, then FALLBACK once; None means the caller should fall back to its no-AI menu."""
+    if PROVIDER == 'anthropic':
+        return _claude(system, contents, tools)
     config = types.GenerateContentConfig(
         system_instruction=system,
         tools=[types.Tool(function_declarations=tools)] if tools else None,

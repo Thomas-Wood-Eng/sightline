@@ -372,3 +372,30 @@ def test_pwa_files(client):
     sw = client.get('/sw.js')
     assert sw.status_code == 200 and 'javascript' in sw.headers['content-type'] and '/api' in sw.text
     assert 'manifest.webmanifest' in client.get('/').text
+
+
+# ---- 13. engineering: pinned models, optional Claude path ----
+def test_llm_models_pinned_and_claude_path(monkeypatch):
+    import sys, types as T
+    from app import llm
+    assert 'latest' not in llm.PRIMARY and 'latest' not in llm.FALLBACK
+    monkeypatch.setattr(llm, 'PROVIDER', 'anthropic')
+    monkeypatch.setitem(sys.modules, 'anthropic', None)  # not installed -> no-AI fallback, never Gemini
+    assert llm.chat('sys', 'hi', []) is None
+    blk = lambda **k: T.SimpleNamespace(**k)
+    seen = {}
+
+    class Client:
+        def __init__(self, **kw):
+            self.messages = self
+
+        def create(self, **kw):
+            seen.update(kw)
+            return blk(stop_reason='tool_use', content=[blk(type='text', text='Looking.'),
+                                                        blk(type='tool_use', name='search_products', input={'query': 'mug'})])
+    fake = T.SimpleNamespace(Anthropic=Client, APIError=Exception)
+    monkeypatch.setitem(sys.modules, 'anthropic', fake)
+    tool = {'name': 'search_products', 'description': 'd', 'parameters': {'type': 'object'}}
+    out = llm.chat('sys', 'a mug', [tool])
+    assert out['calls'] == [('search_products', {'query': 'mug'})] and out['text'] == 'Looking.'
+    assert seen['tools'][0]['input_schema'] == {'type': 'object'}
