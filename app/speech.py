@@ -280,6 +280,21 @@ def spending(period, amount, n):
     return f"{label}, you spent {usd(amount)} on {plural(n, 'order')}, after refunds."
 
 
+def refund_readback(o, line, amount):
+    """Amounts from our ledger, which holds PayPal's own unit prices and capture total."""
+    item = Decimal(line['unit']) * line['qty']
+    return ('Here is the return Readback.',
+            [f"Return: {line['name']}. Quantity {line['qty']}. From order {o['order_id']}, placed {_day(o['created'])}.",
+             f"Refund: {usd(amount)}. That is the item, {usd(item)}, plus its tax, {usd(line['tax'])}. Shipping is not refunded.",
+             'The money goes back to your PayPal account.',
+             'Say confirm to continue to your PIN, or cancel to keep the item.'])
+
+
+def refunded(refund):
+    return (f"Refunded {usd(refund['amount']['value'])} to your PayPal. PayPal says the refund is "
+            f"{refund.get('status', 'pending').lower()}.")
+
+
 def receipt(capture, order_id):
     return (f"Paid. PayPal captured {usd(capture['amount']['value'])}. Order number {order_id}. "
             'Say spell that to hear the order number letter by letter.')

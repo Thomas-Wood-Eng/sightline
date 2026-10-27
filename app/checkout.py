@@ -212,17 +212,22 @@ def _void(auth_id, rid):
 
 
 def _void_quietly(s):
-    if state(s) in HOLDING:
+    if state(s) in HOLDING and s['co'].get('kind') != 'refund':
         try:
             _void(s['co']['auth_id'], s['co']['rid'])
         except paypal.PayPalError:
             pass  # an unreleased hold is never captured and expires on its own
         s['co'] = {'state': VOIDED}
+    elif state(s) in HOLDING:
+        s['co'] = {'state': IDLE}
 
 
 def cancel(s):
     if state(s) not in HOLDING:
         return Reply('Nothing is on hold, so there is nothing to cancel.')
+    if s['co'].get('kind') == 'refund':
+        s['co'] = {'state': IDLE}
+        return Reply('Return cancelled. Nothing was refunded.')
     try:
         _void(s['co']['auth_id'], s['co']['rid'])
     except paypal.PayPalError as e:
@@ -246,12 +251,39 @@ def pin(s, entered):
         return Reply(LOCKED + ' The hold was released.')
     if result == 'wrong':
         return Reply(speech.pin_wrong(MAX_TRIES - ledger(s)['tries']))
+    if s['co'].get('kind') == 'refund':
+        return _refund(s)
     delay = int(os.environ.get('SIGHTLINE_UNDO_SECONDS', '10'))
     s['co'] = {**s['co'], 'state': UNDO, 'due': time.time() + delay}
     if delay <= 0:
         return finalize(s)
     return Reply(f'PIN accepted. PayPal takes the payment in {delay} seconds. '
                  'To stop it, say undo, or press Escape, or use the Undo button.')
+
+
+# ---- returns: a refund goes through the same Readback -> confirm -> PIN steps as a payment ----
+def start_refund(s, o, i):
+    line = o['lines'][i]
+    amount = min(Decimal(line['unit']) * line['qty'] + Decimal(line['tax']), Decimal(o['total']) - db.refunded(o))
+    say, rb = speech.refund_readback(o, line, amount)
+    s['co'] = {'state': CONFIRM, 'kind': 'refund', 'rid': uuid.uuid4().hex, 'order_id': o['order_id'], 'line': i,
+               'amount': f'{amount:.2f}', 'say': say, 'lines': rb}
+    return Reply(say, rb)
+
+
+def _refund(s):
+    co = s['co']
+    o = db.get(co['order_id'])
+    line = o['lines'][co['line']]
+    try:
+        r = paypal.refund(o['capture_id'], Decimal(co['amount']), co['rid'] + '-refund', f"Return of {line['name']}")
+    except paypal.PayPalError as e:
+        return Reply(f'PayPal did not make the refund ({e}). Nothing changed. Type the PIN to try again, or say cancel.')
+    r.setdefault('amount', {'value': co['amount']})  # shortcut: PayPal omits amount on some minimal replies
+    line['refunded'] = r['amount']['value']
+    db.set_lines(o['order_id'], o['lines'])
+    s['co'] = {'state': IDLE}
+    return Reply(speech.refunded(r))
 
 
 def seconds_left(s):

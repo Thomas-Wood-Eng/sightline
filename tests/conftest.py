@@ -39,6 +39,10 @@ class FakePayPal:
         order = next(o for o in self.seen.values() if paypal.authorization_id(o) == auth_id)
         return {'id': 'CAP-' + auth_id, 'status': 'COMPLETED', 'amount': order['purchase_units'][0]['amount']}
 
+    def refund(self, capture_id, amount, request_id, note):
+        self.calls.append(('refund', request_id))
+        return {'id': 'REF-' + request_id[:6], 'status': 'COMPLETED', 'amount': {'currency_code': 'USD', 'value': f'{amount:.2f}'}}
+
     def get_order(self, order_id):
         return {'id': order_id, 'status': 'COMPLETED'}
 
@@ -53,7 +57,7 @@ class FakePayPal:
 @pytest.fixture
 def fake(monkeypatch, tmp_path):
     f = FakePayPal()
-    for name in ('create_hold', 'capture', 'void', 'get_order'):
+    for name in ('create_hold', 'capture', 'void', 'get_order', 'refund'):
         monkeypatch.setattr(paypal, name, getattr(f, name))
     monkeypatch.setenv('DEMO_VAULT_ID', 'TEST-VAULT')
     monkeypatch.setenv('SIGHTLINE_DB', str(tmp_path / 'ledger.db'))

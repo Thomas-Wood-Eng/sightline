@@ -272,3 +272,25 @@ def test_orders_tracking_spending(client, fake):
     assert t(client, 'how much did I spend this week')['say'] == \
         'This week, since Monday, you spent 65.15 US dollars on 2 orders, after refunds.'
     assert client.get('/api/settings').json()['spent_today'] == '65.15'
+
+
+# ---- 8. returns and refunds ----
+def test_return_one_line_with_readback_confirm_pin(client, fake):
+    setup(client, order_cap='200.00')
+    t(client, 'hoodie'); t(client, 'add it in medium'); t(client, 'mug'); t(client, 'add it')
+    t(client, 'check out'); t(client, 'confirm'); client.post('/api/pin', json={'pin': '1234'})
+    assert parse('return the hoodie') == ('return', 'the hoodie')
+    r = t(client, 'return the hoodie')
+    text = ' '.join(r['lines'])
+    # hoodie 34.99 + its 5% tax 1.75 = 36.74; shipping kept
+    assert 'Return: Fleece-lined pullover hoodie (size M, heather grey). Quantity 1.' in text
+    assert 'Refund: 36.74 US dollars.' in text and 'Shipping is not refunded' in text
+    assert client.post('/api/pin', json={'pin': '1234'}).json()['state'] == 'awaiting_confirm'  # no PIN before confirm
+    assert fake.count('refund') == 0
+    assert t(client, 'confirm')['state'] == 'awaiting_pin'
+    r = client.post('/api/pin', json={'pin': '1234'}).json()
+    assert r['say'].startswith('Refunded 36.74 US dollars to your PayPal.') and fake.count('refund') == 1
+    assert 'not already refunded' in t(client, 'return the hoodie')['say']  # one refund per line
+    assert '36.74 US dollars refunded' in ' '.join(t(client, 'my orders')['lines'])
+    assert 'Return cancelled' in (t(client, 'return the mug'), t(client, 'cancel'))[1]['say']
+    assert fake.count('refund') == 1

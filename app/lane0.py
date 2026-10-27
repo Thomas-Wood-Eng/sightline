@@ -95,6 +95,9 @@ def parse(text):
                      r'|when (?:will|does) (?:it|my order) (?:arrive|come|get here)', t)
     if m:
         return ('track', m.group(1) or '')
+    m = re.fullmatch(r'(?:return|refund|send back)\s+(.+?)(?: for a refund| please)?', t)
+    if m:
+        return ('return', m.group(1))
     for pat, cmd in FIXED:
         if re.fullmatch(pat, t):
             return cmd
@@ -431,6 +434,17 @@ def handle(text, s):
         since = {'today': today, 'week': today - timedelta(days=today.weekday()), 'month': today.replace(day=1),
                  'all': date.min}[args[0]]
         return Reply(speech.spending(args[0], *db.spent(_sid(s), since.isoformat())))
+    if name == 'return':
+        words = args[0]
+        if target(words) == 'it':
+            words = (catalog.get(s.get('focus') or '') or {}).get('name', '')
+        o = _find_order(s, words, need_open=True)
+        if not o:
+            return Reply('I could not find that in an order that is not already refunded. Say my orders to hear them.')
+        want = set(catalog.tokens(words))
+        i = next(i for i, l in enumerate(o['lines'])
+                 if l['refunded'] == '0.00' and (not want or want & set(catalog.tokens(l['name']))))
+        return checkout.start_refund(s, o, i)
     if name == 'reviews':
         p = resolve(s, args[0])
         if not p:
@@ -511,6 +525,9 @@ def _holding(cmd, text, s, st):
     if name == 'wrong':
         _log_feedback(s, text)
         return Reply('Thanks, I noted that. If the Readback is wrong, say cancel and nothing will be charged.')
+    if s['co'].get('kind') == 'refund':
+        step = 'type your PIN in the PIN box' if st == checkout.PIN else 'say confirm'
+        return Reply(f'A return is waiting. To get the refund, {step}. To keep the item, say cancel.')
     if st == checkout.APPROVAL:
         return Reply('This order is waiting for approval from your trusted contact. Say cancel to release the hold, '
                      'or say repeat to hear the Readback.')

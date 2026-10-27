@@ -85,6 +85,12 @@ def void(auth_id, request_id):
     return _call('POST', f'/v2/payments/authorizations/{auth_id}/void', None, request_id)
 
 
+def refund(capture_id, amount, request_id, note):
+    """Partial or full refund of a capture. amount: Decimal. Returns PayPal's refund (id, status, amount)."""
+    return _call('POST', f'/v2/payments/captures/{capture_id}/refund',
+                 {'amount': {'currency_code': 'USD', 'value': f'{amount:.2f}'}, 'note_to_payer': note[:255]}, request_id)
+
+
 def get_order(order_id):
     return _call('GET', f'/v2/checkout/orders/{order_id}')
 
