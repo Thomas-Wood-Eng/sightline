@@ -1,0 +1,1497 @@
+{
+ "_about": "Fictional demo reviews written with Gemini for this prototype. They are not from real customers.",
+ "hoodie-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The brushed fleece inside is extraordinarily soft and keeps the chill away instantly. It has quickly become my favorite top to wear around the house."
+   },
+   {
+    "stars": 4,
+    "text": "Super cozy material and a nice deep hood, though the wrist cuffs are a bit tighter than expected."
+   },
+   {
+    "stars": 5,
+    "text": "The heather grey shade goes with practically everything in my wardrobe. True to size with plenty of room to move freely."
+   },
+   {
+    "stars": 5,
+    "text": "Held up beautifully in the wash without shrinking or losing its fluffiness. The cotton blend feels substantial and durable."
+   },
+   {
+    "stars": 5,
+    "text": "The hood cinch actually stays tied, keeping the draft off my neck during brisk morning walks."
+   },
+   {
+    "stars": 4,
+    "text": "Incredibly warm and thick, but the head opening is a little snug when pulling it on."
+   },
+   {
+    "stars": 5,
+    "text": "Unlike other fleeces I own, this lining does not shed fuzz all over my dark t-shirts. The seams are clean and well-constructed."
+   },
+   {
+    "stars": 3,
+    "text": "The inner fleece pilled up after a cycle in the wash, and the torso shrank noticeably shorter. It is still warm, but the fit is compromised."
+   },
+   {
+    "stars": 5,
+    "text": "Very comfortable pullover with generous pocket space to keep hands warm outdoors. The fabric has a premium, heavy feel."
+   },
+   {
+    "stars": 5,
+    "text": "Drapes nicely across the shoulders without feeling boxy or stiff. The fleece lining feels like a warm hug."
+   },
+   {
+    "stars": 4,
+    "text": "Wonderfully soft and cozy, though the pouch pocket feels slightly narrow when resting my hands inside."
+   },
+   {
+    "stars": 5,
+    "text": "The drawstring is sturdy and the interior brushing makes this the coziest piece of clothing I own."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "Exceptionally soft and warm fleece",
+    "Substantial and durable fabric",
+    "Comfortable and roomy fit"
+   ],
+   "cons": [
+    "Tight head opening and cuffs",
+    "Narrow front pocket",
+    "Possible shrinkage after washing"
+   ],
+   "complaint": null
+  }
+ },
+ "hoodie-02": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The fabric feels incredibly thick and cozy, perfect for chilly days. The graphic print on the sleeves really pops against the faded black wash."
+   },
+   {
+    "stars": 5,
+    "text": "I love the relaxed fit, and it holds its shape nicely after hanging it out to dry. The chest design gets compliments every time I wear it."
+   },
+   {
+    "stars": 5,
+    "text": "This cotton fleece has a solid, heavy weight that keeps out the cold draft. The washed finish gives it a great vintage look right out of the package."
+   },
+   {
+    "stars": 5,
+    "text": "Super comfortable inside and the print details down the arms look crisp. It quickly became my go-to sweatshirt for casual outings."
+   },
+   {
+    "stars": 5,
+    "text": "Pure cotton material makes it breathable yet heavy enough for winter weather. Following the cold wash instructions keeps the graphics looking fresh."
+   },
+   {
+    "stars": 3,
+    "text": "The artwork on the chest looks cool, but the printed area feels a bit stiff against my chest. The hood is also noticeably smaller than expected."
+   },
+   {
+    "stars": 4,
+    "text": "Really heavy fabric and a great vintage aesthetic. It takes a very long time to hang dry because of how thick the cotton is, but it is well made."
+   },
+   {
+    "stars": 5,
+    "text": "The subtle grey graphics on the washed black background look fantastic in person. The cuffs fit snug around my wrists without feeling stretched out."
+   },
+   {
+    "stars": 2,
+    "text": "The sleeve graphics started cracking after the first cold wash cycle. The inner fabric also shed black fuzz all over the t-shirt I wore underneath."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "Thick cozy cotton fabric",
+    "Stylish graphics and vintage look",
+    "Comfortable relaxed fit"
+   ],
+   "cons": [
+    "Takes a long time to dry",
+    "Printed design feels stiff",
+    "Graphics may crack when washed"
+   ],
+   "complaint": null
+  }
+ },
+ "tshirt-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The fabric is exceptionally soft and breathable, making it my new favorite daily staple."
+   },
+   {
+    "stars": 5,
+    "text": "It has a lovely tailored fit through the shoulders and holds its shape wonderfully after washing."
+   },
+   {
+    "stars": 5,
+    "text": "A truly classic white tee made from wonderfully thick, high-quality organic cotton jersey."
+   },
+   {
+    "stars": 5,
+    "text": "Super comfortable against the skin and feels durable enough to last for years."
+   },
+   {
+    "stars": 1,
+    "text": "The neckline stretched out completely and looked completely warped after just one gentle trip through the laundry."
+   },
+   {
+    "stars": 5,
+    "text": "I am obsessed with how lightweight and airy this feels on hot summer days."
+   },
+   {
+    "stars": 5,
+    "text": "Immaculate stitching and clean lines make this basic shirt look surprisingly sophisticated."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "Soft and breathable fabric",
+    "Comfortable and durable",
+    "Flattering tailored fit"
+   ],
+   "cons": [
+    "Neckline stretches out after washing"
+   ],
+   "complaint": null
+  }
+ },
+ "jeans-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The medium blue wash is gorgeous and goes with literally every t-shirt I own. They fit comfortably right out of the box with just enough give."
+   },
+   {
+    "stars": 5,
+    "text": "Classic straight-leg cut that looks tailored without feeling restrictive. The cotton denim feels sturdy and breaks in beautifully."
+   },
+   {
+    "stars": 2,
+    "text": "The button fly is terribly stiff and takes forever to undo when you are in a rush. I also found the rise sits much lower than expected."
+   },
+   {
+    "stars": 5,
+    "text": "Absolute favorite everyday jeans because the fabric is breathable and moves well. The pockets are actually deep enough to hold a phone securely."
+   },
+   {
+    "stars": 5,
+    "text": "Super flattering fit through the hips and thighs with a timeless silhouette. High quality stitching that held up great through the first cold wash cycle."
+   },
+   {
+    "stars": 5,
+    "text": "These have that broken-in vintage feel on the very first wear. The mid-rise is spot on and does not gap at the back."
+   },
+   {
+    "stars": 2,
+    "text": "The fabric feels cheap and rough against the skin, and the sizing runs way too small in the waist. I could barely sit down comfortably in them."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "comfortable fit",
+    "sturdy denim fabric",
+    "flattering silhouette"
+   ],
+   "cons": [
+    "stiff button fly",
+    "sizing runs small",
+    "rough fabric feel"
+   ],
+   "complaint": null
+  }
+ },
+ "scarf-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The merino wool feels incredibly soft against my neck and keeps me so warm during morning walks. The playful pom-poms add such a cute touch to my winter coat."
+   },
+   {
+    "stars": 5,
+    "text": "The deep red shade is absolutely stunning in person and matches almost everything in my wardrobe. It wraps around nicely without feeling overly bulky."
+   },
+   {
+    "stars": 5,
+    "text": "Its generous length allows me to wrap it comfortably around my neck on freezing days. It clearly feels like high quality craftsmanship."
+   },
+   {
+    "stars": 5,
+    "text": "I wear this for my cold weather commuting, and I am in love with how cozy it feels. The wool does not scratch my skin at all."
+   },
+   {
+    "stars": 4,
+    "text": "It is super soft and cozy, but having to hand wash it cold and lay it flat to dry takes extra effort. Still, it looks gorgeous when worn."
+   },
+   {
+    "stars": 4,
+    "text": "The material is warm and the color is rich, though the pom-poms feel slightly heavy when the ends hang down. Overall, it keeps the chill out really well."
+   },
+   {
+    "stars": 5,
+    "text": "The stitching is tight and even, and the pom-poms are attached very securely. I get compliments every time I wear it out!"
+   },
+   {
+    "stars": 5,
+    "text": "Pure wool makes a world of difference for breathability while staying completely warm. The rich crimson color brightens up dreary winter days."
+   },
+   {
+    "stars": 5,
+    "text": "It drapes beautifully over my shoulders without slipping off throughout the day. A perfect balance of functional warmth and fun style."
+   },
+   {
+    "stars": 3,
+    "text": "While the color is lovely, a pom-pom started unraveling shortly after I began wearing it. It also felt slightly scratchier than expected."
+   },
+   {
+    "stars": 5,
+    "text": "This has quickly become my favorite scarf for the winter season. It is soft, thick, and blocks the cold wind completely."
+   },
+   {
+    "stars": 5,
+    "text": "The fluffiness of the end pom-poms is just delightful! It feels incredibly luxurious wrapped loosely around my neck."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "incredibly soft and cozy",
+    "keeps you very warm",
+    "rich and stunning color"
+   ],
+   "cons": [
+    "requires hand washing",
+    "pom-poms feel heavy",
+    "some quality issues"
+   ],
+   "complaint": "requires hand washing"
+  }
+ },
+ "beanie-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The thick ribbing keeps my ears totally warm on chilly morning walks. The navy and cream contrast looks even better in person."
+   },
+   {
+    "stars": 5,
+    "text": "Super soft acrylic that does not itch my forehead at all. The pom-pom stays perky and centered after multiple wears."
+   },
+   {
+    "stars": 5,
+    "text": "Perfect slouch and stretch for a hat. It covers my ears completely without constantly sliding up."
+   },
+   {
+    "stars": 5,
+    "text": "I hand washed it in cold water as instructed, and it retained its shape completely. Very cozy knit!"
+   },
+   {
+    "stars": 5,
+    "text": "Love the classic winter vibe of the cream stripe on the navy cuff. It fits securely even on windy days outdoors."
+   },
+   {
+    "stars": 5,
+    "text": "Extremely cozy beanie with a heavy, quality feel. The pom-pom adds a fun accent without being overly large."
+   },
+   {
+    "stars": 2,
+    "text": "The pom-pom came loose immediately, and the yarn started unraveling at the crown. It feels poorly stitched together."
+   },
+   {
+    "stars": 4,
+    "text": "Great looking hat that keeps me warm, though the fit is a bit snug on my larger head. Overall, the material feels soft and durable."
+   },
+   {
+    "stars": 5,
+    "text": "The folded cuff gives extra warmth right over my ears. Colors match the online photos perfectly."
+   },
+   {
+    "stars": 3,
+    "text": "The acrylic material traps sweat easily and gets quite scratchy after wearing it for a long time. It looks nice, but the breathability isn't great."
+   },
+   {
+    "stars": 5,
+    "text": "Chunky knit texture looks super stylish with my winter coat. Holds up great in cold weather and keeps its shape well."
+   },
+   {
+    "stars": 5,
+    "text": "Really comfortable fit that doesn't leave a tight line across my forehead. The stripe details give it a nice athletic touch."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "Warm and cozy knit",
+    "Soft and comfortable fit",
+    "Retains shape well"
+   ],
+   "cons": [
+    "Snug fit on larger heads",
+    "Poor breathability during long wear",
+    "Potential stitching quality issues"
+   ],
+   "complaint": null
+  }
+ },
+ "sneakers-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "These navy canvas shoes go with practically everything in my wardrobe. The rubber sole offers great traction and they felt comfortable right out of the box."
+   },
+   {
+    "stars": 4,
+    "text": "The canvas feels sturdy and the classic white sole looks sharp. They were a little stiff initially, but softened up nicely after a few walks."
+   },
+   {
+    "stars": 5,
+    "text": "Super lightweight and easy to lace up for quick errands. The cotton material keeps my feet cool during warmer afternoon walks."
+   },
+   {
+    "stars": 5,
+    "text": "I love the contrast between the deep blue upper and the bright white rubber bottom. Spot cleaning them with a damp cloth easily removes small scuffs."
+   },
+   {
+    "stars": 5,
+    "text": "Honestly surprised by how cushioned the insoles feel for low-profile sneakers. They fit my feet perfectly without any heel slipping."
+   },
+   {
+    "stars": 3,
+    "text": "The navy blue canvas looks nice, but the footbed is completely flat and lacks arch support. My feet get tired if I stand in them for long periods."
+   },
+   {
+    "stars": 5,
+    "text": "Classic low-top style that feels flexible and soft against my ankles. The stitching around the rubber outsole is very neat and secure."
+   },
+   {
+    "stars": 2,
+    "text": "The rubber sole started peeling away from the canvas upper at the flex point after very light wear. The build quality is disappointing despite the nice color."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "Comfortable and cushioned insoles",
+    "Lightweight and flexible",
+    "Sturdy canvas material"
+   ],
+   "cons": [
+    "Lacks arch support",
+    "Initially stiff",
+    "Sole peeling issues"
+   ],
+   "complaint": null
+  }
+ },
+ "raincoat-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "This bright yellow slicker is completely waterproof and keeps my toddler dry during heavy storms."
+   },
+   {
+    "stars": 5,
+    "text": "The snap buttons are so easy for my kindergartener to manage all by themselves."
+   },
+   {
+    "stars": 5,
+    "text": "It has a soft inner lining that doesn't feel clammy against bare arms."
+   },
+   {
+    "stars": 5,
+    "text": "The hood stays up even in strong wind gusts without blocking peripheral vision."
+   },
+   {
+    "stars": 4,
+    "text": "Wiping off mud and dirt with a damp cloth takes just seconds."
+   },
+   {
+    "stars": 4,
+    "text": "The material feels durable enough to handle playground climbing without tearing."
+   },
+   {
+    "stars": 4,
+    "text": "The sleeves run a bit long, but we just roll them up easily."
+   },
+   {
+    "stars": 5,
+    "text": "It folds up small enough to tuck right into the school backpack."
+   },
+   {
+    "stars": 5,
+    "text": "The cheerful color makes it super easy to spot my kid on gloomy days."
+   },
+   {
+    "stars": 1,
+    "text": "The chemical smell right out of the package was so strong we had to air it out for days."
+   },
+   {
+    "stars": 1,
+    "text": "One of the snap buttons completely ripped off the fabric on the very first day."
+   },
+   {
+    "stars": 4,
+    "text": "It is a great jacket overall, though I wish the hood offered slightly more coverage around the forehead."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "keeps toddler dry",
+    "easy snap buttons",
+    "soft inner lining"
+   ],
+   "cons": [
+    "chemical smell",
+    "sleeves run long",
+    "fragile buttons"
+   ],
+   "complaint": null
+  }
+ },
+ "mug-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The olive glaze has a gorgeous earthy look that makes my morning coffee feel special. The straight sides keep the heat in nicely."
+   },
+   {
+    "stars": 5,
+    "text": "The curved handle fits my fingers perfectly without feeling cramped. It has a reassuring weight and solid earthenware craftsmanship."
+   },
+   {
+    "stars": 5,
+    "text": "Smooth rim makes drinking tea very comfortable. The glossy brown finish looks even better in person."
+   },
+   {
+    "stars": 5,
+    "text": "Heavy-duty ceramic that feels like an artisan pottery piece in your hand. Keeps my herbal tea hot for a long time."
+   },
+   {
+    "stars": 4,
+    "text": "Beautiful rich color and great tall design for everyday coffee. I just wish it were safe to pop into the microwave."
+   },
+   {
+    "stars": 5,
+    "text": "Love the tall profile and the smooth, deep olive glaze finish. It fits right into my cozy kitchen aesthetic."
+   },
+   {
+    "stars": 5,
+    "text": "The handle is set comfortably high, making the mug very balanced to hold. The glaze is thick, flawless, and feels durable."
+   },
+   {
+    "stars": 5,
+    "text": "Holding this warm ceramic cup on a cold morning is pure bliss. The straight walls give it a clean, modern yet rustic look."
+   },
+   {
+    "stars": 5,
+    "text": "Generous depth for a big morning brew, and the handle loop is wide enough for a sturdy grip. Fantastic quality glazed earthenware."
+   },
+   {
+    "stars": 4,
+    "text": "The rich glaze and tall shape make this my favorite cup for morning tea. My only gripe is having to hand wash it instead of tossing it in the dishwasher."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "Comfortable and secure handle",
+    "Keeps beverages warm",
+    "Smooth rim and sturdy ceramic build"
+   ],
+   "cons": [
+    "Not microwave safe",
+    "Requires hand washing"
+   ],
+   "complaint": null
+  }
+ },
+ "kettle-01": {
+  "reviews": [
+   {
+    "stars": 2,
+    "text": "The plastic body picks up coffee stains too easily near the spout and is tough to scrub clean."
+   },
+   {
+    "stars": 5,
+    "text": "Boils water remarkably fast on the counter and the automatic shut-off gives me total peace of mind."
+   },
+   {
+    "stars": 5,
+    "text": "The white finish matches my minimalist kitchen aesthetic perfectly."
+   },
+   {
+    "stars": 5,
+    "text": "It holds enough water for my morning French press routine without needing a refill."
+   },
+   {
+    "stars": 5,
+    "text": "Lifting it off the cordless base feels smooth and balanced every single time."
+   },
+   {
+    "stars": 5,
+    "text": "The stainless steel heating plate inside heats up quickly and wipes down effortlessly."
+   },
+   {
+    "stars": 5,
+    "text": "Pouring is completely drip-free, which makes tea time so much more pleasant."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "boils water remarkably fast",
+    "completely drip-free pouring",
+    "smooth and balanced handling"
+   ],
+   "cons": [
+    "picks up coffee stains",
+    "tough to scrub clean"
+   ],
+   "complaint": null
+  }
+ },
+ "skillet-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The heat retention is incredible and it sears steaks perfectly every time. I love how sturdy and reliable this pan feels in my hand."
+   },
+   {
+    "stars": 5,
+    "text": "This skillet works wonders on my campfire and makes outdoor cooking so much easier. It arrived with a solid seasoning that nothing sticks to."
+   },
+   {
+    "stars": 5,
+    "text": "I have been using this for months and the surface is becoming smoother with every meal. It is truly a kitchen workhorse that will last for generations."
+   },
+   {
+    "stars": 4,
+    "text": "It cooks evenly and holds heat well, though the handle gets quite hot on the stove. Just make sure you have a good mitt ready before grabbing it."
+   },
+   {
+    "stars": 4,
+    "text": "The size is perfect for everyday cooking, but the weight can be a bit much to maneuver. It is a solid piece of gear once you get the hang of it."
+   },
+   {
+    "stars": 5,
+    "text": "Everything I bake in this comes out with a beautiful golden crust. The pre-seasoning was decent, but it gets even better after a few uses."
+   },
+   {
+    "stars": 5,
+    "text": "Nothing beats the way this pan crisps up potatoes. It cleans up quickly if you follow the care instructions and keep it oiled."
+   },
+   {
+    "stars": 5,
+    "text": "This is the most versatile piece of cookware I own. It moves seamlessly from my stovetop to the oven without any issues at all."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "Excellent heat retention",
+    "Versatile and durable",
+    "Effective non-stick pre-seasoning"
+   ],
+   "cons": [
+    "Handle gets very hot",
+    "Heavy and hard to maneuver"
+   ],
+   "complaint": null
+  }
+ },
+ "knife-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "This forged blade glides through root vegetables effortlessly and feels perfectly balanced in my hand."
+   },
+   {
+    "stars": 5,
+    "text": "The dark steel looks sleek on the magnetic strip and holds a razor-sharp edge through heavy meal prep."
+   },
+   {
+    "stars": 4,
+    "text": "It cuts tomatoes like a dream and the handle grip is secure, though I wish the included blade guard fit more snugly."
+   },
+   {
+    "stars": 5,
+    "text": "As a culinary instructor, I am genuinely impressed by the sturdy build and how comfortable it feels during long chopping sessions."
+   },
+   {
+    "stars": 4,
+    "text": "The high-carbon steel takes a wonderful edge and makes quick work of dicing onions, but requiring hand wash only is a bit of a chore."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "razor sharp edge",
+    "comfortable grip",
+    "well balanced"
+   ],
+   "cons": [
+    "loose blade guard",
+    "hand wash only"
+   ],
+   "complaint": null
+  }
+ },
+ "cutting-board-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The lime green color brightens up my whole kitchen and it is super easy to rinse off."
+   },
+   {
+    "stars": 5,
+    "text": "That flexible edge makes sliding chopped veggies right into the pan completely mess-free."
+   },
+   {
+    "stars": 5,
+    "text": "It is remarkably lightweight yet holds up great against my sharpest chef knives."
+   },
+   {
+    "stars": 2,
+    "text": "Deep knife grooves formed immediately during the very first use and now food bits get trapped in them."
+   },
+   {
+    "stars": 5,
+    "text": "Popped it straight into the dishwasher after slicing raw chicken and it came out spotless."
+   },
+   {
+    "stars": 5,
+    "text": "The plastic feels durable without being heavy, and storing it in a tight space is effortless."
+   },
+   {
+    "stars": 5,
+    "text": "I love how gentle this surface is on my blades compared to glass or stone boards."
+   },
+   {
+    "stars": 5,
+    "text": "The bendable design is a total game changer for transferring ingredients without spilling a single piece."
+   },
+   {
+    "stars": 4,
+    "text": "It is a really handy kitchen tool, though I wish it came in a slightly larger size."
+   },
+   {
+    "stars": 3,
+    "text": "The material feels a bit too flimsy when I am trying to chop dense root vegetables like carrots."
+   },
+   {
+    "stars": 5,
+    "text": "Bright, cheerful, and incredibly practical for everyday meal prep."
+   },
+   {
+    "stars": 5,
+    "text": "Cleanup takes seconds and it dries instantly on the rack."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "easy to clean",
+    "flexible for pouring",
+    "lightweight and durable"
+   ],
+   "cons": [
+    "shows knife cuts",
+    "feels flimsy for hard items",
+    "on the smaller side"
+   ],
+   "complaint": "knife marks trap food"
+  }
+ },
+ "french-press-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "This brushed stainless steel coffee maker looks sleek on my counter and keeps my brew piping hot for hours. Plus, tossing it in the dishwasher afterward makes cleanup an absolute breeze."
+   },
+   {
+    "stars": 5,
+    "text": "The double-walled build is impressively sturdy, meaning I no longer have to worry about clumsy morning accidents shattering glass on my kitchen floor. It pours smoothly and extracts a wonderfully rich flavor."
+   },
+   {
+    "stars": 5,
+    "text": "I am obsessed with how durable and modern this press feels in hand. Getting a spare filter included in the box was a fantastic bonus that shows great attention to detail."
+   },
+   {
+    "stars": 4,
+    "text": "It makes a fantastic, grit-free cup of coffee and feels virtually indestructible during daily use. My only minor gripe is that the plunger mechanism feels a bit stiff when pushing it down."
+   },
+   {
+    "stars": 3,
+    "text": "The thermal insulation works decently well, but the exterior gets surprisingly warm near the top rim when the water is freshly boiled. It is still a solid addition to the kitchen, just handle with care."
+   },
+   {
+    "stars": 5,
+    "text": "Absolute game changer for my morning routine because it retains heat much better than my old glass model. The brushed finish hides fingerprints surprisingly well too."
+   },
+   {
+    "stars": 4,
+    "text": "Brewing a full litre gives me enough coffee to get through the entire morning without needing a refill. The handle has a comfortable grip, though it takes a little extra muscle to press through fine grinds."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "keeps coffee hot",
+    "sturdy and durable",
+    "easy to clean"
+   ],
+   "cons": [
+    "stiff plunger",
+    "gets warm near the top"
+   ],
+   "complaint": null
+  }
+ },
+ "colander-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "This white ceramic colander is absolutely stunning on my kitchen counter and rinses my berries effortlessly without letting them slip through."
+   },
+   {
+    "stars": 5,
+    "text": "The glaze is completely smooth and heavy-duty, making it a joy to drain hot pasta before tossing it right into the sauce."
+   },
+   {
+    "stars": 4,
+    "text": "It is a lovely and sturdy piece, though the handles get a bit slippery when my hands are wet."
+   },
+   {
+    "stars": 3,
+    "text": "While the stoneware looks gorgeous, the drainage holes are spaced a bit too far apart, so small grains of pasta occasionally fall right through."
+   },
+   {
+    "stars": 5,
+    "text": "Such a practical and beautiful kitchen tool that cleans up brilliantly in the dishwasher every single time."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "stunning design",
+    "sturdy construction",
+    "easy to clean"
+   ],
+   "cons": [
+    "slippery handles",
+    "holes too wide"
+   ],
+   "complaint": null
+  }
+ },
+ "headphones-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The plush ear cushions make these an absolute dream for all-day listening sessions without any discomfort."
+   },
+   {
+    "stars": 2,
+    "text": "The headband feels way too tight and starts digging into the top of my head after just twenty minutes."
+   },
+   {
+    "stars": 2,
+    "text": "The plastic feels extremely brittle and the audio cable stopped working on the left side within a week."
+   },
+   {
+    "stars": 5,
+    "text": "I love the classic black look and how easily I can wipe them clean after my workouts."
+   },
+   {
+    "stars": 5,
+    "text": "The wired connection is super reliable for my studio setup and the sound quality is shockingly crisp."
+   },
+   {
+    "stars": 5,
+    "text": "These fit securely over my ears and block out most of the ambient office noise."
+   },
+   {
+    "stars": 5,
+    "text": "Simple, no-fuss design that plugs right into my laptop without needing any drivers or charging."
+   },
+   {
+    "stars": 5,
+    "text": "The padding is thick and luxurious, making long flights fly by in total comfort."
+   },
+   {
+    "stars": 5,
+    "text": "They are lightweight yet sturdy enough to toss into my backpack every single morning."
+   },
+   {
+    "stars": 5,
+    "text": "The analog sound profile has a really warm and balanced feel that I prefer over wireless pairs."
+   },
+   {
+    "stars": 4,
+    "text": "Solid build quality and great comfort, though I wish the attached cable was just a bit longer."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "plush ear cushions",
+    "crisp sound quality",
+    "reliable wired connection"
+   ],
+   "cons": [
+    "tight headband",
+    "brittle plastic",
+    "short cable"
+   ],
+   "complaint": null
+  }
+ },
+ "earbuds-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The smooth white finish looks great, and the sound clarity exceeded my expectations. They paired instantly with my phone right out of the box."
+   },
+   {
+    "stars": 5,
+    "text": "Finding the right ear tip size made these super comfortable for my daily runs. The charging case is lightweight and easy to slide into a pocket."
+   },
+   {
+    "stars": 5,
+    "text": "Connecting via Bluetooth was completely seamless. They stay securely in my ears even when I am working out."
+   },
+   {
+    "stars": 2,
+    "text": "The left earbud constantly loses connection whenever I turn my head. Also, the plastic case feels cheap and scratches very easily."
+   },
+   {
+    "stars": 5,
+    "text": "I love that it uses a standard USB-C cable for quick charging. A single charge easily gets me through my entire workday."
+   },
+   {
+    "stars": 5,
+    "text": "Rich bass and clear treble make listening to my favorite podcasts a delight. Cleaning them is as simple as a quick wipe with a dry cloth."
+   },
+   {
+    "stars": 5,
+    "text": "These white earbuds look sleek and modern. The snap lid on the charging case feels very satisfying to open and close."
+   },
+   {
+    "stars": 5,
+    "text": "Having different ear tip options included saved me, as my ear canals are small. They sit flush and never hurt my ears."
+   },
+   {
+    "stars": 3,
+    "text": "Audio plays fine for music, but the built-in microphone makes my voice sound muffled on phone calls. They are decent for passive listening, but not great for work calls."
+   },
+   {
+    "stars": 1,
+    "text": "The right earbud completely stopped charging shortly after I bought them. Now the case will not recognize it at all, rendering the set useless."
+   },
+   {
+    "stars": 5,
+    "text": "These are the ideal companion for my daily train commute. They block out background noise well and charge up surprisingly fast."
+   },
+   {
+    "stars": 1,
+    "text": "Even with the smallest tips attached, these constantly slip out of my ears and hit the floor. The glossy plastic surface offers no grip at all."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "clear sound quality",
+    "comfortable fit",
+    "fast bluetooth pairing"
+   ],
+   "cons": [
+    "connection drops",
+    "cheap plastic case",
+    "muffled microphone"
+   ],
+   "complaint": "connection drops"
+  }
+ },
+ "charger-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "This little charger fits easily into my overcrowded power strip without blocking the other outlets. The matte white finish looks clean and modern."
+   },
+   {
+    "stars": 4,
+    "text": "It charges my phone fairly quickly and seems solidly built for everyday travel. The prongs feel a bit loose in older wall sockets, but overall it works well."
+   },
+   {
+    "stars": 5,
+    "text": "I love how lightweight and compact this adapter is for my backpack. Both USB ports deliver steady power simultaneously without getting hot."
+   },
+   {
+    "stars": 5,
+    "text": "The dual ports saved me so much hassle during my trip abroad. It snaps securely into the European wall sockets and charges my devices overnight."
+   },
+   {
+    "stars": 5,
+    "text": "The sleek plastic casing feels surprisingly durable and handles daily use without a scratch. It is now a permanent fixture in my travel bag."
+   },
+   {
+    "stars": 3,
+    "text": "The charger works fine, but the body gets quite warm to the touch when I am using both ports at the same time."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "compact and lightweight",
+    "charges devices quickly",
+    "durable build quality"
+   ],
+   "cons": [
+    "loose prongs in old sockets",
+    "gets warm during dual use"
+   ],
+   "complaint": null
+  }
+ },
+ "cable-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The silver-grey braided cord looks sleek on my desk and charges my phone remarkably fast."
+   },
+   {
+    "stars": 4,
+    "text": "It feels very durable and charges my tablet quickly, though I wish it came in a slightly longer size."
+   },
+   {
+    "stars": 5,
+    "text": "This cable has a wonderful flexible feel, and the white connectors snap securely into my devices without any looseness."
+   },
+   {
+    "stars": 5,
+    "text": "The nylon weave prevents annoying tangles in my bag, making data transfer between my laptop and phone completely effortless."
+   },
+   {
+    "stars": 2,
+    "text": "The connector casing feels flimsy and stopped working after just a few weeks of gentle plugging."
+   },
+   {
+    "stars": 5,
+    "text": "A solid replacement wire that handles heavy daily use while maintaining a very reliable connection."
+   },
+   {
+    "stars": 3,
+    "text": "It works fine for charging, but the length is a bit too short for comfortable use while sitting on the couch."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "charges quickly",
+    "durable build",
+    "tangle free design"
+   ],
+   "cons": [
+    "shorter length",
+    "flimsy connector casing"
+   ],
+   "complaint": "cable is too short"
+  }
+ },
+ "powerbank-01": {
+  "reviews": [
+   {
+    "stars": 2,
+    "text": "The plastic casing feels decent, but the included USB cable stopped working after just two charges."
+   },
+   {
+    "stars": 5,
+    "text": "This little black brick has saved my phone battery countless times during long hikes."
+   },
+   {
+    "stars": 5,
+    "text": "It is super lightweight and slips easily into my smallest jeans pocket."
+   },
+   {
+    "stars": 3,
+    "text": "The capacity is fine for a single emergency charge, but it gets quite warm during use."
+   },
+   {
+    "stars": 4,
+    "text": "A very reliable gadget for daily commutes, though I wish the finish was less prone to fingerprints."
+   },
+   {
+    "stars": 4,
+    "text": "It charges my smartphone surprisingly fast while I am out and about."
+   },
+   {
+    "stars": 4,
+    "text": "Solid build quality and fits comfortably in my bag alongside my wallet."
+   },
+   {
+    "stars": 5,
+    "text": "An absolute lifesaver for travel days when I am away from wall outlets for hours."
+   },
+   {
+    "stars": 5,
+    "text": "The sleek design looks great, and it holds a charge for days sitting in my backpack."
+   },
+   {
+    "stars": 5,
+    "text": "Simple to use right out of the box with no complicated buttons or setup required."
+   },
+   {
+    "stars": 5,
+    "text": "Pocket-sized perfection that delivers reliable power whenever my phone drops into the red."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "charges quickly",
+    "lightweight and compact",
+    "reliable battery backup"
+   ],
+   "cons": [
+    "faulty charging cable",
+    "gets warm during use",
+    "shows fingerprints easily"
+   ],
+   "complaint": null
+  }
+ },
+ "keyboard-01": {
+  "reviews": [
+   {
+    "stars": 3,
+    "text": "The blue-grey colour is nice and it feels sturdy enough, but the lack of adjustable feet makes typing at my desk a bit awkward."
+   },
+   {
+    "stars": 5,
+    "text": "I love the adorable round keys and how quickly it switches between my laptop and tablet!"
+   },
+   {
+    "stars": 5,
+    "text": "The teal accent keys add a fun pop of colour to my workspace, and typing on it feels surprisingly bouncy and satisfying."
+   },
+   {
+    "stars": 5,
+    "text": "It is so lightweight and compact that I can easily slip it into my bag alongside my tablet for working at coffee shops."
+   },
+   {
+    "stars": 4,
+    "text": "Connecting to three different devices was super simple, though the plastic body feels a little hollow."
+   },
+   {
+    "stars": 5,
+    "text": "The matte finish is lovely and the tactile feedback from the keys makes writing long emails a breeze."
+   },
+   {
+    "stars": 2,
+    "text": "The spacebar started sticking after just a few days of use, which makes typing documents really frustrating."
+   },
+   {
+    "stars": 5,
+    "text": "Battery installation was a snap and having the batteries included in the box was a very appreciated touch."
+   },
+   {
+    "stars": 5,
+    "text": "The wipe clean surface makes it super easy to keep looking fresh and dust-free on my crowded desk."
+   },
+   {
+    "stars": 2,
+    "text": "Some of the keys lose connection randomly during use, forcing me to constantly re-pair the Bluetooth."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "satisfying key feel",
+    "easy multi device switching",
+    "lightweight and compact"
+   ],
+   "cons": [
+    "unstable bluetooth connection",
+    "hollow plastic body",
+    "awkward typing angle"
+   ],
+   "complaint": "random bluetooth disconnection"
+  }
+ },
+ "mouse-01": {
+  "reviews": [
+   {
+    "stars": 1,
+    "text": "The scroll wheel started skipping steps after just a few days of normal office work."
+   },
+   {
+    "stars": 5,
+    "text": "This is a fantastic, reliable plug-and-play device that works instantly without any annoying software installation."
+   },
+   {
+    "stars": 5,
+    "text": "The matte black finish feels great under the palm during long drafting sessions."
+   },
+   {
+    "stars": 5,
+    "text": "It has a nice weight and glides smoothly across my wooden desk surface without needing a pad."
+   },
+   {
+    "stars": 2,
+    "text": "The USB cable is far too stiff, causing the mouse to pull to the left constantly."
+   },
+   {
+    "stars": 5,
+    "text": "The clicking action is crisp and responsive, making rapid document navigation effortless."
+   },
+   {
+    "stars": 5,
+    "text": "Cleaning the plastic surface is super easy with just a quick wipe down using a damp cloth."
+   },
+   {
+    "stars": 5,
+    "text": "The shape fits my hand naturally and completely eliminates the wrist fatigue I had before."
+   },
+   {
+    "stars": 5,
+    "text": "It is a dependable daily driver for basic web browsing and office tasks."
+   },
+   {
+    "stars": 5,
+    "text": "The two buttons have a satisfying tactile feedback that lets you know every press registered."
+   },
+   {
+    "stars": 5,
+    "text": "Simple, classic design that just gets the job done without any fuss."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "feels comfortable in hand",
+    "works instantly without software",
+    "glides smoothly across surfaces"
+   ],
+   "cons": [
+    "stiff USB cable",
+    "scroll wheel skips steps"
+   ],
+   "complaint": null
+  }
+ },
+ "trail-mix-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The chocolate to nut ratio is simply unbeatable and the bag actually stays fresh."
+   },
+   {
+    "stars": 5,
+    "text": "I keep a pouch in my backpack for every hike because the sweet and salty balance is spot on."
+   },
+   {
+    "stars": 5,
+    "text": "Really satisfying crunch from the roasted nuts, and the raisins are surprisingly plump."
+   },
+   {
+    "stars": 5,
+    "text": "This is my go-to afternoon snack at the office to stave off the midday slump."
+   },
+   {
+    "stars": 5,
+    "text": "The resealable pouch makes it super easy to toss into my gym bag without any spills."
+   },
+   {
+    "stars": 5,
+    "text": "Good quality ingredients all around, especially the chocolate candies which don't taste waxy at all."
+   },
+   {
+    "stars": 4,
+    "text": "Delicious blend of flavors, though I wish there were a few more cashews in the mix."
+   },
+   {
+    "stars": 2,
+    "text": "The bag arrived with a tiny puncture near the seal, which made the nuts go stale way too fast."
+   },
+   {
+    "stars": 5,
+    "text": "An absolute staple in our pantry that satisfies both sweet and savory cravings instantly."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "great sweet and salty balance",
+    "fresh and crunchy nuts",
+    "convenient resealable pouch"
+   ],
+   "cons": [
+    "not enough cashews",
+    "occasional packaging damage"
+   ],
+   "complaint": null
+  }
+ },
+ "granola-01": {
+  "reviews": [
+   {
+    "stars": 4,
+    "text": "The oat clusters have a great crunch and natural honey sweetness, though I wish there were a few more almonds mixed in."
+   },
+   {
+    "stars": 5,
+    "text": "This is hands down the best store-bought granola I have ever tasted, with huge crunchy clumps that stay crisp in milk."
+   },
+   {
+    "stars": 5,
+    "text": "The toasted almond flavor really shines through and the honey coating is just right without being overly sticky."
+   },
+   {
+    "stars": 5,
+    "text": "I love snacking on these oat clusters straight out of the bag because the texture is wonderfully hearty and fresh."
+   },
+   {
+    "stars": 4,
+    "text": "It makes a fantastic yogurt topping, but the bag seal broke on the first opening so I had to transfer it to a jar."
+   },
+   {
+    "stars": 3,
+    "text": "The flavor is decent and the oats are nicely baked, but the bag arrived with way too many fine crumbs and very few whole clusters."
+   },
+   {
+    "stars": 5,
+    "text": "Morning breakfast has become a real treat thanks to this delicious honey and nut combination that keeps me full for hours."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "great crunch and texture",
+    "delicious honey and nut flavor",
+    "stays crisp in milk"
+   ],
+   "cons": [
+    "broken bag seal",
+    "too many fine crumbs",
+    "few almonds mixed in"
+   ],
+   "complaint": null
+  }
+ },
+ "coffee-01": {
+  "reviews": [
+   {
+    "stars": 3,
+    "text": "The bag arrived unsealed, so the beans lacked the fresh aroma I expected."
+   },
+   {
+    "stars": 5,
+    "text": "Making a morning pour-over with these medium-roast beans yields a wonderfully smooth cup."
+   },
+   {
+    "stars": 5,
+    "text": "These whole beans grind evenly and have a rich chocolate flavor that never tastes bitter."
+   },
+   {
+    "stars": 5,
+    "text": "Storing these beans in an airtight container keeps that caramel aroma strong for weeks."
+   },
+   {
+    "stars": 5,
+    "text": "This is my new daily favorite because it brews a balanced cup in my drip machine every single time."
+   },
+   {
+    "stars": 4,
+    "text": "The flavor profile is quite nice, though I wish the bag had a resealable zipper for convenience."
+   },
+   {
+    "stars": 5,
+    "text": "I love the sweet caramel notes I get when using my French press with this medium roast."
+   },
+   {
+    "stars": 5,
+    "text": "These beans smell fantastic the moment you slice open the package."
+   },
+   {
+    "stars": 5,
+    "text": "A solid grocery store find that delivers a consistently great taste and pleasant morning feel."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "smooth balanced flavor",
+    "rich caramel notes",
+    "consistent brew quality"
+   ],
+   "cons": [
+    "lacks resealable bag",
+    "potential freshness issues"
+   ],
+   "complaint": "packaging lacks resealability"
+  }
+ },
+ "tea-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The grassy flavor is so vibrant and fresh, making it my absolute favorite morning brew."
+   },
+   {
+    "stars": 5,
+    "text": "Steeps into a lovely emerald cup with zero bitterness when water temperature is kept just right."
+   },
+   {
+    "stars": 2,
+    "text": "The flimsy lid doesn't seal tightly at all, so the leaves lost their aroma way too fast."
+   },
+   {
+    "stars": 5,
+    "text": "I love scooping these whole leaves out of the sleek tin and watching them unfurl while steeping."
+   },
+   {
+    "stars": 5,
+    "text": "Such a clean, authentic taste that reminds me of traditional tea houses."
+   },
+   {
+    "stars": 5,
+    "text": "This makes a wonderfully smooth afternoon cup that feels light yet deeply satisfying."
+   },
+   {
+    "stars": 4,
+    "text": "A solid everyday green tea, though I wish the herbal notes were slightly bolder."
+   },
+   {
+    "stars": 5,
+    "text": "The tin keeps everything dark and secure, preserving that delightful garden-fresh scent."
+   },
+   {
+    "stars": 4,
+    "text": "Brewing this loose leaf is a nice little ritual, and the flavor is consistently gentle."
+   },
+   {
+    "stars": 5,
+    "text": "You can really taste the high quality in every soothing sip."
+   },
+   {
+    "stars": 5,
+    "text": "Extremely refreshing when served hot or poured over ice on a warm afternoon."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "vibrant grassy flavor",
+    "smooth and refreshing taste",
+    "high quality leaves"
+   ],
+   "cons": [
+    "flimsy lid",
+    "mild herbal notes"
+   ],
+   "complaint": "poorly sealing lid"
+  }
+ },
+ "chocolate-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The texture is wonderfully velvety and it melts instantly on the tongue."
+   },
+   {
+    "stars": 5,
+    "text": "Rich, deep cocoa flavor that isn't overly bitter at all."
+   },
+   {
+    "stars": 5,
+    "text": "Grabbed this for a quick afternoon treat and it exceeded my expectations."
+   },
+   {
+    "stars": 5,
+    "text": "Stunning packaging and the quality of the chocolate is top-tier."
+   },
+   {
+    "stars": 5,
+    "text": "A perfectly balanced dark chocolate that pairs amazingly well with black coffee."
+   },
+   {
+    "stars": 5,
+    "text": "Smooth finish with zero chalky aftertaste, absolutely delicious."
+   },
+   {
+    "stars": 3,
+    "text": "It has a decent flavor profile, but the bar arrived completely melted into a blob."
+   },
+   {
+    "stars": 5,
+    "text": "Deep, complex notes that satisfy my sweet tooth without feeling heavy."
+   },
+   {
+    "stars": 5,
+    "text": "Break off a square and you get that crisp snap you expect from good cocoa."
+   },
+   {
+    "stars": 5,
+    "text": "Pure indulgence in every single bite, easily my new favorite grocery find."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "velvety smooth texture",
+    "rich cocoa flavor",
+    "stunning packaging"
+   ],
+   "cons": [
+    "arrived melted"
+   ],
+   "complaint": "arrived melted"
+  }
+ },
+ "honey-01": {
+  "reviews": [
+   {
+    "stars": 5,
+    "text": "The floral notes are incredibly distinct and bright. It pairs perfectly with my morning tea."
+   },
+   {
+    "stars": 5,
+    "text": "This is the cleanest tasting honey I have found in a long time. The texture is smooth and easy to drizzle."
+   },
+   {
+    "stars": 5,
+    "text": "I love that this is raw and unprocessed. It tastes just like the honey I used to get from the local farm stand."
+   },
+   {
+    "stars": 5,
+    "text": "The consistency is perfect for spreading on warm toast. You can really taste the variety of wildflowers in every spoonful."
+   },
+   {
+    "stars": 5,
+    "text": "It has a beautiful golden color and a rich, deep sweetness. Truly high quality stuff."
+   },
+   {
+    "stars": 5,
+    "text": "I keep this on my desk for an afternoon pick-me-up. It is absolutely delicious straight from the jar."
+   },
+   {
+    "stars": 5,
+    "text": "The flavor profile is complex and lingering. It is clearly sourced from a diverse range of blossoms."
+   },
+   {
+    "stars": 5,
+    "text": "This makes the best glaze for roasted carrots. Everyone at the dinner table asked for the brand name."
+   },
+   {
+    "stars": 5,
+    "text": "I appreciate that there are no additives or fillers included. It is just pure, honest honey."
+   },
+   {
+    "stars": 5,
+    "text": "The thickness is spot on, neither too runny nor too crystallized. It is a staple in my pantry now."
+   },
+   {
+    "stars": 5,
+    "text": "I am very impressed with the depth of flavor here. It is definitely a cut above the standard supermarket brands."
+   },
+   {
+    "stars": 4,
+    "text": "The honey tastes fantastic and very natural, though the plastic jar is a bit difficult to squeeze when it gets low."
+   }
+  ],
+  "summary": {
+   "pros": [
+    "clean and natural taste",
+    "smooth texture",
+    "rich floral flavor"
+   ],
+   "cons": [
+    "difficult to squeeze plastic jar"
+   ],
+   "complaint": null
+  }
+ }
+}

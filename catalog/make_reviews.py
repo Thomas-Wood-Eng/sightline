@@ -33,15 +33,16 @@ def stars_for(p):
 
 
 def ask(prompt):
-    for attempt in range(4):
+    models = [MODEL, 'gemini-3.5-flash-lite', 'gemini-flash-lite-latest', 'gemini-3.1-flash-lite']
+    for attempt in range(8):
         try:
             r = llm.client().models.generate_content(
-                model=MODEL, contents=prompt,
+                model=models[attempt % len(models)], contents=prompt,
                 config=types.GenerateContentConfig(response_mime_type='application/json', temperature=1.0))
             return json.loads(r.text)
         except Exception as e:  # free tier: 429s and stalls; back off and retry
             print('  retry', attempt, type(e).__name__, str(e)[:100])
-            time.sleep(20 * (attempt + 1))
+            time.sleep(5 if attempt < 4 else 30)
     raise SystemExit('Gemini kept failing; run again later to resume.')
 
 
