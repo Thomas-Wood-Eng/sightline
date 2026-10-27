@@ -228,6 +228,18 @@ def sizes_of(p):
     return p['listing'].get('sizes') or []
 
 
+def _plan(s, tgt):
+    """"add the protection plan": a seller's add-on joins the cart only when the shopper names it."""
+    if tgt == 'it' or tgt[0] != 'name':
+        return None
+    words = set(catalog.tokens(tgt[1])) - {'addon', 'add'}
+    for pid in [s.get('focus')] + [l[0] for l in s.get('cart', [])]:
+        a = catalog.get(f'{pid}-addon')
+        if a and words and words <= set(catalog.tokens(a['plan'])):
+            return a
+    return None
+
+
 def add(s, p, qty, opt=''):
     """Add with a size and colour. Never guesses a size: asks, unless a saved default size fits."""
     sizes = sizes_of(p)
@@ -252,6 +264,8 @@ def add(s, p, qty, opt=''):
     else:
         cart.append([p['id'], qty, variant])
     s['cart'], s['opt'] = cart, None
+    if p.get('addon_of'):
+        return Reply(speech.added(p, qty, sum(l[1] for l in cart)))
     _focus(s, p)
     return Reply(speech.added(p, qty, sum(l[1] for l in cart), variant) + note, focus=card(p))
 
@@ -379,6 +393,8 @@ def handle(text, s):
         focus = catalog.get(s.get('focus') or '')
         if tgt != 'it' and tgt[0] == 'name' and focus and _only_colour(tgt[1], focus):
             p, opt = focus, f'{tgt[1]} {opt}'  # "add the black one": a colour of the item in focus
+        elif _plan(s, tgt):
+            p = _plan(s, tgt)
         else:
             p = resolve(s, tgt)
         if not p:

@@ -103,9 +103,11 @@ def describe(p, level='normal'):
     lines.append(f"{money(p['price'])}, {p['rating']} stars from {plural(p['review_count'], 'review')}. "
                  f"{'Free shipping' if not p['shipping'] else 'Shipping ' + money(p['shipping'])}. Arrives about {delivery_date(p['delivery_days'])}. "
                  f"Sold by {p['seller']}.")
+    risky = warnings([(p, 1, '')])  # dark-pattern warnings are never trimmed by verbosity
     if level == 'brief':  # food keeps its allergens even in brief mode: never left unsaid
         food = [f"Listing says: allergens {_ns(l.get('allergens'))}."] if p['category'] == 'grocery' else []
-        return [lines[0], *food, lines[-1]]
+        return [lines[0], *food, lines[-1], *risky]
+    lines += risky
     if level == 'detailed':
         qa = [guard(f"{q['q']} {q['a']}") for q in e.get('qa', [])[:3]]
         lines += [f'Common question: {x}' for x in qa if x]
@@ -179,6 +181,25 @@ def cap_refusal(kind, cap, total, spent=None):
             f'Your daily cap is {usd(cap)}, so it is {usd(over)} over. Change the cap in Settings if you need to.')
 
 
+def warnings(lines_in):
+    """Scam and dark-pattern guard, from catalogue data by fixed rules (never an LLM). lines_in: [(product, qty, variant)]."""
+    ids, out = {p['id'] for p, _, _ in lines_in}, []
+    for p, _, _ in lines_in:
+        if p.get('subscription'):
+            out.append(f"Heads up: {p['name']} is a subscription that renews every {p['subscription']} until you cancel.")
+        if p.get('urgency'):
+            out.append(f"Heads up: the listing for {p['name']} says: {p['urgency']} That is sales pressure. "
+                       'We cannot check it, so take your time.')
+        ship, price = Decimal(str(p['shipping'])), Decimal(str(p['price']))
+        if ship >= 10 and ship >= price * Decimal('0.4'):
+            out.append(f"Heads up: shipping for {p['name']} is {usd(ship)}, unusually high for an item costing {usd(price)}.")
+        a = p.get('addon')
+        if a and a.get('preticked') and p['id'] + '-addon' not in ids:
+            out.append(f"Heads up: the seller pre-ticks a {a['name']} for {usd(a['price'])}. I did not add it. "
+                       f"Say add the {a['name']} only if you want it.")
+    return out
+
+
 def readback(order, meta):
     """The Readback. Every amount comes from PayPal's order response; meta gives delivery days and seller
     (catalogue data, not money). Fixed order: item, quantity, unit price, shipping, tax, total, delivery, seller."""
@@ -193,6 +214,7 @@ def readback(order, meta):
               f"Total: {usd(amt['value'])}.",
               f"Delivery by {delivery_date(meta['delivery_days'])}.",
               f"Seller: {meta['seller']}.",
+              *meta.get('warnings', []),
               'Say confirm to continue to your PIN, or cancel to release the hold.']
     return 'PayPal is holding the payment. Here is the Readback.', lines
 

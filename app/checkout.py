@@ -146,7 +146,7 @@ def start(s):
         s['co'] = {'state': VOIDED}
         return Reply("PayPal's hold did not match the cart, so I released it. Nothing was charged.")
     meta = {'delivery_days': max(p['delivery_days'] for p, _, _ in lines),
-            'seller': ', '.join(sorted({p['seller'] for p, _, _ in lines}))}
+            'seller': ', '.join(sorted({p['seller'] for p, _, _ in lines})), 'warnings': speech.warnings(lines)}
     say, rb = speech.readback(order, meta)
     s['co'] = {'state': CONFIRM, 'rid': rid, 'order_id': order['id'], 'auth_id': auth['id'], 'say': say, 'lines': rb}
     contact = s.get('contact')

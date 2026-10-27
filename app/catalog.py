@@ -41,6 +41,13 @@ def _doc(p):
 
 PRODUCTS = _load()
 BY_ID = {p['id']: p for p in PRODUCTS}
+for _p in PRODUCTS:  # a seller's add-on (e.g. a protection plan) is its own cart line, never searchable, never pre-added
+    if _p.get('addon'):
+        _a = _p['addon']
+        BY_ID[_p['id'] + '-addon'] = {
+            'id': _p['id'] + '-addon', 'name': f"{_a['name']} for {_p['name']}", 'plan': _a['name'], 'addon_of': _p['id'],
+            'category': 'service', 'price': _a['price'], 'shipping': 0, 'delivery_days': 0, 'seller': _p['seller'],
+            'rating': 0, 'review_count': 0, 'listing': {}}
 CATEGORIES = sorted({p['category'] for p in PRODUCTS})
 _bm25 = BM25Okapi([_doc(p) for p in PRODUCTS]) if PRODUCTS else None
 _docs = [set(_doc(p)) for p in PRODUCTS]

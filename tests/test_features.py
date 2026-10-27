@@ -178,3 +178,29 @@ def test_under_threshold_needs_no_approval(client, fake):
     setup(client); contact(client, threshold='90.00')
     t(client, 'hoodie'); t(client, 'add it in medium')
     assert t(client, 'check out')['state'] == 'awaiting_confirm'
+
+
+# ---- 5. scam and dark-pattern guard ----
+def test_warnings_are_deterministic():
+    from app import speech
+    base = {'name': 'Thing', 'price': 24.99, 'shipping': 2.99}
+    w = speech.warnings([({**base, 'id': 'a', 'subscription': 'month'}, 1, ''),
+                         ({**base, 'id': 'b', 'urgency': 'Only 2 left in stock!'}, 1, ''),
+                         ({**base, 'id': 'c', 'shipping': 18.99}, 1, '')])
+    assert w[0] == 'Heads up: Thing is a subscription that renews every month until you cancel.'
+    assert 'sales pressure' in w[1]
+    assert 'shipping for Thing is 18.99 US dollars, unusually high for an item costing 24.99 US dollars' in w[2]
+    assert speech.warnings([(base | {'id': 'd'}, 1, '')]) == []
+
+
+def test_preticked_addon_never_added_unless_asked(client, fake):
+    setup(client, order_cap='200.00')
+    t(client, 'headphones'); t(client, 'add it')
+    rb = ' '.join(t(client, 'check out')['lines'])
+    assert 'pre-ticks a 2-year protection plan for 9.99 US dollars. I did not add it.' in rb
+    items = next(iter(fake.seen.values()))['purchase_units'][0]['items']
+    assert len(items) == 1
+    t(client, 'cancel')
+    assert 'Added: 2-year protection plan for' in t(client, 'add the protection plan')['say']
+    rb = ' '.join(t(client, 'check out')['lines'])
+    assert 'pre-ticks' not in rb and 'Item 2: 2-year protection plan' in rb and 'Unit price 9.99 US dollars' in rb

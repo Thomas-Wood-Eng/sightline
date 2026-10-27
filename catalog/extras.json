@@ -1,6 +1,10 @@
 {
-  "_about": "Optional fields merged into catalogue products at load (app/catalog.py). colours: variants the shopper can choose.",
+  "_about": "Optional fields merged into catalogue products at load (app/catalog.py). colours: variants the shopper can choose. subscription, urgency, addon and the clock's shipping are DEMO-ONLY dark patterns for the scam guard.",
   "hoodie-01": {"colours": ["heather grey", "black", "navy blue"]},
   "tshirt-01": {"colours": ["white", "black", "forest green"]},
-  "beanie-01": {"colours": ["navy blue with a cream stripe", "charcoal grey"]}
+  "beanie-01": {"colours": ["navy blue with a cream stripe", "charcoal grey"]},
+  "coffee-01": {"subscription": "month"},
+  "headphones-01": {"addon": {"name": "2-year protection plan", "price": 9.99, "preticked": true}},
+  "clock-01": {"shipping": 18.99},
+  "teddy-01": {"urgency": "Only 2 left in stock! Order soon."}
 }
