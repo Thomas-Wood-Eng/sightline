@@ -9,7 +9,7 @@ from decimal import Decimal, ROUND_HALF_UP
 
 from itsdangerous import URLSafeSerializer
 
-from . import catalog, paypal, speech
+from . import catalog, db, paypal, speech
 from .speech import Reply
 
 TAX_RATE = Decimal('0.05')  # flat demo rate
@@ -22,10 +22,10 @@ HOLDING = (CONFIRM, PIN, APPROVAL)
 LOCKED = ('Your PIN is locked after three wrong tries. Nothing was charged. '
           'To unlock, link PayPal again, which needs your PayPal login, then set a new PIN.')
 
-# shortcut: PIN tries, lockout and today's spend live in server memory keyed by session id, so replaying an old
-# signed cookie can't reset them; they are lost on restart. Move to a database before real money.
+# shortcut: PIN tries, lockout and undone holds live in server memory keyed by session id, so replaying an old
+# signed cookie can't reset them; they are lost on restart. Captured orders (and so today's spend) are in SQLite (db.py).
 LEDGER = {}
-_lock = threading.Lock()  # undo and capture of one hold never both go ahead
+_lock = threading.RLock()  # undo and capture of one hold never both go ahead
 # shortcut: approval requests live in memory (lost on restart, the hold then just expires); move to SQLite before real use
 APPROVALS = {}
 
@@ -36,12 +36,12 @@ def signer():
 
 def ledger(s):
     sid = s.setdefault('sid', uuid.uuid4().hex)
-    led = LEDGER.setdefault(sid, {'tries': 0, 'locked': False, 'day': '', 'spent': Decimal(0), 'captured': set(),
-                                  'undone': set()})
-    today = date.today().isoformat()
-    if led['day'] != today:
-        led.update(day=today, spent=Decimal(0))
-    return led
+    return LEDGER.setdefault(sid, {'tries': 0, 'locked': False, 'undone': set()})
+
+
+def spent_today(s):
+    ledger(s)  # makes sure the session has an id
+    return db.spent(s['sid'], date.today().isoformat())[0]
 
 
 def state(s):
@@ -130,8 +130,8 @@ def start(s):
     c = caps(s)
     if total > c['order']:
         return Reply(speech.cap_refusal('order', c['order'], total))
-    if led['spent'] + total > c['daily']:
-        return Reply(speech.cap_refusal('daily', c['daily'], total, led['spent']))
+    if spent_today(s) + total > c['daily']:
+        return Reply(speech.cap_refusal('daily', c['daily'], total, spent_today(s)))
 
     rid = uuid.uuid4().hex  # one id per checkout attempt; suffixes keep hold/capture/void distinct
     s['co'] = {'state': READBACK, 'rid': rid}
@@ -148,7 +148,10 @@ def start(s):
     meta = {'delivery_days': max(p['delivery_days'] for p, _, _ in lines),
             'seller': ', '.join(sorted({p['seller'] for p, _, _ in lines})), 'warnings': speech.warnings(lines)}
     say, rb = speech.readback(order, meta)
-    s['co'] = {'state': CONFIRM, 'rid': rid, 'order_id': order['id'], 'auth_id': auth['id'], 'say': say, 'lines': rb}
+    s['co'] = {'state': CONFIRM, 'rid': rid, 'order_id': order['id'], 'auth_id': auth['id'], 'say': say, 'lines': rb,
+               'days': meta['delivery_days'],  # for the ledger: our ids beside PayPal's item names and unit prices
+               'items': [[p['id'], it['name'], q, it['unit_amount']['value']]
+                         for (p, q, _), it in zip(lines, order['purchase_units'][0].get('items', []))]}
     contact = s.get('contact')
     if contact and total > Decimal(contact['threshold']):
         aid = secrets.token_urlsafe(16)
@@ -275,9 +278,10 @@ def finalize(s):
             s['co'] = {**co, 'state': PIN}
             return Reply(f'PayPal did not take the payment ({e}). Nothing was charged. '
                          'Type the PIN to try again, or say cancel.')
-        if co['rid'] not in led['captured']:
-            led['captured'].add(co['rid'])
-            led['spent'] += Decimal(cap['amount']['value'])
+        lines = [{'pid': pid, 'name': name, 'qty': q, 'unit': unit, 'refunded': '0.00',
+                  'tax': f"{(Decimal(unit) * q * TAX_RATE).quantize(Decimal('0.01'), ROUND_HALF_UP)}"}
+                 for pid, name, q, unit in co.get('items', [])]
+        db.record(s['sid'], co['order_id'], cap['id'], cap['amount']['value'], lines, co.get('days', 0))
     s['co'] = {'state': CAPTURED, 'order_id': co['order_id'], 'rid': co['rid']}
     s['cart'] = []
     s['spell'] = co['order_id']
@@ -294,7 +298,7 @@ def undo(s):
         return Reply('There is nothing to undo.')
     led = ledger(s)
     with _lock:  # a capture still in flight for this hold wins; otherwise the hold is voided before any capture
-        if co['rid'] in led['captured']:
+        if db.get(co['order_id']):
             return finalize(s)
         try:
             _void(co['auth_id'], co['rid'])

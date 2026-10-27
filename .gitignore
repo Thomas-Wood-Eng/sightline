@@ -6,3 +6,4 @@ demo/*.wav
 demo/out/
 feedback.jsonl
 spike_state.json
+data/

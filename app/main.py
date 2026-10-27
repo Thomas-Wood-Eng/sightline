@@ -88,10 +88,10 @@ def settings_view(s):
     led = checkout.ledger(s)
     return {'onboarded': bool(s.get('pin')) or led['locked'], 'pin_set': bool(s.get('pin')), 'locked': led['locked'],
             'linked': bool(checkout.vault_id(s)), 'per_order_cap': f"{c['order']:.2f}", 'daily_cap': f"{c['daily']:.2f}",
-            'spent_today': f"{led['spent']:.2f}", 'output_mode': s.get('mode', 'screen_reader'),
+            'spent_today': f"{checkout.spent_today(s):.2f}", 'output_mode': s.get('mode', 'screen_reader'),
             'state': checkout.state(s), 'prefs': lane0.prefs(s), 'contact': s.get('contact'),
             'summary': speech.settings_summary(c, s.get('mode', 'screen_reader'), bool(checkout.vault_id(s)),
-                                               bool(s.get('pin')), led['spent'], lane0.prefs(s), s.get('contact'))}
+                                               bool(s.get('pin')), checkout.spent_today(s), lane0.prefs(s), s.get('contact'))}
 
 
 @app.get('/api/settings')

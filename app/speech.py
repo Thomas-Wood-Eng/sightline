@@ -5,7 +5,7 @@ which drops any sentence that mentions money or a number-like price.
 """
 import re
 from dataclasses import dataclass, field
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 from decimal import Decimal
 
 
@@ -242,6 +242,42 @@ def approval_sent(name, threshold, total):
     return [f'This order totals {usd(total)}, which is over your approval amount of {usd(threshold)}.',
             f'Sent to {name} for approval. When {name} approves, say confirm and type your PIN. Say cancel to release the hold.',
             'In this prototype the approval link is shown here instead of emailed.']
+
+
+def _what(o):
+    names = [l['name'] for l in o['lines']]
+    return names[0] + (f", and {plural(len(names) - 1, 'more item')}" if len(names) > 1 else '') if names else 'an order'
+
+
+def _day(iso):
+    d = datetime.fromisoformat(iso)
+    return f'{d:%A, %B} {d.day}'
+
+
+def orders(rows):
+    """Order history from our ledger, newest first, at most three."""
+    if not rows:
+        return 'You have no orders yet.', []
+    lines = []
+    for i, o in enumerate(rows[:3], 1):
+        ref = sum((Decimal(l['refunded']) for l in o['lines']), Decimal(0))
+        lines.append(f"{i}. {_day(o['created'])}: {_what(o)}. Paid {usd(o['total'])}"
+                     + (f", {usd(ref)} refunded." if ref else '.'))
+    lead = f"You have {plural(len(rows), 'order')}." + (' The latest three:' if len(rows) > 3 else '')
+    return lead, lines + ['Say where is my order, return an item, or reorder the last thing.']
+
+
+def track(o, status):
+    """status: PayPal's order status. Delivery is estimated from the catalogue's delivery time, not tracked."""
+    created = datetime.fromisoformat(o['created']).date()
+    return (f"Your order of {_what(o)}, placed {_day(o['created'])}: PayPal shows it as {status.lower()}. "
+            f"Estimated delivery {delivery_date(o['delivery_days'], created)}, from the store's usual delivery time. "
+            f"Order number {o['order_id']}.")
+
+
+def spending(period, amount, n):
+    label = {'today': 'Today', 'week': 'This week, since Monday', 'month': 'This month', 'all': 'In total'}[period]
+    return f"{label}, you spent {usd(amount)} on {plural(n, 'order')}, after refunds."
 
 
 def receipt(capture, order_id):

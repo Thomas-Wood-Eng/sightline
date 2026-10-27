@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, tempfile
 from decimal import Decimal
 from pathlib import Path
 
@@ -7,6 +7,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 os.environ['SIGHTLINE_CATALOG'] = 'sample_catalog.json'
 os.environ['SIGHTLINE_NO_LLM'] = '1'  # unit tests never call Gemini
+os.environ['SIGHTLINE_DB'] = os.path.join(tempfile.mkdtemp(), 'test.db')  # never the real ledger
 os.environ['SIGHTLINE_UNDO_SECONDS'] = '0'  # capture right after the PIN unless a test opens the undo window
 
 from app import checkout, paypal  # noqa: E402
@@ -38,6 +39,9 @@ class FakePayPal:
         order = next(o for o in self.seen.values() if paypal.authorization_id(o) == auth_id)
         return {'id': 'CAP-' + auth_id, 'status': 'COMPLETED', 'amount': order['purchase_units'][0]['amount']}
 
+    def get_order(self, order_id):
+        return {'id': order_id, 'status': 'COMPLETED'}
+
     def void(self, auth_id, request_id):
         self.calls.append(('void', request_id))
         return {}
@@ -47,11 +51,12 @@ class FakePayPal:
 
 
 @pytest.fixture
-def fake(monkeypatch):
+def fake(monkeypatch, tmp_path):
     f = FakePayPal()
-    for name in ('create_hold', 'capture', 'void'):
+    for name in ('create_hold', 'capture', 'void', 'get_order'):
         monkeypatch.setattr(paypal, name, getattr(f, name))
     monkeypatch.setenv('DEMO_VAULT_ID', 'TEST-VAULT')
+    monkeypatch.setenv('SIGHTLINE_DB', str(tmp_path / 'ledger.db'))
     checkout.LEDGER.clear()
     return f
 

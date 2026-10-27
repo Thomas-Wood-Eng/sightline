@@ -3,10 +3,10 @@
 While a payment is on hold, handle() never returns None, so free text cannot reach an LLM mid-checkout.
 """
 import json, re
-from datetime import datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
-from . import catalog, checkout, speech
+from . import catalog, checkout, db, paypal, speech
 from .speech import Reply
 
 FEEDBACK = Path(__file__).resolve().parent.parent / 'feedback.jsonl'
@@ -46,7 +46,7 @@ FILLER_END = r'\s+(please|now|for me|thanks|thank you)$'
 def norm(text):
     t = text.lower().strip()
     t = t.replace('’', "'").replace("what's", 'what is').replace("that's", 'that is').replace("it's", 'it is')
-    t = t.replace("i'll", 'i will').replace("i'm", 'i am')
+    t = t.replace("i'll", 'i will').replace("i'm", 'i am').replace("where's", 'where is')
     t = re.sub(r'[^\w\s\'$.]', ' ', t)
     t = re.sub(r'(?<!\d)\.|\.(?!\d)', ' ', t)  # drop full stops, keep decimals
     t = re.sub(r'\s+', ' ', t).strip()
@@ -76,12 +76,25 @@ def parse(text):
     t = norm(text)
     if not t:
         return None
+    m = re.fullmatch(r'how much (?:have i|did i|i have|i) (?:spent|spend)(?: (today|this week|this month|in total|so far))?'
+                     r'|(?:my )?spending (today|this week|this month)', t)
+    if m:
+        period = next((g for g in m.groups() if g), 'today')
+        return ('spent', {'this week': 'week', 'this month': 'month', 'in total': 'all', 'so far': 'all'}.get(period, period))
     if re.search(r'\b(cap|caps|limit|limits|budget|spending)\b', t):
         changing = r'\b(raise|increase|change|set|lower|remove|update|up|higher|bigger|double|lift|disable|turn off|make)\b'
         return ('caps',) if re.search(changing, t) else ('settings',)
     if re.search(r'\b(i am|i wear) (a )?size\b|\bdefault size\b|\balways avoid\b|\b(no|never)\b.*\bever\b'
                  r'|\b(remember|save) (that )?(i|my)\b|\b(verbosity|simple mode|large text)\b', t):
         return ('prefs',)
+    if re.fullmatch(r'(?:show |list |read )?(?:my |past |previous |recent |the )*orders|order history'
+                    r'|what (?:have i|did i) (?:order|ordered|buy|bought)', t):
+        return ('orders',)
+    m = re.fullmatch(r'(?:where is|track|status of|has|when will|when does) (?:my |the )?(.*?)\s*'
+                     r'(?:order|package|parcel|delivery)(?: shipped| arrived| arrive| come)?'
+                     r'|when (?:will|does) (?:it|my order) (?:arrive|come|get here)', t)
+    if m:
+        return ('track', m.group(1) or '')
     for pat, cmd in FIXED:
         if re.fullmatch(pat, t):
             return cmd
@@ -288,6 +301,21 @@ def _answer(ask, text, cmd, s):
     return None
 
 
+def _sid(s):
+    checkout.ledger(s)  # gives the session its id
+    return s['sid']
+
+
+def _find_order(s, words, need_open=False):
+    """Newest order whose items match the words (any order if no words). need_open: only lines not yet refunded."""
+    rows, want = db.orders(_sid(s)), set(catalog.tokens(words or ''))
+    for o in rows:
+        for l in o['lines']:
+            if (not want or want & set(catalog.tokens(l['name']))) and (not need_open or l['refunded'] == '0.00'):
+                return o
+    return None
+
+
 def prefs(s):
     return {'size': '', 'avoid': [], 'verbosity': 'normal', 'large_text': False, 'simple': False, **(s.get('prefs') or {})}
 
@@ -319,7 +347,6 @@ def handle(text, s):
     if cmd is None:
         return None
     name, args = cmd[0], cmd[1:]
-    led_spent = checkout.ledger(s)['spent']
     if name == 'repeat':
         last = s.get('last')
         return Reply(last['say'], last['lines']) if last else Reply('Nothing to repeat yet.')
@@ -338,7 +365,7 @@ def handle(text, s):
     if name in ('caps', 'settings'):
         lead = 'For your safety, spending caps cannot be changed by voice. ' if name == 'caps' else ''
         return Reply(lead + speech.settings_summary(checkout.caps(s), s.get('mode', 'screen_reader'),
-                                                    bool(checkout.vault_id(s)), bool(s.get('pin')), led_spent, prefs(s),
+                                                    bool(checkout.vault_id(s)), bool(s.get('pin')), checkout.spent_today(s), prefs(s),
                                                     s.get('contact')))
     if name == 'link':
         return Reply("Opening PayPal's login page. PayPal's login is your security boundary; we never see your password.",
@@ -383,6 +410,27 @@ def handle(text, s):
     if name == 'describe':
         p = resolve(s, args[0])
         return _describe(s, p) if p else which(s)
+    if name == 'orders':
+        rows = db.orders(_sid(s))
+        if rows:
+            s['spell'] = rows[0]['order_id']
+        say, lines = speech.orders(rows)
+        return Reply(say, lines)
+    if name == 'track':
+        o = _find_order(s, args[0])
+        if not o:
+            return Reply('I could not find that order. Say my orders to hear them.')
+        try:
+            status = paypal.get_order(o['order_id']).get('status', 'unknown')
+        except paypal.PayPalError:
+            status = 'not reachable just now'
+        s['spell'] = o['order_id']
+        return Reply(speech.track(o, status))
+    if name == 'spent':
+        today = date.today()
+        since = {'today': today, 'week': today - timedelta(days=today.weekday()), 'month': today.replace(day=1),
+                 'all': date.min}[args[0]]
+        return Reply(speech.spending(args[0], *db.spent(_sid(s), since.isoformat())))
     if name == 'reviews':
         p = resolve(s, args[0])
         if not p:

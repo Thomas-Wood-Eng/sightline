@@ -239,3 +239,36 @@ def test_reviews_file_is_labelled_and_consistent():
         p = catalog.get(pid)
         if p:
             assert abs(sum(stars) / len(stars) - p['rating']) <= 0.5 / len(stars) + 1e-9
+
+
+# ---- 7. order history, tracking, spending ----
+def buy(client, what='hoodie', add='add it in medium'):
+    t(client, what); t(client, add); t(client, 'check out'); t(client, 'confirm')
+    r = client.post('/api/pin', json={'pin': '1234'}).json()
+    assert r['state'] == 'captured', r
+    return r
+
+
+def test_parse_ledger_commands():
+    assert parse("where's my order") == ('track', '')
+    assert parse('where is my hoodie order') == ('track', 'hoodie')
+    assert parse('my orders') == ('orders',) and parse('order history') == ('orders',)
+    assert parse('how much did I spend this week') == ('spent', 'week')
+    assert parse('how much have I spent today') == ('spent', 'today')
+    assert parse('place my order') == ('checkout',)
+
+
+def test_orders_tracking_spending(client, fake):
+    setup(client)
+    assert t(client, 'my orders')['say'] == 'You have no orders yet.'
+    buy(client)
+    buy(client, 'mug', 'add it')
+    r = t(client, 'my orders')
+    assert r['say'] == 'You have 2 orders.' and 'Insulated travel mug' in r['lines'][0]
+    assert 'Paid 41.73 US dollars.' in r['lines'][1]
+    r = t(client, 'where is my hoodie order')
+    assert 'PayPal shows it as completed' in r['say'] and 'Estimated delivery' in r['say']
+    # 41.73 + (18.50 + 3.99 + 0.93 = 23.42) = 65.15, all from the ledger
+    assert t(client, 'how much did I spend this week')['say'] == \
+        'This week, since Monday, you spent 65.15 US dollars on 2 orders, after refunds.'
+    assert client.get('/api/settings').json()['spent_today'] == '65.15'
