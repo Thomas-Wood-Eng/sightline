@@ -74,4 +74,8 @@ trapped in the dialog.
 - **Voice.** Confirm is a button or keypress; there is no spoken "confirm" yet (the Sightline app has it).
 - **Speech** uses the browser's built-in voice through the page; turn it off when a screen reader is running to avoid
   hearing both.
+- **Opt-in path is only partly tested.** Chrome's per-site permission prompt cannot be clicked by automation, so the
+  popup toggle -> prompt -> `background.js` registration chain is not in the end-to-end test (the test uses a manifest
+  copy that matches 127.0.0.1 instead). The registration call itself was checked separately. Try the toggle once by
+  hand before recording the demo.
 - Turning a site off takes effect after the page is reloaded. No icon set beyond one 192px image; no store listing.

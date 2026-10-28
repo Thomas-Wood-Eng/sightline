@@ -45,9 +45,9 @@
   function close(pay) {
     const { btn, frame, wasInert } = gate;
     gate = null;
-    frame.remove();
     document.body.inert = wasInert;
-    btn.focus();
+    btn.focus(); // before removing the frame, so the rest of this keystroke lands on the page, not a dead frame
+    frame.remove();
     speak(pay ? 'Pressing the pay button now.' : 'Cancelled. Nothing was paid.');
     if (!pay) return;
     bypass = true;
