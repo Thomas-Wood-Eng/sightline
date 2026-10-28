@@ -196,7 +196,7 @@ OPEN = [
 ASK = [
     ('beat', '1. Ask in your own words (typed in this video; push-to-talk works too)'),
     ('dark', True, 'Screen off. This is what the shopper hears.'),
-    ('say', 'Find me a hoodie.', ['results', 'Heavyweight']),
+    ('say', 'Find me a hoodie.'),
     ('dark', False),
 ]
 BUY = [
@@ -215,7 +215,7 @@ SAFETY = [
     ('say', 'Find a rain jacket.', ['result']), ('say', 'Add it.', ['Added']),
     ('say', 'Check out.', ['over your approval amount', 'Approval link ready'],
      [('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Over $75: waiting for Alex')]),
-    ('approve', 'Alex approves from their phone. Only then can the shopper confirm with their PIN.'),
+    ('approve', 'Alex approves on their phone. Then the shopper can confirm.'),
     ('say', 'Confirm.', ['-'], [('cam', '#pin-form')]),
     ('pin', '1234', ['10 seconds'], [('cam', '#undo-box'), ('callout', '#undo-box', 'Changed their mind?')]),
     ('say', 'Undo.', ['Undone', 'Nothing was charged', 'released'],
@@ -531,7 +531,7 @@ def record():
 
         def key_sentences(reply, hints):
             """Ad cut: voice only the sentences that carry the point; the full reply stays on screen."""
-            parts = re.split(r'(?<=[.!?])\s+', reply)
+            parts = re.split(r'(?<=[.!?])(?<!\d\.)\s+', reply)   # "1. Hoodie, ... 2. Fleece" stays one list
             picked = [p for p in parts if any(h.lower() in p.lower() for h in hints)]
             return ' '.join(picked or parts[:1])
 
@@ -721,6 +721,8 @@ def stamp(t):
 
 
 def cues(caption, start, dur, words_per_cue=14):
+    if not caption:   # a silent, uncaptioned moment: an empty SRT block would swallow the next caption
+        return
     words = caption.split()
     chunks = [' '.join(words[i:i + words_per_cue]) for i in range(0, len(words), words_per_cue)] or ['']
     total = sum(len(c) for c in chunks) or 1
