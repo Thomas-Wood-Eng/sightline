@@ -104,6 +104,7 @@ def test_brief_by_default_details_on_request(client, fake):
     assert all(len(l.split()) <= 15 and 'stars' in l for l in r['lines'])  # name, price and rating
     brief = t(client, 'tell me about the first one')
     words = lambda j: len(' '.join([j['say'], *j['lines']]).split())
+    assert words(brief) <= 45 and brief['say'].count('.') <= 2  # the name and one sentence, then the price line
     for ask in ('more', 'tell me more', 'details', 'tell me more about it'):
         full = t(client, ask)
         assert words(full) > words(brief) and any(l.startswith('Listing says: size') for l in full['lines']), ask

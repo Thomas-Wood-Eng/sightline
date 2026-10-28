@@ -106,7 +106,8 @@ def describe(p, level='normal'):
     risky = warnings([(p, 1, '')])  # dark-pattern warnings are never trimmed by verbosity
     if level == 'brief':  # food keeps its allergens even in brief mode: never left unsaid
         food = [f"Listing says: allergens {_ns(l.get('allergens'))}."] if p['category'] == 'grocery' else []
-        return [lines[0], *food, lines[-1], *risky]
+        first = re.split(r'(?<=[.!?])\s+', lines[0], maxsplit=2)  # the name and one sentence; "more" has the rest
+        return [' '.join(first[:2]), *food, lines[-1], *risky]
     lines += risky
     if level == 'detailed':
         qa = [guard(f"{q['q']} {q['a']}") for q in e.get('qa', [])[:3]]
