@@ -38,10 +38,22 @@ PayPal holds the money, Sightline reads back PayPal's own numbers, and nothing i
 - **Scam and dark-pattern guard:** subscriptions, pre-ticked add-ons (never added unless asked), unusual shipping and
   "only 2 left" pressure are called out in plain words, by fixed rules, not by the AI.
 - **Trusted contact:** orders over a set amount need approval on a signed, single-use page (link shown, not emailed).
+- **Gift-card scam guard:** gift-card requests and scam pressure ("the IRS told me to", "keep it secret", "my grandson
+  needs bail") get a calm warning, by fixed rules; gift card orders and any order after a warning always need the
+  trusted contact, who is told why. No contact, no gift card checkout.
+- **"Is this my package?":** photograph the delivery (or say "check my package"); Gemini vision compares it with the
+  order and Sightline says "photo suggests this matches" or "may not match", then offers a return. Photo not kept.
+- **Pay in 4, read aloud:** in range, the Readback adds "PayPal Pay in 4 may be available: 4 payments of X"; "pay later"
+  explains it. Never chosen for you; in this prototype Sightline pays in full and Pay Later is chosen on PayPal's page.
+- **Dispute help:** "I never got my order", "it arrived broken", "this isn't what I ordered" explain PayPal Purchase
+  Protection, then offer the refund (same Readback + PIN).
 - **Review summaries:** "what do people say about it?" (fictional demo reviews, clearly labelled).
-- **Orders:** "my orders", "where is my order", "how much did I spend this week", "return the hoodie" (refund behind
-  the same Readback + PIN), "order my usual coffee again".
-- **Wishlist and gift mode:** "save it for later", "move it to my cart"; "it's a gift" adds a gift note sent to PayPal.
+- **Compare:** "compare those two", "compare 1 and 3", "which is better": only what differs, from catalogue data.
+- **Orders:** "my orders", "where is my order", "how much did I spend this week", "what did I buy last month",
+  "show my PayPal purchases" (from the order ledger, never the AI), "return the hoodie" (refund behind the same
+  Readback + PIN), "order my usual coffee again".
+- **Wishlist and gift mode:** "save it for later", "move it to my cart", "tell me if it gets cheaper", "alert me under
+  30 dollars" (said once when the price gets there); "it's a gift" adds a gift note sent to PayPal.
 - **Preferences (Settings only):** default size, allergens always avoided in food, brief/normal/detailed replies,
   large text, simple mode (one result at a time).
 - Installable as a PWA. Spending caps, PIN, trusted contact and preferences change only in Settings, never by chat.
@@ -58,7 +70,8 @@ PayPal holds the money, Sightline reads back PayPal's own numbers, and nothing i
 
 Orders are kept in SQLite at `SIGHTLINE_DB` (default `data/sightline.db`, git-ignored). Optional env:
 `GEMINI_MODEL` / `GEMINI_FALLBACK_MODEL` (pinned defaults in `app/llm.py`), `LLM_PROVIDER=anthropic` to use Claude
-(needs `pip install anthropic`), `SIGHTLINE_UNDO_SECONDS` (default 10).
+(needs `pip install anthropic`), `SIGHTLINE_UNDO_SECONDS` (default 10), `SIGHTLINE_DEMO=1` (demo only: enables
+`POST /api/demo/price` with `{"id": "hoodie-01", "price": "29.99"}` to show a price-drop alert; off by default).
 Demo reviews are generated offline: `python catalog/make_reviews.py` (Gemini free tier, resumable).
 
 Tests: `python -m pytest tests` (PayPal is mocked). Live sandbox hold/capture/void:

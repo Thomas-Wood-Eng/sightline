@@ -4,14 +4,23 @@ Ideas beyond the MVP, roughly by value. ★ = strong for the hackathon video or 
 The MVP stays the 10 requirements in PLAN.md §6; nothing here starts before those pass.
 ✅ = built (Oct 27). Notes on the built versions: undo window is 10 s; trusted contact must approve (no notify-only mode)
 and the link is shown instead of emailed; reviews are fictional demo reviews; tracking is PayPal order status plus the
-catalogue's delivery estimate (no carrier tracking); wishlist has no price alerts; gift mode has a note but no
-ship-to-another-address; verbosity covers brief/normal/detailed, large text and simple mode.
+catalogue's delivery estimate (no carrier tracking); gift mode has a note but no ship-to-another-address; verbosity
+covers brief/normal/detailed, large text and simple mode.
+Oct 28 batch: gift-card scam guard, package photo check, Pay in 4 read aloud, dispute help, compare (differences
+only), wishlist price-drop alerts, purchase history by period. Notes are on each line below.
 
 ## Trust and safety (our core differentiator)
 - ★ ✅ **Trusted contact** (M): optional family member or friend who gets a notification, or must approve, above a set amount. Also the seniors angle.
 - ★ ✅ **Scam and dark-pattern guard** (M): flag pre-ticked add-ons, "only 2 left!" pressure, subscription traps, unusual shipping, and say so plainly.
+- ★ ✅ **Gift-card / pressure scam guard** (M): fixed rules (no AI) catch gift-card requests and classic scam pressure
+  (IRS, police, bank says, fines, wire, crypto, keep it secret, prize fees, grandchild in trouble). Gift card orders, and
+  any order in a flagged session, need trusted-contact approval whatever the total; the approval page says why, with the
+  shopper's words. No contact: refused, with how to add one. Note: the flag lapses after 24 hours or once the contact
+  decides; keyword rules can miss new scripts and can flag an innocent sentence.
 - ✅ **Undo window** (S): after "confirm", a 30-second "undo" that voids before capture (hold → capture delayed), if PayPal's timing allows.
 - ✅ **Spending summary by voice** (S): "How much did I spend this week?", read from our ledger and PayPal transactions, never from the model.
+  ✅ Purchase history: "what did I buy last month / this week", "show my PayPal purchases" list date, items, amount and
+  PayPal order id from the ledger (at most 5 orders read out). Only orders placed through Sightline.
 - **Receipt by email or text** (S): plain-text, screen-reader-friendly receipt; PayPal already emails one, so we'd link to it.
 - **"That's wrong" learning** (M): feedback.jsonl already logs it; review weekly and fix descriptions or phrasing.
 
@@ -22,9 +31,20 @@ ship-to-another-address; verbosity covers brief/normal/detailed, large text and 
 - ✅ **Order tracking** (S): "where's my order?" via PayPal Agent Toolkit `get_shipment_tracking`.
 - ✅ **Returns and refunds by voice** (M): "return the hoodie" → PayPal refund behind the same Readback + PIN.
 - ✅ **Reorder** (S): "order my usual coffee again".
-- ✅ **Wishlist / "remind me when it's cheaper"** (M).
+- ✅ **Wishlist / "remind me when it's cheaper"** (M): "tell me if it gets cheaper", "alert me under 40 dollars"; target
+  stored in SQLite, said once on the next turn after the price reaches it. The catalogue is static, so the demo uses
+  `SIGHTLINE_DEMO=1` and `POST /api/demo/price` (off by default) to change a price. No email or push notification.
+- ★ ✅ **"Is this my package?"** (M): a photo of the delivery (file input, camera on phones, or "check my package") is
+  compared with the order's names, colours and catalogue photo descriptions by Gemini vision. Always "photo suggests",
+  never certain; a mismatch offers "return it". Photo not stored; 10 MB limit; honest fallback when Gemini is down.
+- ✅ **Dispute help** (S): "I never got my order", "it arrived broken", "this isn't what I ordered" → Purchase Protection in
+  three sentences, then the usual refund Readback + PIN. Does not open a real PayPal dispute (demo store refunds directly).
+- ✅ **Compare** (S): "compare those two", "compare 1 and 2", "which is better": only what differs (price, rating,
+  reviews, arrival date, sizes; food allergens always), all from the catalogue.
 - ✅ **Gift mode** (S): ship to another address, gift note read back before paying.
-- **Pay Later / Venmo options** (M): read the instalment plan aloud in the Readback; never default to credit.
+- ✅ **Pay Later** (M): when PayPal's total is 30 to 1500 USD the Readback adds "Pay in 4 may be available: 4 payments of
+  X"; "pay later" explains it. Never selected for the shopper. Honest limit: the vaulted demo checkout pays in full; Pay
+  in 4 is chosen on PayPal's own page, which this flow does not open. Venmo not built.
 
 ## Accessibility depth
 - ★ **Real screen-reader polish** (M): NVDA/JAWS/VoiceOver passes, verbosity settings (brief / normal / detailed), speech-rate hints.

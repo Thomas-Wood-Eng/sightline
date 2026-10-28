@@ -249,11 +249,13 @@ def which(s):
 
 HELP = ['Search by saying what you want, for example: warm hoodie under 40 dollars.',
         'Say a number to pick a result, then describe it, add it, or add it in medium.',
-        'What do people say about it; compare them; save it for later; my saved items.',
+        'What do people say about it; compare those two; save it for later; my saved items.',
+        'Tell me if it gets cheaper; alert me under 30 dollars.',
         'Next, back, more, repeat, and spell that work any time.',
         "What is in my cart; remove it; it's a gift; check out.",
-        'At checkout: confirm, then type your PIN. Say undo within 10 seconds to stop the payment.',
-        'My orders; where is my order; how much did I spend this week; return the hoodie; order it again.',
+        'At checkout: confirm, then type your PIN. Say undo within 10 seconds to stop the payment. Pay later explains Pay in 4.',
+        'My orders; where is my order; what did I buy last month; show my PayPal purchases; return the hoodie; order it again.',
+        'Check my package, to compare a photo with your order; I never got my order; it arrived broken.',
         'Caps, PIN, trusted contact and preferences change only in Settings.',
         "If something I said is wrong, say: that is wrong."]
 
