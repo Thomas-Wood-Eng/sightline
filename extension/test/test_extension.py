@@ -48,7 +48,7 @@ def browser(tmp_path_factory):
         ctx = p.chromium.launch_persistent_context(
             str(tmp_path_factory.mktemp("profile")), channel="chromium", headless=True,
             viewport={"width": 1920, "height": 1080},
-            args=[f"--disable-extensions-except={ext}", f"--load-extension={ext}"],
+            args=[f"--disable-extensions-except={ext}", f"--load-extension={ext}", "--mute-audio"],
         )
         sw = ctx.service_workers[0] if ctx.service_workers else ctx.wait_for_event("serviceworker")
         yield ctx, sw, sw.url.split("/")[2]

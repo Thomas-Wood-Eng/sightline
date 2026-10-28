@@ -406,6 +406,9 @@ def tts(text, who):
 
 
 SIGHTLINE_SPEED = 1.25
+# every page and frame gets a speech engine that does nothing, so a render never makes a sound on this computer
+SILENT = '''Object.defineProperty(window, 'speechSynthesis', {configurable: true, value: {speaking: false, pending: false,
+  paused: false, speak() {}, cancel() {}, pause() {}, resume() {}, getVoices: () => [], addEventListener() {}}});'''
 NARRATOR_SPEED = 1.1
 BASE = 1.5    # recording draws the app 1.5x (laid out 1280 wide)
 APP_H = 940   # app area of the 1920x1080 frame; the rest is the caption bar
@@ -430,12 +433,12 @@ def start_server():
 def record():
     segments = []  # (start_s, end_s, wav or None, caption)
     with sync_playwright() as pw:
-        browser = pw.chromium.launch()
+        browser = pw.chromium.launch(args=['--mute-audio'])
         # The final frame adds a caption bar below the app, so a subtitle never covers what it talks about.
         ctx = browser.new_context(viewport={'width': 1920, 'height': APP_H}, record_video_dir=str(OUT / 'raw'),
                                   record_video_size={'width': 1920, 'height': APP_H})
         # the video is voiced separately; never let the page speak through the computer's speakers
-        ctx.add_init_script('window.speechSynthesis && (speechSynthesis.speak = () => {})')
+        ctx.add_init_script(SILENT)
         page = ctx.new_page()
         t0 = time.monotonic()
         now = lambda: time.monotonic() - t0

@@ -33,7 +33,7 @@ def server(fake):
 def browser():
     with pw.sync_playwright() as p:
         try:
-            b = p.chromium.launch()
+            b = p.chromium.launch(args=["--mute-audio"])
         except Exception as e:  # browsers not downloaded
             pytest.skip(f'no Chromium: {e}')
         yield b
