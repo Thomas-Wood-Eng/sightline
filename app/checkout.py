@@ -121,8 +121,7 @@ def totals(cart):
 def start(s):
     st = state(s)
     if st in HOLDING:
-        co = s['co']
-        return Reply('A payment is already on hold. ' + co['say'], co['lines'])
+        return Reply('No new hold was placed. ' + pending(s))  # a repeated "check out" never re-reads it all
     if not s.get('cart'):
         return Reply('Your cart is empty. Search for something and add it first.')
     led = ledger(s)
@@ -296,8 +295,8 @@ def _refund(s):
     return Reply(speech.refunded(r))
 
 
-def resume(s):
-    """Page (re)load: what is pending, in plain words, so a reload never hides money on hold. None when nothing is."""
+def pending(s):
+    """What is pending, in plain words, from server data (also said on a page reload). None when nothing is."""
     st, co = state(s), s.get('co', {})
     if st not in HOLDING and st != UNDO:
         return None
@@ -307,23 +306,23 @@ def resume(s):
         o = db.get(co['order_id'])
         what = o['lines'][co['line']]['name'] if o else 'your return'
         step = 'type your PIN in the PIN box' if st == PIN else 'say confirm to continue'
-        return (f'Welcome back. A refund of {amount} for {what} is waiting. To get it, {step}. '
+        return (f'A refund of {amount} for {what} is waiting. To get it, {step}. '
                 'Say repeat to hear the Readback, or cancel to keep the item.')
     names = [i[1] for i in co.get('items', [])]
     what = (names[0] + (f", and {speech.plural(len(names) - 1, 'more item')}" if len(names) > 1 else '')) if names else 'your order'
     if st == UNDO:
         left = seconds_left(s)
         when = f'in {speech.plural(left, "second")}' if left else 'now'
-        return (f'Welcome back. Your PIN was accepted. PayPal takes the payment of {amount} for {what} {when}.'
+        return (f'Your PIN was accepted. PayPal takes the payment of {amount} for {what} {when}.'
                 + (' To stop it, say undo, press Escape, or use the Undo button.' if left else ''))
     if st == APPROVAL:
         who = APPROVALS.get(co.get('approval'), {}).get('name', 'your trusted contact')
-        return (f'Welcome back. A payment of {amount} for {what} is on hold, waiting for {who} to approve. '
+        return (f'A payment of {amount} for {what} is on hold, waiting for {who} to approve. '
                 'Say repeat to hear the Readback, or cancel to release it.')
     if st == PIN:
-        return (f'Welcome back. A payment of {amount} is on hold for {what}, waiting for your PIN. Type it in the PIN box, '
+        return (f'A payment of {amount} is on hold for {what}, waiting for your PIN. Type it in the PIN box, '
                 'say repeat to hear the Readback, or say cancel to release it.')
-    return (f'Welcome back. A payment of {amount} is on hold for {what}. '
+    return (f'A payment of {amount} is on hold for {what}. '
             'Say repeat to hear the Readback, confirm to continue, or cancel to release it.')
 
 

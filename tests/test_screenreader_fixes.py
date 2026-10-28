@@ -62,3 +62,11 @@ def test_short_numbers_still_work(client, fake):
     t(client, 'hoodie')
     assert t(client, '1')['say'].startswith('Number 1:')  # a pick, not refused
     assert not t(client, '32')['say'].startswith(SAFE)
+
+
+# ---- issue 3: a repeated "check out" while a hold exists places nothing and does not re-read the Readback ----
+def test_repeated_checkout_is_idempotent_and_short(client, fake):
+    to_readback(client)
+    r = t(client, 'check out')
+    assert r['say'].startswith('No new hold was placed. A payment of 41.73 US dollars is on hold for') and r['lines'] == []
+    assert fake.count('hold') == 1 and r['state'] == 'awaiting_confirm'

@@ -1,7 +1,7 @@
 // Sightline front end. Plain JS. Each reply is appended to the log ONCE, complete, so screen readers read it once.
 const $ = (id) => document.getElementById(id);
 const log = $('log'), msg = $('message'), talk = $('talk'), pinForm = $('pin-form'), pinInput = $('pin');
-let mode = 'screen_reader', state = 'idle', busy = false, queued = null;
+let mode = 'screen_reader', state = 'idle', busy = false, queued = null, lastSent = { text: '', at: 0 };
 const HOLD = ['awaiting_confirm', 'awaiting_pin', 'awaiting_approval'];
 
 // ---- earcons: short, quiet WebAudio tones ----
@@ -146,6 +146,9 @@ $('ask').addEventListener('submit', (e) => {
   const text = msg.value.trim();
   if (!text) return;
   msg.value = '';
+  // a double Enter: the same text again while it is on its way, or within a second, gets no second reply
+  if (text === lastSent.text && (busy || Date.now() - lastSent.at < 1000)) return;
+  lastSent = { text, at: Date.now() };
   // anything PIN-like (only digits, spaces, dashes; 4+ digits) is never echoed or announced, in any state
   const hide = /^[\d\s-]+$/.test(text) && text.replace(/\D/g, '').length >= 4;
   turn('/api/turn', { text }, hide ? '(number hidden)' : text);

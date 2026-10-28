@@ -134,8 +134,8 @@ def test_message_box_stays_put_as_log_grows(browser, server, fake, width, height
     top = lambda: page.evaluate("Math.round(document.getElementById('message').getBoundingClientRect().top + scrollY)")
     send(page, 'help')
     start = top()
-    for _ in range(6):
-        send(page, 'help')
+    for i in range(6):
+        send(page, ['what can i say', 'help'][i % 2])  # same reply; alternated, since an identical repeat within 1 s is ignored
     assert top() == start
     newest = page.evaluate("""(() => { const log = document.getElementById('log'), t = log.lastElementChild;
       return t.offsetTop >= log.scrollTop && t.offsetTop < log.scrollTop + log.clientHeight; })()""")
@@ -173,3 +173,15 @@ def test_pin_like_message_never_echoed(browser, server, fake):
     assert 'You: (number hidden)' in text and '1234' not in page.inner_text('#log')
     assert '1234' not in send(page, '12 34') + page.inner_text('#log')
     assert 'You: 2' in send(page, '2')  # short numbers are echoed as usual
+
+
+# ---- screen-reader issue 3: a double Enter gives one reply ----
+def test_double_enter_gives_one_reply(browser, server, fake):
+    page = open_app(browser, server)
+    send(page, 'hoodie'); send(page, 'add it in medium')
+    n = page.locator('#log .turn').count()
+    for _ in range(2):
+        page.fill('#message', 'check out'); page.press('#message', 'Enter')
+    page.wait_for_function(f"document.querySelectorAll('#log .turn').length > {n}")
+    page.wait_for_timeout(1200)
+    assert page.locator('#log .turn').count() == n + 1 and fake.count('hold') == 1
