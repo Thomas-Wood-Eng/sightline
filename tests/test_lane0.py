@@ -28,7 +28,7 @@ CASES = [
     ('settings', ('settings',)), ('link my PayPal', ('link',)), ('connect paypal account', ('link',)),
     ("that's wrong", ('wrong',)), ('That is not right', ('wrong',)), ('wrong', ('wrong',)),
     # caps can never be changed by voice
-    ('raise my cap to 500', ('caps',)), ('set my daily limit to 1000 dollars', ('caps',)), ('what is my limit', ('settings',)),
+    ('raise my cap to 500', ('caps', 'spending caps')), ('set my daily limit to 1000 dollars', ('caps', 'spending caps')), ('what is my limit', ('settings',)),
 ]
 
 

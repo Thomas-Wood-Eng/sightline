@@ -38,6 +38,22 @@ def guard(text):
     return ' '.join(keep)
 
 
+# the model's own reply text, beyond money: it must never talk about prices (the app says them from data), never
+# echo its instructions, and never claim to have saved or changed a setting (only the Settings form can)
+LLM_DROP = re.compile(
+    r"\b(?:prices?|priced|costs?|price bands?|tiers?|never say|instructions?|system prompt|context|heard_as|tools?)\b"
+    r"|\b(?:noted|note of|saved|save|updated|update|changed|change|stored|remembered|remember|set|added|registered)\b"
+    r"[^.!?]*\b(?:contacts?|pin|caps?|limits?|settings?|preferences?|allerg\w*|threshold|account)\b"
+    r"|\b(?:contacts?|pin|caps?|limits?|settings?|preferences?|allerg\w*|threshold)\b[^.!?]*\b(?:noted|saved|updated|"
+    r"changed|stored|remembered|set|added|registered)\b"
+    r"|\b(?:app menu|account page|account settings|on (?:your|the) screen)\b", re.I)
+
+
+def llm_text(text):
+    """Every sentence of Lane 1 model text passes this: guard() plus LLM_DROP. Returns the safe remainder."""
+    return ' '.join(s for s in re.split(r'(?<=[.!?])\s+', guard(text)) if s and not LLM_DROP.search(s))
+
+
 def plural(n, word):
     return f'{n} {word}' + ('' if n == 1 else 's')
 
@@ -460,7 +476,8 @@ def settings_summary(caps, mode, linked, pin_set, spent, prefs=None, contact=Non
             f"Replies are read by {'your screen reader' if mode == 'screen_reader' else 'the app voice'}. "
             f"PayPal is {'linked' if linked else 'not linked'}. PIN is {'set' if pin_set else 'not set'}. "
             + (prefs_summary(prefs) if prefs else '')
-            + (f"{contact['name']} approves orders over {usd(contact['threshold'])}. " if contact else '')
+            + (f"{contact['name']} approves orders over {usd(contact['threshold'])}. " if contact else
+               'No trusted contact is set. ')
             + 'Caps, PIN and preferences can only be changed in the Settings form.')
 
 

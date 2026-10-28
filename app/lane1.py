@@ -228,5 +228,5 @@ def handle(text, session):
                              f" or does not state it.")
                 reply.say = f'{note} {reply.say}'
             return with_allergens(reply, products) if ALLERGY.search(text) else reply
-    say = speech.guard(out['text'] or '')
+    say = speech.llm_text(out['text'] or '')
     return Reply(say) if say else keyword(text, session)

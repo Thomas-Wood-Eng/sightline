@@ -109,8 +109,18 @@ def parse(text):
         return ('alert', amount.group(1) if amount else None, target(words.group(1)) if words else 'it')
     if re.search(r'\b(cap|caps|limit|limits|budget|spending)\b', t):
         changing = r'\b(raise|increase|change|set|lower|remove|update|up|higher|bigger|double|lift|disable|turn off|make)\b'
-        return ('caps',) if re.search(changing, t) else ('settings',)
+        return ('caps', 'spending caps') if re.search(changing, t) else ('settings',)
+    # safety settings are changed only in the Settings form: any chat about them gets this fixed reply, never the AI
+    m = re.search(r'\b(trusted contact|my contact|emergency contact|approver|approval (?:amount|limit|threshold)|threshold'
+                  r'|pin|pin number|passcode)\b', t)
+    if m:
+        if re.match(r'(?:who|what|which|is|do|does|how|tell me|read)\b', t):
+            return ('settings',)
+        what = m.group(1)
+        return ('caps', 'your PIN' if what.startswith(('pin', 'passcode')) else
+                'the approval amount' if what.startswith(('approval', 'threshold')) else 'your trusted contact')
     if re.search(r'\b(i am|i wear) (a )?size\b|\bdefault size\b|\balways avoid\b|\b(no|never)\b.*\bever\b'
+                 r'|\b(?:my|the) (?:allergens|allergies|allergen settings|allergen list)\b'
                  r'|\b(remember|save) (that )?(i|my)\b|\b(verbosity|simple mode|large text)\b', t):
         return ('prefs',)
     if re.fullmatch(r'(?:show |list |read )?(?:my |past |previous |recent |the )*orders|order history'
@@ -258,6 +268,9 @@ HELP = ['Search by saying what you want, for example: warm hoodie under 40 dolla
         'Check my package, to compare a photo with your order; I never got my order; it arrived broken.',
         'Caps, PIN, trusted contact and preferences change only in Settings.',
         "If something I said is wrong, say: that is wrong."]
+
+
+SETTINGS_WHERE = ('Settings is near the bottom of this page: open "Voice, detail, spending caps, PIN and trusted contact".')
 
 
 def _log_feedback(s, text):
@@ -511,9 +524,10 @@ def _handle(text, s):
         return Reply('Stopped.')
     if name == 'prefs':
         return Reply('Preferences can only be changed in the Settings form, never by chat, so nobody can change them '
-                     'by talking to me. Right now: ' + speech.prefs_summary(prefs(s)))
+                     f'by talking to me. {SETTINGS_WHERE} Right now: ' + speech.prefs_summary(prefs(s)))
     if name in ('caps', 'settings'):
-        lead = 'For your safety, spending caps cannot be changed by voice. ' if name == 'caps' else ''
+        lead = (f'For your safety, {args[0]} cannot be changed by voice, and nothing was changed. Safety settings change '
+                f'only in the Settings form, never by chat. {SETTINGS_WHERE} Right now: ') if name == 'caps' else ''
         return Reply(lead + speech.settings_summary(checkout.caps(s), s.get('mode', 'screen_reader'),
                                                     bool(checkout.vault_id(s)), bool(s.get('pin')), checkout.spent_today(s), prefs(s),
                                                     s.get('contact')))
