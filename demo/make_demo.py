@@ -89,7 +89,7 @@ OUTRO = [
 ]
 SCRIPTS = {'full': INTRO + ALLERGY + HOODIE + PAY + SCAM + [('say', 'Remove the headphones.')] + APPROVAL + REFUND + OUTRO,
            # Devpost cut, aim under 3 minutes: the purchase, the trusted contact and undo
-           'short': INTRO + [HOODIE[0], HOODIE[3], HOODIE[4]] + PAY + APPROVAL + OUTRO}
+           'short': INTRO + [HOODIE[0], ('say', 'Add the first one.'), HOODIE[4]] + PAY + APPROVAL + OUTRO}
 SCRIPT = SCRIPTS['full']
 
 
