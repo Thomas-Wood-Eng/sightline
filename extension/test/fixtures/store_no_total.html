@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Quick pay (test fixture)</title><link rel="stylesheet" href="fixture.css"><script src="record.js"></script></head>
+<body>
+<p class="banner">Local test fixture: no total anywhere, and scam wording. Sightline should say it could not find the total.</p>
+<main>
+  <h1>Claim your prize</h1>
+  <p>To release your prize, pay the processing fee. We accept gift cards or a wire transfer only.</p>
+  <form onsubmit="event.preventDefault(); pay();">
+    <p><label>Email <input type="text" id="email" name="email"></label></p>
+    <input class="btn" type="submit" id="pay" value="Pay now">
+  </form>
+  <p id="result">Not paid</p>
+</main>
+</body>
+</html>

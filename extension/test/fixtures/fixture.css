@@ -1,0 +1,9 @@
+/* Shared look for the local test fixtures. */
+body { font: 18px/1.5 system-ui, sans-serif; margin: 0; background: #f5f7fa; color: #1a1a1a; }
+.banner { background: #fff3c4; border-bottom: 2px solid #c9a400; padding: .5rem 1rem; font-weight: 600; }
+main { max-width: 34rem; margin: 2rem auto; background: #fff; padding: 1.5rem 2rem; border-radius: 12px; box-shadow: 0 2px 12px #0002; }
+.row { display: flex; justify-content: space-between; padding: .3rem 0; border-bottom: 1px solid #e3e6ea; }
+.big { font-size: 1.4rem; font-weight: 700; }
+.btn { display: block; width: 100%; margin-top: 1.5rem; padding: .9rem; font: inherit; font-weight: 700; border: 0; border-radius: 999px; background: #0b57d0; color: #fff; text-align: center; cursor: pointer; }
+.muted { color: #555; }
+#result { margin-top: 1rem; font-weight: 700; }

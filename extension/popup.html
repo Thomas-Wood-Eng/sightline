@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sightline settings</title>
+  <link rel="stylesheet" href="ui.css">
+</head>
+<body>
+  <main class="page">
+    <h1>Sightline checkout guard</h1>
+    <p class="muted">Prototype. Before you pay, Sightline reads back the total and payee it finds on the page and asks for
+      Confirm and your PIN. Its guesses can be wrong, so check them. It never types passwords and never pays without your
+      Confirm and PIN. It makes no network requests.</p>
+    <p><label><input type="checkbox" id="enabled"> Sightline is on</label></p>
+
+    <section id="site" aria-labelledby="site-h" hidden>
+      <h2 id="site-h">This site: <span id="site-name"></span></h2>
+      <p id="site-paypal" hidden>Always on for PayPal checkout pages.</p>
+      <p id="site-row"><label><input type="checkbox" id="site-on"> Check payments on this site</label></p>
+    </section>
+
+    <section aria-labelledby="pin-h">
+      <h2 id="pin-h">PIN</h2>
+      <form id="pin-form">
+        <p id="current-row" class="field" hidden>
+          <label for="current">Current PIN</label>
+          <input id="current" type="password" inputmode="numeric" autocomplete="off" maxlength="8">
+        </p>
+        <p class="field">
+          <label for="new">New PIN, 4 to 8 digits</label>
+          <input id="new" type="password" inputmode="numeric" autocomplete="off" maxlength="8">
+        </p>
+        <p class="field">
+          <label for="repeat">Type the new PIN again</label>
+          <input id="repeat" type="password" inputmode="numeric" autocomplete="off" maxlength="8">
+        </p>
+        <button class="primary">Save PIN</button>
+      </form>
+    </section>
+
+    <section aria-labelledby="speech-h">
+      <h2 id="speech-h">Speech</h2>
+      <p><label><input type="checkbox" id="speak"> Read the check aloud (turn off if your screen reader already reads it)</label></p>
+      <p class="field">
+        <label for="rate">Speaking speed</label>
+        <select id="rate">
+          <option value="0.75">Slow</option>
+          <option value="1">Normal</option>
+          <option value="1.25">Fast</option>
+          <option value="1.5">Faster</option>
+          <option value="2">Very fast</option>
+          <option value="2.5">Fastest</option>
+        </select>
+      </p>
+    </section>
+
+    <p id="status" role="status"></p>
+  </main>
+  <script src="pin.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
