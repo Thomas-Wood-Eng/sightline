@@ -9,7 +9,7 @@ import os
 import re
 
 from . import catalog, llm, speech
-from .lane0 import _results, prefs, show_results
+from .lane0 import _results, card, prefs, show_results
 from .speech import Reply
 
 PRICE_RE = re.compile(r'\b(?:under|below|less than|cheaper than|max(?:imum)?|up to|at most|no more than|within)'
@@ -144,6 +144,48 @@ def with_allergens(reply, products):
              for n, p in enumerate(products[:3], 1)]
     reply.lines = [*reply.lines, *notes]  # detail lines only; repeating them in say would be spoken twice
     return reply
+
+
+PACKAGE = """A blind shopper photographed what was delivered. Compare the photo with what they ordered.
+ORDERED (name, colour, and what the store's own photo shows):
+{items}
+Answer JSON only: {{"match": "yes" or "no" or "unsure", "item": "the ordered name the photo fits, or empty",
+"seen": "what the photo shows, at most 10 words, no numbers"}}.
+"yes" only if the photo plausibly shows an ordered item in its stated colour. "unsure" if the photo is blurry, dark,
+or shows only a closed box or label."""
+
+
+def _ordered(o):
+    """[(ledger line, spoken name with colour, catalogue photo description)] for an order."""
+    out = []
+    for l in o['lines']:
+        p = catalog.get(l['pid']) or {'listing': {}}
+        colour = p['listing'].get('colour')
+        name = l['name'] + (f', {colour}' if colour and not p.get('colours') else '')  # colour variants are in the name
+        out.append((l, name, (p.get('enriched') or {}).get('description') or p['listing'].get('description') or ''))
+    return out
+
+
+def package_check(session, order, image, mime):
+    """'Is this my package?': the photo and the order's names, colours and catalogue photo descriptions go to the
+    model; the reply is built here from our order data, always as "photo suggests"."""
+    items = _ordered(order)
+    text = None
+    if not os.environ.get('SIGHTLINE_NO_LLM'):
+        text = llm.vision(PACKAGE.format(items='\n'.join(f'- {n}. {d}' for _, n, d in items)), image, mime)
+    try:
+        ans = json.loads(re.search(r'\{.*\}', text or '', re.S).group())
+    except (AttributeError, ValueError):
+        ans = {}
+    verdict = ans.get('match') if ans.get('match') in ('yes', 'no', 'unsure') else None
+    words = set(catalog.tokens(str(ans.get('item') or '')))
+    best = max(items, key=lambda i: len(words & set(catalog.tokens(i[1]))))
+    seen = ' '.join(speech.guard(str(ans.get('seen') or '')).rstrip('.').split()[:12])
+    p = catalog.get(best[0]['pid'])
+    if p:
+        session['focus'], session['spell'] = p['id'], p['name']  # so "return it" means this item
+    say = speech.package_check(verdict, [best[1]] if verdict == 'yes' else [n for _, n, _ in items], seen)
+    return Reply(say, focus=card(p) if p else None)
 
 
 def handle(text, session):

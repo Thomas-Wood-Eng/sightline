@@ -46,3 +46,6 @@ and are not endorsed by the photographers. Any brand marks visible in a photo be
 | `img/paints-01.jpg` | Soil watercolor paints used by Northern Arapaho artist Colleen Friday and Adrienne Vetter (53070193587) | YellowstoneNPS | [Public domain](https://creativecommons.org/publicdomain/mark/1.0/) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Soil_watercolor_paints_used_by_Northern_Arapaho_artist_Colleen_Friday_and_Adrienne_Vetter_(53070193587).jpg) |
 | `img/chess-01.jpg` | Chess game Staunton No. 6 perfil view 8 | Wilfredor | [CC0](http://creativecommons.org/publicdomain/zero/1.0/deed.en) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Chess_game_Staunton_No._6_perfil_view_8.jpg) |
 | `img/pen-01.jpg` | Vintage Wearever Combination Fountain Pen and Mechanical Pencil (10297046826) | Joe Haupt from USA | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Vintage_Wearever_Combination_Fountain_Pen_and_Mechanical_Pencil_(10297046826).jpg) |
+
+Demo photos for the package check: `demo/assets/package_match.jpg` is a copy of `img/raincoat-01.jpg` and
+`demo/assets/package_mismatch.jpg` is a copy of `img/mug-01.jpg`, with the credits and licences above.

@@ -147,7 +147,9 @@ function setState(s, dueIn = 0, pay = '', say = '') {
 
 // ---- requests ----
 async function post(url, body) {
-  const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  const raw = body instanceof Blob;  // a photo goes as the raw body; the server checks its bytes
+  const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': raw ? (body.type || 'application/octet-stream') : 'application/json' },
+    body: raw ? body : JSON.stringify(body) });
   const j = await r.json().catch(() => ({}));
   if (!r.ok) throw new Error(typeof j.detail === 'string' ? j.detail : 'Something went wrong. Please try again.');
   return j;
@@ -164,6 +166,7 @@ async function turn(url, body, youText) {
     showItem(r.focus); showPayPal(r.paypal);
     setState(r.state, r.due_in, r.pay, r.say);
     if (r.action === 'link') location.assign('/link/start');
+    if (r.action === 'photo') $('package-photo').focus();
   } catch (e) {
     earcon.error(); append(youText, e.message);
   } finally {
@@ -185,6 +188,12 @@ $('ask').addEventListener('submit', (e) => {
   // anything PIN-like (only digits, spaces, dashes; 4+ digits) is never echoed or announced, in any state
   const hide = /^[\d\s-]+$/.test(text) && text.replace(/\D/g, '').length >= 4;
   turn('/api/turn', { text }, hide ? '(number hidden)' : text);
+});
+
+$('package-photo').addEventListener('change', (e) => {
+  const f = e.target.files[0];
+  e.target.value = '';  // the same photo can be sent again
+  if (f) turn('/api/package', f, 'Package photo: ' + f.name);
 });
 
 pinForm.addEventListener('submit', (e) => {

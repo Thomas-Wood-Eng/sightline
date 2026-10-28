@@ -20,7 +20,9 @@ from pydantic import BaseModel, Field
 
 import re
 
-from . import checkout, lane0, lane1, paypal, speech
+from starlette.concurrency import run_in_threadpool
+
+from . import checkout, db, lane0, lane1, paypal, speech
 from .sessions import ServerSessions
 from .speech import Reply
 
@@ -63,6 +65,44 @@ def turn(body: Turn, request: Request):
     except paypal.PayPalError as e:
         r = Reply(f'PayPal had a problem ({e}). Nothing was charged. Say repeat or try again.')
     return out(s, r)
+
+
+MAX_PHOTO = 10 * 1024 * 1024
+PHOTO_MAGIC = {b'\xff\xd8\xff': 'image/jpeg', b'\x89PNG\r\n\x1a\n': 'image/png'}
+
+
+def photo_type(data):
+    """The image type from the file's own bytes (the browser's Content-Type is not trusted); None if not a photo."""
+    for magic, mime in PHOTO_MAGIC.items():
+        if data.startswith(magic):
+            return mime
+    if data[:4] == b'RIFF' and data[8:12] == b'WEBP':
+        return 'image/webp'
+    if data[4:8] == b'ftyp' and data[8:12] in (b'heic', b'heix', b'mif1', b'heim', b'heis'):
+        return 'image/heic'
+    return None
+
+
+@app.post('/api/package')
+async def package_photo(request: Request):
+    """'Is this my package?': the raw photo is the request body. Checked at the boundary, never stored."""
+    if int(request.headers.get('content-length') or 0) > MAX_PHOTO:
+        raise HTTPException(413, 'That photo is too large. Please send one under 10 megabytes.')
+    data = bytearray()
+    async for chunk in request.stream():
+        data += chunk
+        if len(data) > MAX_PHOTO:
+            raise HTTPException(413, 'That photo is too large. Please send one under 10 megabytes.')
+    mime = photo_type(data)
+    if not mime:
+        raise HTTPException(415, 'That file is not a photo Sightline can read. Please send a JPEG, PNG, WebP or HEIC photo.')
+    s = request.session
+    if checkout.state(s) in checkout.HOLDING or checkout.state(s) == checkout.UNDO:
+        return out(s, Reply('A payment is in progress. Finish or cancel it first, then send the photo again.'))
+    o = db.get(s.get('package') or '') or next(iter(db.orders(lane0._sid(s))), None)
+    if not o:
+        return out(s, Reply('You have no orders to check yet. Say my orders to hear them.'))
+    return out(s, await run_in_threadpool(lane1.package_check, s, o, bytes(data), mime))
 
 
 @app.post('/api/finalize')

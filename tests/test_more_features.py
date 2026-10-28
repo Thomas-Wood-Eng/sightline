@@ -64,3 +64,58 @@ def test_gift_note_is_not_a_scam_cue(client, fake):
     assert t(client, 'keep it a secret from mum')['say'].startswith('Gift note saved')
     t(client, 'add it in medium')
     assert t(client, 'check out')['state'] == 'awaiting_confirm'  # not flagged, so no approval needed
+
+
+# ---- 2. "is this my package?" photo check (Gemini mocked) ----
+from pathlib import Path  # noqa: E402
+
+from app import llm  # noqa: E402
+
+DEMO = Path(__file__).resolve().parent.parent / 'demo' / 'assets'
+
+
+def buy(client, what='mug', add='add it'):
+    t(client, what); t(client, add); t(client, 'check out'); t(client, 'confirm')
+    assert client.post('/api/pin', json={'pin': '1234'}).json()['state'] == 'captured'
+
+
+def photo(client, name):
+    return client.post('/api/package', content=(DEMO / name).read_bytes(), headers={'Content-Type': 'image/jpeg'})
+
+
+def test_package_check_match_and_mismatch(client, fake, monkeypatch):
+    seen = []
+    answers = iter(['{"match": "yes", "item": "Insulated travel mug", "seen": "a black travel mug"}',
+                    '```json\n{"match": "no", "item": "", "seen": "an orange hooded rain jacket"}\n```'])
+    monkeypatch.delenv('SIGHTLINE_NO_LLM')
+    monkeypatch.setattr(llm, 'vision', lambda prompt, image, mime: seen.append((prompt, mime, len(image))) or next(answers))
+    setup(client); buy(client)
+    r = t(client, 'check my package')
+    assert r['action'] == 'photo' and 'Insulated travel mug' in r['say'] and 'does not keep it' in r['say']
+    r = photo(client, 'package_mismatch.jpg').json()  # the mug photo, for a mug order
+    assert r['say'].startswith('Photo suggests this matches: Insulated travel mug, matte black.')
+    assert 'Insulated travel mug, matte black' in seen[0][0] and 'leak-proof' not in seen[0][0]  # catalogue photo text, not listing
+    assert seen[0][1] == 'image/jpeg' and seen[0][2] > 1000
+    r = photo(client, 'package_match.jpg').json()
+    assert r['say'] == ('Photo suggests this may not match: you ordered Insulated travel mug, matte black, the photo looks '
+                        'like an orange hooded rain jacket. Say return it to start a return.')
+    r = t(client, 'return it')
+    assert r['state'] == 'awaiting_confirm' and 'Return: Insulated travel mug' in ' '.join(r['lines'])
+
+
+def test_package_check_boundary_and_fallback(client, fake, monkeypatch):
+    setup(client)
+    assert 'no orders to check' in photo(client, 'package_match.jpg').json()['say']
+    buy(client)
+    r = client.post('/api/package', content=b'not a photo at all', headers={'Content-Type': 'image/jpeg'})
+    assert r.status_code == 415 and 'JPEG, PNG, WebP or HEIC' in r.json()['detail']
+    r = client.post('/api/package', content=b'\xff\xd8\xff' + b'0' * (10 * 1024 * 1024), headers={'Content-Type': 'image/jpeg'})
+    assert r.status_code == 413
+    # SIGHTLINE_NO_LLM (as when Gemini is down): an honest fallback, never a guess
+    r = photo(client, 'package_match.jpg').json()
+    assert r['say'].startswith('I could not check the photo just now, and nothing was kept. You ordered Insulated travel mug')
+    monkeypatch.delenv('SIGHTLINE_NO_LLM')
+    monkeypatch.setattr(llm, 'vision', lambda *a: None)
+    assert photo(client, 'package_match.jpg').json()['say'].startswith('I could not check the photo')
+    monkeypatch.setattr(llm, 'vision', lambda *a: '{"match": "unsure", "seen": "a closed cardboard box"}')
+    assert photo(client, 'package_match.jpg').json()['say'].startswith('The photo is unclear')

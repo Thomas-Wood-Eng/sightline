@@ -320,6 +320,21 @@ def spending(period, amount, n):
     return f"{label}, you spent {usd(amount)} on {plural(n, 'order')}, after refunds."
 
 
+def package_check(verdict, ordered, seen=''):
+    """'Is this my package?': always "photo suggests", never certain. ordered: the order's item names with colour."""
+    what = _ns(ordered).replace(' or ', ' and ')
+    if verdict == 'yes':
+        return f'Photo suggests this matches: {what}. A photo check can be wrong, so feel or open it to be sure.'
+    if verdict == 'no':
+        return (f'Photo suggests this may not match: you ordered {what}, the photo looks like {seen or "something else"}. '
+                'Say return it to start a return.')
+    if verdict == 'unsure':
+        return (f'The photo is unclear: I could not tell whether it shows {what}. Try another photo in good light, '
+                'with the item out of the box.')
+    return (f'I could not check the photo just now, and nothing was kept. You ordered {what}. '
+            'Try again in a minute, or ask someone you trust to look.')
+
+
 def refund_readback(o, line, amount):
     """Amounts from our ledger, which holds PayPal's own unit prices and capture total."""
     item = Decimal(line['unit']) * line['qty']

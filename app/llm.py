@@ -3,6 +3,7 @@
 The model never moves money or speaks numbers: callers give it tools without price fields, and say_ok() rejects any
 money in its text before anything reaches the user.
 """
+import base64
 import os
 import re
 import time
@@ -20,6 +21,7 @@ FALLBACK = os.environ.get('GEMINI_FALLBACK_MODEL', 'gemini-3.1-flash-lite')
 PROVIDER = os.environ.get('LLM_PROVIDER', 'gemini')
 CLAUDE_MODEL = os.environ.get('ANTHROPIC_MODEL', 'claude-opus-5-5')
 TIMEOUT_MS = 4000                      # free-tier calls occasionally stall 15-30 s; never make the user wait that long
+VISION_TIMEOUT_MS = 10000              # a phone photo takes longer to upload and read than a text turn
 
 MONEY = re.compile(r'[$€£]|\b\d+(?:\.\d{1,2})?\s*(?:dollars?|cents?|bucks|usd)\b|\bprice\s+(?:is|of)\b', re.I)
 
@@ -69,7 +71,7 @@ def _claude(system, contents, tools):
             'parts': r.content, 'model': CLAUDE_MODEL, 'ms': int((time.perf_counter() - t) * 1000)}
 
 
-def chat(system, contents, tools):
+def chat(system, contents, tools, timeout_ms=TIMEOUT_MS):
     """One model turn. tools: list of function-declaration dicts. Returns {'text', 'calls', 'model', 'ms'} or None.
 
     Tries PRIMARY, then FALLBACK once; None means the caller should fall back to its no-AI menu."""
@@ -85,7 +87,7 @@ def chat(system, contents, tools):
         t = time.perf_counter()
         try:
             job = _pool.submit(client().models.generate_content, model=model, contents=contents, config=config)
-            r = job.result(timeout=TIMEOUT_MS / 1000)  # shortcut: a stalled call keeps its thread until it returns; fine at demo load
+            r = job.result(timeout=timeout_ms / 1000)  # shortcut: a stalled call keeps its thread until it returns; fine at demo load
         except (errors.APIError, OSError, FutureTimeout) as e:  # 429/503, our timeout, network
             print(f'llm: {model} failed after {time.perf_counter() - t:.1f}s: {type(e).__name__} {str(e)[:80]}')
             continue
@@ -98,6 +100,16 @@ def chat(system, contents, tools):
             'ms': int((time.perf_counter() - t) * 1000),
         }
     return None
+
+
+def vision(prompt, image, mime):
+    """One question about one photo (the package check). Returns the model's text, or None (caller falls back)."""
+    if PROVIDER == 'anthropic':
+        img = {'type': 'image', 'source': {'type': 'base64', 'media_type': mime, 'data': base64.b64encode(image).decode()}}
+        out = _claude('Answer with JSON only.', [img, {'type': 'text', 'text': prompt}], [])
+    else:  # the flash-lite models read images too
+        out = chat('Answer with JSON only.', [types.Part.from_bytes(data=image, mime_type=mime), prompt], None, VISION_TIMEOUT_MS)
+    return out and out['text']
 
 
 if __name__ == '__main__':  # live smoke test: python -m app.llm

@@ -65,6 +65,12 @@
     </form>
     <button id="talk" type="button" aria-pressed="false" aria-keyshortcuts="Alt+Shift+M">Talk (Alt+Shift+M)</button>
     </div>
+    <div class="photo">
+      <label for="package-photo">Package photo: check that what arrived matches your order</label>
+      <input id="package-photo" type="file" accept="image/*" capture="environment" aria-describedby="photo-hint">
+      <p class="hint" id="photo-hint">Or say: check my package. The photo goes to Google Gemini to compare and is not kept.
+        A photo check can be wrong.</p>
+    </div>
     <p id="voice-status" role="status" class="status"></p>
 
     <form id="pin-form" class="pay-box" hidden>
@@ -199,7 +205,8 @@
   <section class="card note" aria-labelledby="privacy-h">
     <h2 id="privacy-h">Privacy</h2>
     <p>The Talk button uses your browser's speech recognition. In Chrome, that sends your voice to Google to turn it into text.
-      Typing works just as well and sends nothing to Google. We keep no recordings, no photos and no transcripts.</p>
+      Typing works just as well and sends nothing to Google. A package photo is sent to Google Gemini to compare it
+      with your order. We keep no recordings, no photos and no transcripts.</p>
   </section>
   </div>
 </main>

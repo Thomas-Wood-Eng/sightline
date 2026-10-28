@@ -92,6 +92,10 @@ def parse(text):
     if re.fullmatch(r'(?:show |list |read )?(?:my |past |previous |recent |the )*orders|order history'
                     r'|what (?:have i|did i) (?:order|ordered|buy|bought)', t):
         return ('orders',)
+    m = re.fullmatch(r'(?:check|photo check|look at|scan) (?:a photo of )?(?:my |the |this )?(.*?)\s*(?:package|parcel|delivery)'
+                     r'|is (?:this|that|it) (?:really )?my (.*?)\s*(?:package|parcel|order|delivery)', t)
+    if m:
+        return ('package', m.group(1) or m.group(2) or '')
     m = re.fullmatch(r'(?:where is|track|status of|has|when will|when does) (?:my |the )?(.*?)\s*'
                      r'(?:order|package|parcel|delivery)(?: shipped| arrived| arrive| come)?'
                      r'|when (?:will|does) (?:it|my order) (?:arrive|come|get here)', t)
@@ -532,6 +536,14 @@ def _handle(text, s):
             status = 'not reachable just now'
         s['spell'] = o['order_id']
         return Reply(speech.track(o, status))
+    if name == 'package':
+        o = _find_order(s, args[0]) or _find_order(s, '')
+        if not o:
+            return Reply('You have no orders to check yet. Say my orders to hear them.')
+        s['package'] = o['order_id']
+        return Reply(f'Take or choose a photo of what arrived with the Package photo button, under the message box. '
+                     f'I will compare it with your order of {speech._what(o)}. The photo goes to Google Gemini to '
+                     'check it, and Sightline does not keep it.', action='photo')
     if name == 'spent':
         today = date.today()
         since = {'today': today, 'week': today - timedelta(days=today.weekday()), 'month': today.replace(day=1),
