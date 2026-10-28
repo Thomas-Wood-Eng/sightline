@@ -62,10 +62,11 @@ def to_pin(page):
     page.wait_for_selector('#pin-form', state='visible')
 
 
-def watch_status(page):
-    """Collect every text #pay-status shows, since replies clear it quickly."""
-    page.evaluate("""() => { window.__status = []; const el = document.getElementById('pay-status');
-      new MutationObserver(() => window.__status.push(el.textContent)).observe(el, {childList: true, characterData: true, subtree: true}); }""")
+def watch_status(page, el_id='pay-status', var='__status'):
+    """Collect every text the element shows, since replies clear it quickly."""
+    page.evaluate("""([id, v]) => { window[v] = []; const el = document.getElementById(id);
+      new MutationObserver(() => window[v].push(el.textContent)).observe(el, {childList: true, characterData: true, subtree: true}); }""",
+                  [el_id, var])
 
 
 def last(page):
@@ -92,10 +93,13 @@ def test_escape_undoes_on_first_press_while_voice_speaks(browser, server, fake, 
 def test_escape_cancels_hold_in_screen_reader_mode(browser, server, fake):
     page = open_app(browser, server)
     to_pin(page)
-    watch_status(page)
+    watch_status(page); watch_status(page, 'pay-progress', '__progress')
     page.keyboard.press('Escape')
     page.wait_for_function("document.querySelector('#log .turn:last-child').innerText.includes('Cancelled')")
-    assert 'Cancelling the payment.' in page.evaluate('window.__status')  # visible, and announced (role=status)
+    assert 'Cancelling the payment.' in page.evaluate('window.__progress')  # visible at once
+    # screen-reader issue 8: announced once, by the reply only (not also by the role=status region)
+    assert 'Cancelling the payment.' not in page.evaluate('window.__status')
+    assert page.get_attribute('#pay-progress', 'role') is None and page.get_attribute('#pay-progress', 'aria-live') is None
     assert fake.count('void') == 1 and page.evaluate('window.__spoken') == []  # screen reader mode: app stays silent
 
 
@@ -148,7 +152,7 @@ def test_approval_link_says_new_tab(browser, server, fake):
     page = open_app(browser, server)
     page.fill('#set-contact-name', 'Alex'); page.fill('#set-contact-email', 'alex@example.com')
     page.fill('#set-threshold', '20'); page.fill('#set-current-pin', '1234'); page.click('text=Save settings')
-    page.wait_for_function("document.getElementById('settings-status').textContent.startsWith('Saved')")
+    page.wait_for_function("document.getElementById('settings-status').textContent.startsWith('Settings saved: Alex approves')")
     send(page, 'hoodie'); send(page, 'add it in medium'); send(page, 'check out')
     a = page.locator('#log a[href^="/approve/"]')
     assert a.inner_text() == 'Open the approval page (opens in a new tab)'
@@ -185,3 +189,23 @@ def test_double_enter_gives_one_reply(browser, server, fake):
     page.wait_for_function(f"document.querySelectorAll('#log .turn').length > {n}")
     page.wait_for_timeout(1200)
     assert page.locator('#log .turn').count() == n + 1 and fake.count('hold') == 1
+
+
+# ---- screen-reader issue 10: an empty Enter says what to do ----
+def test_empty_enter_gives_hint(browser, server, fake):
+    page = open_app(browser, server)
+    n = page.locator('#log .turn').count()
+    page.press('#message', 'Enter')
+    page.wait_for_function(f"document.querySelectorAll('#log .turn').length > {n}")
+    assert last(page) == 'Type a request first, or say help.'
+
+
+# ---- screen-reader issue 11: a stale value in the current-PIN field is cleared after an error ----
+def test_settings_error_clears_current_pin(browser, server, fake):
+    page = open_app(browser, server)
+    page.fill('#set-contact-name', 'Alex'); page.fill('#set-contact-email', 'alex@example.com')
+    page.fill('#set-threshold', '20'); page.fill('#set-current-pin', '9999'); page.click('text=Save settings')
+    page.wait_for_function("document.getElementById('settings-status').textContent.startsWith('Error')")
+    assert page.input_value('#set-current-pin') == '' and page.evaluate('document.activeElement.id') == 'set-current-pin'
+    page.keyboard.type('1234'); page.click('text=Save settings')
+    page.wait_for_function("document.getElementById('settings-status').textContent.startsWith('Settings saved')")

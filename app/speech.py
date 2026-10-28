@@ -344,3 +344,33 @@ def prefs_summary(p):
     if p['avoid']:
         out += f"Always avoiding {_ns(p['avoid']).replace(' or ', ' and ')} in food. "
     return out
+
+
+def saved(before, after, new_pin=False):
+    """Settings save: only what changed, 15 words or fewer (the full summary is one "settings" away)."""
+    b, a, bp, ap = before, after, before['prefs'], after['prefs']
+    ch = []
+    if a['output_mode'] != b['output_mode']:
+        ch.append('the app voice reads replies' if a['output_mode'] == 'voice' else 'your screen reader reads replies')
+    if ap['verbosity'] != bp['verbosity']:
+        ch.append(f"{ap['verbosity']} replies")
+    for key, label in (('simple', 'simple mode'), ('large_text', 'large text')):
+        if ap[key] != bp[key]:
+            ch.append(f"{label} {'on' if ap[key] else 'off'}")
+    if ap['size'] != bp['size']:
+        ch.append(f"default size {ap['size']}" if ap['size'] else 'no default size')
+    if ap['avoid'] != bp['avoid']:
+        ch.append('avoiding ' + _ns(ap['avoid']).replace(' or ', ' and ') if ap['avoid'] else 'no allergens avoided')
+    if a['per_order_cap'] != b['per_order_cap']:
+        ch.append(f"per-order cap {usd(a['per_order_cap'])}")
+    if a['daily_cap'] != b['daily_cap']:
+        ch.append(f"daily cap {usd(a['daily_cap'])}")
+    if a['contact'] != b['contact']:
+        c = a['contact']
+        ch.append(f"{c['name']} approves orders over {usd(c['threshold'])}" if c else 'no trusted contact')
+    if new_pin:
+        ch.append('new PIN set')
+    if not ch:
+        return 'Settings saved: nothing changed.'
+    text = 'Settings saved: ' + '; '.join(ch) + '.'
+    return text if len(text.split()) <= 15 else f"Settings saved: {plural(len(ch), 'change')}. Say settings to hear them all."

@@ -67,6 +67,12 @@ function payStatus(text, quiet = false) {
   if (text && !(quiet && 'speechSynthesis' in window && speechSynthesis.speaking)) speak(text);  // quiet: never cut a reply
 }
 
+// Escape's instant feedback, shown at once. The screen reader hears only the reply that follows ("Undone...",
+// announce once); the app voice says it straight away, and the reply then replaces it.
+function progress(text) {
+  if (mode === 'voice') payStatus(text); else $('pay-progress').textContent = text;
+}
+
 function showItem(f) {
   if (!f) return;
   const img = $('item-img');
@@ -126,7 +132,7 @@ async function turn(url, body, youText) {
   const slow = setTimeout(earcon.working, 1000);
   try {
     const r = await post(url, body);
-    payStatus('');
+    payStatus(''); $('pay-progress').textContent = '';
     append(youText, r.say, r.lines);
     showItem(r.focus);
     setState(r.state, r.due_in, r.pay, r.say);
@@ -144,7 +150,7 @@ const send = (text) => turn('/api/turn', { text }, text);
 $('ask').addEventListener('submit', (e) => {
   e.preventDefault();
   const text = msg.value.trim();
-  if (!text) return;
+  if (!text) { append(null, 'Type a request first, or say help.'); return; }  // never a silent no-op
   msg.value = '';
   // a double Enter: the same text again while it is on its way, or within a second, gets no second reply
   if (text === lastSent.text && (busy || Date.now() - lastSent.at < 1000)) return;
@@ -202,8 +208,8 @@ document.addEventListener('keydown', (e) => {
     if ('speechSynthesis' in window) speechSynthesis.cancel();
     if (rec) rec.abort();
     if (state === 'undo_window' && paying) payStatus('Too late to undo: PayPal is taking the payment now.');
-    else if (state === 'undo_window') { payStatus('Undoing the payment.'); send('undo'); }
-    else if (HOLD.includes(state)) { payStatus('Cancelling the payment.'); send('cancel'); }
+    else if (state === 'undo_window') { progress('Undoing the payment.'); send('undo'); }
+    else if (HOLD.includes(state)) { progress('Cancelling the payment.'); send('cancel'); }
   }
 });
 
@@ -250,8 +256,12 @@ $('settings-form').addEventListener('submit', async (e) => {
   try {
     const s = await post('/api/settings', body);
     f.new_pin.value = ''; f.current_pin.value = '';
-    fillSettings(s); status.textContent = 'Saved. ' + s.summary;
-  } catch (err) { status.textContent = 'Error: ' + err.message; f.current_pin.focus(); }
+    fillSettings(s); status.textContent = s.saved;  // only what changed; "settings" in chat reads the full summary
+  } catch (err) {
+    status.textContent = 'Error: ' + err.message;
+    f.current_pin.value = '';  // a stale value would block retyping (maxlength 4)
+    (/new PIN/.test(err.message) ? f.new_pin : f.current_pin).focus();
+  }
 });
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});  // installable (PWA)

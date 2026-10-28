@@ -70,3 +70,27 @@ def test_repeated_checkout_is_idempotent_and_short(client, fake):
     r = t(client, 'check out')
     assert r['say'].startswith('No new hold was placed. A payment of 41.73 US dollars is on hold for') and r['lines'] == []
     assert fake.count('hold') == 1 and r['state'] == 'awaiting_confirm'
+
+
+# ---- issue 7: a settings save says only what changed, in 15 words or fewer ----
+def test_settings_saved_names_only_changes(client, fake):
+    setup(client)
+    post = lambda **b: client.post('/api/settings', json=b)
+    r = post(verbosity='detailed', per_order_cap='100.00', daily_cap='250.00').json()
+    assert r['saved'] == 'Settings saved: detailed replies.'
+    assert post(verbosity='detailed').json()['saved'] == 'Settings saved: nothing changed.'
+    r = post(per_order_cap='120', current_pin='1234', default_size='M').json()['saved']
+    assert r == 'Settings saved: default size M; per-order cap 120.00 US dollars.' and len(r.split()) <= 15
+    r = post(output_mode='voice', verbosity='brief', simple_mode=True, large_text=True, default_size='L').json()['saved']
+    assert len(r.split()) <= 15 and r.startswith('Settings saved: 5 changes.')
+
+
+# ---- issue 11: a stray space in New PIN is "keep"; a bad new PIN names the field and burns no try ----
+def test_new_pin_whitespace_and_error(client, fake):
+    setup(client)
+    r = client.post('/api/settings', json={'new_pin': ' ', 'verbosity': 'brief'})
+    assert r.status_code == 200 and r.json()['saved'] == 'Settings saved: brief replies.'
+    r = client.post('/api/settings', json={'new_pin': '12', 'current_pin': '1234'})
+    assert r.status_code == 422 and r.json()['detail'].startswith('The new PIN must be exactly 4 digits.')
+    r = client.post('/api/settings', json={'new_pin': '5678', 'current_pin': '1234'})
+    assert r.json()['saved'] == 'Settings saved: new PIN set.'

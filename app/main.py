@@ -156,6 +156,10 @@ def _prefs(s, body):
 @app.post('/api/settings')
 def post_settings(body: Settings, request: Request):
     s = request.session
+    body.new_pin = (body.new_pin or '').strip() or None  # a stray space in New PIN is "keep", not a bad PIN
+    if body.new_pin and not checkout.valid_pin(body.new_pin):  # checked first, so the error names the right field
+        raise HTTPException(422, 'The new PIN must be exactly 4 digits. Leave it empty to keep your PIN.')
+    before = settings_view(s)
     if body.output_mode is not None:
         if body.output_mode not in ('screen_reader', 'voice'):
             raise HTTPException(422, 'Output mode must be screen_reader or voice.')
@@ -181,12 +185,12 @@ def post_settings(body: Settings, request: Request):
         if body.daily_cap:
             caps['daily'] = _cap(body.daily_cap)
         if body.new_pin:
-            if not checkout.valid_pin(body.new_pin.strip()):
-                raise HTTPException(422, 'The PIN must be exactly 4 digits.')
-            checkout.set_pin(s, body.new_pin.strip())
+            checkout.set_pin(s, body.new_pin)
         s['caps'] = caps
         s['contact'] = contact
-    return settings_view(s)
+    view = settings_view(s)
+    view['saved'] = speech.saved(before, view, bool(body.new_pin))
+    return view
 
 
 class Onboarding(BaseModel):
