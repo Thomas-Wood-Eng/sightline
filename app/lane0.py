@@ -144,7 +144,8 @@ def parse(text):
                      r'|when (?:will|does) (?:it|my order) (?:arrive|come|get here)', t)
     if m:
         return ('track', m.group(1) or '')
-    if re.fullmatch(r'(?:it is|this is|make it|make this|send it as|mark it as) a gift|gift mode( on)?|add a gift note', t):
+    if re.fullmatch(r'(?:it is|this is|make it|make this|send it as|mark it as) a gift|gift mode( on)?|add a gift note'
+                    r'|(?:change|edit|fix|correct|redo) (?:the |my )?(?:gift )?note', t):
         return ('gift',)
     if re.fullmatch(r'(?:it is |this is )?not a gift|(?:no|cancel|remove|turn off) (?:the )?gift(?: mode| note)?|gift mode off', t):
         return ('gift_off',)
@@ -401,6 +402,20 @@ def add(s, p, qty, opt=''):
     return Reply(speech.added(p, qty, sum(l[1] for l in cart), variant) + note, focus=card(p))
 
 
+NOTE_CUE = re.compile(r"\b(?:saying|that says|which says|it should say|should say|to say|please say|just say|it says"
+                      r"|that reads|reading|the note is|note is|write)\b\s*[:,]?\s*", re.I)
+
+
+def gift_note(text):
+    """Only the words meant for the card: quoted text, or what follows "saying", "that says" and the like."""
+    quoted = re.findall(r'["“]([^"”]+)["”]', text)
+    if quoted:
+        return quoted[-1].strip()
+    cues = list(NOTE_CUE.finditer(text))
+    rest = text[cues[-1].end():].strip(' .') if cues else ''
+    return rest or text.strip()
+
+
 def _answer(ask, text, cmd, s):
     """The shopper was asked a question (gift note, or which size). Another command drops the question."""
     if 'refund' in ask:  # dispute help offered a refund: yes starts the usual return Readback
@@ -418,9 +433,11 @@ def _answer(ask, text, cmd, s):
             return Reply('Gift mode is off.')
         if re.fullmatch(r'no( note)?|none|skip|no thanks|nothing|without a note', norm(text)):
             return Reply('A gift with no note. Say check out when ready.')
-        s['gift'] = text.strip()[:120]
-        cut = ' I kept the first 120 characters.' if len(text.strip()) > 120 else ''
-        return Reply(f"Gift note saved: {s['gift']}.{cut} It is sent to PayPal and read back before you pay.")
+        note = gift_note(text)
+        s['gift'] = note[:120]
+        cut = ' I kept the first 120 characters.' if len(note) > 120 else ''
+        return Reply(f'Gift note saved: "{s["gift"]}".{cut} It is sent to PayPal and read back before you pay. '
+                     'To change it, say change the gift note.')
     pid, qty, colour = ask['add']
     p = catalog.get(pid)
     if p and match_size(text, sizes_of(p)):
@@ -526,6 +543,11 @@ def _handle(text, s):
     if cmd is None:
         size = bare_size(text)
         return _size_only(s, text, size) if size else None
+    return _run(cmd, text, s)
+
+
+def _run(cmd, text, s):
+    """Run one parsed command (outside a payment, or one of DURING_HOLD while a payment or return is pending)."""
     name, args = cmd[0], cmd[1:]
     if name == 'repeat':
         last = checkout.ledger(s).get('last')
@@ -826,7 +848,7 @@ def _describe(s, p, lvl=None):
 
 
 def _holding(cmd, text, s, st):
-    """A payment is on hold: only checkout words, repeat, spell, help and feedback are accepted."""
+    """A payment or return is pending: checkout words, plus DURING_HOLD questions; never the AI."""
     name = cmd[0] if cmd else None
     if st == checkout.APPROVAL and name not in ('cancel', 'no', 'undo', 'repeat', 'spell'):
         news = checkout.approval_news(s)
@@ -854,11 +876,33 @@ def _holding(cmd, text, s, st):
     if name == 'wrong':
         _log_feedback(s, text)
         return Reply('Thanks, I noted that. If the Readback is wrong, say cancel and nothing will be charged.')
-    if s['co'].get('kind') == 'refund':
-        step = 'type your PIN in the PIN box' if st == checkout.PIN else 'say confirm'
-        return Reply(f'A return is waiting. To get the refund, {step}. To keep the item, say cancel.')
-    if st == checkout.APPROVAL:
-        return Reply('This order is waiting for approval from your trusted contact. Say cancel to release the hold, '
-                     'or say repeat to hear the Readback.')
-    step = 'type your PIN in the PIN box' if st == checkout.PIN else 'say confirm'
-    return Reply(f'A payment is on hold. To pay, {step}. To release it, say cancel. Say repeat to hear the Readback.')
+    # questions and commands that can't change what is held still work; the AI stays out until it is finished
+    r = _run(cmd, text, s) if name in DURING_HOLD else _allergens(s, text) if not cmd and ALLERGY_Q.search(text) else None
+    if r:
+        if not s['co'].get('reminded'):  # remind once per hold what is still waiting
+            s['co']['reminded'] = True
+            r.lines = [*r.lines, 'Still waiting: ' + checkout.pending(s)]
+        return r
+    if cmd:
+        return Reply('That has to wait until this is finished. ' + checkout.pending(s))
+    return Reply('While this is pending I can answer about items, prices, allergens, your cart and orders. '
+                 + checkout.pending(s))
+
+
+# safe while a payment or return is pending: they read, they never change the cart, the hold or the money
+DURING_HOLD = {'help', 'describe', 'reviews', 'price', 'cart', 'wishlist', 'orders', 'track', 'spent', 'settings', 'prefs',
+               'caps', 'compare', 'pick', 'next', 'back', 'more', 'stop', 'approval_link'}
+ALLERGY_Q = re.compile(r'allerg|\bnuts?\b|peanut|gluten|wheat|dairy|lactose|milk|\bsoy\b|\beggs?\b|shellfish|sesame', re.I)
+
+
+def _allergens(s, text):
+    """An allergen question: straight from the listing, for the item named, else the one in focus, else the held items."""
+    focus = catalog.get(s.get('focus') or '')
+    held = [catalog.get(i[0]) for i in s.get('co', {}).get('items', []) if catalog.get(i[0])]
+    pool = list({p['id']: p for p in [*held, *([focus] if focus else []), *_results(s)]}.values())
+    words = set(catalog.tokens(text))
+    named = [p for p in pool if words & set(catalog.tokens(p['name']))]
+    items = named[:1] or ([focus] if focus else held)
+    if not items:
+        return None
+    return Reply(' '.join(speech.allergens(p) for p in items), focus=card(items[0]))

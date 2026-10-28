@@ -89,6 +89,11 @@ def focus_line(n, p, level='normal'):
             f"{plural(p['review_count'], 'review')}. Say describe, or add it.")
 
 
+def allergens(p):
+    a = (p['listing'].get('allergens') or 'not stated').strip().rstrip('.')
+    return f"{p['name']}: the listing says, allergens: {a}."
+
+
 def price(p):
     """'How much is it?': the catalogue price, said by the app (the model never sees prices)."""
     ship = Decimal(str(p['shipping']))

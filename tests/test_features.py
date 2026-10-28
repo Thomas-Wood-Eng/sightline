@@ -356,7 +356,7 @@ def test_gift_note_sent_to_paypal_and_read_back(client, fake):
     assert parse("it's a gift") == ('gift',) and parse('not a gift') == ('gift_off',)
     t(client, 'mug'); t(client, 'add it')
     assert 'What should the gift note say' in t(client, "it's a gift")['say']
-    assert t(client, 'Happy birthday, Sam! Love, Jo')['say'].startswith('Gift note saved: Happy birthday, Sam! Love, Jo.')
+    assert t(client, 'Happy birthday, Sam! Love, Jo')['say'].startswith('Gift note saved: "Happy birthday, Sam! Love, Jo".')
     rb = t(client, 'check out')['lines']
     assert 'Gift note: Happy birthday, Sam! Love, Jo.' in rb
     assert next(iter(fake.seen.values()))['purchase_units'][0]['description'] == 'Gift note: Happy birthday, Sam! Love, Jo'

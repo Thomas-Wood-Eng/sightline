@@ -70,3 +70,48 @@ def test_remove_one_line(client, fake):
     assert r['say'] == 'Removed: Fleece-lined pullover hoodie (size M, heather grey). Cart has 1 item.'
     assert '(size L, heather grey)' in t(client, 'cart')['lines'][0]
     assert t(client, 'remove everything')['say'] == 'Your cart is now empty.'
+
+
+# ---- M4: the gift note is only the note, read back, and can be changed ----
+def test_gift_note_extracted_and_correctable(client, fake):
+    from app.lane0 import gift_note
+    assert gift_note('my name is Alex and it is for my mum, please put a note saying happy birthday, love Alex') == \
+        'happy birthday, love Alex'
+    assert gift_note('write "Congrats, Sam!" on it') == 'Congrats, Sam!'
+    assert gift_note('Happy birthday, Sam! Love, Jo') == 'Happy birthday, Sam! Love, Jo'
+    setup(client)
+    t(client, 'hoodie'); t(client, 'add it in medium'); t(client, "it's a gift")
+    r = t(client, 'it is for my mum, put a note that says get well soon')
+    assert r['say'].startswith('Gift note saved: "get well soon".') and 'say change the gift note' in r['say']
+    assert t(client, 'change the gift note')['say'].startswith('Gift mode on. What should the gift note say?')
+    t(client, 'see you soon')
+    assert 'Gift note: see you soon.' in t(client, 'check out')['lines']
+
+
+# ---- M5, M8: questions still work while a payment or return is pending; conflicting commands wait ----
+def test_questions_during_a_hold(client, fake):
+    setup(client)
+    t(client, 'mug'); t(client, 'add it')
+    assert t(client, 'check out')['state'] == 'awaiting_confirm'
+    r = t(client, 'is the mug safe for a nut allergy')
+    assert r['say'] == 'Insulated travel mug: the listing says, allergens: not stated.' and r['state'] == 'awaiting_confirm'
+    assert r['lines'][-1].startswith('Still waiting: A payment of')  # reminded once
+    r = t(client, 'how much is it')
+    assert r['say'].startswith('Insulated travel mug is $18.50') and not r['lines']
+    assert t(client, 'help')['say'] == 'You can say:' and t(client, 'what is in my cart')['say'].startswith('Your cart has')
+    r = t(client, 'add the hoodie')
+    assert r['say'].startswith('That has to wait until this is finished. A payment of') and r['state'] == 'awaiting_confirm'
+    assert t(client, 'cart')['lines'][0].startswith('1. Insulated travel mug, quantity 1')
+    assert t(client, 'cancel')['state'] == 'voided'
+
+
+def test_questions_during_a_return(client, fake):
+    setup(client)
+    t(client, 'mug'); t(client, 'add it'); t(client, 'check out'); t(client, 'confirm')
+    client.post('/api/pin', json={'pin': '1234'})
+    t(client, 'return the mug'); t(client, 'confirm')
+    r = t(client, 'my saved items')
+    assert r['say'].startswith('You have no saved items') and r['lines'][-1].startswith('Still waiting: A refund of')
+    assert t(client, 'my orders')['say'].startswith('You have 1 order')
+    r = t(client, "it's a gift")
+    assert r['say'].startswith('That has to wait until this is finished. A refund of') and r['state'] == 'awaiting_pin'
