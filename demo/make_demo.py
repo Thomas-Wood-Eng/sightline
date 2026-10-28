@@ -94,7 +94,7 @@ AD = [
      'Meet Sightline. Shopping by voice, built for blind and low-vision people, on PayPal.'),
     ('setup', 'Set up once.'),
     ('card', 'Link PayPal once, on PayPal’s own page.', 'paypal_link.png', [],
-     'Shoppers link their PayPal account once, on PayPal’s own page. After that, every purchase is by voice.'),
+     'Link PayPal once, on PayPal’s own page. After that, shopping is by voice.'),
     ('beat', 'Ask in your own words.'),
     ('say', 'Find me a hoodie.', ['results']),
     ('beat', 'Hear what the listing says, and what the photo suggests.'),
@@ -107,8 +107,6 @@ AD = [
     ('say', 'Confirm.', ['PIN']),
     ('pin', '1234', ['10 seconds']),
     ('say', 'Undo.', ['Undone', 'Nothing was charged']),
-    ('beat', 'Allergies are a hard filter.'),
-    ('say', 'I need a snack for my kid. She has a nut allergy.', ['Showing only']),
     ('beat', 'Sales tricks get called out.'),
     ('hidden', 'Remove the hoodie.'),
     ('say', 'Find headphones.', ['results']),
@@ -127,8 +125,7 @@ AD = [
         'The Readback uses PayPal’s own numbers.',
         'Confirm + PIN: PayPal captures the payment.',
         'Undo or cancel: PayPal releases the hold.'],
-     'Under the hood, PayPal does the money: it saves the account once, holds each order, and captures only '
-     'after the shopper confirms with their PIN. Undo or cancel, and PayPal releases the hold.'),
+     'PayPal saves the account once, holds every order, and captures only after the PIN. Undo, and PayPal releases it.'),
     ('title', 'The AI suggests. It never holds the keys.', 'Sightline: PayPal AI Hackathon 2026',
      'The AI suggests. It never holds the keys. Sightline.'),
 ]
@@ -136,16 +133,14 @@ SCRIPTS = {'ad': AD, 'full': INTRO + ALLERGY + HOODIE + PAY + SCAM + [('say', 'R
            # Devpost cut, must stay under 3 minutes: the problem, one purchase, the trusted contact and undo
            'short': [
                ('title', 'Sightline', 'Shop by voice. Hear every dollar before it moves.',
-                'Blind shoppers can find a product online, then lose it at checkout. Sightline is a voice and keyboard '
-                'first shopping assistant, built on PayPal. An early prototype.'),
+                'Blind shoppers often lose a purchase at checkout. Sightline is voice-first shopping, built on PayPal.'),
                ('setup', "Setup happens once: a PIN, spending limits, and a trusted contact. Replies play at "
                          'screen-reader speed.'),
                ('card', 'Link PayPal once, on PayPal’s own page.', 'paypal_link.png', [],
-     'Shoppers link their PayPal account once, on PayPal’s own page. After that, every purchase is by voice.'),
+     'Link PayPal once, on PayPal’s own page. After that, shopping is by voice.'),
                ('say', 'Find me a hoodie.', ['results']), ('say', 'Add the first one.', ['Which size']),
                ('say', 'Medium.', ['Added']),
                ('say', 'Check out.'),   # the one Readback voiced in full
-               ('narrate', 'Those numbers came from PayPal, not the AI. Nothing moves until the shopper confirms with a PIN.'),
                ('say', 'Confirm.', ['PIN']), ('pin', '1234', ['10 seconds']), ('captured',),
                ('narrate', 'Above a set amount, a trusted contact approves first.'),
                ('say', 'Find a rain jacket.', ['results']), ('say', 'Add it.', ['Added']),
@@ -159,8 +154,7 @@ SCRIPTS = {'ad': AD, 'full': INTRO + ALLERGY + HOODIE + PAY + SCAM + [('say', 'R
         'The Readback uses PayPal’s own numbers.',
         'Confirm + PIN: PayPal captures the payment.',
         'Undo or cancel: PayPal releases the hold.'],
-     'Under the hood, PayPal does the money: it saves the account once, holds each order, and captures only '
-     'after the shopper confirms with their PIN. Undo or cancel, and PayPal releases the hold.'),
+     'PayPal saves the account once, holds every order, and captures only after the PIN. Undo, and PayPal releases it.'),
                ('title', 'The AI suggests. It never holds the keys.', 'github.com/Thomas-Wood-Eng/sightline',
                 'And for ten seconds, they can still undo. The AI suggests. It never holds the keys.'),
            ]}
@@ -311,7 +305,7 @@ def tts(text, who):
         return done, w.getnframes() / w.getframerate()
 
 
-SIGHTLINE_SPEED = 1.15
+SIGHTLINE_SPEED = 1.25
 
 
 # ---------- recording ----------
