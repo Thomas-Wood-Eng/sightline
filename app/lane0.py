@@ -168,7 +168,8 @@ def parse(text):
 def card(p):
     e = p.get('enriched') or {}
     return {'id': p['id'], 'name': p['name'], 'image': '/static/' + p['image'] if p.get('image') else None,
-            'alt': e.get('short') or p['name']}
+            'alt': e.get('short') or p['name'], 'price': f"${p['price']:.2f}",
+            'rating': f"{p['rating']} out of 5 stars, {speech.plural(p['review_count'], 'review')}"}
 
 
 def show_results(s, products, what):

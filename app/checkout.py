@@ -380,3 +380,52 @@ def undo(s):
         led['undone'].add(co['rid'])
     s['co'] = {'state': VOIDED}
     return Reply('Undone. Nothing was charged. PayPal released the hold. Your cart is unchanged.')
+
+
+# ---- the page's PayPal panel: linked status and where the current or last order stands at PayPal (server data) ----
+def _paypal_amount(pay):
+    m = re.search(r'\d[\d,]*\.\d\d US dollars', pay or '')  # 'pay' holds PayPal's own amount
+    return m.group() if m else None
+
+
+def paypal_view(s):
+    co, st = s.get('co', {}), state(s)
+    if co.get('order_id') and co.get('pay'):  # a hold or refund in progress; remembered after it ends
+        s['pp'] = {'id': co['order_id'], 'kind': co.get('kind', 'payment'), 'line': co.get('line'),
+                   'amount': _paypal_amount(co['pay']), 'contact': bool(co.get('approval'))}
+    view = {'linked': bool(vault_id(s)), 'account': 'sandbox buyer account' if vault_id(s) else None, 'order': None}
+    pp = s.get('pp')
+    if not pp:
+        return view
+    o, amount, live = db.get(pp['id']), pp['amount'], co.get('order_id') == pp['id']
+    if pp['kind'] == 'refund':
+        steps = ['Captured by PayPal', 'You confirm and type your PIN', 'Refunded by PayPal']
+        line = o['lines'][pp['line']] if o else None
+        if live and st in HOLDING:
+            at, status = 1, f'A refund of {amount} is waiting for your confirm and PIN.'
+        elif line and line['refunded'] != '0.00':
+            amount = speech.usd(line['refunded'])
+            at, status = 3, f'PayPal refunded {amount} to your PayPal.'
+        else:
+            steps, at, status = ['Captured by PayPal', 'Return cancelled'], 2, 'Return cancelled. Nothing was refunded.'
+    else:
+        steps = ['PayPal linked', 'On hold by PayPal'] + (['Trusted contact approves'] if pp['contact'] else []) + \
+                ['You confirm and type your PIN', 'Undo window', 'Captured by PayPal']
+        if o:
+            amount = speech.usd(o['total'])
+            at, status = len(steps), f'PayPal captured {amount}.'
+        elif live and st == APPROVAL:
+            at, status = 2, f'PayPal is holding {amount}, waiting for your trusted contact to approve.'
+        elif live and st in (CONFIRM, PIN):
+            at = steps.index('You confirm and type your PIN')
+            status = f'PayPal is holding {amount}. Nothing is charged until you confirm and type your PIN.'
+        elif live and st == UNDO:
+            at, status = steps.index('Undo window'), f'PIN accepted. PayPal captures {amount} when the undo window ends.'
+        else:  # voided, cancelled, declined or undone: the hold was released
+            steps, at, status = ['PayPal linked', 'On hold by PayPal', 'Released by PayPal'], 2, \
+                'PayPal released the hold. Nothing was charged.'
+    view['order'] = {'id': pp['id'], 'kind': pp['kind'], 'amount': amount, 'status': status,
+                     'ended': steps[-1] in ('Released by PayPal', 'Return cancelled'),
+                     'steps': [{'label': l, 'state': 'done' if i < at else 'current' if i == at else 'next'}
+                               for i, l in enumerate(steps)]}
+    return view
