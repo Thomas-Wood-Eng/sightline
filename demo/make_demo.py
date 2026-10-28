@@ -116,7 +116,16 @@ def _gemini(text, who, path):
                 break
             try:
                 r = client().models.generate_content(model=model, contents=prompt, config=config)
-                path.write_bytes(r.candidates[0].content.parts[0].inline_data.data)  # already a complete WAV file
+                blob = r.candidates[0].content.parts[0].inline_data
+                if blob.data[:4] == b'RIFF':  # some models return a complete WAV file...
+                    path.write_bytes(blob.data)
+                else:  # ...others raw 16-bit PCM, e.g. "audio/L16;codec=pcm;rate=24000"
+                    rate = int((re.search(r'rate=(\d+)', blob.mime_type or '') or [0, 24000])[1])
+                    with wave.open(str(path), 'wb') as w:
+                        w.setnchannels(1)
+                        w.setsampwidth(2)
+                        w.setframerate(rate)
+                        w.writeframes(blob.data)
                 return True
             except Exception as e:
                 print(f'  {model}: {str(e)[:70]}')
