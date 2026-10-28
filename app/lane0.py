@@ -206,9 +206,13 @@ def resolve(s, tgt, pool=None):
 
 
 def which(s):
-    n = len(_results(s))
-    return Reply('Which one? Say a number from the results, or search first.' if n else
-                 'Search for something first, for example: warm hoodie under 40 dollars.')
+    """Ask which result, naming the ones just heard: "Which one: 1, Fleece-lined pullover hoodie, or 2, ...?"""
+    res, page = _results(s), s.get('page', 0)
+    page = page if page < len(res) else 0
+    if not res:
+        return Reply('Search for something first, for example: warm hoodie under 40 dollars.')
+    opts = [f'{n}, {speech.short_name(p, 3)}' for n, p in enumerate(res[page:page + per(s)], page + 1)]
+    return Reply('Which one: ' + (', '.join(opts[:-1]) + ', or ' + opts[-1] if len(opts) > 1 else opts[0]) + '?')
 
 
 HELP = ['Search by saying what you want, for example: warm hoodie under 40 dollars.',

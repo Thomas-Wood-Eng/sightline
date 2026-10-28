@@ -109,3 +109,13 @@ def test_brief_by_default_details_on_request(client, fake):
         assert words(full) > words(brief) and any(l.startswith('Listing says: size') for l in full['lines']), ask
     client.post('/api/settings', json={'verbosity': 'normal'})
     assert any(l.startswith('Common question') for l in t(client, 'details')['lines'])  # normal -> detailed
+
+
+# ---- issue 6: "add it" after a search names the choices; with one result it just adds ----
+def test_add_it_after_search(client, fake):
+    setup(client)
+    t(client, 'anything under 100')  # several results
+    q = t(client, 'add it')['say']
+    assert q.startswith('Which one: 1, ') and ', or 3, ' in q and q.endswith('?') and len(q.split()) <= 20, q
+    t(client, 'travel mug')  # exactly one result, no sizes
+    assert t(client, 'add it')['say'].startswith('Added: Insulated travel mug')
