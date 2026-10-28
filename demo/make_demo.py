@@ -198,11 +198,17 @@ def tts(text, who):
     key = hashlib.sha1(f'{who}|{text}'.encode()).hexdigest()[:16]
     orp, gem, kok = TTS / f'{key}.orpheus.wav', TTS / f'{key}.wav', TTS / f'{key}.kokoro.wav'
     local_only = os.environ.get('DEMO_TTS') == 'kokoro'  # test renders: no quota spent, hosted cache untouched
-    path = None if local_only else next((p for p in (orp, gem) if p.exists()), None)
-    if path is None and not local_only and _orpheus(text, who, orp):
-        path = orp
-    if path is None and not local_only and who != 'sightline' and len(_spent) < len(GEMINI_TTS) and _gemini(text, who, gem):
-        path = gem
+    path = None
+    if not local_only:
+        # Orpheus beats a cached Gemini clip, so adding GROQ_API_KEY later upgrades the voices on the next render
+        if orp.exists() or _orpheus(text, who, orp):
+            path = orp
+        elif gem.exists():
+            path = gem
+        # Gemini's 10 clips/day per model only covers the narrator; the shopper stays on one engine (Kokoro)
+        # so a role never switches voice halfway through when the quota runs out
+        elif who == 'narrator' and len(_spent) < len(GEMINI_TTS) and _gemini(text, who, gem):
+            path = gem
     if path is None:
         if not kok.exists():
             _kokoro_tts(text, who, kok)
