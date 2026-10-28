@@ -362,8 +362,17 @@ def _orpheus(text, who, path):
     return True
 
 
+def spoken(text):
+    """Money the way people say it: TTS engines read "$52.00" as "dollar fifty-two point zero zero". Speech only;
+    captions keep the app's exact words."""
+    money = lambda m: f"{int(m[1])} dollars" + ('' if m[2] == '00' else f" {int(m[2])}")
+    text = re.sub(r'\$(\d+)\.(\d\d)', money, text)
+    return re.sub(r'(\d+)\.(\d\d) US dollars', money, text)
+
+
 def tts(text, who):
     """-> (cached wav path, seconds). Orpheus first, then Gemini (narrator/shopper), then local Kokoro."""
+    text = spoken(text)
     TTS.mkdir(parents=True, exist_ok=True)
     key = hashlib.sha1(f'{who}|{text}'.encode()).hexdigest()[:16]
     orp, gem, kok = TTS / f'{key}.orpheus.wav', TTS / f'{key}.wav', TTS / f'{key}.kokoro.wav'
