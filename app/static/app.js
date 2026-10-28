@@ -44,7 +44,9 @@ function append(you, say, lines = []) {
   if (you) {
     const p = document.createElement('p'); p.className = 'you'; p.textContent = 'You: ' + you; turn.append(p);
   }
-  const s = document.createElement('p'); s.className = 'say'; s.textContent = say; turn.append(s);
+  const reply = document.createElement('div'); reply.className = 'reply';
+  if (lines.some((l) => /^Total:/.test(l))) reply.classList.add('readback');  // PayPal's numbers, shown as a receipt
+  const s = document.createElement('p'); s.className = 'say'; s.textContent = say; reply.append(s);
   lines.forEach((l) => {
     const p = document.createElement('p');
     p.className = /^Total:/.test(l) ? 'line total' : 'line';
@@ -54,8 +56,9 @@ function append(you, say, lines = []) {
       a.textContent = 'Open the approval page (opens in a new tab)';
       p.append('Approval link: ', a);
     } else p.textContent = l;
-    turn.append(p);
+    reply.append(p);
   });
+  turn.append(reply);
   log.append(turn);  // one insertion per reply
   log.scrollTop = turn.offsetTop;  // the start of the newest reply, inside the log's own scroll; the page stays put
   speak([say, ...lines].join(' '));
@@ -77,10 +80,34 @@ function showItem(f) {
   if (!f) return;
   const img = $('item-img');
   $('item-name').textContent = f.name;
+  $('item-price').textContent = f.price || ''; $('item-rating').textContent = f.rating || '';
   if (f.image) { img.hidden = false; img.alt = f.alt; img.src = f.image; } else img.hidden = true;
   $('item').hidden = false; $('no-item').hidden = true;
 }
 $('item-img').addEventListener('error', (e) => { e.target.hidden = true; });
+
+// the PayPal panel: every word and number comes from the server (PayPal's order); not live, the reply says it already
+const MARK = { done: 'Done: ', current: 'Now: ', next: 'Next: ' };
+function showPayPal(p) {
+  if (!p) return;
+  $('link-status').textContent = p.linked ? `PayPal linked: ${p.account}` : 'Not linked yet.';
+  $('link-status').classList.toggle('linked', p.linked);
+  $('link-btn').textContent = p.linked ? 'Link PayPal again' : 'Link PayPal';
+  const o = p.order;
+  $('pp-order').hidden = !o; $('pp-none').hidden = !!o;
+  if (!o) return;
+  $('pp-title').textContent = o.kind === 'refund' ? 'Your return at PayPal' : 'This order at PayPal';
+  $('pp-amount').textContent = o.amount || ''; $('pp-id').textContent = o.id; $('pp-status').textContent = o.status;
+  $('pp-steps').replaceChildren(...o.steps.map((st, i) => {
+    const li = document.createElement('li'), sr = document.createElement('span');
+    const ended = o.ended && i === o.steps.length - 1;
+    li.className = ended ? 'ended' : st.state;
+    sr.className = 'sr'; sr.textContent = ended ? 'Ended: ' : MARK[st.state];
+    li.append(sr, st.label);
+    if (st.state === 'current') li.setAttribute('aria-current', 'step');
+    return li;
+  }));
+}
 
 let finalizeTimer = null, tick = null, paying = false;
 const countdown = (t) => { $('countdown').textContent = t; };
@@ -134,7 +161,7 @@ async function turn(url, body, youText) {
     const r = await post(url, body);
     payStatus(''); $('pay-progress').textContent = '';
     append(youText, r.say, r.lines);
-    showItem(r.focus);
+    showItem(r.focus); showPayPal(r.paypal);
     setState(r.state, r.due_in, r.pay, r.say);
     if (r.action === 'link') location.assign('/link/start');
   } catch (e) {
@@ -227,8 +254,7 @@ function fillSettings(s) {
   f.contact_name.value = c.name; f.contact_email.value = c.email; f.approval_threshold.value = c.threshold;
   document.documentElement.classList.toggle('large', p.large_text);
   f.per_order_cap.value = s.per_order_cap; f.daily_cap.value = s.daily_cap;
-  $('link-status').textContent = s.linked ? 'PayPal is linked.' : 'PayPal is not linked yet.';
-  $('link-btn').textContent = s.linked ? 'Link PayPal again' : 'Link PayPal';
+  showPayPal(s.paypal);
 }
 
 $('setup-form').addEventListener('submit', async (e) => {

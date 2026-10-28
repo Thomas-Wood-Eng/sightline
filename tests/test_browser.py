@@ -150,6 +150,7 @@ def test_message_box_stays_put_as_log_grows(browser, server, fake, width, height
 # ---- bug 11: the approval link says it opens a new tab, instead of showing a long URL ----
 def test_approval_link_says_new_tab(browser, server, fake):
     page = open_app(browser, server)
+    page.click('#settings-more summary')  # settings sit in a closed disclosure
     page.fill('#set-contact-name', 'Alex'); page.fill('#set-contact-email', 'alex@example.com')
     page.fill('#set-threshold', '20'); page.fill('#set-current-pin', '1234'); page.click('text=Save settings')
     page.wait_for_function("document.getElementById('settings-status').textContent.startsWith('Settings saved: Alex approves')")
@@ -203,6 +204,7 @@ def test_empty_enter_gives_hint(browser, server, fake):
 # ---- screen-reader issue 11: a stale value in the current-PIN field is cleared after an error ----
 def test_settings_error_clears_current_pin(browser, server, fake):
     page = open_app(browser, server)
+    page.click('#settings-more summary')  # settings sit in a closed disclosure
     page.fill('#set-contact-name', 'Alex'); page.fill('#set-contact-email', 'alex@example.com')
     page.fill('#set-threshold', '20'); page.fill('#set-current-pin', '9999'); page.click('text=Save settings')
     page.wait_for_function("document.getElementById('settings-status').textContent.startsWith('Error')")

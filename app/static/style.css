@@ -1,67 +1,229 @@
-/* High contrast, large type, thick focus ring, single column that reflows at 400% zoom. */
-:root { --fg: #111; --bg: #fff; --muted: #3d3d3d; --accent: #0b3fae; --focus: #0b3fae; --line: #555; }
-@media (prefers-color-scheme: dark) {
-  :root { --fg: #f4f4f4; --bg: #121212; --muted: #d0d0d0; --accent: #9ec1ff; --focus: #ffd34d; --line: #aaa; }
+/* Sightline. Navy ink, cool paper, harbour teal for actions, marigold for the "sight line" (horizon, focus halo, current step).
+   One column that reflows at 400% zoom; two columns on wide screens. Large text, dark mode and forced colours supported. */
+:root {
+  --ink: #13233a; --paper: #eef2f5; --surface: #fff; --text: #13233a; --muted: #4a5b70;
+  --teal: #0a6b6b; --on-teal: #fff; --teal-soft: #e2f1ef; --marigold: #f2b300;
+  --rule: #d5dde5; --field: #5b6b80; --step: #8193a8;
+  --focus: #13233a; --halo: #f2b300; --danger: #a40000;
+  --head-bg: #13233a; --head-text: #fff; --head-muted: #c9d5e2;
+  --shadow: 0 1px 2px rgb(19 35 58 / 6%), 0 12px 32px -16px rgb(19 35 58 / 22%);
+  --r-card: 1.25rem; --r-bubble: 1rem; --r-field: 0.6rem;
+  --font: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --display: "Segoe UI Variable Display", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light dark;
 }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0f1a28; --surface: #172537; --text: #e8eef4; --muted: #a9b8c8;
+    --teal: #5fd4c8; --on-teal: #0f1a28; --teal-soft: #1d3a44; --rule: #2c3e55; --field: #7d90a8; --step: #7d90a8;
+    --focus: #f2b300; --halo: #0f1a28; --danger: #ff8a80;
+    --head-bg: #0a1320; --head-muted: #b7c5d4;
+    --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 12px 32px -16px rgb(0 0 0 / 60%);
+  }
+}
+
 * { box-sizing: border-box; }
 html { font-size: 112.5%; }
-body { margin: 0; color: var(--fg); background: var(--bg); font: 1rem/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
-header, main, footer { max-width: 46rem; margin: 0 auto; padding: 0 1rem; }
-h1 { font-size: 2rem; margin: 1rem 0 0.25rem; }
-h2 { font-size: 1.4rem; margin: 2rem 0 0.5rem; border-bottom: 2px solid var(--line); }
-h3 { font-size: 1.2rem; margin: 1rem 0 0.5rem; }
-a { color: var(--accent); }
-.sandbox, .hint { color: var(--muted); }
-.hint { margin: 0.25rem 0; }
-
-:focus-visible { outline: 4px solid var(--focus); outline-offset: 3px; box-shadow: 0 0 0 7px var(--bg); }
-.skip { position: absolute; left: -999px; top: 0; background: var(--bg); padding: 0.5rem 1rem; z-index: 10; }
-.skip:focus { left: 1rem; }
-
-label { display: block; margin: 0.75rem 0 0.25rem; font-weight: 600; }
-fieldset label { display: inline-flex; gap: 0.4rem; align-items: center; margin-right: 1.5rem; font-weight: 400; }
-fieldset { border: 2px solid var(--line); border-radius: 6px; margin: 0.5rem 0; }
-legend { font-weight: 600; padding: 0 0.3rem; }
-input:not([type=radio]) { font: inherit; padding: 0.5rem; border: 2px solid var(--line); border-radius: 4px;
-  background: var(--bg); color: var(--fg); width: 100%; max-width: 22rem; min-height: 2.75rem; }
-input[type=radio], input[type=checkbox] { width: 1.3rem; height: 1.3rem; }
-label.check { display: flex; gap: 0.5rem; align-items: center; font-weight: 400; }
 html.large { font-size: 150%; }
-html.large #item-img { max-height: 36rem; }
-button { font: inherit; font-weight: 600; min-height: 2.75rem; padding: 0.4rem 1rem; margin: 0.5rem 0.5rem 0.5rem 0;
-  color: var(--bg); background: var(--accent); border: 2px solid var(--accent); border-radius: 4px; cursor: pointer; }
-button[aria-pressed=true] { background: #a40000; border-color: #a40000; color: #fff; }
+body { margin: 0; color: var(--text); background: var(--paper); font: 1rem/1.55 var(--font); }
+.wrap { max-width: 90rem; margin: 0 auto; padding: 0 1rem; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.2; letter-spacing: -0.01em; }
+h2 { font-size: 1.3rem; margin: 0 0 0.75rem; }
+h3 { font-size: 1.1rem; margin: 1rem 0 0.5rem; }
+a { color: var(--teal); text-underline-offset: 0.2em; }
+.hint, .empty { color: var(--muted); }
+.hint { margin: 0.25rem 0; }
+.empty { margin: 0; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+[hidden] { display: none !important; }
+
+:focus-visible { outline: 4px solid var(--focus); outline-offset: 3px; box-shadow: 0 0 0 7px var(--halo); }
+.skip { position: absolute; left: -999px; top: 0; background: var(--surface); color: var(--teal); padding: 0.5rem 1rem; z-index: 10; }
+.skip:focus { left: 1rem; top: 0.5rem; }
+
+/* ---- header: the wordmark sits on a marigold horizon line ---- */
+.masthead { background: var(--head-bg); color: var(--head-text); border-bottom: 5px solid var(--marigold); }
+.brand { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; padding-top: 1.1rem; padding-bottom: 1.1rem; }
+.mark { width: 3.2rem; height: 3.2rem; flex: none; color: var(--head-text); }
+.brand-text { flex: 1 1 20rem; min-width: 0; }
+h1 { font-size: 2.1rem; font-weight: 700; margin: 0; letter-spacing: -0.02em; }
+.tagline { margin: 0.1rem 0 0; color: var(--head-muted); max-width: 62rem; }
+.sandbox { margin: 0; padding: 0.3rem 0.9rem; border: 2px solid var(--marigold); border-radius: 999px; font-weight: 600; }
+
+/* ---- layout ---- */
+.app { padding-top: 1.5rem; padding-bottom: 1rem; }
+.card { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r-card); box-shadow: var(--shadow);
+  padding: 1.25rem 1.25rem 1.4rem; margin-bottom: 1.25rem; min-width: 0; }
+.side, .more { min-width: 0; }
+
+/* ---- forms ---- */
+label { display: block; margin: 0.9rem 0 0.3rem; font-weight: 600; }
+fieldset { border: 1px solid var(--rule); border-radius: var(--r-field); margin: 0.75rem 0; padding: 0.5rem 1rem 0.75rem; }
+legend { font-weight: 600; padding: 0 0.3rem; }
+fieldset label { display: inline-flex; gap: 0.5rem; align-items: center; margin: 0.4rem 1.5rem 0 0; font-weight: 400; }
+label.check { display: flex; gap: 0.6rem; align-items: center; font-weight: 400; }
+input:not([type=radio]):not([type=checkbox]) { font: inherit; padding: 0.55rem 0.75rem; border: 2px solid var(--field);
+  border-radius: var(--r-field); background: var(--surface); color: var(--text); width: 100%; max-width: 24rem; min-height: 2.9rem; }
+input[type=radio], input[type=checkbox] { width: 1.3rem; height: 1.3rem; accent-color: var(--teal); flex: none; }
+button { font: inherit; font-weight: 600; min-height: 2.9rem; padding: 0.45rem 1.2rem; margin: 0.5rem 0.5rem 0.5rem 0;
+  color: var(--on-teal); background: var(--teal); border: 2px solid var(--teal); border-radius: 0.75rem; cursor: pointer; }
+button:hover { filter: brightness(1.08); }
+#pin-cancel { background: var(--surface); color: var(--teal); }
 .row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+form > button[type=submit] { display: block; justify-self: start; margin-top: 1.25rem; }
 .row input { flex: 1 1 12rem; }
 .row button { margin: 0; }
-
-/* the log scrolls inside its own box, so the message and PIN boxes stay near the top however long the talk gets */
-#log { border: 2px solid var(--line); border-radius: 6px; padding: 0.5rem 1rem; min-height: 6rem;
-  max-height: max(8rem, 45vh); overflow-y: auto; position: relative; }
-.turn { border-bottom: 1px solid var(--line); padding: 0.5rem 0; }
-.turn:last-child { border-bottom: 0; }
-.turn p { margin: 0.2rem 0; overflow-wrap: anywhere; }
-.you { color: var(--muted); font-style: italic; }
-.say { font-weight: 600; }
-.total { font-size: 1.6rem; font-weight: 700; }
 .status:empty { display: none; }
 .status { font-weight: 600; }
 
-#pin-form, .pay-box { border: 3px solid var(--accent); border-radius: 6px; padding: 0 1rem 1rem; margin-top: 1rem; }
-.pay-amount { font-size: 1.3rem; font-weight: 700; }
-.pay-amount:empty, .countdown:empty { display: none; }
-.countdown { font-size: 1.6rem; font-weight: 700; margin: 0.5rem 0; }
-.pay-box .pay-amount { margin-top: 1rem; }
-figure { margin: 0; }
-#item-img { max-width: 100%; height: auto; max-height: 20rem; border: 1px solid var(--line); }
-figcaption { font-weight: 600; margin-top: 0.3rem; }
-footer { margin-top: 2rem; padding-bottom: 2rem; color: var(--muted); }
-[hidden] { display: none !important; }
+/* ---- conversation: a chat window with the composer docked under it ---- */
+/* the log scrolls inside its own box, so the message and PIN boxes stay near the top however long the talk gets */
+#log { border: 1px solid var(--rule); border-radius: var(--r-bubble); background: var(--paper); padding: 1rem;
+  min-height: 6rem; max-height: max(8rem, 45vh); overflow-y: auto; position: relative; }
+.turn { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.1rem; }
+.turn:last-child { margin-bottom: 0; }
+.turn p { margin: 0; overflow-wrap: anywhere; }
+.you { align-self: flex-end; max-width: min(85%, 40rem); background: var(--teal-soft); color: var(--text);
+  border: 1px solid transparent; border-radius: var(--r-bubble) var(--r-bubble) 0.25rem var(--r-bubble); padding: 0.5rem 0.9rem; }
+.reply { position: relative; align-self: flex-start; max-width: min(100% - 2.4rem, 46rem); margin-left: 2.4rem; background: var(--surface);
+  border: 1px solid var(--rule); border-radius: 0.25rem var(--r-bubble) var(--r-bubble) var(--r-bubble); padding: 0.7rem 1rem; }
+/* Sightline's small horizon mark beside each reply (decorative: the "You:" prefix and the side tell the turns apart) */
+.reply::before { content: ""; position: absolute; left: -2.4rem; top: 0.1rem; width: 1.8rem; height: 1.8rem; border-radius: 50%;
+  background: linear-gradient(var(--ink) 0 56%, var(--marigold) 56% 70%, var(--ink) 70%); border: 2px solid var(--step); }
+.say { font-weight: 600; }
+.line { margin-top: 0.25rem !important; }
 
-/* Wide screens: keep the current product beside the conversation. Narrow or zoomed screens keep one column (WCAG 1.4.10 reflow). */
-@media (min-width: 72rem) {
-  header, footer { max-width: 74rem; }
-  main { max-width: 74rem; display: grid; grid-template-columns: minmax(0, 46rem) minmax(0, 24rem); column-gap: 2rem; align-items: start; }
-  main > section { grid-column: 1; }
-  main > section[aria-labelledby="item-h"] { grid-column: 2; grid-row: 1 / span 9; position: sticky; top: 1rem; }
+/* the Readback: PayPal's numbers set as a receipt */
+.readback { border-top: 5px solid var(--marigold); padding: 0.9rem 1.2rem 1rem; }
+.readback .say { margin-bottom: 0.5rem; }
+.readback .line { padding: 0.35rem 0; border-bottom: 1px dashed var(--field); margin: 0 !important; font-variant-numeric: tabular-nums; }
+.readback .line:last-child { border-bottom: 0; }
+.readback .total { font-family: var(--display); font-size: 1.75rem; font-weight: 700; letter-spacing: -0.01em;
+  border-top: 2px solid var(--text); border-bottom: 2px solid var(--text); padding: 0.4rem 0; margin: 0.3rem 0 !important; }
+
+.composer { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 0 1rem; margin-top: 0.5rem; }
+#ask { flex: 1 1 18rem; min-width: 0; }
+#ask input { max-width: none; }
+#talk { margin-top: 2.6rem; display: inline-flex; align-items: center; gap: 0.5rem; background: var(--surface); color: var(--teal); }
+#talk::before { content: ""; width: 0.75rem; height: 0.75rem; border-radius: 50%; background: currentColor; flex: none; }
+#talk[aria-pressed=true] { background: var(--danger); border-color: var(--danger); color: var(--surface); }
+
+/* payment boxes: the PIN step and the undo window */
+.pay-box { border: 3px solid var(--teal); border-radius: var(--r-card); padding: 0.25rem 1.25rem 1.1rem; margin-top: 1rem;
+  background: var(--surface); }
+.pay-box h3 { margin-top: 0.9rem; }
+.pay-amount { font-family: var(--display); font-size: 1.45rem; font-weight: 700; margin: 0.5rem 0; font-variant-numeric: tabular-nums; }
+.pay-amount:empty, .countdown:empty { display: none; }
+.pay-box .pay-amount { margin-top: 1rem; }
+.countdown { font-family: var(--display); font-size: 1.75rem; font-weight: 700; margin: 0.5rem 0; font-variant-numeric: tabular-nums; }
+.pay-status { margin-top: 0.75rem; }
+
+/* ---- current item ---- */
+figure { margin: 0; display: grid; grid-template-columns: minmax(0, 9rem) minmax(0, 1fr); gap: 1rem; align-items: start; }
+#item-img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: var(--r-bubble);
+  background: var(--paper); grid-column: 1; }
+figcaption { grid-column: 2; }
+#item-img[hidden] + figcaption { grid-column: 1 / -1; }
+figcaption > span { display: block; }
+.name { font-family: var(--display); font-size: 1.15rem; font-weight: 700; line-height: 1.25; }
+.price { font-family: var(--display); font-size: 1.9rem; font-weight: 700; margin-top: 0.3rem; font-variant-numeric: tabular-nums; }
+.price:empty, .rating:empty { display: none !important; }
+.rating { color: var(--muted); font-size: 0.95rem; }
+/* narrow or large text: the photo on top, full width and uncropped */
+@media (max-width: 30rem) { figure { grid-template-columns: minmax(0, 1fr); } figcaption { grid-column: 1; } }
+html.large figure { grid-template-columns: minmax(0, 1fr); }
+html.large figcaption { grid-column: 1; }
+html.large #item-img { aspect-ratio: auto; max-height: 36rem; object-fit: contain; }
+
+/* ---- PayPal panel ---- */
+.pp { border-top: 5px solid var(--teal); }
+.pp-link { margin: 0; font-weight: 600; display: flex; gap: 0.5rem; align-items: baseline; }
+.pp-link.linked::before { content: ""; flex: none; width: 0.65rem; height: 0.65rem; border-radius: 50%; background: var(--teal); }
+.pp-relink { margin: 0.25rem 0 0.9rem; }
+#pp-order h3 { margin: 0 0 0.5rem; font-size: 1rem; color: var(--muted); }
+.pp-facts { margin: 0 0 0.75rem; display: grid; gap: 0.4rem; }
+.pp-facts dt { font-size: 0.9rem; color: var(--muted); }
+.pp-facts dd { margin: 0; }
+.pp-amount { font-family: var(--display); font-size: 1.75rem; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.pp-id { font-weight: 600; letter-spacing: 0.02em; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+.pp-status { margin: 0.25rem 0 0; font-weight: 600; }
+/* steps: shape, not just colour, says done (tick), now (filled ring), next (hollow), ended (cross) */
+.steps { list-style: none; margin: 0; padding: 0; }
+.steps li { position: relative; padding: 0.1rem 0 0.55rem 2.1rem; color: var(--muted); }
+.steps li::before { content: ""; position: absolute; left: 0; top: 0.2rem; width: 1.3rem; height: 1.3rem; border-radius: 50%;
+  border: 2px solid var(--step); background: var(--surface); display: grid; place-items: center; line-height: 1; font-weight: 700; }
+.steps li:not(:last-child)::after { content: ""; position: absolute; left: calc(0.65rem - 1px); top: 1.5rem; bottom: -0.2rem;
+  border-left: 2px solid var(--step); }
+.steps li.done { color: var(--text); }
+.steps li.done::before { content: "\2713"; font-size: 0.8rem; color: var(--on-teal); background: var(--teal); border-color: var(--teal); }
+.steps li.done:not(:last-child)::after { border-left-color: var(--teal); }
+.steps li.current, .steps li.ended { color: var(--text); font-weight: 700; }
+.steps li.current::before { background: var(--marigold); border: 4px solid var(--text); }
+.steps li.ended::before { content: "\2715"; font-size: 0.75rem; color: var(--text); border-color: var(--text); }
+.how { margin-top: 1rem; border-top: 1px solid var(--rule); padding-top: 0.5rem; }
+.how ol { padding-left: 1.4rem; margin: 0.5rem 0 0; }
+.how li { margin-bottom: 0.4rem; }
+
+/* ---- disclosures ---- */
+summary { cursor: pointer; font-weight: 600; color: var(--teal); padding: 0.4rem 0; min-height: 2.75rem;
+  display: flex; align-items: center; gap: 0.5rem; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+summary::before { content: ""; flex: none; width: 0.55rem; height: 0.55rem; border-right: 3px solid currentColor;
+  border-bottom: 3px solid currentColor; transform: rotate(-45deg); margin: 0 0.3rem 0 0.1rem; }
+details[open] > summary::before { transform: rotate(45deg); }
+@media (prefers-reduced-motion: no-preference) { summary::before { transition: transform 0.15s; } }
+
+/* ---- the quieter sections ---- */
+.note { font-size: 0.95rem; }
+.note h2 { font-size: 1.1rem; }
+.note p { margin: 0; }
+.note ul { margin: 0; padding-left: 1.2rem; }
+.note li { margin-bottom: 0.5rem; }
+kbd { font: inherit; font-weight: 600; padding: 0.05rem 0.4rem; border: 1px solid var(--field); border-bottom-width: 3px;
+  border-radius: 0.4rem; background: var(--paper); white-space: nowrap; }
+footer { padding-bottom: 2rem; color: var(--muted); }
+footer p { margin: 0; }
+
+/* ---- small screens and 400% zoom: give the words the width (the avatar is decorative, "You:" still marks your turns) ---- */
+@media (max-width: 40rem) {
+  .wrap { padding: 0 0.5rem; }
+  .card { padding: 0.9rem 0.75rem 1rem; border-radius: var(--r-bubble); }
+  #log { padding: 0.5rem; }
+  .reply { margin-left: 0; max-width: 100%; padding: 0.6rem 0.75rem; }
+  .reply::before { display: none; }
+  .you { max-width: 100%; }
+  .pay-box { padding: 0.25rem 0.75rem 0.9rem; }
+  .mark { width: 2.4rem; height: 2.4rem; }
 }
+
+/* ---- wide screens: conversation beside the item and PayPal; narrow or zoomed screens keep one column (WCAG 1.4.10) ---- */
+@media (min-width: 64rem) {
+  .app { display: grid; grid-template-columns: minmax(0, 1fr) minmax(20rem, 27rem); column-gap: 1.5rem;
+    grid-template-areas: "setup side" "talk side" "more more"; grid-template-rows: auto 1fr auto; align-items: start; }
+  .setup { grid-area: setup; }
+  .talk { grid-area: talk; }
+  .side { grid-area: side; }
+  .more { grid-area: more; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 1.25rem; align-items: start; }
+  .more .settings { grid-column: 1 / -1; }
+  #settings-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; align-items: start; }
+  #settings-form > * { grid-column: 1 / -1; }
+  #settings-form > fieldset { grid-column: auto; }
+  .talk #log { height: clamp(14rem, 42vh, 40rem); max-height: none; }
+  html.large .app, html.large .more, html.large #settings-form { display: block; }
+}
+
+/* ---- Windows high contrast: system colours, every boundary drawn ---- */
+@media (forced-colors: active) {
+  .card, .reply, .you, #log, .pay-box, .sandbox, kbd { border: 2px solid CanvasText; }
+  .reply::before, #talk::before, .pp-link.linked::before { forced-color-adjust: none; background: CanvasText; }
+  .steps li::before, .steps li::after { border-color: CanvasText; }
+  .steps li.done::before { forced-color-adjust: none; background: CanvasText; color: Canvas; }
+  .steps li.current::before { forced-color-adjust: none; background: Highlight; border-color: CanvasText; }
+  :focus-visible { outline-color: Highlight; box-shadow: none; }
+  .masthead { border-bottom-color: CanvasText; }
+  .tagline { color: CanvasText; }
+}
+
+/* the trusted-contact approval page (served by the app) shares this sheet */
+body > main:not(.app) { max-width: 46rem; margin: 2rem auto; padding: 1.5rem; background: var(--surface);
+  border-radius: var(--r-card); box-shadow: var(--shadow); }

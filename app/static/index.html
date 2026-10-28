@@ -6,20 +6,29 @@
 <title>Sightline, accessible shopping</title>
 <link rel="stylesheet" href="/static/style.css">
 <link rel="manifest" href="/static/manifest.webmanifest">
-<meta name="theme-color" content="#0b3fae">
+<meta name="theme-color" content="#13233a">
 <link rel="apple-touch-icon" href="/static/icon-192.png">
 <script src="/static/app.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#message">Skip to the message box</a>
-<header>
-  <h1>Sightline</h1>
-  <p>Shop by voice or keyboard. You make every decision. PayPal holds the money until you confirm and type your PIN.</p>
-  <p class="sandbox">Sandbox demo: fake shop, fake money.</p>
+<header class="masthead">
+  <div class="wrap brand">
+    <svg class="mark" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <path d="M8 30a16 16 0 0 1 32 0" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="24" cy="30" r="6" fill="#f2b300"/>
+      <path d="M2 30h44" stroke="#f2b300" stroke-width="4" stroke-linecap="round"/>
+    </svg>
+    <div class="brand-text">
+      <h1>Sightline</h1>
+      <p class="tagline">Shop by voice or keyboard. You make every decision. PayPal holds the money until you confirm and type your PIN.</p>
+    </div>
+    <p class="sandbox">Sandbox demo: fake shop, fake money.</p>
+  </div>
 </header>
 
-<main>
-  <section id="setup" aria-labelledby="setup-h" hidden>
+<main class="app wrap">
+  <section id="setup" class="card setup" aria-labelledby="setup-h" hidden>
     <h2 id="setup-h">Setup</h2>
     <form id="setup-form" novalidate>
       <fieldset>
@@ -42,9 +51,10 @@
     </form>
   </section>
 
-  <section aria-labelledby="talk-h">
+  <section class="card talk" aria-labelledby="talk-h">
     <h2 id="talk-h">Conversation</h2>
     <div id="log" role="log" aria-live="polite" aria-relevant="additions" aria-labelledby="talk-h" tabindex="0"></div>
+    <div class="composer">
     <form id="ask">
       <label for="message">Message</label>
       <div class="row">
@@ -54,9 +64,10 @@
       <p class="hint" id="message-hint">For example: warm hoodie under 40 dollars. Say or type help for all commands.</p>
     </form>
     <button id="talk" type="button" aria-pressed="false" aria-keyshortcuts="Alt+Shift+M">Talk (Alt+Shift+M)</button>
+    </div>
     <p id="voice-status" role="status" class="status"></p>
 
-    <form id="pin-form" hidden>
+    <form id="pin-form" class="pay-box" hidden>
       <h3>Approve the payment</h3>
       <p id="pin-amount" class="pay-amount"></p>
       <label for="pin">PIN, 4 digits</label>
@@ -75,24 +86,53 @@
     <p id="pay-progress" class="status pay-status"></p>
   </section>
 
-  <section aria-labelledby="item-h">
+  <div class="side">
+  <section class="card item-card" aria-labelledby="item-h">
     <h2 id="item-h">Current item</h2>
-    <p id="no-item">No item selected yet.</p>
-    <figure id="item" hidden>
-      <img id="item-img" alt="">
-      <figcaption id="item-name"></figcaption>
-    </figure>
+    <p id="no-item" class="empty">No item selected yet. Search for something, and the item you pick shows here.</p>
+    <div id="item" hidden>
+      <figure>
+        <img id="item-img" alt="">
+        <figcaption><span id="item-name" class="name"></span> <span id="item-price" class="price"></span>
+          <span id="item-rating" class="rating"></span></figcaption>
+      </figure>
+    </div>
   </section>
 
-  <section aria-labelledby="paypal-h">
+  <!-- not a live region: every change here is also said by the reply, so it is never announced twice -->
+  <section id="paypal" class="card pp" aria-labelledby="paypal-h">
     <h2 id="paypal-h">PayPal</h2>
-    <p id="link-status">Checking whether PayPal is linked.</p>
-    <p><a id="link-btn" href="/link/start">Link PayPal</a></p>
-    <p>Linking opens PayPal's own login page. PayPal's login is your security boundary; we never see your password.</p>
+    <p id="link-status" class="pp-link">Checking whether PayPal is linked.</p>
+    <p class="pp-relink"><a id="link-btn" href="/link/start">Link PayPal</a></p>
+    <p id="pp-none" class="empty">No order yet. When you check out, PayPal's order shows here.</p>
+    <div id="pp-order" hidden>
+      <h3 id="pp-title">This order at PayPal</h3>
+      <dl class="pp-facts">
+        <div><dt>Amount from PayPal</dt><dd id="pp-amount" class="pp-amount"></dd></div>
+        <div><dt>PayPal order ID</dt><dd id="pp-id" class="pp-id"></dd></div>
+      </dl>
+      <ol id="pp-steps" class="steps" aria-labelledby="pp-title"></ol>
+      <p id="pp-status" class="pp-status"></p>
+    </div>
+    <details class="how">
+      <summary>How Sightline uses PayPal</summary>
+      <ol>
+        <li>You link PayPal once, on PayPal's own login page. We never see your password; PayPal saves your wallet for Sightline.</li>
+        <li>When you check out, PayPal puts the money on hold. Nothing is charged yet.</li>
+        <li>The Readback reads PayPal's own numbers: items, shipping, tax and total.</li>
+        <li>You say confirm, then type your PIN. You have 10 seconds to undo.</li>
+        <li>Only then does PayPal take the payment. Cancel or undo, and PayPal releases the hold.</li>
+        <li>Returns are refunded by PayPal, after the same Readback, confirm and PIN.</li>
+      </ol>
+    </details>
   </section>
+  </div>
 
-  <section aria-labelledby="settings-h">
+  <div class="more">
+  <section id="settings" class="card settings" aria-labelledby="settings-h">
     <h2 id="settings-h">Settings</h2>
+    <details id="settings-more">
+    <summary>Voice, detail, spending caps, PIN and trusted contact</summary>
     <form id="settings-form" novalidate>
       <fieldset>
         <legend>Who reads replies aloud?</legend>
@@ -132,22 +172,23 @@
       <button type="submit">Save settings</button>
       <p id="settings-status" role="status" class="status"></p>
     </form>
+    </details>
   </section>
 
-  <section aria-labelledby="keys-h">
+  <section class="card note" aria-labelledby="keys-h">
     <h2 id="keys-h">Keyboard shortcuts</h2>
     <ul>
-      <li>Alt+Shift+M: talk (push to talk). Press again to stop listening.</li>
-      <li>Alt+Shift+R: repeat the last reply.</li>
+      <li><kbd>Alt+Shift+M</kbd>: talk (push to talk). Press again to stop listening.</li>
+      <li><kbd>Alt+Shift+R</kbd>: repeat the last reply.</li>
       <li>Type or say help for every command. A few: "add it in medium", "what do people say about it",
         "save it for later", "it's a gift", "my orders", "where is my order", "how much did I spend this week",
         "return the hoodie", "order it again".</li>
-      <li>Escape: stop the app voice or listening. With a payment on hold, the same press also cancels it.
+      <li><kbd>Escape</kbd>: stop the app voice or listening. With a payment on hold, the same press also cancels it.
         In the 10 seconds after your PIN, one press of Escape undoes the payment.</li>
     </ul>
   </section>
 
-  <section aria-labelledby="about-h">
+  <section class="card note" aria-labelledby="about-h">
     <h2 id="about-h">About this demo</h2>
     <p>The shop, its sellers and the money are fake (PayPal sandbox). Reviews are fictional demo reviews written with
       Gemini for this prototype, not from real customers; their counts and averages come from that demo data.
@@ -155,12 +196,13 @@
       so you can hear the warnings. Trusted-contact approval links are shown in the conversation instead of emailed.</p>
   </section>
 
-  <section aria-labelledby="privacy-h">
+  <section class="card note" aria-labelledby="privacy-h">
     <h2 id="privacy-h">Privacy</h2>
     <p>The Talk button uses your browser's speech recognition. In Chrome, that sends your voice to Google to turn it into text.
       Typing works just as well and sends nothing to Google. We keep no recordings, no photos and no transcripts.</p>
   </section>
+  </div>
 </main>
-<footer><p>Sightline is a PayPal AI Hackathon prototype. Payments use the PayPal sandbox.</p></footer>
+<footer class="wrap"><p>Sightline is a PayPal AI Hackathon prototype. Payments use the PayPal sandbox.</p></footer>
 </body>
 </html>
