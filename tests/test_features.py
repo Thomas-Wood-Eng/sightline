@@ -151,8 +151,8 @@ def to_approval(client):
 def test_approval_then_confirm_and_pin(client, fake):
     r, link = to_approval(client)
     text = ' '.join(r['lines'])
-    assert r['state'] == 'awaiting_approval' and 'Sent to Alex for approval' in text
-    assert 'over your approval amount of 20.00 US dollars' in text and 'instead of emailed' in text
+    assert r['state'] == 'awaiting_approval' and 'Approval link ready for Alex.' in text and 'Sent to' not in text
+    assert 'over your approval amount of 20.00 US dollars' in text and 'This prototype does not send it' in text
     assert 'Still waiting for Alex' in t(client, 'confirm')['say']
     assert client.post('/api/pin', json={'pin': '1234'}).json()['state'] == 'awaiting_approval'
     page = client.get(link).text
@@ -230,7 +230,9 @@ def test_review_summary_numbers_from_data():
             'summary': {'pros': ['keeps tea hot', 'lasts 10 years'], 'cons': ['heavy', 'costs $5 too much'],
                         'complaint': 'lid leaks'}}
     say, lines = speech.reviews(p, data)
-    assert say == 'Reviews say, from 3 demo reviews averaging 3.7 stars:'
+    assert say == 'Summary of 3 sample reviews written for this demo, averaging 3.7 stars:'
+    assert speech.reviews({'name': 'Mug', 'rating': 4.3, 'review_count': 204}, data)[0].startswith(
+        'Rated 4.3 stars from 204 reviews, as listed. Summary of 3 sample reviews')
     assert lines == ['People like: keeps tea hot.', 'Downsides: heavy.', 'Most repeated complaint: lid leaks.']
     assert speech.reviews(p, None)[0] == 'There are no reviews for Mug yet.'
 

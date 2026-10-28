@@ -159,7 +159,10 @@ def reviews(p, data):
         lines.append(f"Downsides: {'; '.join(clean(sm['cons']))}.")
     if clean([sm.get('complaint')]):
         lines.append(f"Most repeated complaint: {clean([sm['complaint']])[0]}.")
-    return f"Reviews say, from {plural(len(stars), 'demo review')} averaging {avg} stars:", lines
+    listed = (f"Rated {p['rating']} stars from {plural(p['review_count'], 'review')}, as listed. "
+              if p.get('review_count') else '')
+    return (f"{listed}Summary of {plural(len(stars), 'sample review')} written for this demo, averaging {avg} stars:",
+            lines)
 
 
 def _best(items, key, reverse=False):
@@ -356,13 +359,12 @@ def scam_no_contact():
 
 
 def approval_sent(name, threshold, total, why=None):
-    if why:
-        return [f"This order needs {name}'s approval: Sightline flagged it as a possible gift-card scam.",
-                f'Sent to {name} for approval. When {name} approves, say confirm and type your PIN. Say cancel to release the hold.',
-                'In this prototype the approval link is shown here instead of emailed.']
-    return [f'This order totals {usd(total)}, which is over your approval amount of {usd(threshold)}.',
-            f'Sent to {name} for approval. When {name} approves, say confirm and type your PIN. Say cancel to release the hold.',
-            'In this prototype the approval link is shown here instead of emailed.']
+    """Nothing is sent in this prototype: the shopper shares the link, so we never say "sent"."""
+    first = (f"This order needs {name}'s approval: Sightline flagged it as a possible gift-card scam." if why else
+             f'This order totals {usd(total)}, which is over your approval amount of {usd(threshold)}.')
+    return [first,
+            f'Approval link ready for {name}. This prototype does not send it: share the link below with {name}. '
+            f'When {name} approves, say confirm and type your PIN. Say cancel to release the hold.']
 
 
 def _what(o):

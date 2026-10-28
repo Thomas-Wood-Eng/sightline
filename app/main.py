@@ -159,6 +159,8 @@ def settings_view(s):
             'state': checkout.state(s), 'due_in': checkout.seconds_left(s), 'pay': s.get('co', {}).get('pay'), 'prefs': lane0.prefs(s), 'contact': s.get('contact'),
             'paypal': checkout.paypal_view(s),
             'resume': 'Welcome back. ' + checkout.pending(s) if checkout.pending(s) else None,
+            'resume_lines': [f"Approval link: {s['co']['link']}"]  # still there after a reload
+            if checkout.state(s) == checkout.APPROVAL and s['co'].get('link') else [],
             'summary': speech.settings_summary(c, s.get('mode', 'screen_reader'), bool(checkout.vault_id(s)),
                                                bool(s.get('pin')), checkout.spent_today(s), lane0.prefs(s), s.get('contact'))}
 

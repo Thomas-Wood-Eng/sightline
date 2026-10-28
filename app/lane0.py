@@ -41,6 +41,8 @@ FIXED = [
     (r'stop|quiet|shh+|be quiet', ('stop',)),
     (r'(open |show |read )?(my |the )?(settings|preferences)', ('settings',)),
     (r'(link|connect|set up|add) (my )?pay ?pal( account)?', ('link',)),
+    (r'((show|give|send|share|copy|get|read)( me)? )?(the |my )?approval (link|page)( again)?|link for (my )?(trusted )?contact',
+     ('approval_link',)),
     (r'(tell me (more )?about |what is |more about |explain |hear more about )?(pay ?pal )?(pay later|pay in (4|four|for))'
      r'( options?)?', ('paylater',)),
 ]
@@ -561,6 +563,13 @@ def _run(cmd, text, s):
         return Reply('You can say:', HELP)
     if name == 'paylater':
         return Reply(speech.pay_later())
+    if name == 'approval_link':
+        co = s.get('co', {})
+        if checkout.state(s) != checkout.APPROVAL or not co.get('link'):
+            return Reply('No order is waiting for approval.')
+        who = checkout.APPROVALS.get(co.get('approval'), {}).get('name', 'your trusted contact')
+        return Reply(f'Here is the approval link for {who}. This prototype does not send it: share it with {who}.',
+                     [f"Approval link: {co['link']}"])
     if name == 'wrong':
         _log_feedback(s, text)
         return Reply('Thanks, I noted that. Say describe to hear exactly what the listing says, or ask again.')

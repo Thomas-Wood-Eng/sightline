@@ -208,7 +208,7 @@ def start(s):
                           'why': why}
         link = '/approve/' + signer().dumps(aid)
         rb = rb[:-1] + speech.approval_sent(contact['name'], contact['threshold'], total, why) + [f'Approval link: {link}']
-        s['co'].update(state=APPROVAL, approval=aid, lines=rb)
+        s['co'].update(state=APPROVAL, approval=aid, lines=rb, link=link)
     return Reply(say, rb)
 
 
@@ -360,8 +360,8 @@ def pending(s):
                 + (' To stop it, say undo, press Escape, or use the Undo button.' if left else ''))
     if st == APPROVAL:
         who = APPROVALS.get(co.get('approval'), {}).get('name', 'your trusted contact')
-        return (f'A payment of {amount} for {what} is on hold, waiting for {who} to approve. '
-                'Say repeat to hear the Readback, or cancel to release it.')
+        return (f'A payment of {amount} for {what} is on hold, waiting for {who} to approve. Say approval link to get '
+                f'the link for {who} again, repeat to hear the Readback, or cancel to release it.')
     if st == PIN:
         return (f'A payment of {amount} is on hold for {what}, waiting for your PIN. Type it in the PIN box, '
                 'say repeat to hear the Readback, or say cancel to release it.')

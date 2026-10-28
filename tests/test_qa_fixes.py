@@ -152,3 +152,19 @@ def test_pin_format_slips_and_timed_lockout(client, fake, monkeypatch):
     monkeypatch.setattr(checkout.time, 'time', lambda: later)
     assert client.get('/api/settings').json()['locked'] is False
     assert client.post('/api/settings', json={**body, 'current_pin': '1234'}).json()['per_order_cap'] == '120.00'
+
+
+# ---- M9, M10: approval wording is honest, the link survives a reload; reviews counts agree ----
+def test_approval_link_wording_and_persistence(client, fake):
+    from test_features import to_approval
+    r, link = to_approval(client)
+    assert r['lines'][-2] == ('Approval link ready for Alex. This prototype does not send it: share the link below with '
+                              'Alex. When Alex approves, say confirm and type your PIN. Say cancel to release the hold.')
+    assert not any('Sent to' in l for l in r['lines'])
+    s = client.get('/api/settings').json()
+    assert 'Say approval link to get the link for Alex again' in s['resume'] and s['resume_lines'] == [f'Approval link: {link}']
+    r = t(client, 'approval link')
+    assert r['say'].startswith('Here is the approval link for Alex.') and r['lines'][0] == f'Approval link: {link}'
+    t(client, 'cancel')
+    assert t(client, 'approval link')['say'] == 'No order is waiting for approval.'
+    assert client.get('/api/settings').json()['resume_lines'] == []
