@@ -88,8 +88,22 @@ OUTRO = [
      'The agent does the clicking. The person makes every decision. Next, testing with blind and low-vision shoppers.'),
 ]
 SCRIPTS = {'full': INTRO + ALLERGY + HOODIE + PAY + SCAM + [('say', 'Remove the headphones.')] + APPROVAL + REFUND + OUTRO,
-           # Devpost cut, aim under 3 minutes: the purchase, the trusted contact and undo
-           'short': INTRO + [HOODIE[0], ('say', 'Add the first one.'), HOODIE[4]] + PAY + APPROVAL + OUTRO}
+           # Devpost cut, must stay under 3 minutes: the problem, one purchase, the trusted contact and undo
+           'short': [
+               ('title', 'Sightline', 'Shop by voice. Hear every dollar before it moves.',
+                'Blind shoppers can find a product online, then lose it at checkout. Sightline is a voice and keyboard '
+                'first shopping assistant, built on PayPal. An early prototype.'),
+               ('setup', "Setup happens once: a PIN, spending limits, and a trusted contact. Replies play at "
+                         'screen-reader speed.'),
+               HOODIE[0], ('say', 'Add the first one.'), HOODIE[4],
+               ('say', 'Check out.'),
+               ('narrate', 'Those numbers came from PayPal, not the AI. Nothing moves until the shopper confirms with a PIN.'),
+               ('say', 'Confirm.'), ('pin', '1234'), ('captured',),
+               ('narrate', 'Above a set amount, a trusted contact approves first.'),
+               APPROVAL[1], APPROVAL[2], APPROVAL[3], APPROVAL[4], APPROVAL[5], APPROVAL[6], APPROVAL[7],
+               ('title', 'The AI suggests. It never holds the keys.', 'github.com/Thomas-Wood-Eng/sightline',
+                'And for ten seconds, they can still undo. The AI suggests. It never holds the keys.'),
+           ]}
 SCRIPT = SCRIPTS['full']
 
 
