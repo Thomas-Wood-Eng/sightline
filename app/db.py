@@ -19,6 +19,7 @@ def _conn():
     c.execute('CREATE TABLE IF NOT EXISTS orders (order_id TEXT PRIMARY KEY, sid TEXT, capture_id TEXT, created TEXT, '
               'total TEXT, lines TEXT, delivery_days INTEGER)')
     c.execute('CREATE TABLE IF NOT EXISTS sessions (key TEXT PRIMARY KEY, data TEXT, updated TEXT)')
+    c.execute('CREATE TABLE IF NOT EXISTS alerts (sid TEXT, pid TEXT, target TEXT, told INTEGER, PRIMARY KEY (sid, pid))')
     return c
 
 
@@ -57,6 +58,23 @@ def spent(sid, since):
     """Captured minus refunded, for orders created on or after `since` (an ISO date). Returns (amount, order count)."""
     rows = [o for o in orders(sid) if o['created'] >= since]
     return sum((Decimal(o['total']) - refunded(o) for o in rows), Decimal(0)), len(rows)
+
+
+def set_alert(sid, pid, target):
+    """Price-drop alert for a wishlist item: announce once when the price is at or below target (a 2-decimal string)."""
+    with _conn() as c:
+        c.execute('INSERT OR REPLACE INTO alerts VALUES (?,?,?,0)', (sid, pid, target))
+
+
+def alerts(sid):
+    """{pid: {'target', 'told'}}"""
+    with _conn() as c:
+        return {r['pid']: dict(r) for r in c.execute('SELECT * FROM alerts WHERE sid=?', (sid,))}
+
+
+def alert_told(sid, pid):
+    with _conn() as c:
+        c.execute('UPDATE alerts SET told=1 WHERE sid=? AND pid=?', (sid, pid))
 
 
 def load_session(key):

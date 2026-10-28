@@ -22,7 +22,7 @@ import re
 
 from starlette.concurrency import run_in_threadpool
 
-from . import checkout, db, lane0, lane1, paypal, speech
+from . import catalog, checkout, db, lane0, lane1, paypal, speech
 from .sessions import ServerSessions
 from .speech import Reply
 
@@ -64,7 +64,28 @@ def turn(body: Turn, request: Request):
         r = lane0.handle(text, s) or lane1.handle(text, s)
     except paypal.PayPalError as e:
         r = Reply(f'PayPal had a problem ({e}). Nothing was charged. Say repeat or try again.')
+    drops = lane0.price_drops(s)  # wishlist price-drop alerts: said once, ahead of the reply
+    if drops:
+        r.say = f'{drops} {r.say}'
     return out(s, r)
+
+
+class DemoPrice(BaseModel):
+    id: str = Field(max_length=40)
+    price: str = Field(max_length=12)
+
+
+@app.post('/api/demo/price')
+def demo_price(body: DemoPrice):
+    """Demo only, off unless SIGHTLINE_DEMO=1: a temporary catalogue price, so a price-drop alert can be shown."""
+    if os.environ.get('SIGHTLINE_DEMO') != '1':
+        raise HTTPException(404)
+    p = catalog.get(body.id)
+    if not p or p.get('addon_of'):
+        raise HTTPException(404, 'No item with that id.')
+    # shortcut: changes the in-memory catalogue for every session until restart; fine for a sandbox demo, never in production
+    p['price'] = float(_cap(body.price))
+    return {'id': p['id'], 'price': f"{p['price']:.2f}"}
 
 
 MAX_PHOTO = 10 * 1024 * 1024

@@ -214,3 +214,51 @@ def test_compare_those_two(client, fake):
     assert t(client, 'which is better')['say'].startswith('Comparing 3 items')
     t(client, '1')
     assert t(client, 'compare it with number 3')['say'].startswith('Comparing 2 items')
+
+
+# ---- 6. price-drop alerts on the wishlist ----
+def test_alert_parse():
+    from app.lane0 import parse
+    assert parse('tell me if it gets cheaper') == ('alert', None, 'it')
+    assert parse('alert me under 40 dollars') == ('alert', '40', 'it')
+    assert parse('let me know when the hoodie drops below $29.50') == ('alert', '29.50', ('name', 'hoodie'))
+    assert parse('tell me about it')[0] == 'describe'
+
+
+def test_demo_price_endpoint_is_off_by_default(client, fake, monkeypatch):
+    from app import catalog
+    monkeypatch.delenv('SIGHTLINE_DEMO', raising=False)
+    before = catalog.get('hoodie-01')['price']
+    assert client.post('/api/demo/price', json={'id': 'hoodie-01', 'price': '1.00'}).status_code == 404
+    assert catalog.get('hoodie-01')['price'] == before
+
+
+def test_price_drop_alert_said_once(client, fake, monkeypatch):
+    from app import catalog
+    monkeypatch.setitem(catalog.get('hoodie-01'), 'price', catalog.get('hoodie-01')['price'])  # restored after the test
+    monkeypatch.setenv('SIGHTLINE_DEMO', '1')
+    setup(client)
+    t(client, 'hoodie'); t(client, '1')
+    r = t(client, 'alert me under 30 dollars')
+    assert r['say'] == ('OK. I will tell you once if Fleece-lined pullover hoodie drops to $30.00 or less. '
+                        'It is $34.99 now, and it is in your saved items.')
+    assert 'Alert at $30.00 or less.' in t(client, 'my saved items')['lines'][0]
+    assert t(client, 'alert me under 40 dollars')['say'].startswith('Fleece-lined pullover hoodie is already $34.99')
+    assert client.post('/api/demo/price', json={'id': 'hoodie-01', 'price': '29.99'}).json()['price'] == '29.99'
+    assert client.post('/api/demo/price', json={'id': 'nope', 'price': '5'}).status_code == 404
+    r = t(client, 'cart')
+    assert r['say'].startswith('Price drop: Fleece-lined pullover hoodie is now $29.99, at or under your alert of $30.00. '
+                               'Say move the fleece-lined pullover hoodie to my cart')
+    assert not t(client, 'cart')['say'].startswith('Price drop')  # once
+    r = t(client, 'move the fleece-lined pullover hoodie to my cart')
+    assert r['say'].startswith('Which size?')
+
+
+def test_alert_without_amount_means_any_drop(client, fake, monkeypatch):
+    from app import catalog
+    monkeypatch.setitem(catalog.get('mug-01'), 'price', catalog.get('mug-01')['price'])
+    setup(client)
+    t(client, 'mug'); t(client, '1')
+    assert 'gets cheaper than $18.50' in t(client, 'tell me if it gets cheaper')['say']
+    catalog.get('mug-01')['price'] = 18.49
+    assert t(client, 'help')['say'].startswith('Price drop: Insulated travel mug is now $18.49')

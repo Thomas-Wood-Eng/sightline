@@ -199,12 +199,30 @@ def ask_size(p, sizes):
     return f"Which size? {p['name']} comes in {_ns(sizes)}. Say the size, for example: {sizes[len(sizes) // 2]}."
 
 
-def wishlist(lines_in):
-    """lines_in: [(product, variant)]."""
+def wishlist(lines_in, alerts=None):
+    """lines_in: [(product, variant)]; alerts: {pid: {'target': ...}} price-drop alerts."""
     if not lines_in:
         return 'You have no saved items. Say save it for later about any item.', []
-    lines = [f"{i}. {item_name(p, v)}, {money(p['price'])}." for i, (p, v) in enumerate(lines_in, 1)]
+    alerts = alerts or {}
+    lines = [f"{i}. {item_name(p, v)}, {money(p['price'])}."
+             + (f" Alert at {money(alerts[p['id']]['target'])} or less." if p['id'] in alerts else '')
+             for i, (p, v) in enumerate(lines_in, 1)]
     return f"You have {plural(len(lines), 'saved item')}. Say move number 1 to my cart, for example.", lines
+
+
+def alert_set(p, target, asked_amount):
+    now = money(p['price'])
+    when = f"drops to {money(target)} or less" if asked_amount else f"gets cheaper than {now}"
+    return f"OK. I will tell you once if {p['name']} {when}. It is {now} now, and it is in your saved items."
+
+
+def alert_already(p, target):
+    return f"{p['name']} is already {money(p['price'])}, at or under {money(target)}. Say add it to buy it."
+
+
+def price_drop(p, target):
+    return (f"Price drop: {p['name']} is now {money(p['price'])}, at or under your alert of {money(target)}. "
+            f"Say move the {short_name(p, 3).lower()} to my cart to buy it.")
 
 
 def removed(p, cart_count):

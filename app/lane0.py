@@ -4,6 +4,7 @@ While a payment is on hold, handle() never returns None, so free text cannot rea
 """
 import json, re
 from datetime import date, datetime, timedelta
+from decimal import Decimal
 from pathlib import Path
 
 from . import catalog, checkout, db, paypal, speech
@@ -95,6 +96,11 @@ def parse(text):
     if re.search(r"(?:\bnot|n't) what i (?:ordered|bought)\b|\b(?:wrong (?:item|thing|product|order)"
                  r"|(?:sent|got|received|delivered) (?:me )?(?:the |a )?wrong)\b", t):
         return ('dispute', 'wrong', t)
+    if re.search(r'\b(?:alert me|notify me|warn me|tell me (?:if|when)|let me know (?:if|when)|price alert|watch the price)\b', t) \
+            and re.search(r'\b(?:cheaper|on sale|price|drops?|goes down|under|below|less than)\b', t):
+        amount = re.search(r'\b(?:under|below|less than|to)\s*\$?(\d+(?:\.\d{1,2})?)', t)
+        words = re.search(r'\b(?:if|when) (?:the )?(.+?) (?:gets|goes|is|drops|falls|comes)\b', t)
+        return ('alert', amount.group(1) if amount else None, target(words.group(1)) if words else 'it')
     if re.search(r'\b(cap|caps|limit|limits|budget|spending)\b', t):
         changing = r'\b(raise|increase|change|set|lower|remove|update|up|higher|bigger|double|lift|disable|turn off|make)\b'
         return ('caps',) if re.search(changing, t) else ('settings',)
@@ -597,8 +603,26 @@ def _handle(text, s):
         return Reply(f"Saved for later: {speech.item_name(p, variant)}." + (' Moved out of your cart.' if moved else '')
                      + ' Say my saved items to hear them.', focus=card(p))
     if name == 'wishlist':
-        say, lines = speech.wishlist([(catalog.get(i), v) for i, v in s.get('wish', []) if catalog.get(i)])
+        say, lines = speech.wishlist([(catalog.get(i), v) for i, v in s.get('wish', []) if catalog.get(i)], db.alerts(_sid(s)))
         return Reply(say, lines)
+    if name == 'alert':
+        amount, tgt = args
+        wish = [catalog.get(i) for i, _ in s.get('wish', []) if catalog.get(i)]
+        p = resolve(s, tgt, wish + _results(s)) if tgt != 'it' else \
+            catalog.get(s.get('focus') or '') or (wish[0] if len(wish) == 1 else None)
+        if not p or p.get('addon_of'):
+            return Reply('Which item? Pick one first, or say: alert me when the hoodie is under 30 dollars.')
+        price = Decimal(str(p['price']))
+        goal = Decimal(amount) if amount else price - Decimal('0.01')
+        if goal <= 0:
+            return Reply('Say an amount above zero, for example: alert me under 30 dollars.')
+        if goal >= price:
+            return Reply(speech.alert_already(p, goal), focus=card(p))
+        if p['id'] not in [i for i, _ in s.get('wish', [])]:
+            s['wish'] = (s.get('wish', []) + [[p['id'], '']])[-20:]
+        db.set_alert(_sid(s), p['id'], f'{goal:.2f}')
+        _focus(s, p)
+        return Reply(speech.alert_set(p, goal, bool(amount)), focus=card(p))
     if name == 'move':
         wish = [(catalog.get(i), v) for i, v in s.get('wish', []) if catalog.get(i)]
         pool = [p for p, _ in wish]
@@ -710,6 +734,20 @@ def _handle(text, s):
     if name == 'undo':
         return checkout.undo(s)
     return None
+
+
+def price_drops(s):
+    """Price-drop alerts that are now due, each said once, on the next turn. Never in the middle of a payment."""
+    st = checkout.state(s)
+    if st in checkout.HOLDING or st == checkout.UNDO or 'sid' not in s:
+        return ''
+    out = []
+    for pid, a in db.alerts(s['sid']).items():
+        p = catalog.get(pid)
+        if p and not a['told'] and Decimal(str(p['price'])) <= Decimal(a['target']):
+            db.alert_told(s['sid'], pid)
+            out.append(speech.price_drop(p, a['target']))
+    return ' '.join(out)
 
 
 def _describe(s, p, lvl=None):
