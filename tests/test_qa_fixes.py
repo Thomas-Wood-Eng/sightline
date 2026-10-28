@@ -45,3 +45,16 @@ def test_price_questions(client, fake):
     r = t(client, 'how much is the merino sweater')
     assert r['say'].startswith('Merino crew-neck sweater is $59.00') and r['focus']['id'] == 'sweater-01'
     assert 'settings' in t(client, 'show my settings')['say'].lower()
+
+
+# ---- M2: a size that isn't offered is never dropped silently ----
+def test_size_not_offered_adds_nothing(client, fake):
+    setup(client)
+    t(client, 'mug'); t(client, 'add it')
+    r = t(client, 'add it in medium')
+    assert r['say'].startswith('Insulated travel mug does not come in sizes, so I did not add it.')
+    assert t(client, 'cart')['lines'][0].startswith('1. Insulated travel mug, quantity 1,')
+    t(client, 'hoodie'); t(client, '1')
+    r = t(client, 'add it in XXL')
+    assert r['say'].startswith('Fleece-lined pullover hoodie does not come in size XXL, so I did not add it. Which size?')
+    assert 'Added: Fleece-lined pullover hoodie (size L' in t(client, 'large')['say']

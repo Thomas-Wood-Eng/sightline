@@ -291,6 +291,7 @@ def _log_feedback(s, text):
 # ---- sizes and colours ----------------------------------------------------------------------------------------
 SIZE_WORDS = [('double extra large', 'xxl'), ('extra extra large', 'xxl'), ('2xl', 'xxl'), ('extra large', 'xl'),
               ('x large', 'xl'), ('extra small', 'xs'), ('x small', 'xs'), ('medium', 'm'), ('large', 'l'), ('small', 's')]
+LETTER_SIZES = ('xs', 's', 'm', 'l', 'xl', 'xxl')
 SIZE_NUMS = {w: str(n) for w, n in WORDS.items() if w not in ('a', 'an', 'to', 'too', 'for') and isinstance(n, int) and n > 0}
 
 
@@ -364,6 +365,15 @@ def _plan(s, tgt):
 def add(s, p, qty, opt=''):
     """Add with a size and colour. Never guesses a size: asks, unless a saved default size fits."""
     sizes = sizes_of(p)
+    asked = next((w.upper() for w in _size_tokens(opt) if w in LETTER_SIZES), None)
+    if asked and not match_size(opt, sizes):  # never drop a size the shopper said and add the item anyway
+        _focus(s, p)
+        if not sizes:
+            return Reply(f"{p['name']} does not come in sizes, so I did not add it. Say add it to add it without a size.",
+                         focus=card(p))
+        s['ask'] = {'add': [p['id'], qty, match_colour(opt, p.get('colours'))]}
+        return Reply(f"{p['name']} does not come in size {asked}, so I did not add it. " + speech.ask_size(p, sizes),
+                     focus=card(p))
     size = sizes[0] if len(sizes) == 1 else match_size(opt, sizes)
     note = ''
     if sizes and not size and match_size(prefs(s)['size'], sizes):
