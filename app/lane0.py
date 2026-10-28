@@ -39,7 +39,7 @@ FIXED = [
      ('cancel',)),
     (r"undo( it| that| the (payment|order|purchase))?|(do not|don't) pay|stop (the )?payment", ('undo',)),
     (r'stop|quiet|shh+|be quiet', ('stop',)),
-    (r'(open |show )?settings|preferences', ('settings',)),
+    (r'(open |show |read )?(my |the )?(settings|preferences)', ('settings',)),
     (r'(link|connect|set up|add) (my )?pay ?pal( account)?', ('link',)),
     (r'(tell me (more )?about |what is |more about |explain |hear more about )?(pay ?pal )?(pay later|pay in (4|four|for))'
      r'( options?)?', ('paylater',)),
@@ -123,6 +123,15 @@ def parse(text):
                  r'|\b(?:my|the) (?:allergens|allergies|allergen settings|allergen list)\b'
                  r'|\b(remember|save) (that )?(i|my)\b|\b(verbosity|simple mode|large text)\b', t):
         return ('prefs',)
+    if re.fullmatch(r'(?:what is |read |tell me )?(?:my |the )(?:cart |order )?total|how much is (?:in )?my (?:cart|basket)'
+                    r'|how much (?:is|are) (?:everything|it all) in my (?:cart|basket)', t):
+        return ('cart',)
+    # price questions are answered from the catalogue, never by the AI (which never sees prices)
+    if re.search(r'\b(?:how much|cost|costs|price|priced|how expensive)\b|\bis (?:it|this|that)\b.*\b(?:only|just) \$?\d', t) \
+            and not re.search(r'\b(?:spend|spent|under|below|less than|over|cheaper|cheapest|budget)\b', t):
+        rest = re.sub(r"\b(?:how much|how expensive|money|is|are|was|does|do|would|will|what|the|price|prices|of|cost|costs"
+                      r"|priced|for|really|only|just|tell me|yes|dollars?|bucks|shipping|with|it is|\d+(?:\.\d+)?)\b", ' ', t)
+        return ('price', target(' '.join(rest.split())))
     if re.fullmatch(r'(?:show |list |read )?(?:my |past |previous |recent |the )*orders|order history'
                     r'|what (?:have i|did i) (?:order|ordered|buy|bought)', t):
         return ('orders',)
@@ -590,6 +599,12 @@ def _handle(text, s):
             status = 'not reachable just now'
         s['spell'] = o['order_id']
         return Reply(speech.track(o, status))
+    if name == 'price':
+        p = resolve(s, args[0])
+        if not p or p.get('addon_of'):
+            return which(s)
+        _focus(s, p)
+        return Reply(speech.price(p), focus=card(p))
     if name == 'package':
         o = _find_order(s, args[0]) or _find_order(s, '')
         if not o:

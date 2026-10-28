@@ -89,6 +89,13 @@ def focus_line(n, p, level='normal'):
             f"{plural(p['review_count'], 'review')}. Say describe, or add it.")
 
 
+def price(p):
+    """'How much is it?': the catalogue price, said by the app (the model never sees prices)."""
+    ship = Decimal(str(p['shipping']))
+    return (f"{p['name']} is {money(p['price'])}, " + (f"plus {money(ship)} shipping." if ship else 'with free shipping.')
+            + ' Tax is added at checkout, and the Readback reads the exact total from PayPal.')
+
+
 def delivery_date(days, today=None):
     d = (today or date.today()) + timedelta(days=int(days))
     return f'{d:%A}, {d:%B} {d.day}'

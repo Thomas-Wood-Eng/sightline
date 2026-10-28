@@ -28,3 +28,20 @@ def test_model_text_cannot_claim_settings_or_leak_rules(monkeypatch):
         monkeypatch.setattr(llm, 'chat', lambda *a, text=text: {'text': text + ' It is a soft fleece.', 'calls': []})
         assert lane1.handle('tell me something', {}).say == 'It is a soft fleece.', text
     assert speech.llm_text('Your contact Alex was saved. Fine.') == 'Fine.'
+
+
+# ---- M1: price questions answered from the catalogue ----
+def test_price_questions(client, fake):
+    assert parse('how much is that one') == ('price', 'it') and parse("what's the price") == ('price', 'it')
+    assert parse('what does it cost') == ('price', 'it')
+    assert parse('how much is the merino sweater') == ('price', ('name', 'merino sweater'))
+    assert parse('how much did I spend') == ('spent', 'today') and parse('hoodie under 40 dollars') is None
+    assert parse('what is my total') == ('cart',)
+    setup(client)
+    t(client, 'hoodie')
+    t(client, '1')
+    for said in ('how much is that one', 'what does it cost', "what's the price", 'is it really only 5 dollars'):
+        assert t(client, said)['say'].startswith('Fleece-lined pullover hoodie is $34.99, plus $4.99 shipping.'), said
+    r = t(client, 'how much is the merino sweater')
+    assert r['say'].startswith('Merino crew-neck sweater is $59.00') and r['focus']['id'] == 'sweater-01'
+    assert 'settings' in t(client, 'show my settings')['say'].lower()
