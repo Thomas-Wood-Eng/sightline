@@ -87,7 +87,42 @@ OUTRO = [
     ('title', 'The AI suggests. It never holds the keys.', 'Next: testing with blind and low-vision shoppers.',
      'The agent does the clicking. The person makes every decision. Next, testing with blind and low-vision shoppers.'),
 ]
-SCRIPTS = {'full': INTRO + ALLERGY + HOODIE + PAY + SCAM + [('say', 'Remove the headphones.')] + APPROVAL + REFUND + OUTRO,
+
+# Feature showcase ("ad", ~90 s): headline beats over the real app; only the key sentence of each reply is voiced.
+AD = [
+    ('title', 'Sightline', 'Shopping by voice, for blind and low-vision people.',
+     'Meet Sightline. Shopping by voice, built for blind and low-vision people, on PayPal.'),
+    ('setup', 'Set up once.'),
+    ('beat', 'Ask in your own words.'),
+    ('say', 'Find me a hoodie.', ['results']),
+    ('beat', 'Hear what the listing says, and what the photo suggests.'),
+    ('say', 'Tell me about the first one.', ['Heavyweight pullover hoodie.']),
+    ('beat', 'Hear every dollar before it moves.'),
+    ('say', 'Add the first one.', ['Which size']),
+    ('say', 'Medium.', ['Added']),
+    ('say', 'Check out.', ['Total:']),
+    ('beat', 'Nothing moves until you confirm.'),
+    ('say', 'Confirm.', ['PIN']),
+    ('pin', '1234', ['10 seconds']),
+    ('say', 'Undo.', ['Undone', 'Nothing was charged']),
+    ('beat', 'Allergies are a hard filter.'),
+    ('say', 'I need a snack for my kid. She has a nut allergy.', ['Showing only']),
+    ('beat', 'Sales tricks get called out.'),
+    ('hidden', 'Remove the hoodie.'),
+    ('say', 'Find headphones.', ['results']),
+    ('say', 'Add the first one.', ['Added']),
+    ('say', 'Check out.', ['Heads up', 'did not add']),
+    ('hidden', 'Cancel.'),
+    ('hidden', 'Remove the headphones.'),
+    ('beat', 'Bigger orders? A trusted contact approves.'),
+    ('say', 'Find a rain jacket.', ['results']),
+    ('say', 'Add it.', ['Added']),
+    ('say', 'Check out.', ['Sent to Alex']),
+    ('approve', 'Alex approves from their phone.'),
+    ('title', 'The AI suggests. It never holds the keys.', 'Sightline: PayPal AI Hackathon 2026',
+     'The AI suggests. It never holds the keys. Sightline.'),
+]
+SCRIPTS = {'ad': AD, 'full': INTRO + ALLERGY + HOODIE + PAY + SCAM + [('say', 'Remove the headphones.')] + APPROVAL + REFUND + OUTRO,
            # Devpost cut, must stay under 3 minutes: the problem, one purchase, the trusted contact and undo
            'short': [
                ('title', 'Sightline', 'Shop by voice. Hear every dollar before it moves.',
@@ -297,7 +332,13 @@ def record():
             page.wait_for_function(f"document.querySelectorAll('#log .turn').length > {n}", timeout=60000)
             page.wait_for_timeout(250)
 
-        def submit(selector, text, voiced):
+        def key_sentences(reply, hints):
+            """Ad cut: voice only the sentences that carry the point; the full reply stays on screen."""
+            parts = re.split(r'(?<=[.!?])\s+', reply)
+            picked = [p for p in parts if any(h.lower() in p.lower() for h in hints)]
+            return ' '.join(picked or parts[:1])
+
+        def submit(selector, text, voiced, hints=None):
             n = page.locator('#log .turn').count()
             wav, dur = tts(voiced, 'you')
             a = now()
@@ -307,13 +348,16 @@ def record():
             wait_turn(n)
             segments.append((a, now(), wav, f'You: {voiced}'))
             reply = last_reply()
+            if hints:
+                reply = key_sentences(reply, hints)
             wav, dur = tts(reply, 'sightline')  # generated while the screen is static; this gap is cut later
-            hold(wav, dur, f'Sightline: {reply}')
+            hold(wav, dur + (0.8 if hints else 0), f'Sightline: {reply}')
 
         for step in SCRIPT:
             kind = step[0]
-            print(kind, '|', (step[-1] if kind not in ('pin', 'captured') else kind)[:70])
+            print(kind, '|', str(step[1] if len(step) > 1 else kind)[:70])
             if kind == 'title':
+                page.evaluate("document.getElementById('demo-beat')?.remove()")
                 overlay(step[1], step[2])
                 wav, dur = tts(step[3], 'narrator')
                 hold(wav, dur, step[3])
@@ -321,6 +365,19 @@ def record():
             elif kind == 'narrate':
                 wav, dur = tts(step[1], 'narrator')
                 hold(wav, dur, step[1])
+            elif kind == 'beat':  # ad cut: a headline banner over the live app, voiced by the narrator
+                page.evaluate('''(t) => { let d = document.getElementById('demo-beat');
+                    if (!d) { d = document.createElement('div'); d.id = 'demo-beat'; document.body.append(d);
+                      d.style.cssText = 'position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:98;'
+                        + 'background:#0b1f3a;color:#fff;font:700 40px system-ui;padding:14px 30px;border-radius:14px;'
+                        + 'box-shadow:0 6px 24px rgba(0,0,0,.35);max-width:90vw;text-align:center'; }
+                    d.textContent = t; }''', step[1])
+                wav, dur = tts(step[1], 'narrator')
+                hold(wav, dur, step[1])
+            elif kind == 'hidden':  # off-camera reset between beats (e.g. empty the cart); not recorded
+                page.evaluate('''(t) => fetch('/api/turn', {method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({text: t})})''', step[1])
+                page.wait_for_timeout(400)
             elif kind == 'setup':
                 wav, dur = tts(step[1], 'narrator')
                 a = now()
@@ -336,9 +393,9 @@ def record():
                 page.wait_for_timeout(max(0, int(dur * 1000) - int((now() - a) * 1000)) + 350)
                 segments.append((a, now(), wav, step[1]))
             elif kind == 'say':
-                submit('#message', step[1], step[1])
+                submit('#message', step[1], step[1], step[2] if len(step) > 2 else None)
             elif kind == 'pin':
-                submit('#pin', step[1], 'Types the PIN.')
+                submit('#pin', step[1], 'Types the PIN.', step[2] if len(step) > 2 else None)
             elif kind == 'captured':  # the page captures by itself when the undo window ends; the wait is cut
                 page.wait_for_function('''() => { const t = [...document.querySelectorAll('#log .turn')].pop();
                     return t && /PayPal captured/.test(t.textContent); }''', timeout=60000)
@@ -416,13 +473,14 @@ def prefetch():
     """Voice every line known in advance before recording, so real-time steps (the 10 s undo window) aren't
     slowed by speech generation."""
     for step in SCRIPT:
-        if step[0] in ('title', 'narrate', 'setup', 'approve'):
+        if step[0] in ('title', 'narrate', 'setup', 'approve', 'beat'):
             tts(step[-1], 'narrator')
         elif step[0] == 'say':
             tts(step[1], 'you')
     tts('Types the PIN.', 'you')
     tts('PIN accepted. PayPal takes the payment in 10 seconds. To stop it, say undo, or press Escape, '
         'or use the Undo button.', 'sightline')
+    tts('PayPal takes the payment in 10 seconds.', 'sightline')   # the ad cut voices only this sentence
 
 
 if __name__ == '__main__':
