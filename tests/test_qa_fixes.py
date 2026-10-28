@@ -132,3 +132,23 @@ def test_search_misses_and_relevance(client, fake):
     setup(client)
     r = t(client, 'the black one')
     assert r['say'].startswith('The black one: which item? Pick one first')
+
+
+# ---- M7: blank or mistyped PIN is never a try; the lockout ends by itself after 15 minutes ----
+def test_pin_format_slips_and_timed_lockout(client, fake, monkeypatch):
+    import time
+    from app import checkout
+    setup(client)
+    body = {'per_order_cap': '120.00'}
+    for pin in ('', '12', 'abcd', ''):
+        r = client.post('/api/settings', json={**body, 'current_pin': pin})
+        assert r.status_code == 403 and 'did not count as a try' in r.json()['detail']
+    for pin in ('1111', '2222'):
+        assert client.post('/api/settings', json={**body, 'current_pin': pin}).json()['detail'] == 'Current PIN is not right.'
+    r = client.post('/api/settings', json={**body, 'current_pin': '3333'})
+    assert r.json()['detail'].startswith('Your PIN is locked for 15 minutes') and 'trusted contact cannot unlock it' in r.json()['detail']
+    assert client.post('/api/settings', json={**body, 'current_pin': '1234'}).status_code == 403  # still locked
+    later = time.time() + 15 * 60 + 1
+    monkeypatch.setattr(checkout.time, 'time', lambda: later)
+    assert client.get('/api/settings').json()['locked'] is False
+    assert client.post('/api/settings', json={**body, 'current_pin': '1234'}).json()['per_order_cap'] == '120.00'

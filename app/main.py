@@ -153,8 +153,7 @@ def _cap(v):
 
 def settings_view(s):
     c = checkout.caps(s)
-    led = checkout.ledger(s)
-    return {'onboarded': bool(s.get('pin')) or led['locked'], 'pin_set': bool(s.get('pin')), 'locked': led['locked'],
+    return {'onboarded': bool(s.get('pin')) or checkout.locked(s), 'pin_set': bool(s.get('pin')), 'locked': checkout.locked(s),
             'linked': bool(checkout.vault_id(s)), 'per_order_cap': f"{c['order']:.2f}", 'daily_cap': f"{c['daily']:.2f}",
             'spent_today': f"{checkout.spent_today(s):.2f}", 'output_mode': s.get('mode', 'screen_reader'),
             'state': checkout.state(s), 'due_in': checkout.seconds_left(s), 'pay': s.get('co', {}).get('pay'), 'prefs': lane0.prefs(s), 'contact': s.get('contact'),
@@ -238,8 +237,10 @@ def post_settings(body: Settings, request: Request):
         if s.get('pin'):
             result = checkout.verify_pin(s, (body.current_pin or '').strip())
             if result != 'ok':
-                raise HTTPException(403, checkout.LOCKED if result == 'locked' else 'Current PIN is not right.')
-        elif checkout.ledger(s)['locked']:
+                raise HTTPException(403, checkout.LOCKED if result == 'locked' else
+                                    'Type your current 4-digit PIN to change caps, PIN or the trusted contact. '
+                                    'That did not count as a try.' if result == 'format' else 'Current PIN is not right.')
+        elif checkout.locked(s):
             raise HTTPException(403, checkout.LOCKED)
         caps = dict(s.get('caps') or checkout.DEFAULT_CAPS)
         if body.per_order_cap:
@@ -265,7 +266,7 @@ class Onboarding(BaseModel):
 @app.post('/api/onboarding')
 def onboarding(body: Onboarding, request: Request):
     s = request.session
-    if s.get('pin') or checkout.ledger(s)['locked']:
+    if s.get('pin') or checkout.locked(s):
         raise HTTPException(409, 'Setup is already done. Use Settings to change things.')
     if not checkout.valid_pin(body.pin.strip()):
         raise HTTPException(422, 'The PIN must be exactly 4 digits.')
@@ -341,7 +342,7 @@ def link_return(request: Request):
         s['vault_id'], s['customer_id'] = paypal.link_return(s.pop('setup_token'))
     except paypal.PayPalError:
         return RedirectResponse('/?link=error', 303)
-    if checkout.ledger(s)['locked']:
+    if checkout.locked(s):
         checkout.unlock(s)  # a fresh PayPal login is the way out of a PIN lockout
     return RedirectResponse('/?link=done', 303)
 

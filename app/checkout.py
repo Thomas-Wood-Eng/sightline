@@ -19,9 +19,11 @@ IDLE, READBACK, CONFIRM, PIN, CAPTURED, VOIDED = 'idle', 'readback_pending', 'aw
 UNDO = 'undo_window'  # PIN accepted, capture waits a few seconds so "undo" can still void the hold
 APPROVAL = 'awaiting_approval'  # over the trusted contact's threshold: held until they approve or decline
 HOLDING = (CONFIRM, PIN, APPROVAL)
-LOCKED = ('Your PIN is locked after three wrong tries. Nothing was charged. To unlock it: say link PayPal, or use the '
-          '"Link PayPal again" link in the PayPal section of this page. Log in to PayPal; you then come back here, and '
-          'the Setup form asks you to choose a new PIN.')
+LOCK_MINUTES = 15
+LOCKED = (f'Your PIN is locked for {LOCK_MINUTES} minutes after three wrong tries. Nothing was charged. Wait '
+          f'{LOCK_MINUTES} minutes, then try again; your trusted contact cannot unlock it. If you forgot your PIN: say link '
+          'PayPal, or use the "Link PayPal again" link in the PayPal section of this page. Log in to PayPal; you then '
+          'come back here, and the Setup form asks you to choose a new PIN.')
 
 # shortcut: PIN tries, lockout and undone holds live in server memory keyed by session id, so replaying an old
 # signed cookie can't reset them; they are lost on restart. Captured orders (and so today's spend) are in SQLite (db.py).
@@ -108,19 +110,30 @@ def set_pin(s, pin):
 
 
 def verify_pin(s, pin):
-    """'ok' | 'wrong' | 'locked'. Wrong tries count toward the lockout wherever the PIN is asked for."""
+    """'ok' | 'wrong' | 'locked' | 'format'. Wrong 4-digit tries count toward the lockout wherever the PIN is asked
+    for; a blank or mistyped entry (not 4 digits) never does."""
     led, p = ledger(s), s.get('pin')
-    if led['locked'] or not p:
-        return 'locked' if led['locked'] else 'wrong'
-    if valid_pin(pin) and hmac.compare_digest(_hash(pin, p['salt']), p['hash']):
+    if locked(s) or not p:
+        return 'locked' if locked(s) else 'wrong'
+    if not valid_pin(pin):
+        return 'format'
+    if hmac.compare_digest(_hash(pin, p['salt']), p['hash']):
         led['tries'] = 0
         return 'ok'
     led['tries'] += 1
     if led['tries'] >= MAX_TRIES:
-        led['locked'] = True
+        led['locked'] = time.time()  # when it locked; it opens again after LOCK_MINUTES
         _void_quietly(s)
         return 'locked'
     return 'wrong'
+
+
+def locked(s):
+    """Locked after three wrong tries, until LOCK_MINUTES have passed (then the tries start again)."""
+    led = ledger(s)
+    if led['locked'] and time.time() - led['locked'] >= LOCK_MINUTES * 60:
+        led.update(tries=0, locked=False)
+    return bool(led['locked'])
 
 
 def unlock(s):
@@ -150,8 +163,7 @@ def start(s):
         return Reply('No new hold was placed. ' + pending(s))  # a repeated "check out" never re-reads it all
     if not s.get('cart'):
         return Reply('Your cart is empty. Search for something and add it first.')
-    led = ledger(s)
-    if led['locked']:
+    if locked(s):
         return Reply(LOCKED)
     if not s.get('pin'):
         return Reply('Set a PIN first, in the Setup form, before you can pay.')
