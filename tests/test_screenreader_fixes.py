@@ -88,9 +88,24 @@ def test_settings_saved_names_only_changes(client, fake):
 # ---- issue 11: a stray space in New PIN is "keep"; a bad new PIN names the field and burns no try ----
 def test_new_pin_whitespace_and_error(client, fake):
     setup(client)
-    r = client.post('/api/settings', json={'new_pin': ' ', 'verbosity': 'brief'})
-    assert r.status_code == 200 and r.json()['saved'] == 'Settings saved: brief replies.'
+    r = client.post('/api/settings', json={'new_pin': ' ', 'verbosity': 'normal'})
+    assert r.status_code == 200 and r.json()['saved'] == 'Settings saved: normal replies.'
     r = client.post('/api/settings', json={'new_pin': '12', 'current_pin': '1234'})
     assert r.status_code == 422 and r.json()['detail'].startswith('The new PIN must be exactly 4 digits.')
     r = client.post('/api/settings', json={'new_pin': '5678', 'current_pin': '1234'})
     assert r.json()['saved'] == 'Settings saved: new PIN set.'
+
+
+# ---- issue 4: brief by default (research_ux.md), details on request ----
+def test_brief_by_default_details_on_request(client, fake):
+    setup(client)
+    assert client.get('/api/settings').json()['prefs']['verbosity'] == 'brief'
+    r = t(client, 'hoodie')
+    assert all(len(l.split()) <= 15 and 'stars' in l for l in r['lines'])  # name, price and rating
+    brief = t(client, 'tell me about the first one')
+    words = lambda j: len(' '.join([j['say'], *j['lines']]).split())
+    for ask in ('more', 'tell me more', 'details', 'tell me more about it'):
+        full = t(client, ask)
+        assert words(full) > words(brief) and any(l.startswith('Listing says: size') for l in full['lines']), ask
+    client.post('/api/settings', json={'verbosity': 'normal'})
+    assert any(l.startswith('Common question') for l in t(client, 'details')['lines'])  # normal -> detailed

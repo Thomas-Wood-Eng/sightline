@@ -24,6 +24,8 @@ FIXED = [
     (r'next( one| item)?|skip', ('next',)),
     (r'back|previous( one| item)?|go back|prev', ('back',)),
     (r'(tell me )?more|more please', ('more', False)),
+    (r'(more |the |full |all the )?details|give me (the |more )?details|tell me more about (it|this|that|this one|that one)',
+     ('describe', 'it', 'more')),  # one level more detail than the setting
     (r'more results|show more|next page|keep going|any more|anything else|more options|other options', ('more', True)),
     (r'(show |read |view |open )?(my |the )?(cart|basket)|what is in (my|the) (cart|basket)|cart please', ('cart',)),
     (r'(clear|empty) (my |the )?(cart|basket)', ('clear',)),
@@ -368,12 +370,17 @@ def _find_order(s, words, need_open=False):
 
 
 def prefs(s):
-    return {'size': '', 'avoid': [], 'verbosity': 'normal', 'large_text': False, 'simple': False, **(s.get('prefs') or {})}
+    return {'size': '', 'avoid': [], 'verbosity': 'brief', 'large_text': False, 'simple': False, **(s.get('prefs') or {})}
 
 
 def level(s):
     """Verbosity from Settings; simple mode means the shortest replies."""
     return 'brief' if prefs(s)['simple'] else prefs(s)['verbosity']
+
+
+def more_level(s):
+    """"more", "details": one level up from the setting (brief is the default, details on request)."""
+    return 'detailed' if level(s) in ('normal', 'detailed') else 'normal'
 
 
 def per(s):
@@ -465,11 +472,11 @@ def handle(text, s):
             say, lines = speech.results(res[page + n:page + 2 * n], page + n, len(res), s.get('what', ''), level(s))
             return Reply(say, lines)
         if s.get('focus'):  # "tell me more" about the item: one level more detail than the setting
-            return _describe(s, catalog.get(s['focus']), 'detailed' if level(s) == 'normal' else 'normal')
+            return _describe(s, catalog.get(s['focus']), more_level(s))
         return Reply('That is everything I found. Try a different search.' if res else which(s).say)
     if name == 'describe':
         p = resolve(s, args[0])
-        return _describe(s, p) if p else which(s)
+        return _describe(s, p, more_level(s) if len(args) > 1 else None) if p else which(s)
     if name == 'orders':
         rows = db.orders(_sid(s))
         if rows:

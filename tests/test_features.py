@@ -72,7 +72,7 @@ def test_default_size_and_brief(client, fake):
     setup(client)
     client.post('/api/settings', json={'verbosity': 'brief', 'default_size': 'medium'})
     r = t(client, 'anything under 100')
-    assert r['lines'][0].count('stars') == 0
+    assert len(r['lines'][0].split()) <= 15 and 'stars' in r['lines'][0]  # brief keeps name, price, rating (research req. 3)
     t(client, 'hoodie')
     assert '(size M, heather grey)' in t(client, 'add it')['say'] and 'default size' in t(client, 'repeat')['say']
     assert len(t(client, 'describe it')['lines']) == 1  # brief: what it is, then the price line

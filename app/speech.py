@@ -49,8 +49,8 @@ def short_name(p, max_words=10):
 
 def result_line(n, p, level='normal'):
     """"1. Fleece-lined pullover hoodie, $34.99, 4.6 stars" (15 words or fewer at every verbosity level)."""
-    if level == 'brief':
-        return f"{n}. {short_name(p)}, {money(p['price'])}"
+    if level == 'brief':  # brief is the default: name, price and rating stay (research requirement 3)
+        return f"{n}. {short_name(p, 7)}, {money(p['price'])}, {p['rating']} stars"
     if level == 'detailed':
         return f"{n}. {short_name(p, 7)}, {money(p['price'])}, {p['rating']} stars, {plural(p['review_count'], 'review')}"
     return f"{n}. {short_name(p)}, {money(p['price'])}, {p['rating']} stars"
