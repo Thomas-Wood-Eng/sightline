@@ -158,6 +158,20 @@ SCRIPTS = {'ad': AD, 'full': INTRO + ALLERGY + HOODIE + PAY + SCAM + [('say', 'R
                ('title', 'The AI suggests. It never holds the keys.', 'github.com/Thomas-Wood-Eng/sightline',
                 'And for ten seconds, they can still undo. The AI suggests. It never holds the keys.'),
            ]}
+# quick check of camera, callouts, screen-off and the caption bar
+SCRIPTS['test'] = [
+    ('setup', 'Set up once.'),
+    ('dark', True, 'Screen off: this is what the shopper hears.'),
+    ('say', 'Find me a hoodie.', ['results']),
+    ('dark', False),
+    ('say', 'Add the first one.', ['Which size']), ('say', 'Medium.', ['Added']),
+    ('say', 'Check out.', ['Total:'], [('cam', '.reply.readback'), ('callout', '#log .reply.readback .line.total', 'Total from PayPal')]),
+    ('cam', '#paypal', 1.6), ('callout', '#pp-steps', 'PayPal is holding the money'),
+    ('narrate', 'PayPal holds the money until the shopper confirms.'),
+    ('say', 'Confirm.', ['PIN'], [('cam', '#pin-form')]),
+    ('pin', '1234', ['10 seconds'], [('cam', '#undo-box')]),
+    ('captured',),
+]
 SCRIPT = SCRIPTS['full']
 
 
@@ -306,6 +320,8 @@ def tts(text, who):
 
 
 SIGHTLINE_SPEED = 1.25
+BASE = 1.5    # recording draws the app 1.5x (laid out 1280 wide)
+APP_H = 940   # app area of the 1920x1080 frame; the rest is the caption bar
 
 
 # ---------- recording ----------
@@ -328,12 +344,17 @@ def record():
     segments = []  # (start_s, end_s, wav or None, caption)
     with sync_playwright() as pw:
         browser = pw.chromium.launch()
-        ctx = browser.new_context(viewport={'width': 1920, 'height': 1080}, record_video_dir=str(OUT / 'raw'),
-                                  record_video_size={'width': 1920, 'height': 1080})
+        # The final frame adds a caption bar below the app, so a subtitle never covers what it talks about.
+        ctx = browser.new_context(viewport={'width': 1920, 'height': APP_H}, record_video_dir=str(OUT / 'raw'),
+                                  record_video_size={'width': 1920, 'height': APP_H})
         page = ctx.new_page()
         t0 = time.monotonic()
         now = lambda: time.monotonic() - t0
         page.goto(f'http://127.0.0.1:{PORT}/')
+        # recording only: lay the app out 1280 wide and let the camera draw it at 1.5x (everything reads 50% bigger
+        # than a plain 1080p capture, and the browser re-renders it sharp); a taller conversation fits a whole Readback
+        page.add_style_tag(content=f'html {{ overflow: hidden; }} body {{ width: {1920 // BASE}px; }} '
+                                   '.talk #log { height: 280px !important; }')
         page.wait_for_timeout(800)
 
         def hold(wav, dur, caption):
@@ -346,7 +367,7 @@ def record():
                 d.style.cssText = 'position:fixed;inset:0;z-index:99;background:#0b1f3a;color:#fff;display:flex;flex-direction:column;'
                   + 'align-items:center;justify-content:center;font:600 54px system-ui;text-align:center;padding:40px';
                 d.innerHTML = '<div></div><div style="font:400 28px system-ui;margin-top:24px;opacity:.85"></div>';
-                d.children[0].textContent = t; d.children[1].textContent = s; document.body.append(d); }''', [title, sub])
+                d.children[0].textContent = t; d.children[1].textContent = s; document.documentElement.append(d); }''', [title, sub])
 
         def last_reply():
             return page.evaluate('''() => { const t = [...document.querySelectorAll('#log .turn')].pop();
@@ -357,15 +378,66 @@ def record():
             page.evaluate('window.scrollTo(0, 0)')  # keep the conversation, product and banner in frame
             page.wait_for_timeout(250)
 
+        zoomed = False
+
+        def cam(sel=None, max_scale=1.6):
+            """Camera move done by the browser itself (zoomed text stays sharp): scale the page around `sel`,
+            or back to the full view with None. max_scale is relative to the full view."""
+            nonlocal zoomed
+            zoomed = sel is not None
+            page.evaluate('''([sel, base, maxS]) => { const b = document.body, W = innerWidth, H = innerHeight;
+                document.getElementById('demo-callout')?.remove();
+                b.style.transition = 'none'; const prev = b.style.transform; b.style.transform = 'none';
+                const el = sel && [...document.querySelectorAll(sel)].pop(); let t = `scale(${base})`;
+                if (el) { const r = el.getBoundingClientRect();
+                  const s = Math.max(base, Math.min(base * maxS, 0.94 * W / r.width, 0.92 * H / r.height));
+                  const clamp = (v, lo) => Math.min(0, Math.max(lo, v));
+                  const tx = clamp(W / 2 - s * (r.left + r.width / 2), W - s * b.offsetWidth);
+                  const ty = clamp(H / 2 - s * (r.top + r.height / 2), H - s * b.scrollHeight);
+                  t = `translate(${tx}px, ${ty}px) scale(${s})`; }
+                b.style.transform = prev; b.offsetWidth; b.style.transformOrigin = '0 0';
+                b.style.transition = 'transform .7s cubic-bezier(.3,.1,.2,1)'; b.style.transform = t; }''', [sel, BASE, max_scale])
+            page.wait_for_timeout(750)
+
+        def callout(sel, text):
+            """A ring around `sel` plus a short label, so the viewer knows where to look."""
+            page.evaluate('''([sel, text]) => { document.getElementById('demo-callout')?.remove();
+                const el = [...document.querySelectorAll(sel)].pop(); if (!el) return;
+                const r = el.getBoundingClientRect(), d = document.createElement('div'); d.id = 'demo-callout';
+                d.style.cssText = `position:fixed;z-index:97;pointer-events:none;left:${r.left - 6}px;top:${r.top - 6}px;`
+                  + `width:${r.width + 12}px;height:${r.height + 12}px;border:6px solid #ffb800;border-radius:16px;`
+                  + 'box-shadow:0 0 0 9999px rgba(11,31,58,.3)';
+                const l = document.createElement('div'); l.textContent = text;
+                l.style.cssText = `position:absolute;left:-4px;${r.top > 100 ? 'bottom' : 'top'}:calc(100% + 8px);white-space:nowrap;`
+                  + 'background:#ffb800;color:#0b1f3a;font:700 30px system-ui;padding:8px 18px;border-radius:12px';
+                d.append(l); document.documentElement.append(d);
+                const over = l.getBoundingClientRect().right - (innerWidth - 8);   // keep the label on screen
+                if (over > 0) l.style.left = `${-4 - over}px`; }''', [sel, text])
+            page.wait_for_timeout(200)
+
+        def dark(on, label=''):
+            """Screen off: what the shopper actually gets is the audio."""
+            page.evaluate('''([on, label]) => { document.getElementById('demo-dark')?.remove(); if (!on) return;
+                const d = document.createElement('div'); d.id = 'demo-dark';
+                d.style.cssText = 'position:fixed;inset:0;z-index:96;pointer-events:none;background:#05070c;color:#c9d3e3;display:flex;'
+                  + 'align-items:center;justify-content:center;font:500 38px system-ui';
+                d.textContent = label; document.documentElement.append(d); }''', [on, label])
+            page.wait_for_timeout(400)
+
+        def do(action):  # ('cam', selector|None[, max_scale]) / ('callout', selector, label) / ('dark', on[, label])
+            {'cam': cam, 'callout': callout, 'dark': dark}[action[0]](*action[1:])
+
         def key_sentences(reply, hints):
             """Ad cut: voice only the sentences that carry the point; the full reply stays on screen."""
             parts = re.split(r'(?<=[.!?])\s+', reply)
             picked = [p for p in parts if any(h.lower() in p.lower() for h in hints)]
             return ' '.join(picked or parts[:1])
 
-        def submit(selector, text, voiced, hints=None):
+        def submit(selector, text, voiced, hints=None, after=()):
             n = page.locator('#log .turn').count()
             wav, dur = tts(voiced, 'you')
+            if zoomed:
+                cam(None)   # back to the full view so the typing is visible
             a = now()
             page.click(selector)
             page.keyboard.type(text, delay=max(20, min(90, int(dur * 800 / max(len(text), 1)))))
@@ -375,9 +447,12 @@ def record():
             reply = last_reply()
             if hints:
                 reply = key_sentences(reply, hints)
+            for action in after:   # point the camera at what the reply is about
+                do(action)
             wav, dur = tts(reply, 'sightline')  # generated while the screen is static; this gap is cut later
             hold(wav, dur + (0.8 if hints else 0), f'Sightline: {reply}')
 
+        cam(None)   # the 1.5x full view
         for step in SCRIPT:
             kind = step[0]
             print(kind, '|', str(step[1] if len(step) > 1 else kind)[:70])
@@ -392,9 +467,9 @@ def record():
                 hold(wav, dur, step[1])
             elif kind == 'beat':  # ad cut: a headline banner over the live app, voiced by the narrator
                 page.evaluate('''(t) => { let d = document.getElementById('demo-beat');
-                    if (!d) { d = document.createElement('div'); d.id = 'demo-beat'; document.body.append(d);
-                      d.style.cssText = 'position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:98;'
-                        + 'background:#0b1f3a;color:#fff;font:700 40px system-ui;padding:14px 30px;border-radius:14px;'
+                    if (!d) { d = document.createElement('div'); d.id = 'demo-beat'; document.documentElement.append(d);
+                      d.style.cssText = 'position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:98;'
+                        + 'background:#0b1f3a;color:#fff;font:700 36px system-ui;padding:12px 28px;border-radius:14px;'
                         + 'box-shadow:0 6px 24px rgba(0,0,0,.35);max-width:90vw;text-align:center'; }
                     d.textContent = t; }''', step[1])
                 wav, dur = tts(step[1], 'narrator')
@@ -404,21 +479,24 @@ def record():
                 img = ''
                 if step[2]:
                     img = 'data:image/png;base64,' + base64.b64encode((ROOT / 'demo/assets' / step[2]).read_bytes()).decode()
-                page.evaluate('''([h, img, items]) => { const d = document.createElement('div'); d.id = 'demo-card';
+                wav, dur = tts(step[4], 'narrator')
+                # list items light up one by one as the narration reaches them
+                page.evaluate('''([h, img, items, ms]) => { const d = document.createElement('div'); d.id = 'demo-card';
                     d.style.cssText = 'position:fixed;inset:0;z-index:99;background:#0b1f3a;color:#fff;display:flex;gap:56px;'
-                      + 'align-items:center;justify-content:center;padding:60px;font:400 30px/1.35 system-ui';
+                      + 'align-items:center;justify-content:center;padding:60px;font:400 30px/1.4 system-ui';
                     const text = document.createElement('div'); text.style.maxWidth = img ? '640px' : '1100px';
                     const t = document.createElement('div'); t.textContent = h; t.style.cssText = 'font:700 52px/1.15 system-ui;margin-bottom:28px';
                     text.append(t);
                     if (items.length) { const ol = document.createElement('ol'); ol.style.cssText = 'margin:0;padding-left:1.3em';
-                      items.forEach((x) => { const li = document.createElement('li'); li.textContent = x; li.style.margin = '10px 0'; ol.append(li); });
+                      items.forEach((x, k) => { const li = document.createElement('li'); li.textContent = x;
+                        li.style.cssText = 'margin:10px 0;opacity:.25;transition:opacity .4s'; ol.append(li);
+                        setTimeout(() => { li.style.opacity = 1; }, 300 + k * ms / items.length); });
                       text.append(ol); }
                     if (img) { const i = document.createElement('img'); i.src = img; i.alt = '';
-                      i.style.cssText = 'max-width:820px;max-height:860px;border-radius:18px;box-shadow:0 12px 48px rgba(0,0,0,.5)';
+                      i.style.cssText = 'max-width:820px;max-height:780px;border-radius:18px;box-shadow:0 12px 48px rgba(0,0,0,.5)';
                       d.append(i); }
-                    d.append(text); document.body.append(d); }''', [step[1], img, step[3]])
+                    d.append(text); document.documentElement.append(d); }''', [step[1], img, step[3], dur * 900])
                 page.wait_for_timeout(300)
-                wav, dur = tts(step[4], 'narrator')
                 hold(wav, dur + 0.6, step[4])
                 page.evaluate("document.getElementById('demo-card').remove()")
             elif kind == 'hidden':  # off-camera reset between beats (e.g. empty the cart); not recorded
@@ -439,10 +517,12 @@ def record():
                                           approval_threshold: '75.00', verbosity: 'brief', current_pin: '1234'})})''')
                 page.wait_for_timeout(max(0, int(dur * 1000) - int((now() - a) * 1000)) + 350)
                 segments.append((a, now(), wav, step[1]))
-            elif kind == 'say':
-                submit('#message', step[1], step[1], step[2] if len(step) > 2 else None)
+            elif kind == 'say':   # ('say', words[, voiced-sentence hints[, camera actions after the reply]])
+                submit('#message', step[1], step[1], *step[2:])
             elif kind == 'pin':
-                submit('#pin', step[1], 'Types the PIN.', step[2] if len(step) > 2 else None)
+                submit('#pin', step[1], 'Types the PIN.', *step[2:])
+            elif kind in ('cam', 'callout', 'dark'):
+                do(step)
             elif kind == 'captured':  # the page captures by itself when the undo window ends; the wait is cut
                 page.wait_for_function('''() => { const t = [...document.querySelectorAll('#log .turn')].pop();
                     return t && /PayPal captured/.test(t.textContent); }''', timeout=60000)
@@ -455,9 +535,9 @@ def record():
                 page.evaluate('''(h) => { const d = document.createElement('div'); d.id = 'demo-phone';
                     d.style.cssText = 'position:fixed;inset:0;z-index:99;background:rgba(11,31,58,.75);display:flex;'
                       + 'align-items:center;justify-content:center;gap:28px;font:600 26px system-ui;color:#fff';
-                    d.innerHTML = '<div>Alex\\'s phone</div><iframe title="Approval page" style="width:420px;height:640px;'
+                    d.innerHTML = '<div>Alex\\'s phone</div><iframe title="Approval page" style="width:420px;height:760px;'
                       + 'border:10px solid #111;border-radius:28px;background:#fff"></iframe>';
-                    d.querySelector('iframe').src = h; document.body.append(d); }''', href)
+                    d.querySelector('iframe').src = h; document.documentElement.append(d); }''', href)
                 page.wait_for_timeout(1500)
                 wav, dur = tts(step[1], 'narrator')
                 a = now()
@@ -500,7 +580,7 @@ def edit(video, segments):
         seg = f'seg{i:03d}.mp4'
         audio = ['-i', str(wav)] if wav else ['-f', 'lavfi', '-i', 'anullsrc=r=24000:cl=mono']
         ff('-ss', f'{a:.3f}', '-i', str(video), *audio, '-t', f'{dur:.3f}', '-filter_complex', '[1:a]apad[a]',
-           '-map', '0:v', '-map', '[a]', '-r', '30', '-c:v', 'libx264', '-preset', 'veryfast', '-pix_fmt', 'yuv420p',
+           '-map', '0:v', '-map', '[a]', '-r', '30', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '18', '-pix_fmt', 'yuv420p',
            '-c:a', 'aac', '-ar', '44100', seg)
         parts.append(seg)
         srt += list(cues(caption, t, dur))
@@ -509,8 +589,10 @@ def edit(video, segments):
     (OUT / 'sightline_demo.srt').write_text(
         ''.join(f'{n}\n{stamp(a)} --> {stamp(b)}\n{c}\n\n' for n, (a, b, c) in enumerate(srt, 1)), encoding='utf-8')
     ff('-f', 'concat', '-safe', '0', '-i', 'parts.txt', '-c', 'copy', 'joined.mp4')
-    ff('-i', 'joined.mp4', '-vf', "subtitles=sightline_demo.srt:force_style='FontSize=11,BorderStyle=3,Outline=1,MarginV=10,BackColour=&H60000000'",
-       '-c:a', 'copy', 'sightline_demo.mp4')
+    # captions live in their own bar under the app (libass units: 288 = frame height, so the bar is ~37 high)
+    ff('-i', 'joined.mp4', '-vf', f"pad=1920:1080:0:0:color=0x0b1f3a,subtitles=sightline_demo.srt:force_style='FontSize=10,"
+       "BorderStyle=1,Outline=0,Shadow=0,MarginV=8,PrimaryColour=&H00FFFFFF'",
+       '-c:v', 'libx264', '-crf', '18', '-preset', 'medium', '-c:a', 'copy', 'sightline_demo.mp4')
     for p in parts:
         (OUT / p).unlink()
     print(f'done: {OUT / "sightline_demo.mp4"} ({t:.0f} s)')
