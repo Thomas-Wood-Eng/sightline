@@ -172,6 +172,89 @@ SCRIPTS['test'] = [
     ('pin', '1234', ['10 seconds'], [('cam', '#undo-box')]),
     ('captured',),
 ]
+# ---- v5 storyboards: chapters, camera on what matters, short spoken replies ----
+LAST = '#log .reply'   # the newest reply bubble (cam/callout take the last match)
+PAYPAL_FLOW = ('card', 'How Sightline uses PayPal', None, [
+    'Link once: PayPal Vault saves the PayPal account.',
+    'Check out: PayPal holds the money (Orders API, authorize).',
+    'The Readback reads PayPal’s own numbers aloud.',
+    'Confirm + PIN: PayPal captures the payment.',
+    'Undo or cancel: PayPal releases the hold.'],
+    'Here is the PayPal side. Link once, and PayPal saves the account. At checkout, PayPal holds the money, '
+    'and the Readback reads PayPal’s own numbers. Only the PIN tells PayPal to take the payment. '
+    'Undo or cancel, and PayPal releases the hold.')
+EXTENSION = ('card', 'The same check on other checkouts', 'extension_readback.png', [],
+             'A browser extension prototype brings the same check to checkout pages: the exact amount and payee, '
+             'read aloud, then a PIN.')
+OPEN = [
+    ('title', 'Sightline', 'Shop by voice. Hear every dollar before it moves.',
+     'Checkout is where blind shoppers get stuck. Sightline turns it into a conversation, '
+     'and PayPal holds the money until you say so.'),
+    ('setup', 'Set up once: a PIN, spending limits, a trusted contact.'),
+    ('card', 'Link PayPal once, on PayPal’s own page.', 'paypal_link.png', [], 'Then link PayPal once, on PayPal’s own page.'),
+]
+ASK = [
+    ('beat', '1. Ask in your own words'),
+    ('dark', True, 'Screen off. This is what the shopper hears.'),
+    ('say', 'Find me a hoodie.'),
+]
+BUY = [
+    ('say', 'Add the first one.', ['Which size']),
+    ('say', 'Medium.', ['Added']),
+    ('dark', False),
+    ('beat', '2. Hear the real total, from PayPal'),
+    ('say', 'Check out.', ['Total:'], [('cam', '.reply.readback'), ('callout', '#log .reply.readback .line.total', 'Total from PayPal')]),
+    ('cam', '#paypal', 1.4), ('callout', '#pp-steps', 'PayPal is holding the money'),
+    ('narrate', 'PayPal is holding the money. Nothing is charged yet.'),
+    ('beat', '3. Confirm, then type a PIN'),
+    ('say', 'Confirm.', ['PIN'], [('cam', '#pin-form')]),
+]
+SAFETY = [
+    ('beat', 'Scams get stopped'),
+    ('say', 'Someone from my bank called. I must buy gift cards urgently.', ['common scam', 'never ask'], [('cam', LAST)]),
+    ('beat', 'Big orders: a trusted contact approves'),
+    ('say', 'Find a rain jacket.', ['result']), ('say', 'Add it.', ['Added']),
+    ('say', 'Check out.', ['Total:', 'Approval link ready'], [('cam', '#paypal', 1.4), ('callout', '#pp-steps', 'Waiting for Alex')]),
+    ('approve', 'Alex approves from their phone. Only then can the shopper confirm with their PIN.'),
+]
+SCRIPTS['short'] = OPEN + ASK + BUY + [
+    ('pin', '1234', ['10 seconds'], [('cam', '#undo-box'), ('callout', '#undo-box', '10 seconds to undo')]),
+    ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-steps', 'Captured by PayPal')),
+] + SAFETY + [
+    ('hidden', 'Cancel.'),
+    ('beat', 'After delivery: is this my package?'),
+    ('say', 'Check my package.', ['Take or choose']),
+    ('photo', 'package_mismatch.jpg', ['Photo suggests'], ('cam', LAST)),
+    PAYPAL_FLOW,
+    ('title', 'The AI suggests. It never holds the keys.', 'github.com/Thomas-Wood-Eng/sightline',
+     'The AI suggests. The shopper decides. PayPal holds the money until they do.'),
+]
+SCRIPTS['ad'] = OPEN + ASK + [
+    ('beat', 'Compare without the clutter'),
+    ('say', 'Compare those two.', None, [('cam', LAST)]),
+] + BUY + [
+    ('pin', '1234', ['10 seconds'], [('cam', '#undo-box'), ('callout', '#undo-box', '10 seconds to undo')]),
+    ('say', 'Undo.', ['Undone', 'Nothing was charged']),
+    ('hidden', 'Remove everything.'),
+] + SAFETY + [
+    ('say', 'Confirm.', ['PIN'], [('cam', '#pin-form')]),
+    ('pin', '1234', ['10 seconds']),
+    ('captured', ['Paid']),
+    ('beat', 'Price drops, said once'),
+    ('say', 'Tell me if the fleece-lined hoodie drops below 30 dollars.', None, [('cam', LAST)]),
+    ('api', '/api/demo/price', {'id': 'hoodie-01', 'price': '29.99'}),
+    ('beat', 'What did I buy?'),
+    ('say', 'What did I buy this week?', None, [('cam', LAST)]),
+    ('beat', 'Something wrong? Help by voice'),
+    ('say', 'The rain jacket came damaged.', None, [('cam', LAST)]),
+    ('hidden', 'No.'),
+    ('beat', 'Is this my package?'),
+    ('say', 'Check my package.', ['Take or choose']),
+    ('photo', 'package_match.jpg', ['Photo suggests'], ('cam', LAST)),
+    PAYPAL_FLOW, EXTENSION,
+    ('title', 'The AI suggests. It never holds the keys.', 'Sightline · PayPal AI Hackathon 2026',
+     'The AI suggests. The shopper decides. PayPal holds the money until they do.'),
+]
 SCRIPT = SCRIPTS['full']
 
 
@@ -306,13 +389,16 @@ def tts(text, who):
         path = kok
     # Every clip: same loudness (engines differed by up to 7 dB), short fades so cuts never click, and Sightline a little
     # faster, the way screen-reader users listen. Cached per source clip and setting.
-    speed = SIGHTLINE_SPEED if who == 'sightline' else 1.0
-    done = path.with_name(path.stem + f'.n{speed}.wav')
+    speed = {'sightline': SIGHTLINE_SPEED, 'narrator': NARRATOR_SPEED}.get(who, 1.0)
+    done = path.with_name(path.stem + f'.p{speed}.wav')
     if not done.exists():
-        with wave.open(str(path)) as w:
-            dur = w.getnframes() / w.getframerate() / speed
+        # Gemini pads clips with seconds of silence: trim both ends (the reversed pass trims the tail),
+        # fade the new ends so cuts never click
+        trim = 'silenceremove=start_periods=1:start_threshold=-45dB:start_silence=0.08'
+        # and its slow narrator read leaves long mid-sentence pauses: shorten any pause to a quarter second
+        pauses = 'silenceremove=stop_periods=-1:stop_duration=0.3:stop_threshold=-35dB:stop_silence=0.25'
         chain = ([f'atempo={speed}'] if speed != 1.0 else []) + [
-            'loudnorm=I=-16:TP=-1.5:LRA=11', 'afade=t=in:d=0.02', f'afade=t=out:st={max(dur - 0.04, 0):.3f}:d=0.04']
+            pauses, trim, 'afade=t=in:d=0.02', 'areverse', trim, 'afade=t=in:d=0.04', 'areverse', 'loudnorm=I=-16:TP=-1.5:LRA=11']
         subprocess.run(['ffmpeg', '-hide_banner', '-loglevel', 'error', '-y', '-i', str(path), '-af', ','.join(chain),
                         '-ar', '24000', '-ac', '1', str(done)], check=True)
     with wave.open(str(done)) as w:
@@ -320,6 +406,7 @@ def tts(text, who):
 
 
 SIGHTLINE_SPEED = 1.25
+NARRATOR_SPEED = 1.1
 BASE = 1.5    # recording draws the app 1.5x (laid out 1280 wide)
 APP_H = 940   # app area of the 1920x1080 frame; the rest is the caption bar
 
@@ -327,7 +414,7 @@ APP_H = 940   # app area of the 1920x1080 frame; the rest is the caption bar
 # ---------- recording ----------
 def start_server():
     vault = json.loads((ROOT / 'spike_state.json').read_text())['vault_id']
-    env = dict(os.environ, DEMO_VAULT_ID=vault, PYTHONIOENCODING='utf-8')
+    env = dict(os.environ, DEMO_VAULT_ID=vault, PYTHONIOENCODING='utf-8', SIGHTLINE_DEMO='1')  # demo price override on
     proc = subprocess.Popen([sys.executable, '-m', 'uvicorn', 'app.main:app', '--port', str(PORT)], cwd=ROOT, env=env,
                             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     for _ in range(60):
@@ -391,7 +478,7 @@ def record():
                 document.getElementById('demo-callout')?.remove();
                 b.style.transition = 'none'; const prev = b.style.transform; b.style.transform = 'none';
                 const el = sel && [...document.querySelectorAll(sel)].pop(); let t = `scale(${base})`;
-                if (el) { const r = el.getBoundingClientRect();
+                if (el) { el.scrollIntoView({block: 'nearest'}); scrollTo(0, 0); const r = el.getBoundingClientRect();
                   const s = Math.max(base, Math.min(base * maxS, 0.94 * W / r.width, 0.92 * H / r.height));
                   const clamp = (v, lo) => Math.min(0, Math.max(lo, v));
                   const tx = clamp(W / 2 - s * (r.left + r.width / 2), W - s * b.offsetWidth);
@@ -405,6 +492,7 @@ def record():
             """A ring around `sel` plus a short label, so the viewer knows where to look."""
             page.evaluate('''([sel, text]) => { document.getElementById('demo-callout')?.remove();
                 const el = [...document.querySelectorAll(sel)].pop(); if (!el) return;
+                el.scrollIntoView({block: 'nearest'}); scrollTo(0, 0);
                 const r = el.getBoundingClientRect(), d = document.createElement('div'); d.id = 'demo-callout';
                 d.style.cssText = `position:fixed;z-index:97;pointer-events:none;left:${r.left - 6}px;top:${r.top - 6}px;`
                   + `width:${r.width + 12}px;height:${r.height + 12}px;border:6px solid #ffb800;border-radius:16px;`
@@ -445,7 +533,7 @@ def record():
             page.keyboard.type(text, delay=max(20, min(90, int(dur * 800 / max(len(text), 1)))))
             page.keyboard.press('Enter')
             wait_turn(n)
-            segments.append((a, now(), wav, f'You: {voiced}'))
+            segments.append((a, min(now(), a + dur + 1.2), wav, f'You: {voiced}'))
             reply = last_reply()
             if hints:
                 reply = key_sentences(reply, hints)
@@ -467,7 +555,11 @@ def record():
             elif kind == 'narrate':
                 wav, dur = tts(step[1], 'narrator')
                 hold(wav, dur, step[1])
-            elif kind == 'beat':  # ad cut: a headline banner over the live app, voiced by the narrator
+            elif kind == 'beat':  # chapter: a short silent full-screen card (its text is the caption too)
+                overlay(step[1], '')
+                hold(None, 1.3, step[1])
+                page.evaluate("document.getElementById('demo-title').remove()")
+            elif kind == 'banner':  # old style: a headline banner over the live app
                 page.evaluate('''(t) => { let d = document.getElementById('demo-beat');
                     if (!d) { d = document.createElement('div'); d.id = 'demo-beat'; document.documentElement.append(d);
                       d.style.cssText = 'position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:98;'
@@ -505,6 +597,10 @@ def record():
                 page.evaluate('''(t) => fetch('/api/turn', {method: 'POST', headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({text: t})})''', step[1])
                 page.wait_for_timeout(400)
+            elif kind == 'api':  # ('api', path, json body): off camera, not recorded
+                page.evaluate('''([u, b]) => fetch(u, {method: 'POST', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(b)})''', [step[1], step[2]])
+                page.wait_for_timeout(300)
             elif kind == 'setup':
                 wav, dur = tts(step[1], 'narrator')
                 a = now()
@@ -629,7 +725,7 @@ def prefetch():
     """Voice every line known in advance before recording, so real-time steps (the 10 s undo window) aren't
     slowed by speech generation."""
     for step in SCRIPT:
-        if step[0] in ('title', 'narrate', 'setup', 'approve', 'beat', 'card'):
+        if step[0] in ('title', 'narrate', 'setup', 'approve', 'card'):
             tts(step[-1], 'narrator')
         elif step[0] == 'say':
             tts(step[1], 'you')
