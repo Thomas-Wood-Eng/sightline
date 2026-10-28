@@ -276,7 +276,7 @@ def approve_page(token: str):
         return _page('Approval link not valid', '<p>This approval link is not valid, or the app was restarted.</p>')
     if a['state'] != 'pending':
         return _page('Already answered', f"<p>This request was already {escape(a['state'])}. Nothing more to do.</p>")
-    items = ''.join(f'<li>{escape(l)}</li>' for l in a['lines'])
+    items = ''.join(f'<li>{escape(l)}</li>' for l in a['lines'] if not l.startswith('PayPal Pay in 4'))
     why = (f'<p class="flag"><strong>Sightline flagged this as a possible gift-card scam: {escape(a["why"])}.</strong> '
            'Scammers often pose as agencies, banks or family and ask for gift cards. Please check with them before '
            'you approve.</p>') if a.get('why') else ''

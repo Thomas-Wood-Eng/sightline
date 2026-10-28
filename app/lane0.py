@@ -40,6 +40,8 @@ FIXED = [
     (r'stop|quiet|shh+|be quiet', ('stop',)),
     (r'(open |show )?settings|preferences', ('settings',)),
     (r'(link|connect|set up|add) (my )?pay ?pal( account)?', ('link',)),
+    (r'(tell me (more )?about |what is |more about |explain |hear more about )?(pay ?pal )?(pay later|pay in (4|four|for))'
+     r'( options?)?', ('paylater',)),
 ]
 FILLER_START = r'^(please|ok(ay)?|um+|uh+|so|hey sightline|sightline|can you|could you|i want to|i would like to|i\'d like to|let\'s|lets)\s+'
 FILLER_END = r'\s+(please|now|for me|thanks|thank you)$'
@@ -462,6 +464,8 @@ def _handle(text, s):
         return Reply(last['say'], last['lines']) if last else Reply('Nothing to repeat yet.')
     if name == 'help':
         return Reply('You can say:', HELP)
+    if name == 'paylater':
+        return Reply(speech.pay_later())
     if name == 'wrong':
         _log_feedback(s, text)
         return Reply('Thanks, I noted that. Say describe to hear exactly what the listing says, or ask again.')
@@ -701,6 +705,8 @@ def _holding(cmd, text, s, st):
         return Reply(last['say'], last['lines']) if last else checkout.start(s)
     if name == 'spell' and s.get('spell'):
         return Reply(speech.spell(s['spell']))
+    if name == 'paylater':  # explains only: the hold stays as it is, paid in full on confirm
+        return Reply(speech.pay_later() + ' To pay this order in full, say confirm. To release the hold, say cancel.')
     if name == 'wrong':
         _log_feedback(s, text)
         return Reply('Thanks, I noted that. If the Readback is wrong, say cancel and nothing will be charged.')

@@ -119,3 +119,33 @@ def test_package_check_boundary_and_fallback(client, fake, monkeypatch):
     assert photo(client, 'package_match.jpg').json()['say'].startswith('I could not check the photo')
     monkeypatch.setattr(llm, 'vision', lambda *a: '{"match": "unsure", "seen": "a closed cardboard box"}')
     assert photo(client, 'package_match.jpg').json()['say'].startswith('The photo is unclear')
+
+
+# ---- 3. PayPal Pay in 4, read aloud, never chosen for the shopper ----
+def test_pay_in_4_line_only_in_range():
+    from app import speech
+    order = lambda v: {'purchase_units': [{'amount': {'currency_code': 'USD', 'value': v, 'breakdown': {
+        'item_total': {'value': v}, 'shipping': {'value': '0.00'}, 'tax_total': {'value': '0.00'}}}, 'items': []}]}
+    lines = speech.readback(order('41.73'), {'delivery_days': 3, 'seller': 'Demo'})[1]
+    assert lines[-2] == 'PayPal Pay in 4 may be available: 4 payments of about 10.43 US dollars. Say pay later to hear more.'
+    lines = speech.readback(order('60.00'), {'delivery_days': 3, 'seller': 'Demo'})[1]
+    assert 'PayPal Pay in 4 may be available: 4 payments of 15.00 US dollars.' in lines[-2]
+    for v in ('29.99', '1500.01'):
+        assert not any('Pay in 4' in l for l in speech.readback(order(v), {'delivery_days': 3, 'seller': 'Demo'})[1])
+
+
+def test_pay_later_explains_and_never_changes_the_payment(client, fake):
+    setup(client)
+    assert t(client, 'hoodie')  # 41.73 with shipping and tax
+    t(client, 'add it in medium')
+    r = t(client, 'check out')
+    assert any(l.startswith('PayPal Pay in 4 may be available: 4 payments of about 10.43 US dollars') for l in r['lines'])
+    for said in ('pay later', 'tell me about pay in 4', 'what is paypal pay in four'):
+        r = t(client, said)
+        assert 'interest-free' in r['say'] and "Sightline pays in full" in r['say'] and r['state'] == 'awaiting_confirm'
+    assert 'To pay this order in full, say confirm' in r['say']
+    t(client, 'confirm')
+    r = client.post('/api/pin', json={'pin': '1234'}).json()
+    assert r['state'] == 'captured' and 'captured 41.73 US dollars' in r['say']  # the full amount, one capture
+    assert fake.count('capture') == 1
+    assert 'interest-free' in t(client, 'pay later')['say']  # also outside a checkout

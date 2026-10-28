@@ -6,7 +6,7 @@ which drops any sentence that mentions money or a number-like price.
 import re
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta
-from decimal import Decimal
+from decimal import Decimal, ROUND_HALF_UP
 
 
 @dataclass
@@ -231,6 +231,25 @@ def warnings(lines_in):
     return out
 
 
+PAY_IN_4 = (Decimal(30), Decimal(1500))  # PayPal Pay in 4's US purchase range
+
+
+def pay_in_4(total):
+    """One Readback line. PayPal sets the real split; when 4 doesn't divide the total evenly we say "about"."""
+    total = Decimal(str(total))
+    part = (total / 4).quantize(Decimal('0.01'), ROUND_HALF_UP)
+    return (f"PayPal Pay in 4 may be available: 4 payments of {'' if part * 4 == total else 'about '}{usd(part)}. "
+            'Say pay later to hear more.')
+
+
+def pay_later():
+    """'pay later': plain words. Sightline never picks credit, by default or by the model."""
+    return ('PayPal Pay in 4 splits a purchase into 4 interest-free payments: the first when you buy, then one every '
+            "2 weeks. PayPal checks whether you are eligible, and you approve it on PayPal's own page. "
+            'In this prototype Pay Later is chosen on PayPal\'s page; Sightline pays in full from your saved PayPal. '
+            'Sightline never picks credit for you.')
+
+
 def readback(order, meta):
     """The Readback. Every amount comes from PayPal's order response; meta gives delivery days and seller
     (catalogue data, not money). Fixed order: item, quantity, unit price, shipping, tax, total, delivery, seller."""
@@ -248,6 +267,7 @@ def readback(order, meta):
               # gift note as PayPal holds it (PayPal fills in a description of its own when we send none)
               *([pu['description'].rstrip('.') + '.'] if meta.get('gift') and pu.get('description') else []),
               *meta.get('warnings', []),
+              *([pay_in_4(amt['value'])] if PAY_IN_4[0] <= Decimal(amt['value']) <= PAY_IN_4[1] else []),
               'Say confirm to continue to your PIN, or cancel to release the hold.']
     return 'PayPal is holding the payment. Here is the Readback.', lines
 
