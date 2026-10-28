@@ -89,7 +89,7 @@ def test_lane1_price_and_category_parsing():
 def test_lane1_handle_shows_at_most_three():
     s = {}
     r = lane1.handle('anything under 100', s)
-    assert len(r.lines) <= 3 and r.say.startswith('4 results for everything under $100.00')
+    assert len(r.lines) <= 3 and r.say.startswith('5 results for everything under $100.00')
 
 
 def test_lane1_context_never_contains_prices():

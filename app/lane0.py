@@ -398,7 +398,41 @@ def pin_like(text):
     return bool(re.fullmatch(r'[\d\s-]+', text.strip())) and sum(c.isdigit() for c in text) >= 4
 
 
+# ---- gift-card / pressure scam guard: fixed rules, no AI ----
+GIFT_CARD = re.compile(r'\bgift ?cards?\b|\b(?:itunes|apple|google play|steam|amazon|target|walmart|ebay|vanilla) cards?\b')
+SCAM = re.compile(
+    r"\b(?:irs|internal revenue|tax (?:office|man|department|agency)|police|sheriff|warrant|arrest(?:ed)?|bail|jail"
+    r"|social security|medicare|customs|(?:the |my )?bank (?:said|says|told|called|wants)|pay (?:a |the |my )?fine"
+    r"|wire (?:money|transfer|it|the money)|western union|moneygram|bitcoin|crypto(?:currency)?"
+    r"|keep (?:it|this) (?:a )?secret|(?:do not|don't) tell (?:anyone|anybody|my|your)"
+    r"|(?:won|win) (?:a |the )?(?:prize|lottery|sweepstakes)|(?:prize|lottery|sweepstakes|processing) fee|tech support"
+    r"|read (?:them|the numbers|the codes?|the card) (?:to|over|out)|scratch (?:off )?the back"
+    r"|(?:on the phone|caller|called me)\b.*\b(?:told|said|says|wants|asked)"
+    r"|(?:someone|somebody|a man|a woman|a guy|they|he|she) (?:told|asked) me to (?:buy|pay|send|get)"
+    r"|urgent\b.*\b(?:told|said|says|called)|(?:told|said|says|called)\b.*\burgent"
+    r"|(?:grandson|granddaughter|grandchild|grandkid|nephew|niece)\b.*\b(?:trouble|hospital|lawyer|help))\b")
+
+
 def handle(text, s):
+    """The scam guard runs first, on anything said outside a checkout; then the commands."""
+    st = checkout.state(s)
+    if st in checkout.HOLDING or st == checkout.UNDO or pin_like(text) or 'gift' in (s.get('ask') or {}):
+        return _handle(text, s)  # a gift note like "keep it a secret" is not a scam cue
+    t = norm(text)
+    pressure, card_asked = SCAM.search(t), GIFT_CARD.search(t)
+    if not (pressure or card_asked):
+        return _handle(text, s)
+    first = not checkout.scam_flag(s)
+    checkout.flag_scam(s, text, bool(pressure))
+    if pressure:
+        return Reply(speech.scam_warning(bool(s.get('contact'))))
+    r = _handle(text, s) or show_results(s, [p for p in catalog.PRODUCTS if p.get('gift_card')], 'gift cards')
+    if first:
+        r.say = f'{speech.gift_card_note()} {r.say}'
+    return r
+
+
+def _handle(text, s):
     cmd = parse(text)
     st = checkout.state(s)
     if st != checkout.PIN and pin_like(text):  # same reply whatever the digits: no hint whether they were the PIN

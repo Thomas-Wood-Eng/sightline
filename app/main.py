@@ -237,12 +237,15 @@ def approve_page(token: str):
     if a['state'] != 'pending':
         return _page('Already answered', f"<p>This request was already {escape(a['state'])}. Nothing more to do.</p>")
     items = ''.join(f'<li>{escape(l)}</li>' for l in a['lines'])
+    why = (f'<p class="flag"><strong>Sightline flagged this as a possible gift-card scam: {escape(a["why"])}.</strong> '
+           'Scammers often pose as agencies, banks or family and ask for gift cards. Please check with them before '
+           'you approve.</p>') if a.get('why') else ''
     buttons = ''.join(f'<form method="post" action="/approve/{escape(token)}/{d}"><button type="submit">{label}</button></form>'
                       for d, label in (('approve', 'Approve this order'), ('decline', 'Decline this order')))
     return _page(f"{a['name']}, please approve or decline this order",
                  '<p>Someone who listed you as their trusted contact wants to buy this with Sightline. PayPal is holding '
                  'the payment. Nothing is charged unless you approve and they then confirm with their own PIN.</p>'
-                 f'<h2>The Readback, from PayPal</h2><ul>{items}</ul>{buttons}')
+                 f'{why}<h2>The Readback, from PayPal</h2><ul>{items}</ul>{buttons}')
 
 
 @app.post('/approve/{token}/{decision}')

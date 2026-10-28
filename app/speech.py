@@ -213,6 +213,9 @@ def warnings(lines_in):
     """Scam and dark-pattern guard, from catalogue data by fixed rules (never an LLM). lines_in: [(product, qty, variant)]."""
     ids, out = {p['id'] for p, _, _ in lines_in}, []
     for p, _, _ in lines_in:
+        if p.get('gift_card'):
+            out.append('Heads up: gift cards are a common scam payment. Real agencies never ask for them. '
+                       "Gift card orders need your trusted contact's approval.")
         if p.get('subscription'):
             out.append(f"Heads up: {p['name']} is a subscription that renews every {p['subscription']} until you cancel.")
         if p.get('urgency'):
@@ -249,7 +252,33 @@ def readback(order, meta):
     return 'PayPal is holding the payment. Here is the Readback.', lines
 
 
-def approval_sent(name, threshold, total):
+SCAM_ADVICE = ('Real agencies, banks and police never ask for gift cards, wire transfers or crypto. '
+               'They never ask you to keep it secret.')
+
+
+def scam_warning(has_contact):
+    """Pressure words heard (Lane 0 scam guard): calm, short, no lecture."""
+    return ('This matches a common scam. ' + SCAM_ADVICE + ' I will not go ahead with a payment like this without '
+            'your trusted contact. It is OK to hang up and call someone you trust.'
+            + ('' if has_contact else ' You have no trusted contact yet. You can add one in Settings.'))
+
+
+def gift_card_note():
+    return ('A note first: gift cards are the most common way scammers ask to be paid. Real agencies never ask for '
+            "gift cards. So a gift card order needs your trusted contact's approval.")
+
+
+def scam_no_contact():
+    return ('Not placed. Gift card orders, and orders after a scam warning, need a trusted contact to approve them. '
+            'You have none yet. To add one, open Settings, fill in Trusted contact, and save with your PIN. '
+            'Nothing was charged.')
+
+
+def approval_sent(name, threshold, total, why=None):
+    if why:
+        return [f"This order needs {name}'s approval: Sightline flagged it as a possible gift-card scam.",
+                f'Sent to {name} for approval. When {name} approves, say confirm and type your PIN. Say cancel to release the hold.',
+                'In this prototype the approval link is shown here instead of emailed.']
     return [f'This order totals {usd(total)}, which is over your approval amount of {usd(threshold)}.',
             f'Sent to {name} for approval. When {name} approves, say confirm and type your PIN. Say cancel to release the hold.',
             'In this prototype the approval link is shown here instead of emailed.']

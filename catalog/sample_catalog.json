@@ -94,5 +94,25 @@
    "qa": [{"q": "Do they fold?", "a": "Not stated.", "source": "not_stated"}],
    "similar": []
   }
+ },
+ {
+  "id": "giftcard-50",
+  "name": "Sightline Demo Store gift card",
+  "category": "gifts",
+  "price": 50.0,
+  "rating": 4.6, "review_count": 88,
+  "shipping": 0, "delivery_days": 1,
+  "seller": "Sightline Demo Store",
+  "gift_card": true,
+  "listing": {
+   "description": "A digital gift card for the Sightline Demo Store, sent by email. It can only be spent in this store.",
+   "colour": null, "sizes": null, "material": null,
+   "dimensions": null, "in_box": "1 gift card code, sent by email", "condition": "new", "allergens": null, "care": null
+  },
+  "image": null,
+  "image_credit": null,
+  "enriched": {"short": "Digital gift card for the demo store",
+   "description": "A digital gift card for the Sightline Demo Store, sent by email. It can only be spent in this store.",
+   "facts": [], "qa": [], "similar": []}
  }
 ]

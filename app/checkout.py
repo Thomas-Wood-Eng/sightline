@@ -54,6 +54,32 @@ def state(s):
     return co.get('state', IDLE)
 
 
+# ---- gift-card / pressure scam guard (flag set by Lane 0's fixed rules, never by an LLM) ----
+SCAM_HOURS = 24  # shortcut: a flag lapses after a day so one false alarm can't block a shopper with no contact forever
+
+
+def flag_scam(s, said, pressure):
+    """Keep the first pressure words (the clearest reason for the contact); a later plain gift-card mention doesn't replace them."""
+    old = scam_flag(s)
+    if not old or (pressure and not old.get('pressure')):
+        s['scam'] = {'said': said.strip()[:200], 'at': time.time(), 'pressure': pressure}
+
+
+def scam_flag(s):
+    f = s.get('scam')
+    return f if f and time.time() - f['at'] < SCAM_HOURS * 3600 else None
+
+
+def scam_reason(s, lines):
+    """Why this order needs the trusted contact whatever its total, or None."""
+    f = scam_flag(s)
+    if f:
+        return f'"{f["said"]}"'
+    if any(p.get('gift_card') for p, _, _ in lines):
+        return 'the order contains a gift card'
+    return None
+
+
 def caps(s):
     return {k: Decimal(v) for k, v in (s.get('caps') or DEFAULT_CAPS).items()}
 
@@ -137,6 +163,9 @@ def start(s):
         return Reply(speech.cap_refusal('order', c['order'], total))
     if spent_today(s) + total > c['daily']:
         return Reply(speech.cap_refusal('daily', c['daily'], total, spent_today(s)))
+    why, contact = scam_reason(s, lines), s.get('contact')
+    if why and not contact:
+        return Reply(speech.scam_no_contact())
 
     rid = uuid.uuid4().hex  # one id per checkout attempt; suffixes keep hold/capture/void distinct
     s['co'] = {'state': READBACK, 'rid': rid}
@@ -161,12 +190,12 @@ def start(s):
                'days': meta['delivery_days'],  # for the ledger: our ids beside PayPal's item names and unit prices
                'items': [[p['id'], it['name'], q, it['unit_amount']['value']]
                          for (p, q, _), it in zip(lines, order['purchase_units'][0].get('items', []))]}
-    contact = s.get('contact')
-    if contact and total > Decimal(contact['threshold']):
+    if contact and (why or total > Decimal(contact['threshold'])):
         aid = secrets.token_urlsafe(16)
-        APPROVALS[aid] = {'state': 'pending', 'name': contact['name'], 'lines': rb[:-1], 'auth_id': auth['id'], 'rid': rid}
+        APPROVALS[aid] = {'state': 'pending', 'name': contact['name'], 'lines': rb[:-1], 'auth_id': auth['id'], 'rid': rid,
+                          'why': why}
         link = '/approve/' + signer().dumps(aid)
-        rb = rb[:-1] + speech.approval_sent(contact['name'], contact['threshold'], total) + [f'Approval link: {link}']
+        rb = rb[:-1] + speech.approval_sent(contact['name'], contact['threshold'], total, why) + [f'Approval link: {link}']
         s['co'].update(state=APPROVAL, approval=aid, lines=rb)
     return Reply(say, rb)
 
@@ -177,6 +206,8 @@ def approval_news(s):
     if a is None:
         return Reply('The approval request was lost when the app restarted. Say cancel to release the hold, '
                      'then check out again.')
+    if a['state'] in ('approved', 'declined'):
+        s.pop('scam', None)  # the contact has looked at it: the scam flag has done its job
     if a['state'] == 'approved':
         say = f"{a['name']} approved this order. Say confirm to continue to your PIN, or say cancel."
         s['co'].update(state=CONFIRM, say=say, lines=a['lines'])
