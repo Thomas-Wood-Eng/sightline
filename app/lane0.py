@@ -81,11 +81,17 @@ def parse(text):
     t = norm(text)
     if not t:
         return None
-    m = re.fullmatch(r'how much (?:have i|did i|i have|i) (?:spent|spend)(?: (today|this week|this month|in total|so far))?'
-                     r'|(?:my )?spending (today|this week|this month)', t)
+    when = r'(today|this week|this month|last week|last month|in total|so far)'
+    period = lambda p: {'this week': 'week', 'this month': 'month', 'last week': 'last_week', 'last month': 'last_month',
+                        'in total': 'all', 'so far': 'all'}.get(p, p)
+    m = re.fullmatch(r'how much (?:have i|did i|i have|i) (?:spent|spend)(?: ' + when + ')?'
+                     r'|(?:my )?spending (today|this week|this month|last week|last month)', t)
     if m:
-        period = next((g for g in m.groups() if g), 'today')
-        return ('spent', {'this week': 'week', 'this month': 'month', 'in total': 'all', 'so far': 'all'}.get(period, period))
+        return ('spent', period(next((g for g in m.groups() if g), 'today')))
+    m = re.fullmatch(r'what (?:did|have) i (?:buy|bought|order|ordered|purchase|purchased|get|got) ' + when +
+                     r'|(?:show |list |read )?(?:me )?(?:all )?my pay ?pal (?:purchases|orders|payments|transactions)', t)
+    if m:  # the spending summary plus what was bought
+        return ('spent', period(m.group(1) or 'all'), 'list')
     # dispute help: something went wrong with a delivered (or undelivered) order
     if re.search(r"\b(?:never (?:got|received|arrived|came|showed up)|(?:did not|didn't) (?:get|receive|arrive|come)"
                  r"|(?:has not|hasn't|have not|haven't) (?:arrived|come|got|received)|lost in the (?:post|mail))\b", t):
@@ -578,9 +584,18 @@ def _handle(text, s):
                      'check it, and Sightline does not keep it.', action='photo')
     if name == 'spent':
         today = date.today()
-        since = {'today': today, 'week': today - timedelta(days=today.weekday()), 'month': today.replace(day=1),
-                 'all': date.min}[args[0]]
-        return Reply(speech.spending(args[0], *db.spent(_sid(s), since.isoformat())))
+        monday, first = today - timedelta(days=today.weekday()), today.replace(day=1)
+        since, until = {'today': (today, None), 'week': (monday, None), 'month': (first, None),
+                        'last_week': (monday - timedelta(days=7), monday),
+                        'last_month': ((first - timedelta(days=1)).replace(day=1), first), 'all': (date.min, None)}[args[0]]
+        until = until and until.isoformat()
+        say = speech.spending(args[0], *db.spent(_sid(s), since.isoformat(), until))
+        if len(args) == 1:
+            return Reply(say)
+        rows = db.between(_sid(s), since.isoformat(), until)
+        if rows:
+            s['spell'] = rows[0]['order_id']
+        return Reply(say, speech.purchases(rows))
     if name == 'gift':
         s['gift'], s['ask'] = s.get('gift') or '', {'gift': 1}
         return Reply('Gift mode on. What should the gift note say? Type or say it now, or say no note.')

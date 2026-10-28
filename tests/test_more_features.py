@@ -262,3 +262,37 @@ def test_alert_without_amount_means_any_drop(client, fake, monkeypatch):
     assert 'gets cheaper than $18.50' in t(client, 'tell me if it gets cheaper')['say']
     catalog.get('mug-01')['price'] = 18.49
     assert t(client, 'help')['say'].startswith('Price drop: Insulated travel mug is now $18.49')
+
+
+# ---- 7. what did I buy: from the order ledger, never the model ----
+def test_purchase_history_by_period(client, fake):
+    from datetime import date, timedelta
+    from app import db
+    from app.lane0 import parse
+    assert parse('what did I buy last month') == ('spent', 'last_month', 'list')
+    assert parse('what did I buy this week') == ('spent', 'week', 'list')
+    assert parse('show my PayPal purchases') == ('spent', 'all', 'list')
+    assert parse('how much did I spend last week') == ('spent', 'last_week')
+    assert parse('what did I buy') == ('orders',)
+    setup(client)
+    buy(client)  # today: the mug
+    sid = next(iter(checkout.LEDGER))
+    first = date.today().replace(day=1)
+    last_month = (first - timedelta(days=1)).replace(day=15).isoformat() + 'T10:00:00'
+    db.record(sid, 'OLD1', 'CAP-OLD1', '41.73', [{'pid': 'hoodie-01', 'name': 'Fleece-lined pullover hoodie (size M)',
+                                                  'qty': 1, 'unit': '34.99', 'tax': '1.75', 'refunded': '0.00'}], 3)
+    with db._conn() as c:
+        c.execute('UPDATE orders SET created=? WHERE order_id=?', (last_month, 'OLD1'))
+    r = t(client, 'what did I buy last month')
+    assert r['say'] == 'Last month, you spent 41.73 US dollars on 1 order, after refunds.'
+    assert r['lines'] == [f"{speech_day(last_month)}: Fleece-lined pullover hoodie (size M). Paid 41.73 US dollars. "
+                          'PayPal order OLD1.']
+    r = t(client, 'show my PayPal purchases')
+    assert r['say'].startswith('In total, you spent') and 'on 2 orders' in r['say'] and len(r['lines']) == 2
+    assert 'Insulated travel mug' in r['lines'][0] and 'PayPal order ORDER1' in r['lines'][0]  # newest first
+    assert 'on 1 order' in t(client, 'what did I buy this month')['say']
+
+
+def speech_day(iso):
+    from app import speech
+    return speech._day(iso)

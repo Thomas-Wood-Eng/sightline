@@ -369,8 +369,21 @@ def track(o, status):
 
 
 def spending(period, amount, n):
-    label = {'today': 'Today', 'week': 'This week, since Monday', 'month': 'This month', 'all': 'In total'}[period]
+    label = {'today': 'Today', 'week': 'This week, since Monday', 'month': 'This month', 'last_week': 'Last week',
+             'last_month': 'Last month', 'all': 'In total'}[period]
     return f"{label}, you spent {usd(amount)} on {plural(n, 'order')}, after refunds."
+
+
+def purchases(rows, most=5):
+    """'What did I buy last month?': items, dates and totals from our ledger (PayPal's ids and amounts), newest first."""
+    lines = []
+    for o in rows[:most]:
+        ref = sum((Decimal(l['refunded']) for l in o['lines']), Decimal(0))
+        lines.append(f"{_day(o['created'])}: {', '.join(l['name'] for l in o['lines'])}. Paid {usd(o['total'])}"
+                     + (f", {usd(ref)} refunded" if ref else '') + f". PayPal order {o['order_id']}.")
+    if len(rows) > most:
+        lines.append(f"And {plural(len(rows) - most, 'older order')}. Say my orders to hear the latest ones.")
+    return lines
 
 
 def package_check(verdict, ordered, seen=''):

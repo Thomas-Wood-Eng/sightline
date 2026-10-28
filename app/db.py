@@ -54,9 +54,14 @@ def refunded(order):
     return sum((Decimal(l['refunded']) for l in order['lines']), Decimal(0))
 
 
-def spent(sid, since):
-    """Captured minus refunded, for orders created on or after `since` (an ISO date). Returns (amount, order count)."""
-    rows = [o for o in orders(sid) if o['created'] >= since]
+def between(sid, since, until=None):
+    """Orders created on or after `since` and before `until` (ISO dates; until None = now), newest first."""
+    return [o for o in orders(sid) if o['created'] >= since and (until is None or o['created'] < until)]
+
+
+def spent(sid, since, until=None):
+    """Captured minus refunded, for orders in [since, until). Returns (amount, order count)."""
+    rows = between(sid, since, until)
     return sum((Decimal(o['total']) - refunded(o) for o in rows), Decimal(0)), len(rows)
 
 
