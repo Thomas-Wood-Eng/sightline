@@ -248,8 +248,8 @@ def price_drop(p, target):
             f"Say move the {short_name(p, 3).lower()} to my cart to buy it.")
 
 
-def removed(p, cart_count):
-    return f"Removed: {p['name']}. Cart has {plural(cart_count, 'item')}."
+def removed(p, cart_count, variant=''):
+    return f"Removed: {item_name(p, variant)}. Cart has {plural(cart_count, 'item')}."
 
 
 def cap_refusal(kind, cap, total, spent=None):

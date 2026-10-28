@@ -29,7 +29,7 @@ FIXED = [
      ('describe', 'it', 'more')),  # one level more detail than the setting
     (r'more results|show more|next page|keep going|any more|anything else|more options|other options', ('more', True)),
     (r'(show |read |view |open )?(my |the )?(cart|basket)|what is in (my|the) (cart|basket)|cart please', ('cart',)),
-    (r'(clear|empty) (my |the )?(cart|basket)', ('clear',)),
+    (r'(clear|empty) (my |the )?(cart|basket)|(remove|delete) (everything|all|all items)( from my cart)?', ('clear',)),
     (r'check ?out|go to (the )?check ?out|proceed to (the )?check ?out|place (the |my )?order|pay( now)?|buy now'
      r'|i am ready to pay|complete (my |the )?(order|purchase)', ('checkout',)),
     (r'(i )?confirm( it| that| the (purchase|order|payment)| purchase| order| payment)?|yes,? confirm', ('confirm',)),
@@ -768,13 +768,26 @@ def _handle(text, s):
             return which(s)
         return add(s, p, qty, opt)
     if name == 'remove':
-        cart = s.get('cart', [])
-        pool = [catalog.get(l[0]) for l in cart]
-        p = resolve(s, args[0], pool) if args[0] != 'it' else catalog.get(s.get('focus') or '')
-        if not p or p['id'] not in [l[0] for l in cart]:
+        cart = [l for l in s.get('cart', []) if catalog.get(l[0])]  # numbered as "cart" reads them
+        variant = lambda l: l[2] if len(l) > 2 else ''
+        if args[0] != 'it' and args[0][0] == 'n':  # "remove number 2": exactly that cart line
+            n = len(cart) if args[0][1] == -1 else args[0][1]
+            if not 1 <= n <= len(cart):
+                return Reply('That is not in your cart. Say cart to hear what is in it.')
+            gone = cart.pop(n - 1)
+            s['cart'] = cart
+            return Reply(speech.removed(catalog.get(gone[0]), sum(l[1] for l in cart), variant(gone)))
+        p = resolve(s, args[0], [catalog.get(l[0]) for l in cart]) if args[0] != 'it' else catalog.get(s.get('focus') or '')
+        mine = [i for i, l in enumerate(cart, 1) if p and l[0] == p['id']]
+        if not mine:
             return Reply('That is not in your cart. Say cart to hear what is in it.')
-        s['cart'] = [l for l in cart if l[0] != p['id']]
-        return Reply(speech.removed(p, sum(l[1] for l in s['cart'])))
+        if len(mine) > 1:  # two sizes of one item: never remove both on a guess
+            opts = '; '.join(f'number {i}, {variant(cart[i - 1]) or "no size"}' for i in mine)
+            return Reply(f"Your cart has {p['name']} {speech.plural(len(mine), 'time')}: {opts}. "
+                         f'Say remove number {mine[-1]}, for example.')
+        gone = cart.pop(mine[0] - 1)
+        s['cart'] = cart
+        return Reply(speech.removed(p, sum(l[1] for l in cart), variant(gone)))
     if name == 'clear':
         s['cart'] = []
         return Reply('Your cart is now empty.')

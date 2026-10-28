@@ -58,3 +58,15 @@ def test_size_not_offered_adds_nothing(client, fake):
     r = t(client, 'add it in XXL')
     assert r['say'].startswith('Fleece-lined pullover hoodie does not come in size XXL, so I did not add it. Which size?')
     assert 'Added: Fleece-lined pullover hoodie (size L' in t(client, 'large')['say']
+
+
+# ---- M3: remove one cart line, not every line of that product ----
+def test_remove_one_line(client, fake):
+    setup(client)
+    t(client, 'hoodie'); t(client, 'add it in large'); t(client, 'add it in medium')
+    r = t(client, 'remove it')
+    assert r['say'].startswith('Your cart has Fleece-lined pullover hoodie 2 times: number 1, size L')
+    r = t(client, 'remove number 2')
+    assert r['say'] == 'Removed: Fleece-lined pullover hoodie (size M, heather grey). Cart has 1 item.'
+    assert '(size L, heather grey)' in t(client, 'cart')['lines'][0]
+    assert t(client, 'remove everything')['say'] == 'Your cart is now empty.'
