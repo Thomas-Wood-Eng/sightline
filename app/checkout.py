@@ -309,7 +309,7 @@ def pin(s, entered):
     s['co'] = {**s['co'], 'state': UNDO, 'due': time.time() + delay}
     if delay <= 0:
         return finalize(s)
-    return Reply(f'PIN accepted. PayPal takes the payment in {delay} seconds. '
+    return Reply(f'PIN accepted. In {delay} seconds Sightline asks PayPal to take the payment. '
                  'To stop it, say undo, or press Escape, or use the Undo button.')
 
 
@@ -356,7 +356,7 @@ def pending(s):
     if st == UNDO:
         left = seconds_left(s)
         when = f'in {speech.plural(left, "second")}' if left else 'now'
-        return (f'Your PIN was accepted. PayPal takes the payment of {amount} for {what} {when}.'
+        return (f'Your PIN was accepted. Sightline asks PayPal to take the payment of {amount} for {what} {when}.'
                 + (' To stop it, say undo, press Escape, or use the Undo button.' if left else ''))
     if st == APPROVAL:
         who = APPROVALS.get(co.get('approval'), {}).get('name', 'your trusted contact')

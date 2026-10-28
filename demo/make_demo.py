@@ -175,33 +175,32 @@ SCRIPTS['test'] = [
 # ---- v5 storyboards: chapters, camera on what matters, short spoken replies ----
 LAST = '#log .reply'   # the newest reply bubble (cam/callout take the last match)
 PAYPAL_FLOW = ('card', 'How Sightline uses PayPal', None, [
-    'Link once: PayPal Vault saves the PayPal account.',
-    'Check out: PayPal holds the money (Orders API, authorize).',
-    'The Readback reads PayPal’s own numbers aloud.',
-    'Confirm + PIN: PayPal captures the payment.',
-    'Undo or cancel: PayPal releases the hold.'],
-    'Here is the PayPal side. Link once, and PayPal saves the account. At checkout, PayPal holds the money, '
-    'and the Readback reads PayPal’s own numbers. Only the PIN tells PayPal to take the payment. '
-    'Undo or cancel, and PayPal releases the hold.')
+    'Link once: PayPal Vault saves the account.',
+    'Check out: PayPal holds the money (Orders v2, authorize).',
+    'The Readback reads PayPal’s own numbers.',
+    'After the PIN: Sightline asks PayPal to capture.',
+    'Undo or cancel: PayPal voids the hold.'],
+    'Under the hood: PayPal saves the account once and holds every order. '
+    'Sightline asks PayPal to capture only after the PIN. Undo, and PayPal releases the hold.')
 EXTENSION = ('card', 'The same check on other checkouts', 'extension_readback.png', [],
              'A browser extension prototype brings the same check to checkout pages: the exact amount and payee, '
              'read aloud, then a PIN.')
 OPEN = [
-    ('title', 'Sightline', 'Shop by voice. Hear every dollar before it moves.',
-     'Checkout is where blind shoppers get stuck. Sightline turns it into a conversation, '
+    ('title', 'Sightline', 'Shop by voice or keyboard. Hear every dollar before it moves.',
+     'Checkout is where blind shoppers get stuck. Sightline turns it into a conversation, by voice or keyboard, '
      'and PayPal holds the money until you say so.'),
-    ('setup', 'Set up once: a PIN, spending limits, a trusted contact.'),
+    ('setup', 'Set up once: a PIN, spending limits, and a trusted contact, Alex, who approves orders over 75 dollars.'),
     ('card', 'Link PayPal once, on PayPal’s own page.', 'paypal_link.png', [], 'Then link PayPal once, on PayPal’s own page.'),
 ]
 ASK = [
     ('beat', '1. Ask in your own words'),
     ('dark', True, 'Screen off. This is what the shopper hears.'),
     ('say', 'Find me a hoodie.'),
+    ('dark', False),
 ]
 BUY = [
     ('say', 'Add the first one.', ['Which size']),
     ('say', 'Medium.', ['Added']),
-    ('dark', False),
     ('beat', '2. Hear the real total, from PayPal'),
     ('say', 'Check out.', ['Total:'], [('cam', '.reply.readback'), ('callout', '#log .reply.readback .line.total', 'Total from PayPal')]),
     ('cam', '#paypal', 1.4), ('callout', '#pp-steps', 'PayPal is holding the money'),
@@ -211,20 +210,23 @@ BUY = [
 ]
 SAFETY = [
     ('beat', 'Scams get stopped'),
-    ('say', 'Someone from my bank called. I must buy gift cards urgently.', ['common scam', 'never ask'], [('cam', LAST)]),
-    ('beat', 'Big orders: a trusted contact approves'),
+    ('say', 'A caller says I have to buy gift cards today.', ['common scam', 'only if'], [('cam', LAST)]),
+    ('beat', 'Orders over $75: Alex approves'),
     ('say', 'Find a rain jacket.', ['result']), ('say', 'Add it.', ['Added']),
-    ('say', 'Check out.', ['Total:', 'Approval link ready'], [('cam', '#paypal', 1.4), ('callout', '#pp-steps', 'Waiting for Alex')]),
+    ('say', 'Check out.', ['over your approval amount', 'Approval link ready'],
+     [('cam', '#paypal', 1.4), ('callout', '#pp-steps', 'Waiting for Alex')]),
     ('approve', 'Alex approves from their phone. Only then can the shopper confirm with their PIN.'),
+    ('say', 'Confirm.', ['PIN'], [('cam', '#pin-form')]),
+    ('pin', '1234', ['10 seconds'], [('cam', '#undo-box'), ('callout', '#undo-box', 'Changed their mind?')]),
+    ('say', 'Undo.', ['Undone', 'Nothing was charged', 'released'], [('cam', '#paypal', 1.4), ('callout', '#pp-steps', 'PayPal released the hold')]),
 ]
 SCRIPTS['short'] = OPEN + ASK + BUY + [
     ('pin', '1234', ['10 seconds'], [('cam', '#undo-box'), ('callout', '#undo-box', '10 seconds to undo')]),
     ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-steps', 'Captured by PayPal')),
 ] + SAFETY + [
-    ('hidden', 'Cancel.'),
     ('beat', 'After delivery: is this my package?'),
-    ('say', 'Check my package.', ['Take or choose']),
-    ('photo', 'package_mismatch.jpg', ['Photo suggests'], ('cam', LAST)),
+    ('say', 'Check my hoodie package.', ['Take or choose']),
+    ('photo', 'delivery_photo.jpg', ['Photo suggests'], ('cam', LAST)),
     PAYPAL_FLOW,
     ('title', 'The AI suggests. It never holds the keys.', 'github.com/Thomas-Wood-Eng/sightline',
      'The AI suggests. The shopper decides. PayPal holds the money until they do.'),
@@ -234,25 +236,19 @@ SCRIPTS['ad'] = OPEN + ASK + [
     ('say', 'Compare those two.', None, [('cam', LAST)]),
 ] + BUY + [
     ('pin', '1234', ['10 seconds'], [('cam', '#undo-box'), ('callout', '#undo-box', '10 seconds to undo')]),
-    ('say', 'Undo.', ['Undone', 'Nothing was charged']),
-    ('hidden', 'Remove everything.'),
+    ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-steps', 'Captured by PayPal')),
 ] + SAFETY + [
-    ('say', 'Confirm.', ['PIN'], [('cam', '#pin-form')]),
-    ('pin', '1234', ['10 seconds']),
-    ('captured', ['Paid']),
     ('beat', 'Price drops, said once'),
     ('say', 'Tell me if the fleece-lined hoodie drops below 30 dollars.', None, [('cam', LAST)]),
     ('api', '/api/demo/price', {'id': 'hoodie-01', 'price': '29.99'}),
-    ('beat', 'What did I buy?'),
-    ('say', 'What did I buy this week?', None, [('cam', LAST)]),
     ('beat', 'Something wrong? Help by voice'),
-    ('say', 'The rain jacket came damaged.', None, [('cam', LAST)]),
+    ('say', 'The hoodie came damaged.', None, [('cam', LAST)]),
     ('hidden', 'No.'),
     ('beat', 'Is this my package?'),
-    ('say', 'Check my package.', ['Take or choose']),
-    ('photo', 'package_match.jpg', ['Photo suggests'], ('cam', LAST)),
+    ('say', 'Check my hoodie package.', ['Take or choose']),
+    ('photo', 'delivery_photo.jpg', ['Photo suggests'], ('cam', LAST)),
     PAYPAL_FLOW, EXTENSION,
-    ('title', 'The AI suggests. It never holds the keys.', 'Sightline · PayPal AI Hackathon 2026',
+    ('title', 'The AI suggests. It never holds the keys.', 'github.com/Thomas-Wood-Eng/sightline',
      'The AI suggests. The shopper decides. PayPal holds the money until they do.'),
 ]
 SCRIPT = SCRIPTS['full']
@@ -442,11 +438,12 @@ def record():
         page = ctx.new_page()
         t0 = time.monotonic()
         now = lambda: time.monotonic() - t0
-        page.goto(f'http://127.0.0.1:{PORT}/')
         # recording only: lay the app out 1280 wide and let the camera draw it at 1.5x (everything reads 50% bigger
         # than a plain 1080p capture, and the browser re-renders it sharp); a taller conversation fits a whole Readback
-        page.add_style_tag(content=f'html {{ overflow: hidden; }} body {{ width: {1920 // BASE}px; }} '
-                                   '.talk #log { height: 280px !important; }')
+        css = f'html {{ overflow: hidden; }} body {{ width: {1920 // BASE}px; }} .talk #log {{ height: 280px !important; }}'
+        ctx.add_init_script(f'''if (window.top === window) addEventListener('DOMContentLoaded', () => {{
+            const s = document.createElement('style'); s.textContent = {json.dumps(css)}; document.head.append(s); }});''')
+        page.goto(f'http://127.0.0.1:{PORT}/')
         page.wait_for_timeout(800)
 
         def hold(wav, dur, caption):
@@ -528,8 +525,8 @@ def record():
 
         def submit(selector, text, voiced, hints=None, after=()):
             n = page.locator('#log .turn').count()
-            wav, dur = tts(voiced, 'you')
-            if zoomed:
+            wav, dur = (None, 1.2) if selector == '#pin' else tts(voiced, 'you')
+            if zoomed and selector != '#pin':
                 cam(None)   # back to the full view so the typing is visible
             a = now()
             page.click(selector)
@@ -553,7 +550,7 @@ def record():
                 page.evaluate("document.getElementById('demo-beat')?.remove()")
                 overlay(step[1], step[2])
                 wav, dur = tts(step[3], 'narrator')
-                hold(wav, dur, step[3])
+                hold(wav, dur + (2.0 if step is SCRIPT[-1] else 0), step[3])
                 page.evaluate("document.getElementById('demo-title').remove()")
             elif kind == 'narrate':
                 wav, dur = tts(step[1], 'narrator')
@@ -606,7 +603,6 @@ def record():
                 page.wait_for_timeout(300)
             elif kind == 'setup':
                 wav, dur = tts(step[1], 'narrator')
-                a = now()
                 page.check('input[name=screen_reader][value=yes]')
                 for sel in ('#setup-pin', '#setup-pin2'):
                     page.fill(sel, '')
@@ -616,12 +612,20 @@ def record():
                 page.evaluate('''() => fetch('/api/settings', {method: 'POST', headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({contact_name: 'Alex', contact_email: 'alex@example.com',
                                           approval_threshold: '75.00', verbosity: 'brief', current_pin: '1234'})})''')
-                page.wait_for_timeout(max(0, int(dur * 1000) - int((now() - a) * 1000)) + 350)
-                segments.append((a, now(), wav, step[1]))
+                page.wait_for_timeout(600)
+                page.reload()   # fresh page: the conversation opens with the saved settings, contact included
+                page.wait_for_selector('#log .turn')
+                cam(None)
+                page.evaluate("document.getElementById('settings-more').open = true")
+                cam('#settings-form', 1.25)
+                callout('#set-threshold', 'Alex approves orders over $75')
+                hold(wav, dur, step[1])
+                page.evaluate("document.getElementById('settings-more').open = false")
+                cam(None)
             elif kind == 'say':   # ('say', words[, voiced-sentence hints[, camera actions after the reply]])
                 submit('#message', step[1], step[1], *step[2:])
             elif kind == 'pin':
-                submit('#pin', step[1], 'Types the PIN.', *step[2:])
+                submit('#pin', step[1], 'types the PIN (never spoken aloud)', *step[2:])
             elif kind in ('cam', 'callout', 'dark'):
                 do(step)
             elif kind == 'captured':  # the page captures by itself when the undo window ends; the wait is cut
@@ -641,13 +645,13 @@ def record():
                 page.evaluate('''(src) => { const d = document.createElement('div'); d.id = 'demo-phone';
                     d.style.cssText = 'position:fixed;inset:0;z-index:99;background:rgba(11,31,58,.75);display:flex;'
                       + 'align-items:center;justify-content:center;gap:28px;font:600 26px system-ui;color:#fff';
-                    d.innerHTML = '<div>Photo from the shopper</div><img alt="" style="width:420px;height:640px;object-fit:cover;'
+                    d.innerHTML = '<div>The delivery photo</div><img alt="" style="width:420px;height:640px;object-fit:cover;'
                       + 'border:10px solid #111;border-radius:28px">';
                     d.querySelector('img').src = src; document.documentElement.append(d); }''', img)
                 n = page.locator('#log .turn').count()
                 a = now()
-                page.wait_for_timeout(1600)
-                segments.append((a, now(), None, 'The shopper takes a photo of the package.'))
+                page.wait_for_timeout(2600)
+                segments.append((a, now(), None, 'The shopper chooses a photo of the delivery.'))
                 page.evaluate("document.getElementById('demo-phone').remove()")
                 page.set_input_files('#package-photo', str(ROOT / 'demo/assets' / step[1]))
                 wait_turn(n)
@@ -663,12 +667,18 @@ def record():
                       + 'align-items:center;justify-content:center;gap:28px;font:600 26px system-ui;color:#fff';
                     d.innerHTML = '<div>Alex\\'s phone</div><iframe title="Approval page" style="width:420px;height:760px;'
                       + 'border:10px solid #111;border-radius:28px;background:#fff"></iframe>';
-                    d.querySelector('iframe').src = h; document.documentElement.append(d); }''', href)
+                    const f = d.querySelector('iframe'); f.style.width = '520px'; f.style.height = '800px';
+                    f.onload = () => { f.contentDocument.documentElement.style.zoom = '1.3'; };
+                    f.src = h; document.documentElement.append(d); }''', href)
                 page.wait_for_timeout(1500)
                 wav, dur = tts(step[1], 'narrator')
                 a = now()
                 page.wait_for_timeout(int(dur * 600))
-                page.frame_locator('#demo-phone iframe').get_by_role('button', name='Approve this order').click()
+                btn = page.frame_locator('#demo-phone iframe').get_by_role('button', name='Approve this order')
+                btn.scroll_into_view_if_needed()
+                btn.evaluate("b => { b.style.outline = '6px solid #ffb800'; b.style.outlineOffset = '3px'; }")
+                page.wait_for_timeout(700)
+                btn.click()
                 page.wait_for_timeout(max(1200, int(dur * 400) + 350))
                 segments.append((a, now(), wav, step[1]))
                 page.evaluate("document.getElementById('demo-phone').remove()")

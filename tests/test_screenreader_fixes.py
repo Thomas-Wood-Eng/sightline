@@ -19,7 +19,7 @@ def test_reload_restores_pending_payment_in_every_state(client, fake, monkeypatc
     assert rb['say'].startswith('PayPal is holding the payment') and 'Total: 41.73 US dollars.' in rb['lines']
     client.post('/api/pin', json={'pin': '1234'})
     r = resume(client)
-    assert 'PIN was accepted. PayPal takes the payment of 41.73 US dollars' in r and 'say undo' in r
+    assert 'PIN was accepted. Sightline asks PayPal to take the payment of 41.73 US dollars' in r and 'say undo' in r
     assert client.get('/api/settings').json()['due_in'] > 0  # the page restores the countdown
     t(client, 'undo')
     assert resume(client) is None

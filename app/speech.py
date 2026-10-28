@@ -342,8 +342,8 @@ SCAM_ADVICE = ('Real agencies, banks and police never ask for gift cards, wire t
 
 def scam_warning(has_contact):
     """Pressure words heard (Lane 0 scam guard): calm, short, no lecture."""
-    return ('This matches a common scam. ' + SCAM_ADVICE + ' I will not go ahead with a payment like this without '
-            'your trusted contact. It is OK to hang up and call someone you trust.'
+    return ('This matches a common scam. ' + SCAM_ADVICE + ' A payment like this goes ahead only if '
+            'your trusted contact approves it. It is OK to hang up and call someone you trust.'
             + ('' if has_contact else ' You have no trusted contact yet. You can add one in Settings.'))
 
 
