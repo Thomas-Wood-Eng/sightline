@@ -628,6 +628,8 @@ def _holding(cmd, text, s, st):
         return checkout.confirm(s)
     if name in ('cancel', 'no', 'undo'):
         return checkout.cancel(s)
+    if name == 'repeat' and s['co'].get('say'):  # "say repeat to hear the Readback" means the Readback, not the last reply
+        return Reply(s['co']['say'], s['co']['lines'])
     if name in ('repeat', 'checkout'):
         last = checkout.ledger(s).get('last') if name == 'repeat' else None
         return Reply(last['say'], last['lines']) if last else checkout.start(s)

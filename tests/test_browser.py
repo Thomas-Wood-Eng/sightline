@@ -153,3 +153,14 @@ def test_approval_link_says_new_tab(browser, server, fake):
     a = page.locator('#log a[href^="/approve/"]')
     assert a.inner_text() == 'Open the approval page (opens in a new tab)'
     assert a.get_attribute('target') == '_blank' and a.get_attribute('rel') == 'noopener'
+
+
+# ---- screen-reader issue 1: a reload mid-checkout says what is on hold and restores the PIN box ----
+def test_reload_mid_checkout_restores_context(browser, server, fake):
+    page = open_app(browser, server)
+    to_pin(page)
+    page.reload(); page.wait_for_selector('#log .turn')
+    welcome = last(page)
+    assert welcome.startswith('Welcome back. A payment of 41.73 US dollars is on hold for Fleece')
+    assert page.is_visible('#pin-form') and page.evaluate('document.activeElement.id') == 'pin'
+    assert page.inner_text('#pin-amount') == 'Paying 41.73 US dollars to Sightline Demo Store'

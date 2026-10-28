@@ -3,7 +3,7 @@
 Deterministic and LLM-free: confirm, cancel and the PIN only ever reach this file.
 Caps are checked here before any hold. One PayPal-Request-Id per checkout attempt makes repeats replay, not re-charge.
 """
-import hashlib, hmac, os, secrets, threading, time, uuid
+import hashlib, hmac, os, re, secrets, threading, time, uuid
 from datetime import date
 from decimal import Decimal, ROUND_HALF_UP
 
@@ -294,6 +294,37 @@ def _refund(s):
     db.set_lines(o['order_id'], o['lines'])
     s['co'] = {'state': IDLE}
     return Reply(speech.refunded(r))
+
+
+def resume(s):
+    """Page (re)load: what is pending, in plain words, so a reload never hides money on hold. None when nothing is."""
+    st, co = state(s), s.get('co', {})
+    if st not in HOLDING and st != UNDO:
+        return None
+    m = re.search(r'\d[\d,]*\.\d\d US dollars', co.get('pay') or '')  # 'pay' holds PayPal's own amount
+    amount = m.group() if m else 'your order'
+    if co.get('kind') == 'refund':
+        o = db.get(co['order_id'])
+        what = o['lines'][co['line']]['name'] if o else 'your return'
+        step = 'type your PIN in the PIN box' if st == PIN else 'say confirm to continue'
+        return (f'Welcome back. A refund of {amount} for {what} is waiting. To get it, {step}. '
+                'Say repeat to hear the Readback, or cancel to keep the item.')
+    names = [i[1] for i in co.get('items', [])]
+    what = (names[0] + (f", and {speech.plural(len(names) - 1, 'more item')}" if len(names) > 1 else '')) if names else 'your order'
+    if st == UNDO:
+        left = seconds_left(s)
+        when = f'in {speech.plural(left, "second")}' if left else 'now'
+        return (f'Welcome back. Your PIN was accepted. PayPal takes the payment of {amount} for {what} {when}.'
+                + (' To stop it, say undo, press Escape, or use the Undo button.' if left else ''))
+    if st == APPROVAL:
+        who = APPROVALS.get(co.get('approval'), {}).get('name', 'your trusted contact')
+        return (f'Welcome back. A payment of {amount} for {what} is on hold, waiting for {who} to approve. '
+                'Say repeat to hear the Readback, or cancel to release it.')
+    if st == PIN:
+        return (f'Welcome back. A payment of {amount} is on hold for {what}, waiting for your PIN. Type it in the PIN box, '
+                'say repeat to hear the Readback, or say cancel to release it.')
+    return (f'Welcome back. A payment of {amount} is on hold for {what}. '
+            'Say repeat to hear the Readback, confirm to continue, or cancel to release it.')
 
 
 def seconds_left(s):

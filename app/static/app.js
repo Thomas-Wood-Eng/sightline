@@ -260,7 +260,8 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').cat
   if (link) history.replaceState(null, '', '/');
   const linkMsg = { done: 'PayPal is linked. You can now check out.', cancelled: 'PayPal linking was cancelled. Nothing changed.',
     error: 'PayPal linking did not work. Please try Link PayPal again.' }[link];
-  append(null, (linkMsg ? linkMsg + ' ' : '') + (s.onboarded ? 'Welcome back. What would you like to shop for?'
-    : 'Welcome to Sightline. Please answer the Setup questions first, or start by typing what you want.'));
-  if (s.onboarded && state !== 'awaiting_pin') msg.focus();
+  // a payment still pending on the server is always said first after a reload (resume comes from server data)
+  append(null, (linkMsg ? linkMsg + ' ' : '') + (s.resume || (s.onboarded ? 'Welcome back. What would you like to shop for?'
+    : 'Welcome to Sightline. Please answer the Setup questions first, or start by typing what you want.')));
+  if (s.onboarded && state !== 'awaiting_pin') msg.focus();  // awaiting_pin: setState already focused the PIN box
 })();

@@ -97,6 +97,7 @@ def settings_view(s):
             'linked': bool(checkout.vault_id(s)), 'per_order_cap': f"{c['order']:.2f}", 'daily_cap': f"{c['daily']:.2f}",
             'spent_today': f"{checkout.spent_today(s):.2f}", 'output_mode': s.get('mode', 'screen_reader'),
             'state': checkout.state(s), 'due_in': checkout.seconds_left(s), 'pay': s.get('co', {}).get('pay'), 'prefs': lane0.prefs(s), 'contact': s.get('contact'),
+            'resume': checkout.resume(s),
             'summary': speech.settings_summary(c, s.get('mode', 'screen_reader'), bool(checkout.vault_id(s)),
                                                bool(s.get('pin')), checkout.spent_today(s), lane0.prefs(s), s.get('contact'))}
 
