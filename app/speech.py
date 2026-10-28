@@ -141,23 +141,38 @@ def _best(items, key, reverse=False):
     return [n for (n, p), v in zip(items, vals) if v == best], best
 
 
-def compare(items):
-    """items: [(number, product)], at most 3. One attribute per line, computed here, never by an LLM."""
+def compare(items, level='brief'):
+    """items: [(number, product)], at most 3. Only what differs, one attribute per line, computed here from the
+    catalogue, never by an LLM. Food allergens are always said (safety). Price with shipping is said when it changes
+    the winner, or above brief."""
     items = items[:3]
     name = lambda ns: ' and '.join(f"number {n}, {short_name(dict(items)[n], 4)}" for n in ns)
     tie = lambda ns: 'Tie: ' if len(ns) > 1 else ''
-    out = []
-    ns, v = _best(items, lambda p: Decimal(str(p['price'])))
-    out.append(f'Cheapest: {tie(ns)}{name(ns)}, {money(v)}.')
-    ns, v = _best(items, lambda p: p['rating'], reverse=True)
-    out.append(f'Best rated: {tie(ns)}{name(ns)}, {v} stars.')
-    ns, v = _best(items, lambda p: p['review_count'], reverse=True)
-    out.append(f"Most reviews: {tie(ns)}{name(ns)}, {plural(v, 'review')}.")
-    ns, v = _best(items, lambda p: Decimal(str(p['price'])) + Decimal(str(p['shipping'])))
-    out.append(f'Lowest price with shipping: {tie(ns)}{name(ns)}, {money(v)}.')
-    ns, v = _best(items, lambda p: p['delivery_days'])
-    out.append(f"Fastest delivery: {tie(ns)}{name(ns)}, {plural(v, 'day')}.")
-    return f'Comparing {plural(len(items), "item")}, one point at a time.', out
+    out, winners = [], {}
+
+    def line(label, key, fmt, reverse=False):
+        if len({key(p) for _, p in items}) > 1:  # the same for all is not a difference
+            ns, v = _best(items, key, reverse)
+            winners[label] = ns
+            out.append(f'{label}: {tie(ns)}{name(ns)}, {fmt(v)}.')
+
+    line('Cheapest', lambda p: Decimal(str(p['price'])), money)
+    line('Best rated', lambda p: p['rating'], lambda v: f'{v} stars', reverse=True)
+    line('Most reviews', lambda p: p['review_count'], lambda v: plural(v, 'review'), reverse=True)
+    with_ship = len(out)
+    line('Lowest price with shipping', lambda p: Decimal(str(p['price'])) + Decimal(str(p['shipping'])), money)
+    if level == 'brief' and winners.get('Lowest price with shipping') == winners.get('Cheapest'):
+        out[with_ship:] = []
+    line('Arrives first', lambda p: p['delivery_days'], delivery_date)
+    sizes = [(n, p['listing'].get('sizes')) for n, p in items]
+    if any(s for _, s in sizes) and len({tuple(s or []) for _, s in sizes}) > 1:
+        out.append('Sizes: ' + '; '.join(f'number {n}, {_ns(s)}' for n, s in sizes) + '.')
+    if any(p['category'] == 'grocery' for _, p in items):
+        out.append('Allergens, listing says: ' + '; '.join(
+            f"number {n}, {_ns(p['listing'].get('allergens')).rstrip('.')}" for n, p in items) + '.')
+    if not out:
+        return f'Comparing {plural(len(items), "item")}: they are the same on price, rating, reviews and delivery.', []
+    return f'Comparing {plural(len(items), "item")}, only what differs.', out
 
 
 def item_name(p, variant=''):

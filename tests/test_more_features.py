@@ -185,3 +185,32 @@ def test_dispute_no_means_nothing_moves(client, fake):
     assert t(client, "this isn't what I ordered")['lines'][0].startswith('Do you want a refund')
     assert t(client, 'no')['say'].startswith('OK, no refund started')
     assert fake.count('refund') == 0
+
+
+# ---- 5. compare: only the differences, from catalogue data ----
+def test_compare_says_only_differences():
+    from app import catalog, speech
+    h, sw = catalog.get('hoodie-01'), catalog.get('sweater-01')
+    say, lines = speech.compare([(1, h), (2, dict(h, id='h2'))])
+    assert 'they are the same' in say and lines == []
+    say, lines = speech.compare([(1, h), (2, dict(h, id='h2', price=30.0, delivery_days=h['delivery_days'] + 2))])
+    assert say == 'Comparing 2 items, only what differs.'
+    assert lines[0] == 'Cheapest: number 2, Fleece-lined pullover hoodie, $30.00.'
+    assert lines[1].startswith('Arrives first: number 1, Fleece-lined pullover hoodie, ') and len(lines) == 2
+    food = lambda i, a: dict(h, id=i, category='grocery', listing=dict(h['listing'], sizes=None, allergens=a))
+    lines = speech.compare([(1, food('a', 'Contains peanuts.')), (2, food('b', None))])[1]
+    assert lines[-1] == 'Allergens, listing says: number 1, Contains peanuts; number 2, not stated.'
+    lines = speech.compare([(1, h), (2, sw)])[1]
+    assert any(l.startswith('Sizes: number 1, S, M, L or XL; number 2,') for l in lines)
+
+
+def test_compare_those_two(client, fake):
+    from app.lane0 import parse
+    assert parse('compare those two') == ('compare', [], 2) and parse('compare 1 and 2') == ('compare', [1, 2])
+    setup(client)
+    t(client, 'anything under 100')
+    r = t(client, 'compare those two')
+    assert r['say'] == 'Comparing 2 items, only what differs.' and 'number 3' not in ' '.join(r['lines'])
+    assert t(client, 'which is better')['say'].startswith('Comparing 3 items')
+    t(client, '1')
+    assert t(client, 'compare it with number 3')['say'].startswith('Comparing 2 items')

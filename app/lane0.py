@@ -173,6 +173,9 @@ def parse(text):
                      r'|which (?:one )?is (?:cheaper|cheapest|better|best)(.*)', t)
     if m:
         rest = next((g for g in m.groups() if g is not None), '')
+        both = re.fullmatch(r'\s*(?:the |those |these )?(two|three|2|3)(?: of them| items| ones)?', rest)
+        if both:  # "compare those two": the ones just heard, from the top of the page
+            return ('compare', [], num(both.group(1)))
         first = re.search(r'(?:first|top) (two|three|2|3)\b', rest)
         nums = list(range(1, num(first.group(1)) + 1)) if first else \
             [num(w) for w in re.findall(r'\b' + NUM + r'\b', rest) if num(w) and num(w) > 0]
@@ -662,12 +665,14 @@ def _handle(text, s):
         say, lines = speech.reviews(p, catalog.REVIEWS.get(p['id']))
         return Reply(say, lines, focus=card(p))
     if name == 'compare':
-        res = _results(s)
-        nums = args[0] or list(range(s.get('page', 0) + 1, min(s.get('page', 0) + 3, len(res)) + 1))
-        items = [(n, res[n - 1]) for n in nums if 1 <= n <= len(res)]
+        res, page, count = _results(s), s.get('page', 0), (args[1] if len(args) > 1 else 3)
+        nums = args[0] or list(range(page + 1, min(page + count, len(res)) + 1))
+        if len(nums) == 1 and s.get('focus') in s.get('results', []):  # "compare it with number 3"
+            nums = [s['results'].index(s['focus']) + 1, *nums]
+        items = [(n, res[n - 1]) for n in dict.fromkeys(nums) if 1 <= n <= len(res)]
         if len(items) < 2:
             return Reply('Search first, then say compare, or compare 1 and 3.')
-        say, lines = speech.compare(items)
+        say, lines = speech.compare(items, level(s))
         return Reply(say, lines)
     if name == 'add':
         qty, tgt, *opt = args
