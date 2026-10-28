@@ -203,7 +203,7 @@ BUY = [
     ('say', 'Add the first one.', ['Which size']),
     ('say', 'Medium.', ['Added']),
     ('beat', '2. Hear the real total, from PayPal'),
-    ('say', 'Check out.', ['Item 1', 'Shipping', 'Tax', 'Total:'],
+    ('say', 'Check out.', ['Item 1', 'Unit price', 'Shipping', 'Tax', 'Total:'],
      [('cam', '.reply.readback'), ('callout', '#log .reply.readback .line.total', 'Every number from PayPal’s order')]),
     ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'PayPal is holding the money'),
     ('narrate', 'PayPal is holding the money. Nothing is charged yet.'),
@@ -472,7 +472,7 @@ def record():
 
         def last_reply():
             return page.evaluate('''() => { const t = [...document.querySelectorAll('#log .turn')].pop();
-                return [...t.querySelectorAll('p:not(.you)')].map(p => p.textContent).join(' '); }''')
+                return [...t.querySelectorAll('p:not(.you)')].map(p => p.textContent).join('\\n'); }''')
 
         def wait_turn(n):
             page.wait_for_function(f"document.querySelectorAll('#log .turn').length > {n}", timeout=60000)
@@ -530,9 +530,12 @@ def record():
             {'cam': cam, 'callout': callout, 'dark': dark}[action[0]](*action[1:])
 
         def key_sentences(reply, hints):
-            """Ad cut: voice only the sentences that carry the point; the full reply stays on screen."""
-            parts = re.split(r'(?<=[.!?])(?<!\d\.)\s+', reply)   # "1. Hoodie, ... 2. Fleece" stays one list
-            picked = [p for p in parts if any(h.lower() in p.lower() for h in hints)]
+            """Voice only the sentences that carry the point (all of them without hints); the full reply stays on
+            screen. Splits on the app's own lines first, so a numbered result ("1. Hoodie, $52.00") stays whole."""
+            parts = []
+            for line in reply.split('\n'):
+                parts += [line] if re.match(r'\d+\. ', line) else re.split(r'(?<=[.!?])\s+', line)
+            picked = [p for p in parts if any(h.lower() in p.lower() for h in hints or [''])]
             return ' '.join(picked or parts[:1])
 
         def submit(selector, text, voiced, hints=None, after=()):
@@ -554,8 +557,7 @@ def record():
             if hints == ['-']:     # on screen only, not voiced (e.g. an instruction heard a minute ago)
                 hold(None, 1.2, '')
                 return
-            if hints:
-                reply = key_sentences(reply, hints)
+            reply = key_sentences(reply, hints)
             wav, dur = tts(reply, 'sightline')  # generated while the screen is static; this gap is cut later
             hold(wav, dur + (0.8 if hints else 0), f'Sightline: {reply}')
 
@@ -655,8 +657,7 @@ def record():
                     return t && /PayPal captured/.test(t.textContent); }''', timeout=60000)
                 page.wait_for_timeout(250)
                 reply = last_reply()
-                if len(step) > 1:
-                    reply = key_sentences(reply, step[1])
+                reply = key_sentences(reply, step[1] if len(step) > 1 else None)
                 for action in step[2:]:
                     do(action)
                 wav, dur = tts(reply, 'sightline')
