@@ -742,10 +742,7 @@ def prefetch():
             tts(step[-1], 'narrator')
         elif step[0] == 'say':
             tts(step[1], 'you')
-    tts('Types the PIN.', 'you')
-    tts('PIN accepted. PayPal takes the payment in 10 seconds. To stop it, say undo, or press Escape, '
-        'or use the Undo button.', 'sightline')
-    tts('PayPal takes the payment in 10 seconds.', 'sightline')   # the ad cut voices only this sentence
+    tts('In 10 seconds Sightline asks PayPal to take the payment.', 'sightline')   # voiced right after the PIN
 
 
 if __name__ == '__main__':
