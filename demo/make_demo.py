@@ -189,43 +189,46 @@ OPEN = [
     ('title', 'Sightline', 'Shop by voice or keyboard. Hear every dollar before it moves.',
      'Checkout is where blind shoppers get stuck. Sightline turns it into a conversation, by voice or keyboard, '
      'and PayPal holds the money until you say so.'),
-    ('setup', 'Set up once: a PIN, spending limits, and a trusted contact, Alex, who approves orders over 75 dollars.'),
-    ('card', 'Link PayPal once, on PayPal’s own page.', 'paypal_link.png', [], 'Then link PayPal once, on PayPal’s own page.'),
+    ('setup', 'Set up once: a PIN, spending limits, and an optional trusted contact, Alex, for orders over 75 dollars.'),
+    ('card', 'Link PayPal once, on PayPal’s own page.', 'paypal_link.png', ['Screenshot of the real PayPal sandbox consent page.'],
+     'Then link PayPal once, on PayPal’s own page.'),
 ]
 ASK = [
-    ('beat', '1. Ask in your own words'),
+    ('beat', '1. Ask in your own words (typed in this video; push-to-talk works too)'),
     ('dark', True, 'Screen off. This is what the shopper hears.'),
-    ('say', 'Find me a hoodie.'),
+    ('say', 'Find me a hoodie.', ['results', 'Heavyweight']),
     ('dark', False),
 ]
 BUY = [
     ('say', 'Add the first one.', ['Which size']),
     ('say', 'Medium.', ['Added']),
     ('beat', '2. Hear the real total, from PayPal'),
-    ('say', 'Check out.', ['Total:'], [('cam', '.reply.readback'), ('callout', '#log .reply.readback .line.total', 'Total from PayPal')]),
-    ('cam', '#paypal', 1.4), ('callout', '#pp-steps', 'PayPal is holding the money'),
+    ('say', 'Check out.', ['Item 1', 'Shipping', 'Tax', 'Total:'],
+     [('cam', '.reply.readback'), ('callout', '#log .reply.readback .line.total', 'Every number from PayPal’s order')]),
+    ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'PayPal is holding the money'),
     ('narrate', 'PayPal is holding the money. Nothing is charged yet.'),
     ('beat', '3. Confirm, then type a PIN'),
     ('say', 'Confirm.', ['PIN'], [('cam', '#pin-form')]),
 ]
 SAFETY = [
-    ('beat', 'Scams get stopped'),
-    ('say', 'A caller says I have to buy gift cards today.', ['common scam', 'only if'], [('cam', LAST)]),
     ('beat', 'Orders over $75: Alex approves'),
     ('say', 'Find a rain jacket.', ['result']), ('say', 'Add it.', ['Added']),
     ('say', 'Check out.', ['over your approval amount', 'Approval link ready'],
-     [('cam', '#paypal', 1.4), ('callout', '#pp-steps', 'Waiting for Alex')]),
+     [('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Over $75: waiting for Alex')]),
     ('approve', 'Alex approves from their phone. Only then can the shopper confirm with their PIN.'),
-    ('say', 'Confirm.', ['PIN'], [('cam', '#pin-form')]),
+    ('say', 'Confirm.', ['-'], [('cam', '#pin-form')]),
     ('pin', '1234', ['10 seconds'], [('cam', '#undo-box'), ('callout', '#undo-box', 'Changed their mind?')]),
-    ('say', 'Undo.', ['Undone', 'Nothing was charged', 'released'], [('cam', '#paypal', 1.4), ('callout', '#pp-steps', 'PayPal released the hold')]),
+    ('say', 'Undo.', ['Undone', 'Nothing was charged', 'released'],
+     [('cam', '#paypal', 1.4), ('callout', '#pp-order', 'PayPal released the hold')]),
+    ('beat', 'Scam warnings'),
+    ('say', 'A caller says I have to buy gift cards today.', ['common scam', 'only if'], [('cam', LAST)]),
 ]
 SCRIPTS['short'] = OPEN + ASK + BUY + [
     ('pin', '1234', ['10 seconds'], [('cam', '#undo-box'), ('callout', '#undo-box', '10 seconds to undo')]),
-    ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-steps', 'Captured by PayPal')),
+    ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Captured by PayPal')),
 ] + SAFETY + [
     ('beat', 'After delivery: is this my package?'),
-    ('say', 'Check my hoodie package.', ['Take or choose']),
+    ('say', 'Check my hoodie package.', ['-'], [('cam', LAST)]),
     ('photo', 'delivery_photo.jpg', ['Photo suggests'], ('cam', LAST)),
     PAYPAL_FLOW,
     ('title', 'The AI suggests. It never holds the keys.', 'github.com/Thomas-Wood-Eng/sightline',
@@ -236,7 +239,7 @@ SCRIPTS['ad'] = OPEN + ASK + [
     ('say', 'Compare those two.', None, [('cam', LAST)]),
 ] + BUY + [
     ('pin', '1234', ['10 seconds'], [('cam', '#undo-box'), ('callout', '#undo-box', '10 seconds to undo')]),
-    ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-steps', 'Captured by PayPal')),
+    ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Captured by PayPal')),
 ] + SAFETY + [
     ('beat', 'Price drops, said once'),
     ('say', 'Tell me if the fleece-lined hoodie drops below 30 dollars.', None, [('cam', LAST)]),
@@ -245,7 +248,7 @@ SCRIPTS['ad'] = OPEN + ASK + [
     ('say', 'The hoodie came damaged.', None, [('cam', LAST)]),
     ('hidden', 'No.'),
     ('beat', 'Is this my package?'),
-    ('say', 'Check my hoodie package.', ['Take or choose']),
+    ('say', 'Check my hoodie package.', ['-'], [('cam', LAST)]),
     ('photo', 'delivery_photo.jpg', ['Photo suggests'], ('cam', LAST)),
     PAYPAL_FLOW, EXTENSION,
     ('title', 'The AI suggests. It never holds the keys.', 'github.com/Thomas-Wood-Eng/sightline',
@@ -365,7 +368,7 @@ def _orpheus(text, who, path):
 def spoken(text):
     """Money the way people say it: TTS engines read "$52.00" as "dollar fifty-two point zero zero". Speech only;
     captions keep the app's exact words."""
-    money = lambda m: f"{int(m[1])} dollars" + ('' if m[2] == '00' else f" {int(m[2])}")
+    money = lambda m: f"{int(m[1])} dollars" + ('' if m[2] == '00' else f" and {int(m[2])} cents")
     text = re.sub(r'\$(\d+)\.(\d\d)', money, text)
     return re.sub(r'(\d+)\.(\d\d) US dollars', money, text)
 
@@ -540,14 +543,19 @@ def record():
             a = now()
             page.click(selector)
             page.keyboard.type(text, delay=max(20, min(90, int(dur * 800 / max(len(text), 1)))))
+            if selector == '#pin':
+                page.wait_for_timeout(700)   # the masked dots stay on screen a moment
             page.keyboard.press('Enter')
             wait_turn(n)
             segments.append((a, min(now(), a + dur + 1.2), wav, f'You: {voiced}'))
             reply = last_reply()
-            if hints:
-                reply = key_sentences(reply, hints)
             for action in after:   # point the camera at what the reply is about
                 do(action)
+            if hints == ['-']:     # on screen only, not voiced (e.g. an instruction heard a minute ago)
+                hold(None, 1.2, '')
+                return
+            if hints:
+                reply = key_sentences(reply, hints)
             wav, dur = tts(reply, 'sightline')  # generated while the screen is static; this gap is cut later
             hold(wav, dur + (0.8 if hints else 0), f'Sightline: {reply}')
 
@@ -638,6 +646,11 @@ def record():
             elif kind in ('cam', 'callout', 'dark'):
                 do(step)
             elif kind == 'captured':  # the page captures by itself when the undo window ends; the wait is cut
+                overlay('10 seconds later', 'No undo, so Sightline asks PayPal to capture.')
+                a = now()
+                page.wait_for_timeout(1300)
+                segments.append((a, now(), None, '10 seconds later: no undo, so Sightline asks PayPal to capture.'))
+                page.evaluate("document.getElementById('demo-title').remove()")
                 page.wait_for_function('''() => { const t = [...document.querySelectorAll('#log .turn')].pop();
                     return t && /PayPal captured/.test(t.textContent); }''', timeout=60000)
                 page.wait_for_timeout(250)
