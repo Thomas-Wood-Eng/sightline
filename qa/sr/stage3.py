@@ -1,0 +1,31 @@
+import sys, time; sys.path.insert(0, 'C:/Projects/paypal_hackathon/qa/sr')
+from helpers2 import *
+def cmd(page, run, text, pace=2):
+    return send_cmd(page, run, text, pace=pace)
+with sync_playwright() as p:
+    b = p.chromium.launch(headless=True)
+    ctx = b.new_context(viewport={'width': 1280, 'height': 900}, storage_state=STATE)
+    ctx.add_init_script(INIT)
+    page = ctx.new_page()
+    run = Run('stage3')
+    page.goto(BASE + '/'); page.wait_for_timeout(800); run.collect(page)
+    # ---- A: checkout, then Escape to undo ----
+    cmd(page, run, 'check out', 2)
+    run.mark('3a confirm'); cmd(page, run, 'confirm', 1)
+    print('PIN form hidden?', page.evaluate("() => document.getElementById('pin-form').hidden"),
+          'focus after confirm:', active(page))
+    print('pin-amount:', page.evaluate("() => document.getElementById('pin-amount').textContent"))
+    run.mark('3b PIN typed, Escape undo')
+    before = turns(page)
+    page.keyboard.type('1234', delay=30); page.keyboard.press('Enter')
+    wait_reply(page, before)
+    run.collect(page)
+    print('after PIN: focus', active(page), 'countdown:', page.evaluate("() => document.getElementById('countdown').textContent"))
+    time.sleep(3); run.collect(page)
+    print('countdown at ~3s:', page.evaluate("() => document.getElementById('countdown').textContent"))
+    page.keyboard.press('Escape'); time.sleep(2); run.collect(page)
+    print('after Escape: focus', active(page), 'pay-status:', page.evaluate("() => document.getElementById('pay-status').textContent"))
+    last = page.evaluate("() => { const t = document.querySelectorAll('#log .turn'); return t[t.length-1].innerText; }")
+    print('LAST REPLY:', last.replace('\n',' / '))
+    ctx.storage_state(path=STATE)
+    run.save(); b.close()
