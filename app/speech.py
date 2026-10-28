@@ -474,6 +474,11 @@ def spell(text):
     return ', space, '.join(words)
 
 
+def none_under(words, max_price, nearest):
+    return (f"No {words} under {money(max_price)}. The closest is {nearest['name']}, {money(nearest['price'])}. "
+            'Here are the matches without the price limit, cheapest first.')
+
+
 def query_label(words, max_price=None, category=None):
     out = words or (category or 'everything')
     if words and category:

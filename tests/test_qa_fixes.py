@@ -115,3 +115,20 @@ def test_questions_during_a_return(client, fake):
     assert t(client, 'my orders')['say'].startswith('You have 1 order')
     r = t(client, "it's a gift")
     assert r['say'].startswith('That has to wait until this is finished. A refund of') and r['state'] == 'awaiting_pin'
+
+
+# ---- M6: honest search misses, synonyms, relevance, and "the black one" with nothing picked ----
+def test_search_misses_and_relevance(client, fake):
+    from app import catalog
+    setup(client)
+    r = t(client, 'headphones under 30 dollars')
+    assert r['say'].startswith('No headphones under $30.00. The closest is Wireless over-ear headphones')
+    assert 'headphones' in r['lines'][0].lower()
+    assert t(client, 'sweatshirt')['lines'][0].startswith('1. Fleece-lined pullover hoodie')  # synonym
+    assert [p['id'] for p in catalog.search('warm hoodie')] == ['hoodie-01']  # both words beat one word
+    r = t(client, 'llama under 30 dollars')
+    assert r['say'].startswith('Nothing matched llama.')
+    client.cookies.clear()
+    setup(client)
+    r = t(client, 'the black one')
+    assert r['say'].startswith('The black one: which item? Pick one first')

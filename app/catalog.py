@@ -21,7 +21,7 @@ def _load():
 
 
 STOP = set('a an and the for of with to in on me my i im some something any find show want need looking please '
-           'is it that this one ones get buy can you do have are'.split())
+           'is it that this one ones get buy can you do have are anything everything stuff'.split())
 
 
 def tokens(text):
@@ -62,11 +62,20 @@ def search(query, max_price=None, category=None, limit=9):
     q = tokens(query or '')
     if not q:
         return [PRODUCTS[i] for i in sorted(ok, key=lambda i: -PRODUCTS[i]['rating'])][:limit]
-    scores = _bm25.get_scores(q)
-    # BM25 idf can be ~0 on tiny catalogues, so also require a literal token hit
-    hit = lambda i: any(t in _docs[i] for t in q)
-    ranked = sorted((i for i in ok if hit(i)), key=lambda i: (-scores[i], -PRODUCTS[i]['rating']))
+    groups = [{w, *SYNONYMS.get(w, ())} for w in q]  # each word the shopper said, with its synonyms
+    scores = _bm25.get_scores([w for g in groups for w in g])
+    # BM25 idf can be ~0 on tiny catalogues, so require literal hits, and keep only the items that match the most
+    # of the shopper's words ("warm hoodie" is hoodies, not every warm thing)
+    cover = {i: sum(bool(g & _docs[i]) for g in groups) for i in ok}
+    most = max(cover.values(), default=0)
+    ranked = sorted((i for i in ok if most and cover[i] == most), key=lambda i: (-scores[i], -PRODUCTS[i]['rating']))
     return [PRODUCTS[i] for i in ranked][:limit]
+
+
+# shortcut: a small hand-made synonym list for this catalogue; a bigger store would want embeddings or a thesaurus
+SYNONYMS = {'snack': ('trail', 'granola', 'chocolate', 'mix'), 'coat': ('jacket', 'raincoat'), 'jacket': ('coat',),
+            'trainer': ('sneaker', 'shoe'), 'shoe': ('sneaker',), 'sneaker': ('shoe',), 'sweatshirt': ('hoodie',),
+            'jumper': ('sweater',), 'earphone': ('earbud', 'headphone')}
 
 
 

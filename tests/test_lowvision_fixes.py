@@ -80,9 +80,9 @@ def test_bare_size(client, fake):
     from app.lane0 import bare_size
     assert [bare_size(x) for x in ('M', 'medium', 'size XL', 'xs', 'mug', 'add it')] == ['M', 'M', 'XL', 'XS', None, None]
     setup(client)
-    t(client, 'find me a warm hoodie')
+    t(client, 'find me something warm')  # two results, nothing picked yet
     assert t(client, 'M')['say'] == 'Size M for which item? Say the number first, for example: add number 1 in M.'
-    assert t(client, 'tell me about the first one')['say'].startswith('Fleece-lined pullover hoodie')  # results kept
+    assert t(client, 'tell me about the second one')['say'].startswith('Fleece-lined pullover hoodie')  # results kept
     assert t(client, 'M')['say'].startswith('Added: Fleece-lined pullover hoodie (size M')
     r = t(client, 'XXL')
     assert 'does not come in size XXL' in r['say'] and 'Which size?' in r['say']

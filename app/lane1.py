@@ -37,13 +37,25 @@ def parse(text):
 
 def keyword(text, session):
     """No-AI fallback: keyword search with naive price parsing ("under 40")."""
-    words, max_price, category = parse(text)
-    products = catalog.search(words, max_price, category)
-    if not products and words and (max_price is not None or category):
-        products = catalog.search('', max_price, category)  # filter matched but words didn't: show the filter
-        words = ''
+    products, label, miss = find(*parse(text))
     products, note = saved_filter(session, products)
-    return noted(show_results(session, products, speech.query_label(words, max_price, category)), note)
+    return noted(noted(show_results(session, products, label), note), miss)
+
+
+def find(words, max_price, category, limit=9):
+    """Search with an honest miss: (products, label, note). Nothing under the budget: the nearest matches, cheapest
+    first, and say so. Words that match nothing: say so before showing the rest of the filter."""
+    products = catalog.search(words, max_price, category, limit)
+    if products or not words:
+        return products, speech.query_label(words, max_price, category), ''
+    if max_price is not None:
+        near = sorted(catalog.search(words, None, category, limit), key=lambda p: p['price'])
+        if near:
+            return near, speech.query_label(words, None, category), speech.none_under(words, max_price, near[0])
+    if max_price is not None or category:
+        return (catalog.search('', max_price, category, limit), speech.query_label('', max_price, category),
+                f'Nothing matched {words}.')
+    return [], speech.query_label(words, max_price, category), ''
 
 
 def saved_filter(session, products):
@@ -210,16 +222,15 @@ def handle(text, session):
             if avoid:  # an allergen word in the query would match the very products to avoid
                 query = ' '.join(w for w in query.split()
                                  if w.lower() not in ('free', 'allergy', 'allergic') and not any(a.lower().rstrip('s') in w.lower() for a in avoid))
-            products = catalog.search(query, max_price, category, limit=40)
-            if not products and query and (max_price is not None or category):
-                products, query = catalog.search('', max_price, category, limit=40), ''
+            products, label, miss = find(query, max_price, category, limit=40)
             if not products and avoid and 'grocery' in catalog.CATEGORIES:  # "a snack, nut allergy": browse the food aisle
-                products, query, category = catalog.search('', max_price, 'grocery', limit=40), '', 'grocery'
+                products, label, miss = catalog.search('', max_price, 'grocery', limit=40), \
+                    speech.query_label('', max_price, 'grocery'), ''
             excluded = 0
             if avoid:
                 products, excluded = allergen_filter(products, avoid)
             products, saved_note = saved_filter(session, products)
-            reply = noted(show_results(session, products, speech.query_label(query, max_price, category)), saved_note)
+            reply = noted(noted(show_results(session, products, label), saved_note), miss)
             if avoid and (products or excluded):
                 named = list(dict.fromkeys(canon(a) for a in avoid))  # "nuts", not the model's list of every nut
                 note = f"Showing only items whose listing declares no {', '.join(named)}."

@@ -342,6 +342,11 @@ def match_colour(text, options):
     return best if best and words & set(catalog.tokens(best)) else None
 
 
+COLOUR_WORDS = set(catalog.tokens(' '.join(
+    'black white red blue green grey gray navy pink purple yellow orange brown beige cream tan gold silver'.split()
+    + [c for p in catalog.PRODUCTS for c in p.get('colours') or [p['listing'].get('colour') or '']])))
+
+
 def _only_colour(text, p):
     words = set(catalog.tokens(text))
     return bool(words) and words <= {w for c in colours(p) for w in catalog.tokens(c)}
@@ -582,6 +587,10 @@ def _run(cmd, text, s):
             s['opt'] = {'id': focus['id'], 'colour': c}
             return Reply(f"{c.capitalize()} chosen for {focus['name']}. Say add it.", focus=card(focus))
         hits = [p for p in _results(s) if _only_colour(words, p)]
+        if len(hits) != 1 and set(catalog.tokens(words)) <= COLOUR_WORDS:  # a colour, but of which item?
+            return Reply(f'The {words} one: which item? Pick one first, for example say number 1, then say the {words} one.'
+                         if not focus else f"{focus['name']} does not come in {words}. Say describe to hear its colour, "
+                         'or pick another item by number.')
         if len(hits) != 1:
             return None  # not a colour we can pin down: let Lane 1 have it
         args = (s['results'].index(hits[0]['id']) + 1,)
