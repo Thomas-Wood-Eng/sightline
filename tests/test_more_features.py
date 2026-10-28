@@ -149,3 +149,39 @@ def test_pay_later_explains_and_never_changes_the_payment(client, fake):
     assert r['state'] == 'captured' and 'captured 41.73 US dollars' in r['say']  # the full amount, one capture
     assert fake.count('capture') == 1
     assert 'interest-free' in t(client, 'pay later')['say']  # also outside a checkout
+
+
+# ---- 4. dispute help by voice ----
+def test_dispute_parse():
+    from app.lane0 import parse
+    assert parse('I never got my order')[:2] == ('dispute', 'missing')
+    assert parse('my mug never arrived')[:2] == ('dispute', 'missing')
+    assert parse('it arrived broken')[:2] == ('dispute', 'broken')
+    assert parse("this isn't what I ordered")[:2] == ('dispute', 'wrong')
+    assert parse('they sent me the wrong item')[:2] == ('dispute', 'wrong')
+    assert parse('has my order arrived') == ('track', '')
+    assert parse('that is wrong') == ('wrong',)  # feedback, not a dispute
+
+
+def test_dispute_explains_then_offers_the_usual_refund(client, fake):
+    setup(client)
+    buy(client)
+    r = t(client, 'it arrived broken')
+    assert r['say'].startswith('Sorry it arrived broken. PayPal Purchase Protection covers eligible items')
+    assert 'within 180 days' in r['say'] and r['state'] == 'captured'
+    assert r['lines'][0].startswith('Do you want a refund for Insulated travel mug')
+    r = t(client, 'yes')  # the same refund Readback, confirm and PIN as a return
+    assert r['state'] == 'awaiting_confirm' and 'Return: Insulated travel mug' in ' '.join(r['lines'])
+    t(client, 'confirm')
+    r = client.post('/api/pin', json={'pin': '1234'}).json()
+    assert r['say'].startswith('Refunded') and fake.count('refund') == 1
+    r = t(client, 'I never got my order')
+    assert 'not already refunded' in r['say'] and 'ask' not in r
+
+
+def test_dispute_no_means_nothing_moves(client, fake):
+    setup(client)
+    buy(client)
+    assert t(client, "this isn't what I ordered")['lines'][0].startswith('Do you want a refund')
+    assert t(client, 'no')['say'].startswith('OK, no refund started')
+    assert fake.count('refund') == 0

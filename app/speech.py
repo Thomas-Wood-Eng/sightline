@@ -355,6 +355,22 @@ def package_check(verdict, ordered, seen=''):
             'Try again in a minute, or ask someone you trust to look.')
 
 
+def protection(kind):
+    """Dispute help, 3 short sentences. kind: missing | broken | wrong."""
+    first = {'missing': "Sorry it has not arrived. PayPal Purchase Protection covers eligible purchases that never arrive.",
+             'broken': 'Sorry it arrived broken. PayPal Purchase Protection covers eligible items that arrive damaged '
+                       'or significantly not as described.',
+             'wrong': 'Sorry about that. PayPal Purchase Protection covers eligible items that are significantly not as '
+                      'described, like the wrong item.'}[kind]
+    return (f"{first} You can open a dispute in PayPal's Resolution Center within 180 days of paying. "
+            'In this demo store, I can refund it for you now.')
+
+
+def offer_refund(o, line):
+    return (f"Do you want a refund for {line['name']}, from your order of {_day(o['created'])}? "
+            'Say yes to hear the refund Readback, or no.')
+
+
 def refund_readback(o, line, amount):
     """Amounts from our ledger, which holds PayPal's own unit prices and capture total."""
     item = Decimal(line['unit']) * line['qty']

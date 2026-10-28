@@ -85,6 +85,16 @@ def parse(text):
     if m:
         period = next((g for g in m.groups() if g), 'today')
         return ('spent', {'this week': 'week', 'this month': 'month', 'in total': 'all', 'so far': 'all'}.get(period, period))
+    # dispute help: something went wrong with a delivered (or undelivered) order
+    if re.search(r"\b(?:never (?:got|received|arrived|came|showed up)|(?:did not|didn't) (?:get|receive|arrive|come)"
+                 r"|(?:has not|hasn't|have not|haven't) (?:arrived|come|got|received)|lost in the (?:post|mail))\b", t):
+        return ('dispute', 'missing', t)
+    if re.search(r"\b(?:broken|damaged|smashed|cracked|shattered|torn|faulty|defective|(?:does not|doesn't) work)\b", t) \
+            and re.search(r'\b(?:arrived|came|got|received|is|was)\b', t):
+        return ('dispute', 'broken', t)
+    if re.search(r"(?:\bnot|n't) what i (?:ordered|bought)\b|\b(?:wrong (?:item|thing|product|order)"
+                 r"|(?:sent|got|received|delivered) (?:me )?(?:the |a )?wrong)\b", t):
+        return ('dispute', 'wrong', t)
     if re.search(r'\b(cap|caps|limit|limits|budget|spending)\b', t):
         changing = r'\b(raise|increase|change|set|lower|remove|update|up|higher|bigger|double|lift|disable|turn off|make)\b'
         return ('caps',) if re.search(changing, t) else ('settings',)
@@ -344,6 +354,15 @@ def add(s, p, qty, opt=''):
 
 def _answer(ask, text, cmd, s):
     """The shopper was asked a question (gift note, or which size). Another command drops the question."""
+    if 'refund' in ask:  # dispute help offered a refund: yes starts the usual return Readback
+        if cmd and cmd[0] in ('yes', 'confirm'):
+            o = db.get(ask['refund'][0])
+            if o and o['lines'][ask['refund'][1]]['refunded'] == '0.00':
+                return checkout.start_refund(s, o, ask['refund'][1])
+            return Reply('That item was already refunded. Say my orders to hear them.')
+        if cmd and cmd[0] in ('no', 'cancel', 'stop'):
+            return Reply('OK, no refund started. You can still open a dispute in PayPal.')
+        return None
     if 'gift' in ask:
         if cmd and cmd[0] in ('cancel', 'stop'):
             s.pop('gift', None)
@@ -611,6 +630,19 @@ def _handle(text, s):
         r = checkout.start(s)
         r.say = f"Added again: {', '.join(l['name'] for l in lines)}. {r.say}"
         return r
+    if name == 'dispute':
+        kind, words = args
+        focus = (catalog.get(s.get('focus') or '') or {}).get('name', '')
+        o = next((x for x in (_find_order(s, w, need_open=True) for w in (words, focus, '')) if x), None)
+        if not o:
+            return Reply(speech.protection(kind) + ' I could not find an order of yours that is not already refunded. '
+                         'Say my orders to hear them.')
+        want = set(catalog.tokens(words)) | set(catalog.tokens(focus))
+        open_ = [i for i, l in enumerate(o['lines']) if l['refunded'] == '0.00']
+        i = next((i for i in open_ if want & set(catalog.tokens(o['lines'][i]['name']))), open_[0])
+        s['ask'] = {'refund': [o['order_id'], i]}
+        s['spell'] = o['order_id']
+        return Reply(speech.protection(kind), [speech.offer_refund(o, o['lines'][i])])
     if name == 'return':
         words = args[0]
         if target(words) == 'it':
