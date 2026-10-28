@@ -130,12 +130,17 @@ SCRIPTS = {'ad': AD, 'full': INTRO + ALLERGY + HOODIE + PAY + SCAM + [('say', 'R
                 'first shopping assistant, built on PayPal. An early prototype.'),
                ('setup', "Setup happens once: a PIN, spending limits, and a trusted contact. Replies play at "
                          'screen-reader speed.'),
-               HOODIE[0], ('say', 'Add the first one.'), HOODIE[4],
-               ('say', 'Check out.'),
+               ('say', 'Find me a hoodie.', ['results']), ('say', 'Add the first one.', ['Which size']),
+               ('say', 'Medium.', ['Added']),
+               ('say', 'Check out.'),   # the one Readback voiced in full
                ('narrate', 'Those numbers came from PayPal, not the AI. Nothing moves until the shopper confirms with a PIN.'),
-               ('say', 'Confirm.'), ('pin', '1234'), ('captured',),
+               ('say', 'Confirm.', ['PIN']), ('pin', '1234', ['10 seconds']), ('captured',),
                ('narrate', 'Above a set amount, a trusted contact approves first.'),
-               APPROVAL[1], APPROVAL[2], APPROVAL[3], APPROVAL[4], APPROVAL[5], APPROVAL[6], APPROVAL[7],
+               ('say', 'Find a rain jacket.', ['results']), ('say', 'Add it.', ['Added']),
+               ('say', 'Check out.', ['Total:', 'Sent to Alex']),
+               APPROVAL[4],
+               ('say', 'Confirm.', ['PIN']), ('pin', '1234', ['10 seconds']),
+               ('say', 'Undo.', ['Undone', 'Nothing was charged']),
                ('title', 'The AI suggests. It never holds the keys.', 'github.com/Thomas-Wood-Eng/sightline',
                 'And for ten seconds, they can still undo. The AI suggests. It never holds the keys.'),
            ]}
