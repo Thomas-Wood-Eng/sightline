@@ -381,9 +381,17 @@ def per(s):
     return 1 if prefs(s)['simple'] else 3
 
 
+def pin_like(text):
+    """Only digits, spaces and dashes, with 4 or more digits (sizes like 32 and quantities stay usable)."""
+    return bool(re.fullmatch(r'[\d\s-]+', text.strip())) and sum(c.isdigit() for c in text) >= 4
+
+
 def handle(text, s):
     cmd = parse(text)
     st = checkout.state(s)
+    if st != checkout.PIN and pin_like(text):  # same reply whatever the digits: no hint whether they were the PIN
+        return Reply("For your safety, numbers like a PIN are never shown or spoken. If you meant a quantity or size, "
+                     "say it with words, like 'quantity 2'.")
     if st in checkout.HOLDING:
         return _holding(cmd, text, s, st)
     if st == checkout.UNDO:  # PIN accepted, capture pending: only undo stops it; anything else hears the countdown
@@ -622,7 +630,7 @@ def _holding(cmd, text, s, st):
             return Reply(f'{news.say.split(". Say confirm")[0]}. {nxt.say}', nxt.lines)
         if news:
             return news
-    if st == checkout.PIN and re.fullmatch(r'[\d\s-]{4,}', text.strip()):
+    if st == checkout.PIN and pin_like(text):
         return Reply('For your safety, type the PIN in the PIN box, not the message box. Nothing was sent.')
     if name in ('confirm', 'yes'):
         return checkout.confirm(s)

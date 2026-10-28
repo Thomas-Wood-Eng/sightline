@@ -164,3 +164,12 @@ def test_reload_mid_checkout_restores_context(browser, server, fake):
     assert welcome.startswith('Welcome back. A payment of 41.73 US dollars is on hold for Fleece')
     assert page.is_visible('#pin-form') and page.evaluate('document.activeElement.id') == 'pin'
     assert page.inner_text('#pin-amount') == 'Paying 41.73 US dollars to Sightline Demo Store'
+
+
+# ---- screen-reader issue 2: a PIN-like message is shown and announced as "(number hidden)" in any state ----
+def test_pin_like_message_never_echoed(browser, server, fake):
+    page = open_app(browser, server)
+    text = send(page, '1234')
+    assert 'You: (number hidden)' in text and '1234' not in page.inner_text('#log')
+    assert '1234' not in send(page, '12 34') + page.inner_text('#log')
+    assert 'You: 2' in send(page, '2')  # short numbers are echoed as usual

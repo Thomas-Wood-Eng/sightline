@@ -37,3 +37,28 @@ def test_reload_restores_approval_and_refund(client, fake):
     t(client, 'check out'); t(client, 'confirm'); client.post('/api/pin', json={'pin': '1234'})  # paid (undo 0 s)
     t(client, 'return the hoodie')
     assert resume(client).startswith('Welcome back. A refund of 36.74 US dollars for Fleece')  # shipping is not refunded
+
+
+# ---- issue 2: a PIN-like message is never echoed, and the reply gives no hint whether it was the PIN ----
+SAFE = "For your safety, numbers like a PIN are never shown or spoken."
+
+
+def test_pin_like_message_refused_in_every_state(client, fake):
+    setup(client)
+    right, wrong = t(client, '1234'), t(client, '9999')  # idle
+    assert right['say'] == wrong['say'] and right['say'].startswith(SAFE) and '1234' not in right['say']
+    assert t(client, '12 34')['say'].startswith(SAFE) and t(client, '1-2-3-4')['say'].startswith(SAFE)
+    client.post('/api/settings', json={'contact_name': 'Sam', 'contact_email': 's@example.com',
+                                       'approval_threshold': '20', 'current_pin': '1234'})
+    t(client, 'hoodie'); t(client, 'add number 1 in medium')
+    assert t(client, 'check out')['state'] == 'awaiting_approval'
+    r = t(client, '1234')
+    assert r['say'].startswith(SAFE) and r['state'] == 'awaiting_approval'
+    assert '1234' not in ' '.join(t(client, 'repeat')['lines'])
+
+
+def test_short_numbers_still_work(client, fake):
+    setup(client)
+    t(client, 'hoodie')
+    assert t(client, '1')['say'].startswith('Number 1:')  # a pick, not refused
+    assert not t(client, '32')['say'].startswith(SAFE)

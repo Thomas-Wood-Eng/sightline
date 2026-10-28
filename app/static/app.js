@@ -146,9 +146,9 @@ $('ask').addEventListener('submit', (e) => {
   const text = msg.value.trim();
   if (!text) return;
   msg.value = '';
-  // a PIN typed into the message box is never echoed on screen
-  const hide = state === 'awaiting_pin' && /^[\d\s-]{4,}$/.test(text);
-  turn('/api/turn', { text }, hide ? '(hidden)' : text);
+  // anything PIN-like (only digits, spaces, dashes; 4+ digits) is never echoed or announced, in any state
+  const hide = /^[\d\s-]+$/.test(text) && text.replace(/\D/g, '').length >= 4;
+  turn('/api/turn', { text }, hide ? '(number hidden)' : text);
 });
 
 pinForm.addEventListener('submit', (e) => {
