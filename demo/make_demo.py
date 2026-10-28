@@ -528,8 +528,33 @@ def record():
                     return t && /PayPal captured/.test(t.textContent); }''', timeout=60000)
                 page.wait_for_timeout(250)
                 reply = last_reply()
+                if len(step) > 1:
+                    reply = key_sentences(reply, step[1])
+                for action in step[2:]:
+                    do(action)
                 wav, dur = tts(reply, 'sightline')
                 hold(wav, dur, f'Sightline: {reply}')
+            elif kind == 'photo':  # ('photo', demo/assets image, voiced hints[, camera actions]): the shopper's phone photo
+                import base64
+                img = 'data:image/jpeg;base64,' + base64.b64encode((ROOT / 'demo/assets' / step[1]).read_bytes()).decode()
+                page.evaluate('''(src) => { const d = document.createElement('div'); d.id = 'demo-phone';
+                    d.style.cssText = 'position:fixed;inset:0;z-index:99;background:rgba(11,31,58,.75);display:flex;'
+                      + 'align-items:center;justify-content:center;gap:28px;font:600 26px system-ui;color:#fff';
+                    d.innerHTML = '<div>Photo from the shopper</div><img alt="" style="width:420px;height:640px;object-fit:cover;'
+                      + 'border:10px solid #111;border-radius:28px">';
+                    d.querySelector('img').src = src; document.documentElement.append(d); }''', img)
+                n = page.locator('#log .turn').count()
+                a = now()
+                page.wait_for_timeout(1600)
+                segments.append((a, now(), None, 'The shopper takes a photo of the package.'))
+                page.evaluate("document.getElementById('demo-phone').remove()")
+                page.set_input_files('#package-photo', str(ROOT / 'demo/assets' / step[1]))
+                wait_turn(n)
+                reply = key_sentences(last_reply(), step[2])
+                for action in step[3:]:
+                    do(action)
+                wav, dur = tts(reply, 'sightline')
+                hold(wav, dur + 0.5, f'Sightline: {reply}')
             elif kind == 'approve':  # Alex's side, shown as a phone-sized overlay on the same recording
                 href = page.evaluate('''() => [...document.querySelectorAll('#log a[href^="/approve/"]')].pop().getAttribute('href')''')
                 page.evaluate('''(h) => { const d = document.createElement('div'); d.id = 'demo-phone';
