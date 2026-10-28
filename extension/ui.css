@@ -1,0 +1,64 @@
+/* Sightline extension UI (dialog + popup). Same palette as the app; large text; reflows at 400% zoom; forced colours safe. */
+:root {
+  --text: #13233a; --muted: #3d4d61; --surface: #fff; --paper: #eef2f5;
+  --action: #0a6b6b; --on-action: #fff; --focus: #13233a; --halo: #f2b300; --danger: #a40000; --rule: #5b6b80;
+  --font: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #e8eef4; --muted: #c2cfdc; --surface: #172537; --paper: #0f1a28;
+    --action: #5fd4c8; --on-action: #0f1a28; --focus: #f2b300; --halo: #0f1a28; --danger: #ff8a80; --rule: #7d90a8;
+  }
+}
+* { box-sizing: border-box; }
+html { font-size: 112.5%; }
+body { margin: 0; color: var(--text); background: var(--paper); font: 1rem/1.5 var(--font); }
+h1 { font-size: 1.6rem; line-height: 1.2; margin: 0 0 0.75rem; }
+h2 { font-size: 1.2rem; margin: 1.5rem 0 0.5rem; }
+p { margin: 0 0 0.75rem; }
+.muted, .tag { color: var(--muted); }
+.tag { font-size: 0.9rem; font-weight: 600; letter-spacing: 0.02em; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+button, input, select { font: inherit; color: inherit; }
+button {
+  min-height: 2.75rem; padding: 0.5rem 1.25rem; border-radius: 0.6rem; cursor: pointer;
+  border: 2px solid var(--text); background: var(--surface); font-weight: 600;
+}
+button.primary { background: var(--action); color: var(--on-action); border-color: var(--action); }
+input[type=password], input[type=text], select {
+  display: block; width: 100%; max-width: 16rem; min-height: 2.75rem; padding: 0.4rem 0.6rem;
+  border: 2px solid var(--rule); border-radius: 0.6rem; background: var(--surface);
+}
+input[type=checkbox] { width: 1.4rem; height: 1.4rem; margin: 0 0.6rem 0 0; vertical-align: middle; accent-color: var(--action); }
+label { font-weight: 600; }
+.field label { display: block; margin-bottom: 0.3rem; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; box-shadow: 0 0 0 7px var(--halo); }
+.actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+.error:empty { display: none; }
+.error { color: var(--danger); font-weight: 700; }
+
+/* Dialog: drawn inside a full-viewport extension frame over the shop's page. */
+html:has(.backdrop), .backdrop { background: rgb(8 16 28 / 72%); }
+.backdrop { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+.panel {
+  width: min(46rem, 100%); background: var(--surface); border: 3px solid var(--text); border-radius: 1.25rem;
+  padding: 1.5rem 1.75rem; box-shadow: 0 24px 64px -16px rgb(0 0 0 / 60%);
+}
+.readback { font-size: 2rem; font-weight: 700; line-height: 1.25; overflow-wrap: anywhere; border-left: 0.5rem solid var(--halo); padding-left: 1rem; }
+.notices { margin: 0 0 0.75rem; padding: 0; list-style: none; }
+.notices li { font-size: 1.15rem; font-weight: 600; border: 2px solid var(--danger); border-left-width: 0.5rem; border-radius: 0.5rem; padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; }
+.count { font-size: 1.6rem; font-weight: 700; }
+
+/* Popup / options page */
+.page { width: min(30rem, 100vw); padding: 1rem; }
+.page section { border-top: 2px solid var(--rule); margin-top: 1rem; }
+#status { font-weight: 700; min-height: 1.5em; }
+
+@media (forced-colors: active) {
+  button, input, select, .panel, .notices li { border-color: CanvasText; }
+  button.primary { background: ButtonText; color: ButtonFace; forced-color-adjust: none; }
+  :focus-visible { outline-color: Highlight; box-shadow: none; }
+  .readback { border-left-color: CanvasText; }
+}

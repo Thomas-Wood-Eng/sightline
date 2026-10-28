@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sightline payment check</title>
+  <link rel="stylesheet" href="ui.css">
+</head>
+<body class="backdrop">
+  <div id="dialog" class="panel" role="dialog" aria-modal="true" aria-labelledby="title" aria-describedby="readback notices">
+    <p class="tag">Sightline · prototype · reads this page's own numbers</p>
+    <h1 id="title">Check before you pay</h1>
+    <p id="readback" class="readback"></p>
+    <ul id="notices" class="notices"></ul>
+    <p class="muted">Button you pressed: <span id="button-label"></span></p>
+
+    <div id="step-review" class="actions">
+      <button id="confirm" class="primary">Confirm</button>
+      <button class="cancel">Cancel</button>
+    </div>
+
+    <form id="step-pin" hidden>
+      <p id="pin-row" class="field">
+        <label for="pin">Type your Sightline PIN</label>
+        <input id="pin" type="password" inputmode="numeric" autocomplete="off" maxlength="8">
+      </p>
+      <p id="pin-msg" class="error" role="alert"></p>
+      <div class="actions">
+        <button id="pin-submit" class="primary">Pay</button>
+        <button type="button" class="cancel">Cancel</button>
+      </div>
+    </form>
+
+    <div id="step-undo" hidden>
+      <p id="count" class="count"></p>
+      <div class="actions"><button id="undo" class="primary">Undo</button></div>
+    </div>
+
+    <p id="status" class="sr-only" role="status"></p>
+  </div>
+  <script src="pin.js"></script>
+  <script src="dialog.js"></script>
+</body>
+</html>

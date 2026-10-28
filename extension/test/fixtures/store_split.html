@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Checkout - Acme Goods (test fixture)</title><link rel="stylesheet" href="fixture.css"><script src="record.js"></script></head>
+<body>
+<p class="banner">Local test fixture: a generic store checkout. The total is split across spans and the pay button is a div with role=button.</p>
+<main>
+  <h1>Checkout</h1>
+  <p>Sold by: Acme Goods</p>
+  <div class="row"><span>Subtotal</span><span>$40.00</span></div>
+  <div class="row"><span>Shipping</span><span>$5.99</span></div>
+  <div class="row"><span>Estimated tax</span><span>$3.20</span></div>
+  <div class="row big"><span>Order total</span><span>
+    <span class="cur">$</span>
+    <span class="int">49</span>
+    <span class="dec">.19</span>
+  </span></div>
+  <div class="btn" id="pay" role="button" tabindex="0">Place order →</div>
+  <p id="result">Not paid</p>
+</main>
+<script>
+  const b = document.getElementById('pay');
+  b.addEventListener('click', pay);
+  b.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pay(); } });
+</script>
+</body>
+</html>

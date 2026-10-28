@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Review your payment (test fixture)</title><link rel="stylesheet" href="fixture.css"><script src="record.js"></script></head>
+<body>
+<p class="banner">Local test fixture that mimics a PayPal review page. Not PayPal. No real money.</p>
+<main>
+  <p class="big">PayPal <span class="muted">(look-alike)</span></p>
+  <p class="row"><span>Bluebird Outfitters</span><span><span>$45.67</span> <span>USD</span></span></p>
+  <h2>Hi, Sam!</h2>
+  <p class="muted">Ship to<br>Sam Rivera, 12 Harbour St, Halifax</p>
+  <p class="muted">Pay with<br>Visa ending 4242</p>
+  <div class="row"><span>Subtotal</span><span>$41.50 USD</span></div>
+  <div class="row"><span>Shipping</span><span>$4.17 USD</span></div>
+  <div class="row big"><span>Total</span><span>$45.67 USD</span></div>
+  <button class="btn" id="pay" onclick="pay()">Complete Purchase</button>
+  <p id="result">Not paid</p>
+  <p><a href="#cancel">Cancel and return to Bluebird Outfitters</a></p>
+</main>
+</body>
+</html>
