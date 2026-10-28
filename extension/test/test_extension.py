@@ -40,6 +40,10 @@ def browser(tmp_path_factory):
     manifest = json.loads((ext / "manifest.json").read_text(encoding="utf-8"))
     manifest["content_scripts"][0]["matches"].append("http://127.0.0.1/*")
     (ext / "manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+    # Silent tests: Windows speech bypasses Chromium's audio, so stub it in every extension script of the copy.
+    for js in ext.glob("*.js"):
+        js.write_text("if (self.speechSynthesis) speechSynthesis.speak = () => {};\n" + js.read_text(encoding="utf-8"),
+                      encoding="utf-8")
     with sync_playwright() as p:
         ctx = p.chromium.launch_persistent_context(
             str(tmp_path_factory.mktemp("profile")), channel="chromium", headless=True,

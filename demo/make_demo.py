@@ -347,6 +347,8 @@ def record():
         # The final frame adds a caption bar below the app, so a subtitle never covers what it talks about.
         ctx = browser.new_context(viewport={'width': 1920, 'height': APP_H}, record_video_dir=str(OUT / 'raw'),
                                   record_video_size={'width': 1920, 'height': APP_H})
+        # the video is voiced separately; never let the page speak through the computer's speakers
+        ctx.add_init_script('window.speechSynthesis && (speechSynthesis.speak = () => {})')
         page = ctx.new_page()
         t0 = time.monotonic()
         now = lambda: time.monotonic() - t0
