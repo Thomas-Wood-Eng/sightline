@@ -93,6 +93,8 @@ AD = [
     ('title', 'Sightline', 'Shopping by voice, for blind and low-vision people.',
      'Meet Sightline. Shopping by voice, built for blind and low-vision people, on PayPal.'),
     ('setup', 'Set up once.'),
+    ('card', 'Link PayPal once, on PayPal’s own page.', 'paypal_link.png', [],
+     'Shoppers link their PayPal account once, on PayPal’s own page. After that, every purchase is by voice.'),
     ('beat', 'Ask in your own words.'),
     ('say', 'Find me a hoodie.', ['results']),
     ('beat', 'Hear what the listing says, and what the photo suggests.'),
@@ -119,6 +121,14 @@ AD = [
     ('say', 'Add it.', ['Added']),
     ('say', 'Check out.', ['Sent to Alex']),
     ('approve', 'Alex approves from their phone.'),
+    ('card', 'How Sightline uses PayPal', None, [
+        'Link once: PayPal Vault saves the PayPal account.',
+        'Check out: PayPal holds the money (Orders, authorize).',
+        'The Readback uses PayPal’s own numbers.',
+        'Confirm + PIN: PayPal captures the payment.',
+        'Undo or cancel: PayPal releases the hold.'],
+     'Under the hood, PayPal does the money: it saves the account once, holds each order, and captures only '
+     'after the shopper confirms with their PIN. Undo or cancel, and PayPal releases the hold.'),
     ('title', 'The AI suggests. It never holds the keys.', 'Sightline: PayPal AI Hackathon 2026',
      'The AI suggests. It never holds the keys. Sightline.'),
 ]
@@ -130,6 +140,8 @@ SCRIPTS = {'ad': AD, 'full': INTRO + ALLERGY + HOODIE + PAY + SCAM + [('say', 'R
                 'first shopping assistant, built on PayPal. An early prototype.'),
                ('setup', "Setup happens once: a PIN, spending limits, and a trusted contact. Replies play at "
                          'screen-reader speed.'),
+               ('card', 'Link PayPal once, on PayPal’s own page.', 'paypal_link.png', [],
+     'Shoppers link their PayPal account once, on PayPal’s own page. After that, every purchase is by voice.'),
                ('say', 'Find me a hoodie.', ['results']), ('say', 'Add the first one.', ['Which size']),
                ('say', 'Medium.', ['Added']),
                ('say', 'Check out.'),   # the one Readback voiced in full
@@ -141,6 +153,14 @@ SCRIPTS = {'ad': AD, 'full': INTRO + ALLERGY + HOODIE + PAY + SCAM + [('say', 'R
                APPROVAL[4],
                ('say', 'Confirm.', ['PIN']), ('pin', '1234', ['10 seconds']),
                ('say', 'Undo.', ['Undone', 'Nothing was charged']),
+               ('card', 'How Sightline uses PayPal', None, [
+        'Link once: PayPal Vault saves the PayPal account.',
+        'Check out: PayPal holds the money (Orders, authorize).',
+        'The Readback uses PayPal’s own numbers.',
+        'Confirm + PIN: PayPal captures the payment.',
+        'Undo or cancel: PayPal releases the hold.'],
+     'Under the hood, PayPal does the money: it saves the account once, holds each order, and captures only '
+     'after the shopper confirms with their PIN. Undo or cancel, and PayPal releases the hold.'),
                ('title', 'The AI suggests. It never holds the keys.', 'github.com/Thomas-Wood-Eng/sightline',
                 'And for ten seconds, they can still undo. The AI suggests. It never holds the keys.'),
            ]}
@@ -276,17 +296,22 @@ def tts(text, who):
         if not kok.exists():
             _kokoro_tts(text, who, kok)
         path = kok
-    if who == 'sightline':  # screen-reader users listen fast; 1.3x keeps it followable for sighted viewers
-        fast = path.with_name(path.stem + f'.x{SIGHTLINE_SPEED}.wav')
-        if not fast.exists():
-            subprocess.run(['ffmpeg', '-hide_banner', '-loglevel', 'error', '-y', '-i', str(path),
-                            '-filter:a', f'atempo={SIGHTLINE_SPEED}', str(fast)], check=True)
-        path = fast
-    with wave.open(str(path)) as w:
-        return path, w.getnframes() / w.getframerate()
+    # Every clip: same loudness (engines differed by up to 7 dB), short fades so cuts never click, and Sightline a little
+    # faster, the way screen-reader users listen. Cached per source clip and setting.
+    speed = SIGHTLINE_SPEED if who == 'sightline' else 1.0
+    done = path.with_name(path.stem + f'.n{speed}.wav')
+    if not done.exists():
+        with wave.open(str(path)) as w:
+            dur = w.getnframes() / w.getframerate() / speed
+        chain = ([f'atempo={speed}'] if speed != 1.0 else []) + [
+            'loudnorm=I=-16:TP=-1.5:LRA=11', 'afade=t=in:d=0.02', f'afade=t=out:st={max(dur - 0.04, 0):.3f}:d=0.04']
+        subprocess.run(['ffmpeg', '-hide_banner', '-loglevel', 'error', '-y', '-i', str(path), '-af', ','.join(chain),
+                        '-ar', '24000', '-ac', '1', str(done)], check=True)
+    with wave.open(str(done)) as w:
+        return done, w.getnframes() / w.getframerate()
 
 
-SIGHTLINE_SPEED = 1.3
+SIGHTLINE_SPEED = 1.15
 
 
 # ---------- recording ----------
@@ -380,6 +405,28 @@ def record():
                     d.textContent = t; }''', step[1])
                 wav, dur = tts(step[1], 'narrator')
                 hold(wav, dur, step[1])
+            elif kind == 'card':  # ('card', headline, image file or None, [list items], narration)
+                import base64
+                img = ''
+                if step[2]:
+                    img = 'data:image/png;base64,' + base64.b64encode((ROOT / 'demo/assets' / step[2]).read_bytes()).decode()
+                page.evaluate('''([h, img, items]) => { const d = document.createElement('div'); d.id = 'demo-card';
+                    d.style.cssText = 'position:fixed;inset:0;z-index:99;background:#0b1f3a;color:#fff;display:flex;gap:56px;'
+                      + 'align-items:center;justify-content:center;padding:60px;font:400 30px/1.35 system-ui';
+                    const text = document.createElement('div'); text.style.maxWidth = img ? '640px' : '1100px';
+                    const t = document.createElement('div'); t.textContent = h; t.style.cssText = 'font:700 52px/1.15 system-ui;margin-bottom:28px';
+                    text.append(t);
+                    if (items.length) { const ol = document.createElement('ol'); ol.style.cssText = 'margin:0;padding-left:1.3em';
+                      items.forEach((x) => { const li = document.createElement('li'); li.textContent = x; li.style.margin = '10px 0'; ol.append(li); });
+                      text.append(ol); }
+                    if (img) { const i = document.createElement('img'); i.src = img; i.alt = '';
+                      i.style.cssText = 'max-width:820px;max-height:860px;border-radius:18px;box-shadow:0 12px 48px rgba(0,0,0,.5)';
+                      d.append(i); }
+                    d.append(text); document.body.append(d); }''', [step[1], img, step[3]])
+                page.wait_for_timeout(300)
+                wav, dur = tts(step[4], 'narrator')
+                hold(wav, dur + 0.6, step[4])
+                page.evaluate("document.getElementById('demo-card').remove()")
             elif kind == 'hidden':  # off-camera reset between beats (e.g. empty the cart); not recorded
                 page.evaluate('''(t) => fetch('/api/turn', {method: 'POST', headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({text: t})})''', step[1])
@@ -479,7 +526,7 @@ def prefetch():
     """Voice every line known in advance before recording, so real-time steps (the 10 s undo window) aren't
     slowed by speech generation."""
     for step in SCRIPT:
-        if step[0] in ('title', 'narrate', 'setup', 'approve', 'beat'):
+        if step[0] in ('title', 'narrate', 'setup', 'approve', 'beat', 'card'):
             tts(step[-1], 'narrator')
         elif step[0] == 'say':
             tts(step[1], 'you')
