@@ -335,6 +335,7 @@ def record():
 
         def wait_turn(n):
             page.wait_for_function(f"document.querySelectorAll('#log .turn').length > {n}", timeout=60000)
+            page.evaluate('window.scrollTo(0, 0)')  # keep the conversation, product and banner in frame
             page.wait_for_timeout(250)
 
         def key_sentences(reply, hints):
