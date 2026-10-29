@@ -617,6 +617,7 @@ def record():
             if kind == 'title':
                 page.evaluate("document.getElementById('demo-beat')?.remove(); document.getElementById('demo-step')?.remove()")
                 overlay(step[1], step[2])
+                page.wait_for_timeout(1000)   # the recorder is slow to show a new full-screen card; this second is cut
                 wav, dur = tts(step[3], 'narrator')
                 hold(wav, dur + (2.0 if step is SCRIPT[-1] else 0), step[3])
                 page.evaluate("document.getElementById('demo-title').remove()")
@@ -728,20 +729,22 @@ def record():
                 submit('#message', step[1], step[1], *step[2:])
             elif kind == 'pin':
                 submit('#pin', step[1], 'types the PIN (never spoken aloud)', *step[2:])
-            elif kind == 'clip':  # ('clip', demo/assets video, label, caption): a separately recorded clip, played in frame
-                import base64
-                src = 'data:video/webm;base64,' + base64.b64encode((ROOT / 'demo/assets' / step[1]).read_bytes()).decode()
-                page.evaluate('''([src, label]) => { const d = document.createElement('div'); d.id = 'demo-card';
+            elif kind == 'clip':  # ('clip', demo/assets video, label, caption): a separately recorded clip, laid into
+                # an empty frame in the edit (playing it in the page made the recorder fall behind and lose the next card)
+                clip = ROOT / 'demo/assets' / step[1]
+                box = page.evaluate('''(label) => { const d = document.createElement('div'); d.id = 'demo-card';
                     d.style.cssText = 'position:fixed;inset:0;z-index:99;background:#0b1f3a;display:flex;flex-direction:column;'
                       + 'align-items:center;justify-content:center;gap:14px;color:#fff;font:600 30px system-ui';
                     const t = document.createElement('div'); t.textContent = label;
-                    const v = document.createElement('video'); v.muted = true; v.src = src;
-                    v.style.cssText = 'width:1600px;border-radius:14px;box-shadow:0 12px 48px rgba(0,0,0,.5)';
-                    d.append(t, v); document.documentElement.append(d); }''', [src, step[2]])
-                page.wait_for_function("document.querySelector('#demo-card video').readyState >= 3")
-                dur = page.evaluate("(() => { const v = document.querySelector('#demo-card video'); v.currentTime = 1.2; v.play(); "
-                                    "return v.duration - 1.2; })()")
-                hold(None, dur - 0.3, step[3])
+                    const v = document.createElement('div');
+                    v.style.cssText = 'width:1600px;aspect-ratio:1920/940;background:#000;box-shadow:0 12px 48px rgba(0,0,0,.5)';
+                    d.append(t, v); document.documentElement.append(d);
+                    const r = v.getBoundingClientRect(); return [r.x, r.y, r.width, r.height].map(Math.round); }''', step[2])
+                dur = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0',
+                                            str(clip)], capture_output=True, text=True, check=True).stdout) - CLIP_SKIP + CLIP_HOLD
+                a = now()
+                page.wait_for_timeout(int(dur * 1000))
+                segments.append((a, now(), None, step[3], (clip, box)))
                 page.evaluate("document.getElementById('demo-card').remove()")
             elif kind == 'news':  # ('news', text, hints, actions...): a reply the page announces by itself (the wait is cut)
                 page.wait_for_function('''(t) => { const r = [...document.querySelectorAll('#log .turn')].pop();
@@ -815,12 +818,25 @@ def record():
                 page.evaluate("document.getElementById('demo-phone').remove()")
         page.wait_for_timeout(2000)
         video = page.video.path()
+        wall = now()
         ctx.close()
         browser.close()
+    # the recorder's clock runs slower than the wall clock under load: rescale cut points to the recording's own length
+    raw = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', video],
+                               capture_output=True, text=True, check=True).stdout)
+    k = raw / wall
+    print(f'recording {raw:.1f} s for {wall:.1f} s of wall clock: scale {k:.4f}')
+    segments = [(a * k, a * k + (b - a), *rest) for a, b, *rest in segments]   # keep each segment's voiced length
+    (OUT / 'segments.json').write_text(json.dumps([video, [[*x[:4], [str(x[4][0]), x[4][1]]] if len(x) > 4 else x
+                                                           for x in segments]], default=str), encoding='utf-8')
     return Path(video), segments
 
 
 # ---------- editing ----------
+CLIP_SKIP = 1.2   # seconds cut from the start of a clip (its blank page load)
+CLIP_HOLD = 1.5   # seconds its last frame (the result) stays on screen
+
+
 def ff(*args):
     subprocess.run(['ffmpeg', '-hide_banner', '-loglevel', 'error', '-y', *args], check=True, cwd=OUT)
 
@@ -845,12 +861,18 @@ def cues(caption, start, dur, words_per_cue=14):
 
 def edit(video, segments):
     parts, srt, t = [], [], 0.0
-    for i, (a, b, wav, caption) in enumerate(segments):
+    for i, (a, b, wav, caption, *inset) in enumerate(segments):
         dur = b - a
         seg = f'seg{i:03d}.mp4'
         audio = ['-i', str(wav)] if wav else ['-f', 'lavfi', '-i', 'anullsrc=r=24000:cl=mono']
-        ff('-ss', f'{a:.3f}', '-i', str(video), *audio, '-t', f'{dur:.3f}', '-filter_complex', '[1:a]apad[a]',
-           '-map', '0:v', '-map', '[a]', '-r', '30', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '18', '-pix_fmt', 'yuv420p',
+        if inset:   # a separately recorded clip, scaled into the empty frame left for it
+            clip, (x, y, w, h) = inset[0]
+            clip_in = ['-ss', f'{CLIP_SKIP}', '-i', str(clip)]
+            graph = f'[1:v]scale={w}:{h}[c];[0:v][c]overlay={x}:{y}:eof_action=repeat[v];[2:a]apad[a]'   # repeat: hold the result
+        else:
+            clip_in, graph = [], '[0:v]null[v];[1:a]apad[a]'
+        ff('-ss', f'{a:.3f}', '-i', str(video), *clip_in, *audio, '-t', f'{dur:.3f}', '-filter_complex', graph,
+           '-map', '[v]', '-map', '[a]', '-r', '30', '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '18', '-pix_fmt', 'yuv420p',
            '-c:a', 'aac', '-ar', '44100', seg)
         parts.append(seg)
         srt += list(cues(caption, t, dur))
@@ -886,6 +908,10 @@ if __name__ == '__main__':
     OUT.mkdir(parents=True, exist_ok=True)
     SCRIPT = SCRIPTS[sys.argv[1] if len(sys.argv) > 1 else 'full']
     prefetch()
+    if '--edit-only' in sys.argv:   # re-cut the last recording (demo/out/segments.json) without recording again
+        video, segments = json.loads((OUT / 'segments.json').read_text(encoding='utf-8'))
+        edit(Path(video), [(*x[:4], (Path(x[4][0]), x[4][1])) if len(x) > 4 else x for x in segments])
+        sys.exit()
     server = start_server()
     try:
         video, segments = record()
