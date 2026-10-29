@@ -451,7 +451,7 @@ def paypal_view(s):
         return view
     o, amount, live = db.get(pp['id']), pp['amount'], co.get('order_id') == pp['id']
     if pp['kind'] == 'refund':
-        steps = ['Captured by PayPal', 'You confirm and type your PIN', 'Refunded by PayPal']
+        steps = ['Captured by PayPal', 'You confirm with your Sightline PIN', 'Refunded by PayPal']
         line = o['lines'][pp['line']] if o else None
         if live and st in HOLDING:
             at, status = 1, f'A refund of {amount} is waiting for your confirm and PIN.'
@@ -462,14 +462,14 @@ def paypal_view(s):
             steps, at, status = ['Captured by PayPal', 'Return cancelled'], 2, 'Return cancelled. Nothing was refunded.'
     else:
         steps = ['PayPal linked', 'On hold by PayPal'] + (['Trusted contact approves'] if pp['contact'] else []) + \
-                ['You confirm and type your PIN', 'Undo window', 'Captured by PayPal']
+                ['You confirm with your Sightline PIN', 'Undo window', 'Captured by PayPal']
         if o:
             amount = speech.usd(o['total'])
             at, status = len(steps), f'PayPal captured {amount}.'
         elif live and st == APPROVAL:
             at, status = 2, f'PayPal is holding {amount}, waiting for your trusted contact to approve.'
         elif live and st in (CONFIRM, PIN):
-            at = steps.index('You confirm and type your PIN')
+            at = steps.index('You confirm with your Sightline PIN')
             status = f'PayPal is holding {amount}. Nothing is charged until you confirm and type your PIN.'
         elif live and st == UNDO:
             at, status = steps.index('Undo window'), f'PIN accepted. PayPal captures {amount} when the undo window ends.'

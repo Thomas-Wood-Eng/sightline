@@ -344,7 +344,7 @@ def _scam_then(contact):
     if not contact:
         return 'A payment like this goes ahead only if your trusted contact approves it.'
     if contact.get('scam_hold', True):
-        return f"Because you chose it in Settings, a payment like this goes ahead only if {contact['name']} approves it."
+        return f"Because you chose it in Settings, your next payment goes ahead only if {contact['name']} approves it."
     return 'Take a moment before you confirm.'
 
 

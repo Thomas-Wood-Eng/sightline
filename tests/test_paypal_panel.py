@@ -14,7 +14,7 @@ def test_panel_follows_hold_pin_undo_capture_refund(client, fake, monkeypatch):
     t(client, 'hoodie'); t(client, 'add it in medium')
     st, o = steps(t(client, 'check out'))
     assert o['id'] == 'ORDER1' and o['amount'] == '41.73 US dollars' and not o['ended']
-    assert st[:3] == [('PayPal linked', 'done'), ('On hold by PayPal', 'done'), ('You confirm and type your PIN', 'current')]
+    assert st[:3] == [('PayPal linked', 'done'), ('On hold by PayPal', 'done'), ('You confirm with your Sightline PIN', 'current')]
     monkeypatch.setenv('SIGHTLINE_UNDO_SECONDS', '10')
     t(client, 'confirm')
     st, o = steps(client.post('/api/pin', json={'pin': '1234'}).json())

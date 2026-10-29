@@ -119,6 +119,7 @@ def test_paypal_lookalike_readback_wrong_pin_then_pay(page, base):
 
     dlg.locator("#confirm").press("Enter")
     expect(dlg.locator("#pin")).to_be_focused()
+    expect(dlg.locator("#confirm")).to_be_hidden()  # one step at a time: no stale Confirm beside the PIN
     enter_pin(dlg, "1111")
     expect(dlg.locator("#pin-msg")).to_have_text("Wrong PIN. 2 tries left.")
     expect(page.locator("#result")).to_have_text("Not paid")
@@ -126,6 +127,8 @@ def test_paypal_lookalike_readback_wrong_pin_then_pay(page, base):
     enter_pin(dlg, PIN)
     expect(dlg.locator("#count")).to_contain_text("Paying in")
     expect(dlg.locator("#undo")).to_be_focused()
+    expect(dlg.locator("#confirm")).to_be_hidden()
+    expect(dlg.locator("#pin")).to_be_hidden()
     expect(page.locator("#result")).to_have_text("Not paid")
     expect(page.locator("#result")).to_have_text("Paid (1)", timeout=13_000)  # after the 10 s undo window
     expect(page.locator(DIALOG)).to_have_count(0)

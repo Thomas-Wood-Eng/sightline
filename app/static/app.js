@@ -127,7 +127,10 @@ function setState(s, dueIn = 0, pay = '', say = '') {
     const update = () => {
       const left = Math.max(0, Math.ceil((due - Date.now()) / 1000));
       countdown(left === 1 ? 'Paying in 1 second' : `Paying in ${left} seconds`);
-      if (!warned && left <= 5) { warned = true; payStatus('Last 5 seconds to undo. Press Escape or Undo.', true); }
+      if (!warned && left <= 5) {  // said once; then the line is cleared so it never sits beside a smaller number
+        warned = true; const t = '5 seconds left to undo. Press Escape or Undo.'; payStatus(t, true);
+        setTimeout(() => { if ($('pay-status').textContent === t) $('pay-status').textContent = ''; }, 2000);
+      }
     };
     update(); tick = setInterval(update, 250);
     finalizeTimer = setTimeout(() => {

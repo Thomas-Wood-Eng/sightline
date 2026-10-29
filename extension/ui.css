@@ -19,6 +19,7 @@ h2 { font-size: 1.2rem; margin: 1.5rem 0 0.5rem; }
 p { margin: 0 0 0.75rem; }
 .muted, .tag { color: var(--muted); }
 .tag { font-size: 0.9rem; font-weight: 600; letter-spacing: 0.02em; }
+[hidden] { display: none !important; }  /* .actions' display:flex must not show a hidden step */
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 button, input, select { font: inherit; color: inherit; }

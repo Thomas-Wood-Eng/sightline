@@ -5,9 +5,8 @@
 *A working prototype on PayPal's sandbox. It has not yet been tested by blind or low-vision shoppers; that is the next step.*
 
 ## Inspiration
-Blind and low-vision shoppers can often *find* a product online, then lose it at checkout: CAPTCHAs, pop-ups, unlabelled
-buttons and payment iframes a screen reader can't get into. CAPTCHA is the #1 barrier named by 1,539 screen-reader users in
-WebAIM's survey (webaim.org/projects/screenreadersurvey10), at least 2.2 billion people have a near or distance vision impairment (WHO, World report on vision, who.int/publications/i/item/9789241516570), and about 5,000 US accessibility lawsuits were
+Blind and low-vision shoppers can often *find* a product online, then lose it at checkout: pop-ups, unlabelled
+buttons and payment iframes a screen reader can't get into. At least 2.2 billion people have a near or distance vision impairment (WHO, World report on vision, who.int/publications/i/item/9789241516570), and about 5,000 US accessibility lawsuits were
 filed in 2025, roughly 70% against online stores (UsableNet). AI agents can now click through websites for people, but an agent
 that moves money on your behalf has to be *trustworthy*, not just capable. We wanted the agent to do the clicking while the
 person makes every decision. (The demo runs on one fictional store in PayPal's sandbox.)
@@ -24,7 +23,7 @@ dispute help, Pay in 4 information, price-drop alerts and purchase history (all 
   *listing says* from what the *photo suggests*, and say "not stated" instead of guessing. Review summaries, comparisons,
   sizes and colours.
 - **The Readback:** at checkout PayPal holds the money and Sightline reads back **PayPal's own amounts** (price,
-  shipping, tax, total) plus the item, size, and the store's delivery date and seller. Nothing is paid until the shopper says "confirm" and types their PIN;
+  shipping, tax, total) plus the item, size, and the store's delivery date and seller. Nothing is paid until the shopper says "confirm" and types their Sightline PIN (set in Sightline, not their PayPal password);
   PayPal then captures after a 10-second undo window (undo, and PayPal voids the hold).
 - **Safety by code, not by prompt:** the AI never sees prices (it picks products; code adds the prices it speaks) and can't
   move money; spending limits and the PIN change only
@@ -32,7 +31,7 @@ dispute help, Pay in 4 information, price-drop alerts and purchase history (all 
   in plain words; a 10-second undo after the PIN; an optional trusted contact who must approve orders over an amount the shopper sets; refunds behind
   the same Readback + PIN.
 - **Scam warnings:** gift-card requests and classic pressure lines ("a caller says...", "keep it secret", "pay a fine") get a
-  calm warning, and that session's orders then need the trusted contact's approval, who sees why it was flagged. That
+  calm warning, and the shopper's next order (within 24 hours) then needs the trusted contact's approval, who sees why it was flagged. That
   hold is the shopper's choice in Settings (on by default); turned off, the warning stays and the usual Readback, confirm
   and PIN apply. The shopper is told which up front. Keyword rules, so it can miss or over-flag.
 - **After the purchase, by voice:** "is this my package?" compares a delivery photo with the order (Gemini vision, always

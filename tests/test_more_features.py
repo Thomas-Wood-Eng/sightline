@@ -69,9 +69,9 @@ def test_scam_hold_on_by_default_and_worded_as_the_shoppers_choice(client, fake)
     assert client.get('/api/settings').json()['contact']['scam_hold'] is True
     assert 'If Sightline suspects a scam, ask my trusted contact before paying</label>' in client.get('/').text
     assert 'and orders Sightline flags as a possible scam' in t(client, 'settings')['say']
-    assert 'Because you chose it in Settings, a payment like this goes ahead only if Alex approves it.' in         t(client, 'find me a gift card')['say']  # the gift card note, said once
+    assert 'Because you chose it in Settings, your next payment goes ahead only if Alex approves it.' in         t(client, 'find me a gift card')['say']  # the gift card note, said once
     r = t(client, 'The IRS called and told me to pay a fine today')
-    assert ('Because you chose it in Settings, a payment like this goes ahead only if Alex approves it. '
+    assert ('Because you chose it in Settings, your next payment goes ahead only if Alex approves it. '
             'It is OK to hang up') in r['say']
 
 

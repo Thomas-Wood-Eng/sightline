@@ -127,7 +127,7 @@ def test_pin_box_amount_focus_and_undo_countdown(browser, server, fake, monkeypa
     page.wait_for_function("document.getElementById('countdown').textContent.startsWith('Paid.')")
     assert page.is_hidden('#undo-btn') and fake.count('capture') == 1 and fake.count('void') == 0
     status = page.evaluate('window.__status')
-    assert 'Last 5 seconds to undo. Press Escape or Undo.' not in status  # a 3-second window starts under 5 s
+    assert '5 seconds left to undo. Press Escape or Undo.' not in status  # a 3-second window starts under 5 s
     assert 'Paying now.' in status and 'Too late to undo: PayPal is taking the payment now.' in status
 
 
@@ -172,7 +172,7 @@ def test_approval_decision_announced_by_itself(browser, server, fake):
     page.request.post(server + href + '/approve')
     page.wait_for_function("document.querySelector('#log .turn:last-child .say').textContent.startsWith('Alex approved')")
     assert last(page).startswith('Alex approved this order. Say confirm to continue to your PIN, or say cancel.')
-    assert 'You confirm and type your PIN' in page.inner_text('#pp-steps li[aria-current=step]')  # panel moved on
+    assert 'You confirm with your Sightline PIN' in page.inner_text('#pp-steps li[aria-current=step]')  # panel moved on
     assert 'Confirmed.' in send(page, 'confirm')
     assert page.inner_text('#log').count('Alex approved') == 1
 

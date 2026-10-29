@@ -188,7 +188,7 @@ EXTENSION = ('card', 'The same check on other checkouts', 'extension_readback.pn
 OPEN = [
     ('title', 'Sightline', 'Shop by voice or keyboard. Hear every dollar before it moves.',
      'Checkout is where blind shoppers get stuck. Sightline makes it a conversation.'),
-    ('setup', 'Set up once: a PIN, spending limits, and an optional trusted contact, Alex, for orders over 75 dollars.'),
+    ('setup', 'Set up once: a Sightline PIN, spending limits, and an optional trusted contact, Alex, for orders over 75 dollars.'),
     ('card', 'Link PayPal once, on PayPal’s own page.', 'paypal_link.png', ['PayPal sandbox consent page'], ''),
 ]
 ASK = [
