@@ -187,11 +187,10 @@ EXTENSION = ('card', 'The same check on other checkouts', 'extension_readback.pn
              'read aloud, then a PIN.')
 OPEN = [
     ('title', 'Sightline', 'Shop by voice or keyboard. Hear every dollar before it moves.',
-     'Checkout is where blind shoppers get stuck. Sightline turns it into a conversation, by voice or keyboard, '
-     'and PayPal holds the money until you say so.'),
+     'Checkout is where blind shoppers get stuck. Sightline makes it a conversation, and PayPal holds the money '
+     'until you say so.'),
     ('setup', 'Set up once: a PIN, spending limits, and an optional trusted contact, Alex, for orders over 75 dollars.'),
-    ('card', 'Link PayPal once, on PayPal’s own page.', 'paypal_link.png', ['Screenshot of the real PayPal sandbox consent page.'],
-     'Then link PayPal once, on PayPal’s own page.'),
+    ('card', 'Link PayPal once, on PayPal’s own page.', 'paypal_link.png', ['PayPal sandbox consent page'], ''),
 ]
 ASK = [
     ('beat', '1. Ask in your own words (typed in this video; push-to-talk works too)'),
@@ -203,10 +202,10 @@ BUY = [
     ('say', 'Add the first one.', ['Which size']),
     ('say', 'Medium.', ['Added']),
     ('beat', '2. Hear the real total, from PayPal'),
-    ('say', 'Check out.', ['Item 1', 'Unit price', 'Shipping', 'Tax', 'Total:'],
+    ('say', 'Check out.', ['Item 1', 'Unit price', 'Shipping', 'Tax', 'Total:', 'Delivery', 'Seller'],
      [('cam', '.reply.readback'), ('callout', '#log .reply.readback .line.total', 'Every number from PayPal’s order')]),
-    ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'PayPal is holding the money'),
-    ('narrate', 'PayPal is holding the money. Nothing is charged yet.'),
+    ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'PayPal is holding the money. Nothing charged yet.'),
+    ('still', 2.2, 'PayPal is holding the money. Nothing is charged yet.'),
     ('beat', '3. Confirm, then type a PIN'),
     ('say', 'Confirm.', ['PIN'], [('cam', '#pin-form')]),
 ]
@@ -216,30 +215,33 @@ SAFETY = [
     ('say', 'Check out.', ['over your approval amount', 'Approval link ready'],
      [('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Over $75: waiting for Alex')]),
     ('approve', 'Alex approves on their phone. Then the shopper can confirm.'),
-    ('say', 'Confirm.', ['-'], [('cam', '#pin-form')]),
-    ('pin', '1234', ['10 seconds'], [('cam', '#undo-box'), ('callout', '#undo-box', 'Changed their mind?')]),
+    ('say', 'Confirm.', ['Alex approved'], [('cam', '#pin-form')]),
+    ('pin', '1234', ['To stop it'], [('cam', '#undo-box'), ('callout', '#undo-box', 'Changed their mind?')]),
     ('say', 'Undo.', ['Undone', 'Nothing was charged', 'released'],
      [('cam', '#paypal', 1.4), ('callout', '#pp-order', 'PayPal released the hold')]),
+    ('note_order', 'Rain jacket: undone'),
     ('beat', 'Scam warnings'),
     ('say', 'A caller says I have to buy gift cards today.', ['common scam', 'only if'], [('cam', LAST)]),
 ]
 SCRIPTS['short'] = OPEN + ASK + BUY + [
-    ('pin', '1234', ['10 seconds'], [('cam', '#undo-box'), ('callout', '#undo-box', '10 seconds to undo')]),
-    ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Captured by PayPal')),
+    ('pin', '1234', ['To stop it'], [('cam', '#undo-box'), ('callout', '#undo-box', '10 seconds to undo')]),
+    ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Charged by PayPal')),
+    ('note_order', 'Hoodie: paid'),
 ] + SAFETY + [
     ('beat', 'After delivery: is this my package?'),
     ('say', 'Check my hoodie package.', ['-'], [('cam', LAST)]),
     ('photo', 'delivery_photo.jpg', ['Photo suggests'], ('cam', LAST)),
-    PAYPAL_FLOW,
-    ('title', 'The AI suggests. It never holds the keys.', 'github.com/Thomas-Wood-Eng/sightline',
-     'The AI suggests. The shopper decides. PayPal holds the money until they do.'),
+    ('proof', 'Both orders, straight from PayPal’s sandbox: one paid, one released.'),
+    ('title', 'The AI suggests. The shopper decides.', 'github.com/Thomas-Wood-Eng/sightline  ·  Photos: Wikimedia Commons',
+     'The AI suggests. The shopper decides.'),
 ]
 SCRIPTS['ad'] = OPEN + ASK + [
     ('beat', 'Compare without the clutter'),
     ('say', 'Compare those two.', None, [('cam', LAST)]),
 ] + BUY + [
-    ('pin', '1234', ['10 seconds'], [('cam', '#undo-box'), ('callout', '#undo-box', '10 seconds to undo')]),
-    ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Captured by PayPal')),
+    ('pin', '1234', ['To stop it'], [('cam', '#undo-box'), ('callout', '#undo-box', '10 seconds to undo')]),
+    ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Charged by PayPal')),
+    ('note_order', 'Hoodie: paid'),
 ] + SAFETY + [
     ('beat', 'Price drops, said once'),
     ('say', 'Tell me if the fleece-lined hoodie drops below 30 dollars.', None, [('cam', LAST)]),
@@ -413,7 +415,7 @@ def tts(text, who):
         return done, w.getnframes() / w.getframerate()
 
 
-SIGHTLINE_SPEED = 1.25
+SIGHTLINE_SPEED = 1.15   # screen-reader users go faster; 1.15 keeps it followable for first-time viewers
 # every page and frame gets a speech engine that does nothing, so a render never makes a sound on this computer
 SILENT = '''Object.defineProperty(window, 'speechSynthesis', {configurable: true, value: {speaking: false, pending: false,
   paused: false, speak() {}, cancel() {}, pause() {}, resume() {}, getVoices: () => [], addEventListener() {}}});'''
@@ -439,6 +441,9 @@ def start_server():
 
 
 def record():
+    from app import paypal   # the proof step reads PayPal's own record of each order
+    env = dict(l.split('=', 1) for l in (ROOT / '.env').read_text().splitlines() if '=' in l)
+    os.environ.update({k: v.strip() for k, v in env.items() if k.startswith('PAYPAL_')})
     segments = []  # (start_s, end_s, wav or None, caption)
     with sync_playwright() as pw:
         browser = pw.chromium.launch(args=['--mute-audio'])
@@ -523,7 +528,15 @@ def record():
                 const d = document.createElement('div'); d.id = 'demo-dark';
                 d.style.cssText = 'position:fixed;inset:0;z-index:96;pointer-events:none;background:#05070c;color:#c9d3e3;display:flex;'
                   + 'align-items:center;justify-content:center;font:500 38px system-ui';
-                d.textContent = label; document.documentElement.append(d); }''', [on, label])
+                d.style.flexDirection = 'column'; d.style.gap = '36px';
+                const bars = document.createElement('div'); bars.style.cssText = 'display:flex;gap:10px;align-items:center;height:120px';
+                for (let k = 0; k < 9; k++) { const b = document.createElement('i');
+                  b.style.cssText = `display:block;width:14px;border-radius:7px;background:#ffb800;height:30px;`
+                    + `animation:demo-eq ${0.55 + (k % 4) * 0.13}s ease-in-out ${k * 0.07}s infinite alternate`; bars.append(b); }
+                const st = document.createElement('style');
+                st.textContent = '@keyframes demo-eq { from { height: 14px } to { height: 110px } }';
+                const t = document.createElement('div'); t.textContent = label;
+                d.append(st, bars, t); document.documentElement.append(d); }''', [on, label])
             page.wait_for_timeout(400)
 
         def do(action):  # ('cam', selector|None[, max_scale]) / ('callout', selector, label) / ('dark', on[, label])
@@ -562,6 +575,7 @@ def record():
             hold(wav, dur + (0.8 if hints else 0), f'Sightline: {reply}')
 
         cam(None)   # the 1.5x full view
+        orders = []   # (label, PayPal order ID) for the 'proof' step
         for step in SCRIPT:
             kind = step[0]
             print(kind, '|', str(step[1] if len(step) > 1 else kind)[:70])
@@ -592,7 +606,7 @@ def record():
                 img = ''
                 if step[2]:
                     img = 'data:image/png;base64,' + base64.b64encode((ROOT / 'demo/assets' / step[2]).read_bytes()).decode()
-                wav, dur = tts(step[4], 'narrator')
+                wav, dur = tts(step[4], 'narrator') if step[4] else (None, 2.6)
                 # list items light up one by one as the narration reaches them
                 page.evaluate('''([h, img, items, ms]) => { const d = document.createElement('div'); d.id = 'demo-card';
                     d.style.cssText = 'position:fixed;inset:0;z-index:99;background:#0b1f3a;color:#fff;display:flex;gap:56px;'
@@ -610,12 +624,36 @@ def record():
                       d.append(i); }
                     d.append(text); document.documentElement.append(d); }''', [step[1], img, step[3], dur * 900])
                 page.wait_for_timeout(300)
-                hold(wav, dur + 0.6, step[4])
+                hold(wav, dur + (0.6 if wav else 0), step[4] or step[1])
                 page.evaluate("document.getElementById('demo-card').remove()")
             elif kind == 'hidden':  # off-camera reset between beats (e.g. empty the cart); not recorded
                 page.evaluate('''(t) => fetch('/api/turn', {method: 'POST', headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({text: t})})''', step[1])
                 page.wait_for_timeout(400)
+            elif kind == 'note_order':  # ('note_order', label): remember the PayPal order ID on screen
+                orders.append((step[1], page.inner_text('#pp-id').strip()))
+            elif kind == 'proof':  # ('proof', narration): live GET /v2/checkout/orders/{id} from the PayPal sandbox
+                rows = []
+                for label, oid in orders:
+                    o = paypal.get_order(oid)
+                    auth = o['purchase_units'][0]['payments']['authorizations'][0]
+                    rows.append([label, f'GET /v2/checkout/orders/{oid}',
+                                 f'status: {o["status"]}   authorization: {auth["status"]}   amount: {auth["amount"]["value"]} USD'])
+                page.evaluate('''(rows) => { const d = document.createElement('div'); d.id = 'demo-card';
+                    d.style.cssText = 'position:fixed;inset:0;z-index:99;background:#0b1f3a;color:#fff;display:flex;'
+                      + 'flex-direction:column;justify-content:center;padding:0 120px;gap:30px;font:400 28px system-ui';
+                    const h = document.createElement('div'); h.textContent = 'From PayPal’s sandbox API, just now';
+                    h.style.font = '700 50px system-ui'; d.append(h);
+                    for (const [label, call, res] of rows) { const b = document.createElement('div');
+                      b.style.cssText = 'background:#06101f;border-radius:16px;padding:22px 30px;border-left:8px solid #ffb800';
+                      b.innerHTML = '<div style="font:700 30px system-ui;margin-bottom:8px"></div>'
+                        + '<div style="font:400 24px ui-monospace,Consolas,monospace;opacity:.8"></div>'
+                        + '<div style="font:600 30px ui-monospace,Consolas,monospace;color:#ffd666;margin-top:6px"></div>';
+                      [label, call, res].forEach((x, k) => { b.children[k].textContent = x; }); d.append(b); }
+                    document.documentElement.append(d); }''', rows)
+                wav, dur = tts(step[1], 'narrator')
+                hold(wav, dur + 1.0, step[1])
+                page.evaluate("document.getElementById('demo-card').remove()")
             elif kind == 'api':  # ('api', path, json body): off camera, not recorded
                 page.evaluate('''([u, b]) => fetch(u, {method: 'POST', headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(b)})''', [step[1], step[2]])
@@ -636,7 +674,7 @@ def record():
                 page.wait_for_selector('#log .turn')
                 cam(None)
                 page.evaluate("document.getElementById('settings-more').open = true")
-                cam('#settings-form', 1.25)
+                cam('#set-threshold', 1.15)
                 callout('#set-threshold', 'Alex approves orders over $75')
                 hold(wav, dur, step[1])
                 page.evaluate("document.getElementById('settings-more').open = false")
@@ -645,6 +683,8 @@ def record():
                 submit('#message', step[1], step[1], *step[2:])
             elif kind == 'pin':
                 submit('#pin', step[1], 'types the PIN (never spoken aloud)', *step[2:])
+            elif kind == 'still':  # ('still', seconds, caption)
+                hold(None, step[1], step[2])
             elif kind in ('cam', 'callout', 'dark'):
                 do(step)
             elif kind == 'captured':  # the page captures by itself when the undo window ends; the wait is cut

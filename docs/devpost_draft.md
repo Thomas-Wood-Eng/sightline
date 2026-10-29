@@ -2,10 +2,12 @@
 
 **Tagline:** Shop by voice or keyboard. Hear every dollar before it moves.
 
+*A working prototype on PayPal's sandbox. It has not yet been tested by blind or low-vision shoppers; that is the next step.*
+
 ## Inspiration
 Blind and low-vision shoppers can often *find* a product online, then lose it at checkout: CAPTCHAs, pop-ups, unlabelled
 buttons and payment iframes a screen reader can't get into. CAPTCHA is the #1 barrier named by 1,539 screen-reader users in
-WebAIM's survey, at least 2.2 billion people live with a vision impairment (WHO), and about 5,000 US accessibility lawsuits were
+WebAIM's survey, at least 2.2 billion people have a near or distance vision impairment (WHO, World report on vision), and about 5,000 US accessibility lawsuits were
 filed in 2025, roughly 70% against online stores (UsableNet). AI agents can now click through websites for people, but an agent
 that moves money on your behalf has to be *trustworthy*, not just capable. We wanted the agent to do the clicking while the
 person makes every decision.
@@ -56,8 +58,7 @@ Sightline is a voice- and keyboard-first shopping assistant built on PayPal.
 - Making replies speak exactly once with a screen reader, and running on free-tier AI limits.
 
 ## Accomplishments that we're proud of
-A complete purchase, refund and approval flow designed so a screen-reader user can do it end to end (not yet tested by
-blind shoppers), with every spoken amount traceable
+A complete purchase, refund and approval flow built for screen readers and the keyboard, with every spoken amount traceable
 to PayPal's data; and safety rules that hold even if the AI misbehaves.
 
 ## What we learned
