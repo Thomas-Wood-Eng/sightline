@@ -309,7 +309,8 @@ def pin(s, entered):
     s['co'] = {**s['co'], 'state': UNDO, 'due': time.time() + delay}
     if delay <= 0:
         return finalize(s)
-    return Reply(f'PIN accepted. In {delay} seconds Sightline asks PayPal to take the payment. '
+    paying = s['co'].get('pay') or 'Paying'
+    return Reply(f'PIN accepted. {paying} in {delay} seconds. '
                  'To stop it, say undo, or press Escape, or use the Undo button.')
 
 

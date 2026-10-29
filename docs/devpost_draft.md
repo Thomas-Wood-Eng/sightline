@@ -7,18 +7,18 @@
 ## Inspiration
 Blind and low-vision shoppers can often *find* a product online, then lose it at checkout: CAPTCHAs, pop-ups, unlabelled
 buttons and payment iframes a screen reader can't get into. CAPTCHA is the #1 barrier named by 1,539 screen-reader users in
-WebAIM's survey, at least 2.2 billion people have a near or distance vision impairment (WHO, World report on vision), and about 5,000 US accessibility lawsuits were
+WebAIM's survey (webaim.org/projects/screenreadersurvey10), at least 2.2 billion people have a near or distance vision impairment (WHO, World report on vision, who.int/publications/i/item/9789241516570), and about 5,000 US accessibility lawsuits were
 filed in 2025, roughly 70% against online stores (UsableNet). AI agents can now click through websites for people, but an agent
 that moves money on your behalf has to be *trustworthy*, not just capable. We wanted the agent to do the clicking while the
-person makes every decision.
+person makes every decision. (The demo runs on one fictional store in PayPal's sandbox.)
 
 ## What it does
 Sightline is a voice- and keyboard-first shopping assistant built on PayPal.
 - **Find and understand products:** at most three results at a time, spoken briefly; descriptions separate what the
   *listing says* from what the *photo suggests*, and say "not stated" instead of guessing. Review summaries, comparisons,
   sizes and colours.
-- **The Readback:** at checkout PayPal holds the money and Sightline reads back **PayPal's own numbers**: item, size,
-  price, shipping, tax, total, delivery date, seller. Nothing is paid until the shopper says "confirm" and types their PIN;
+- **The Readback:** at checkout PayPal holds the money and Sightline reads back **PayPal's own amounts** (price,
+  shipping, tax, total) plus the item, size, and the store's delivery date and seller. Nothing is paid until the shopper says "confirm" and types their PIN;
   PayPal then captures after a 10-second undo window (undo, and PayPal voids the hold).
 - **Safety by code, not by prompt:** the AI never sees prices (it picks products; code adds the prices it speaks) and can't
   move money; spending limits and the PIN change only
@@ -39,7 +39,7 @@ Sightline is a voice- and keyboard-first shopping assistant built on PayPal.
   optional built-in voice, push-to-talk or typing, modifier-only shortcuts, large text and simple modes.
 
 ## How we built it
-- **PayPal (sandbox):** Vault v3 saves the buyer's PayPal once through a full-page PayPal login (no popup). Each purchase is an
+- **PayPal (sandbox):** Vault v3 saves the buyer's PayPal once, on PayPal's own consent page in a full-page redirect (no popup). Each purchase is an
   Orders v2 `AUTHORIZE` with the saved `vault_id`; Sightline reads the Readback from PayPal's `amount.breakdown`, then captures
   on confirm + PIN or voids on cancel/undo. One `PayPal-Request-Id` per checkout attempt makes a repeated "confirm" safe.
   Refunds use the Payments v2 refund endpoint.

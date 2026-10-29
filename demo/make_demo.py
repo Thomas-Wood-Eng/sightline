@@ -187,8 +187,7 @@ EXTENSION = ('card', 'The same check on other checkouts', 'extension_readback.pn
              'read aloud, then a PIN.')
 OPEN = [
     ('title', 'Sightline', 'Shop by voice or keyboard. Hear every dollar before it moves.',
-     'Checkout is where blind shoppers get stuck. Sightline makes it a conversation, and PayPal holds the money '
-     'until you say so.'),
+     'Checkout is where blind shoppers get stuck. Sightline makes it a conversation.'),
     ('setup', 'Set up once: a PIN, spending limits, and an optional trusted contact, Alex, for orders over 75 dollars.'),
     ('card', 'Link PayPal once, on PayPal’s own page.', 'paypal_link.png', ['PayPal sandbox consent page'], ''),
 ]
@@ -202,7 +201,7 @@ BUY = [
     ('say', 'Add the first one.', ['Which size']),
     ('say', 'Medium.', ['Added']),
     ('beat', '2. Hear the real total, from PayPal'),
-    ('say', 'Check out.', ['Item 1', 'Unit price', 'Shipping', 'Tax', 'Total:', 'Delivery', 'Seller'],
+    ('say', 'Check out.', ['Item 1', 'Unit price', 'Shipping', 'Tax', 'Total:', 'Delivery', 'Seller', 'Pay in 4'],
      [('cam', '.reply.readback'), ('callout', '#log .reply.readback .line.total', 'Every number from PayPal’s order')]),
     ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'PayPal is holding the money. Nothing charged yet.'),
     ('still', 2.2, 'PayPal is holding the money. Nothing is charged yet.'),
@@ -210,28 +209,27 @@ BUY = [
     ('say', 'Confirm.', ['PIN'], [('cam', '#pin-form')]),
 ]
 SAFETY = [
-    ('beat', 'Orders over $75: Alex approves'),
-    ('say', 'Find a rain jacket.', ['result']), ('say', 'Add it.', ['Added']),
-    ('say', 'Check out.', ['over your approval amount', 'Approval link ready'],
-     [('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Over $75: waiting for Alex')]),
-    ('approve', 'Alex approves on their phone. Then the shopper can confirm.'),
-    ('say', 'Confirm.', ['Alex approved'], [('cam', '#pin-form')]),
-    ('pin', '1234', ['To stop it'], [('cam', '#undo-box'), ('callout', '#undo-box', 'Changed their mind?')]),
-    ('say', 'Undo.', ['Undone', 'Nothing was charged', 'released'],
-     [('cam', '#paypal', 1.4), ('callout', '#pp-order', 'PayPal released the hold')]),
-    ('note_order', 'Rain jacket: undone'),
     ('beat', 'Scam warnings'),
     ('say', 'A caller says I have to buy gift cards today.', ['common scam', 'only if'], [('cam', LAST)]),
+    ('say', 'Find me a gift card.', ['results']),
+    ('say', 'Add number 1.', ['Added']),
+    ('say', 'Check out.', ['flagged', 'Approval link ready'],
+     [('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Under $75, but flagged: waiting for Alex')]),
+    ('approve', 'Alex sees why it was flagged, and declines.', 'decline'),
+    ('say', 'Confirm.', ['declined'], [('cam', '#paypal', 1.4), ('callout', '#pp-order', 'PayPal released the hold')]),
+    ('note_order', 'Gift card: declined by Alex'),
 ]
 SCRIPTS['short'] = OPEN + ASK + BUY + [
-    ('pin', '1234', ['To stop it'], [('cam', '#undo-box'), ('callout', '#undo-box', '10 seconds to undo')]),
+    ('pin', '1234', ['Paying'], [('cam', '#undo-box'), ('callout', '#undo-btn', 'Focus on Undo for 10 seconds')]),
     ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Charged by PayPal')),
     ('note_order', 'Hoodie: paid'),
 ] + SAFETY + [
     ('beat', 'After delivery: is this my package?'),
-    ('say', 'Check my hoodie package.', ['-'], [('cam', LAST)]),
+    ('say', 'Check my hoodie package.', ['-'], [('cam', '#package-photo', 1.3), ('callout', '#package-photo', 'Package photo button')]),
     ('photo', 'delivery_photo.jpg', ['Photo suggests'], ('cam', LAST)),
     ('proof', 'Both orders, straight from PayPal’s sandbox: one paid, one released.'),
+    ('card', 'The same check on other checkouts: a browser extension prototype', 'extension_readback.png',
+     ['Reads the page’s own total and payee, then asks for the PIN. Tested on look-alike pages only.'], ''),
     ('title', 'The AI suggests. The shopper decides.', 'github.com/Thomas-Wood-Eng/sightline  ·  Photos: Wikimedia Commons',
      'The AI suggests. The shopper decides.'),
 ]
@@ -239,7 +237,7 @@ SCRIPTS['ad'] = OPEN + ASK + [
     ('beat', 'Compare without the clutter'),
     ('say', 'Compare those two.', None, [('cam', LAST)]),
 ] + BUY + [
-    ('pin', '1234', ['To stop it'], [('cam', '#undo-box'), ('callout', '#undo-box', '10 seconds to undo')]),
+    ('pin', '1234', ['Paying'], [('cam', '#undo-box'), ('callout', '#undo-btn', 'Focus on Undo for 10 seconds')]),
     ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Charged by PayPal')),
     ('note_order', 'Hoodie: paid'),
 ] + SAFETY + [
@@ -250,7 +248,7 @@ SCRIPTS['ad'] = OPEN + ASK + [
     ('say', 'The hoodie came damaged.', None, [('cam', LAST)]),
     ('hidden', 'No.'),
     ('beat', 'Is this my package?'),
-    ('say', 'Check my hoodie package.', ['-'], [('cam', LAST)]),
+    ('say', 'Check my hoodie package.', ['-'], [('cam', '#package-photo', 1.3), ('callout', '#package-photo', 'Package photo button')]),
     ('photo', 'delivery_photo.jpg', ['Photo suggests'], ('cam', LAST)),
     PAYPAL_FLOW, EXTENSION,
     ('title', 'The AI suggests. It never holds the keys.', 'github.com/Thomas-Wood-Eng/sightline',
@@ -590,7 +588,7 @@ def record():
                 hold(wav, dur, step[1])
             elif kind == 'beat':  # chapter: a short silent full-screen card (its text is the caption too)
                 overlay(step[1], '')
-                hold(None, 1.3, step[1])
+                hold(None, 2.0, step[1])
                 page.evaluate("document.getElementById('demo-title').remove()")
             elif kind == 'banner':  # old style: a headline banner over the live app
                 page.evaluate('''(t) => { let d = document.getElementById('demo-beat');
@@ -637,19 +635,21 @@ def record():
                 for label, oid in orders:
                     o = paypal.get_order(oid)
                     auth = o['purchase_units'][0]['payments']['authorizations'][0]
-                    rows.append([label, f'GET /v2/checkout/orders/{oid}',
-                                 f'status: {o["status"]}   authorization: {auth["status"]}   amount: {auth["amount"]["value"]} USD'])
+                    excerpt = {'id': o['id'], 'status': o['status'], 'purchase_units': [{'payments': {'authorizations': [
+                        {'id': auth['id'], 'status': auth['status'], 'amount': auth['amount']}]}}]}
+                    rows.append([label, f'GET {paypal.API}/v2/checkout/orders/{oid}   200 OK', json.dumps(excerpt, indent=2)])
                 page.evaluate('''(rows) => { const d = document.createElement('div'); d.id = 'demo-card';
                     d.style.cssText = 'position:fixed;inset:0;z-index:99;background:#0b1f3a;color:#fff;display:flex;'
-                      + 'flex-direction:column;justify-content:center;padding:0 120px;gap:30px;font:400 28px system-ui';
-                    const h = document.createElement('div'); h.textContent = 'From PayPal’s sandbox API, just now';
-                    h.style.font = '700 50px system-ui'; d.append(h);
+                      + 'flex-direction:column;justify-content:center;padding:0 70px;gap:22px;font:400 24px system-ui';
+                    const h = document.createElement('div'); h.textContent = 'PayPal sandbox API, queried at the end of this recording';
+                    h.style.font = '700 40px system-ui'; d.append(h);
+                    const row = document.createElement('div'); row.style.cssText = 'display:flex;gap:28px'; d.append(row);
                     for (const [label, call, res] of rows) { const b = document.createElement('div');
-                      b.style.cssText = 'background:#06101f;border-radius:16px;padding:22px 30px;border-left:8px solid #ffb800';
-                      b.innerHTML = '<div style="font:700 30px system-ui;margin-bottom:8px"></div>'
-                        + '<div style="font:400 24px ui-monospace,Consolas,monospace;opacity:.8"></div>'
-                        + '<div style="font:600 30px ui-monospace,Consolas,monospace;color:#ffd666;margin-top:6px"></div>';
-                      [label, call, res].forEach((x, k) => { b.children[k].textContent = x; }); d.append(b); }
+                      b.style.cssText = 'flex:1;background:#06101f;border-radius:14px;padding:18px 24px;border-top:8px solid #ffb800';
+                      b.innerHTML = '<div style="font:700 28px system-ui;margin-bottom:6px"></div>'
+                        + '<div style="font:400 17px ui-monospace,Consolas,monospace;opacity:.75;word-break:break-all"></div>'
+                        + '<pre style="font:500 19px/1.3 ui-monospace,Consolas,monospace;color:#ffd666;margin:10px 0 0;white-space:pre"></pre>';
+                      [label, call, res].forEach((x, k) => { b.children[k].textContent = x; }); row.append(b); }
                     document.documentElement.append(d); }''', rows)
                 wav, dur = tts(step[1], 'narrator')
                 hold(wav, dur + 1.0, step[1])
@@ -713,7 +713,7 @@ def record():
                     d.querySelector('img').src = src; document.documentElement.append(d); }''', img)
                 n = page.locator('#log .turn').count()
                 a = now()
-                page.wait_for_timeout(2600)
+                page.wait_for_timeout(3000)
                 segments.append((a, now(), None, 'The shopper chooses a photo of the delivery.'))
                 page.evaluate("document.getElementById('demo-phone').remove()")
                 page.set_input_files('#package-photo', str(ROOT / 'demo/assets' / step[1]))
@@ -737,7 +737,8 @@ def record():
                 wav, dur = tts(step[1], 'narrator')
                 a = now()
                 page.wait_for_timeout(int(dur * 600))
-                btn = page.frame_locator('#demo-phone iframe').get_by_role('button', name='Approve this order')
+                choice = 'Decline this order' if 'decline' in step[2:] else 'Approve this order'
+                btn = page.frame_locator('#demo-phone iframe').get_by_role('button', name=choice)
                 btn.scroll_into_view_if_needed()
                 btn.evaluate("b => { b.style.outline = '6px solid #ffb800'; b.style.outlineOffset = '3px'; }")
                 page.wait_for_timeout(700)

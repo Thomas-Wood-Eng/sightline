@@ -121,6 +121,7 @@ function setState(s, dueIn = 0, pay = '', say = '') {
     // undo window: PayPal captures when it ends; until then Undo (or Escape) voids the hold.
     // The countdown updates on screen every second but is announced only at the 5-second mark (not chatty).
     paying = false; box.hidden = false; $('undo-btn').hidden = false;
+    if (was !== s) $('undo-btn').focus();  // the one control that matters for the next 10 seconds
     const due = Date.now() + dueIn * 1000;
     let warned = dueIn <= 5;
     const update = () => {
