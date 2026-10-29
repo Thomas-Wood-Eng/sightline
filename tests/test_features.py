@@ -183,6 +183,28 @@ def test_decline_voids(client, fake):
     assert 'Alex declined' in r['say'] and r['state'] == 'voided' and fake.count('capture') == 0
 
 
+def test_approval_poll_says_the_decision_once(client, fake):
+    _, link = to_approval(client)
+    assert client.post('/api/approval').json() == {'state': 'awaiting_approval'}  # nothing yet: the page says nothing
+    client.post(link + '/approve')
+    r = client.post('/api/approval').json()
+    assert r['say'] == 'Alex approved this order. Say confirm to continue to your PIN, or say cancel.'
+    assert r['state'] == 'awaiting_confirm' and any(l.startswith('Total: ') for l in r['lines'])
+    assert ('Trusted contact approves', 'done') in [(x['label'], x['state']) for x in r['paypal']['order']['steps']]
+    assert client.post('/api/approval').json() == {'state': 'awaiting_confirm'}  # said once
+    assert t(client, 'repeat')['say'].startswith('Alex approved')
+    assert t(client, 'confirm')['say'].startswith('Confirmed.')  # the shopper's turn does not hear it again
+
+
+def test_approval_poll_says_a_decline(client, fake):
+    _, link = to_approval(client)
+    client.post(link + '/decline')
+    r = client.post('/api/approval').json()
+    assert r['say'] == 'Alex declined this order, so PayPal released the hold. Nothing was charged.'
+    assert r['state'] == 'voided' and r['paypal']['order']['ended']
+    assert client.post('/api/approval').json() == {'state': 'voided'}
+
+
 def test_under_threshold_needs_no_approval(client, fake):
     setup(client); contact(client, threshold='90.00')
     t(client, 'hoodie'); t(client, 'add it in medium')

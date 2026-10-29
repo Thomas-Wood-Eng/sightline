@@ -38,6 +38,7 @@ PayPal holds the money, Sightline reads back PayPal's own numbers, and nothing i
 - **Scam and dark-pattern guard:** subscriptions, pre-ticked add-ons (never added unless asked), unusual shipping and
   "only 2 left" pressure are called out in plain words, by fixed rules, not by the AI.
 - **Trusted contact:** orders over a set amount need approval on a signed, single-use page (link shown, not emailed).
+  Their decision is said as soon as they make it, without the shopper asking.
 - **Gift-card scam guard:** gift-card requests and scam pressure ("the IRS told me to", "keep it secret", "my grandson
   needs bail") get a calm warning, by fixed rules; gift card orders and any order after a warning always need the
   trusted contact, who is told why. No contact, no gift card checkout.

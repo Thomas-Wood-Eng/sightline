@@ -160,6 +160,23 @@ def test_approval_link_says_new_tab(browser, server, fake):
     assert a.get_attribute('target') == '_blank' and a.get_attribute('rel') == 'noopener'
 
 
+# ---- the trusted contact's decision is said without the shopper asking (the page polls), once ----
+def test_approval_decision_announced_by_itself(browser, server, fake):
+    page = open_app(browser, server)
+    page.click('#settings-more summary')
+    page.fill('#set-contact-name', 'Alex'); page.fill('#set-contact-email', 'alex@example.com')
+    page.fill('#set-threshold', '20'); page.fill('#set-current-pin', '1234'); page.click('text=Save settings')
+    page.wait_for_function("document.getElementById('settings-status').textContent.startsWith('Settings saved: Alex approves')")
+    send(page, 'hoodie'); send(page, 'add it in medium'); send(page, 'check out')
+    href = page.locator('#log a[href^="/approve/"]').get_attribute('href')
+    page.request.post(server + href + '/approve')
+    page.wait_for_function("document.querySelector('#log .turn:last-child .say').textContent.startsWith('Alex approved')")
+    assert last(page).startswith('Alex approved this order. Say confirm to continue to your PIN, or say cancel.')
+    assert 'You confirm and type your PIN' in page.inner_text('#pp-steps li[aria-current=step]')  # panel moved on
+    assert 'Confirmed.' in send(page, 'confirm')
+    assert page.inner_text('#log').count('Alex approved') == 1
+
+
 # ---- screen-reader issue 1: a reload mid-checkout says what is on hold and restores the PIN box ----
 def test_reload_mid_checkout_restores_context(browser, server, fake):
     page = open_app(browser, server)

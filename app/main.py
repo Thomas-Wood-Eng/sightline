@@ -132,6 +132,16 @@ def finalize(request: Request):
     return out(request.session, checkout.finalize(request.session))
 
 
+@app.post('/api/approval')
+def approval(request: Request):
+    """The page asks every few seconds while an order waits for the trusted contact, so their decision is said
+    without the shopper asking. Said once: it moves the checkout on, so a later turn or poll has no news."""
+    s = request.session
+    waiting = checkout.state(s) == checkout.APPROVAL and s['co'].get('approval') in checkout.APPROVALS
+    news = checkout.approval_news(s) if waiting else None  # a request lost on restart is said on the next turn
+    return out(s, news) if news else {'state': checkout.state(s)}
+
+
 class Pin(BaseModel):
     pin: str = Field(max_length=12)
 

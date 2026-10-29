@@ -144,6 +144,25 @@ function setState(s, dueIn = 0, pay = '', say = '') {
   if (showPin && (was !== 'awaiting_pin' || document.activeElement === msg)) pinInput.focus();
   if (!showPin && document.activeElement === pinInput) msg.focus();
   if (s === 'captured' && was !== 'captured') earcon.success();
+  if (s !== 'awaiting_approval') { clearInterval(approvalPoll); approvalPoll = null; }
+  else if (!approvalPoll) approvalPoll = setInterval(pollApproval, APPROVAL_POLL_MS);
+}
+
+// waiting for the trusted contact: ask the server every few seconds, so their decision is said without asking.
+// Never while a turn is on its way (that turn hears the decision itself), so it is said once.
+let approvalPoll = null;
+const APPROVAL_POLL_MS = 4000;
+async function pollApproval() {
+  if (busy) return;
+  busy = true;
+  try {
+    const r = await post('/api/approval', {});
+    if (r.say) { append(null, r.say, r.lines); showPayPal(r.paypal); setState(r.state, r.due_in, r.pay, r.say); }
+    else if (r.state !== 'awaiting_approval') { clearInterval(approvalPoll); approvalPoll = null; }  // ended elsewhere
+  } catch (e) { /* asked again on the next tick */ } finally {
+    busy = false;
+    if (queued) { const q = queued; queued = null; turn(...q); }
+  }
 }
 
 // ---- requests ----
