@@ -278,8 +278,7 @@ def warnings(lines_in):
     ids, out = {p['id'] for p, _, _ in lines_in}, []
     for p, _, _ in lines_in:
         if p.get('gift_card'):
-            out.append('Heads up: gift cards are a common scam payment. Real agencies never ask for them. '
-                       "Gift card orders need your trusted contact's approval.")
+            out.append('Heads up: gift cards are a common scam payment. Real agencies never ask for them.')
         if p.get('subscription'):
             out.append(f"Heads up: {p['name']} is a subscription that renews every {p['subscription']} until you cancel.")
         if p.get('urgency'):
@@ -340,16 +339,24 @@ SCAM_ADVICE = ('Real agencies, banks and police never ask for gift cards, wire t
                'They never ask you to keep it secret.')
 
 
-def scam_warning(has_contact):
+def _scam_then(contact):
+    """What happens to a payment Sightline suspects: the shopper's own choice in Settings (no contact: none goes ahead)."""
+    if not contact:
+        return 'A payment like this goes ahead only if your trusted contact approves it.'
+    if contact.get('scam_hold', True):
+        return f"Because you chose it in Settings, a payment like this goes ahead only if {contact['name']} approves it."
+    return 'Take a moment before you confirm.'
+
+
+def scam_warning(contact):
     """Pressure words heard (Lane 0 scam guard): calm, short, no lecture."""
-    return ('This matches a common scam. ' + SCAM_ADVICE + ' A payment like this goes ahead only if '
-            'your trusted contact approves it. It is OK to hang up and call someone you trust.'
-            + ('' if has_contact else ' You have no trusted contact yet. You can add one in Settings.'))
+    return ('This matches a common scam. ' + SCAM_ADVICE + f' {_scam_then(contact)} It is OK to hang up and call someone '
+            'you trust.' + ('' if contact else ' You have no trusted contact yet. You can add one in Settings.'))
 
 
-def gift_card_note():
+def gift_card_note(contact):
     return ('A note first: gift cards are the most common way scammers ask to be paid. Real agencies never ask for '
-            "gift cards. So a gift card order needs your trusted contact's approval.")
+            f'gift cards. {_scam_then(contact)}')
 
 
 def scam_no_contact():
@@ -495,7 +502,9 @@ def settings_summary(caps, mode, linked, pin_set, spent, prefs=None, contact=Non
             f"Replies are read by {'your screen reader' if mode == 'screen_reader' else 'the app voice'}. "
             f"PayPal is {'linked' if linked else 'not linked'}. PIN is {'set' if pin_set else 'not set'}. "
             + (prefs_summary(prefs) if prefs else '')
-            + (f"{contact['name']} approves orders over {usd(contact['threshold'])}. " if contact else
+            + (f"{contact['name']} approves orders over {usd(contact['threshold'])}"
+               + (', and orders Sightline flags as a possible scam. ' if contact.get('scam_hold', True) else
+                  f"; orders flagged as a possible scam do not wait for {contact['name']}. ") if contact else
                'No trusted contact is set. ')
             + 'Caps, PIN and preferences can only be changed in the Settings form.')
 
@@ -529,8 +538,11 @@ def saved(before, after, new_pin=False):
     if a['daily_cap'] != b['daily_cap']:
         ch.append(f"daily cap {usd(a['daily_cap'])}")
     if a['contact'] != b['contact']:
-        c = a['contact']
-        ch.append(f"{c['name']} approves orders over {usd(c['threshold'])}" if c else 'no trusted contact')
+        c, old = a['contact'], b['contact'] or {}
+        if c and {**old, 'scam_hold': c['scam_hold']} == c:  # only the scam choice changed
+            ch.append(f"{c['name']} {'asked' if c['scam_hold'] else 'not asked'} when a scam is suspected")
+        else:
+            ch.append(f"{c['name']} approves orders over {usd(c['threshold'])}" if c else 'no trusted contact')
     if new_pin:
         ch.append('new PIN set')
     if not ch:

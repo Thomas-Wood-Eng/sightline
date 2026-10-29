@@ -523,10 +523,10 @@ def handle(text, s):
     first = not checkout.scam_flag(s)
     checkout.flag_scam(s, text, bool(pressure))
     if pressure:
-        return Reply(speech.scam_warning(bool(s.get('contact'))))
+        return Reply(speech.scam_warning(s.get('contact')))
     r = _handle(text, s) or show_results(s, [p for p in catalog.PRODUCTS if p.get('gift_card')], 'gift cards')
     if first:
-        r.say = f'{speech.gift_card_note()} {r.say}'
+        r.say = f"{speech.gift_card_note(s.get('contact'))} {r.say}"
     return r
 
 

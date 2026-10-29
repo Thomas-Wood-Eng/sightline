@@ -281,6 +281,7 @@ function fillSettings(s) {
   f.default_size.value = p.size; f.avoid_allergens.value = p.avoid.join(', ');
   const c = s.contact || { name: '', email: '', threshold: '' };
   f.contact_name.value = c.name; f.contact_email.value = c.email; f.approval_threshold.value = c.threshold;
+  f.scam_hold.checked = c.scam_hold !== false;  // on by default
   document.documentElement.classList.toggle('large', p.large_text);
   f.per_order_cap.value = s.per_order_cap; f.daily_cap.value = s.daily_cap;
   showPayPal(s.paypal);
@@ -307,7 +308,8 @@ $('settings-form').addEventListener('submit', async (e) => {
     daily_cap: f.daily_cap.value || null, new_pin: f.new_pin.value || null, current_pin: f.current_pin.value || null,
     verbosity: f.verbosity.value || null, simple_mode: f.simple_mode.checked, large_text: f.large_text.checked,
     default_size: f.default_size.value, avoid_allergens: f.avoid_allergens.value,
-    contact_name: f.contact_name.value, contact_email: f.contact_email.value, approval_threshold: f.approval_threshold.value };
+    contact_name: f.contact_name.value, contact_email: f.contact_email.value, approval_threshold: f.approval_threshold.value,
+    scam_hold: f.scam_hold.checked };
   try {
     const s = await post('/api/settings', body);
     f.new_pin.value = ''; f.current_pin.value = '';

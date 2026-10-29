@@ -72,14 +72,20 @@ def scam_flag(s):
     return f if f and time.time() - f['at'] < SCAM_HOURS * 3600 else None
 
 
-def scam_reason(s, lines):
-    """Why this order needs the trusted contact whatever its total, or None."""
+def scam_hold(s):
+    """The shopper's choice in Settings (on by default): a suspected scam waits for the trusted contact."""
+    c = s.get('contact')
+    return bool(c) and c.get('scam_hold', True)
+
+
+def scam_reason(s, lines, quote=True):
+    """Why Sightline suspects a scam, or None. The shopper's own words only with quote (the scam hold is their consent)."""
     f = scam_flag(s)
-    if f:
+    if f and quote:
         return f'"{f["said"]}"'
     if any(p.get('gift_card') for p, _, _ in lines):
         return 'the order contains a gift card'
-    return None
+    return 'they had a scam warning from Sightline earlier' if f else None
 
 
 def caps(s):
@@ -175,7 +181,8 @@ def start(s):
         return Reply(speech.cap_refusal('order', c['order'], total))
     if spent_today(s) + total > c['daily']:
         return Reply(speech.cap_refusal('daily', c['daily'], total, spent_today(s)))
-    why, contact = scam_reason(s, lines), s.get('contact')
+    contact, hold = s.get('contact'), scam_hold(s)
+    why = scam_reason(s, lines, quote=hold)
     if why and not contact:
         return Reply(speech.scam_no_contact())
 
@@ -202,12 +209,13 @@ def start(s):
                'days': meta['delivery_days'],  # for the ledger: our ids beside PayPal's item names and unit prices
                'items': [[p['id'], it['name'], q, it['unit_amount']['value']]
                          for (p, q, _), it in zip(lines, order['purchase_units'][0].get('items', []))]}
-    if contact and (why or total > Decimal(contact['threshold'])):
+    if contact and ((why and hold) or total > Decimal(contact['threshold'])):  # hold off: the warning, then the usual steps
         aid = secrets.token_urlsafe(16)
         APPROVALS[aid] = {'state': 'pending', 'name': contact['name'], 'lines': rb[:-1], 'auth_id': auth['id'], 'rid': rid,
                           'why': why}
         link = '/approve/' + signer().dumps(aid)
-        rb = rb[:-1] + speech.approval_sent(contact['name'], contact['threshold'], total, why) + [f'Approval link: {link}']
+        rb = (rb[:-1] + speech.approval_sent(contact['name'], contact['threshold'], total, why if hold else None)
+              + [f'Approval link: {link}'])
         s['co'].update(state=APPROVAL, approval=aid, lines=rb, link=link)
     return Reply(say, rb)
 

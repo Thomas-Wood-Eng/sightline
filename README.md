@@ -40,8 +40,10 @@ PayPal holds the money, Sightline reads back PayPal's own numbers, and nothing i
 - **Trusted contact:** orders over a set amount need approval on a signed, single-use page (link shown, not emailed).
   Their decision is said as soon as they make it, without the shopper asking.
 - **Gift-card scam guard:** gift-card requests and scam pressure ("the IRS told me to", "keep it secret", "my grandson
-  needs bail") get a calm warning, by fixed rules; gift card orders and any order after a warning always need the
-  trusted contact, who is told why. No contact, no gift card checkout.
+  needs bail") get a calm warning, by fixed rules; gift card orders and any order after a warning need the trusted
+  contact, who is told why. That is the shopper's choice in Settings ("If Sightline suspects a scam, ask my trusted
+  contact before paying", on by default, PIN to change); turned off, the warning stays and the order takes the usual
+  Readback + confirm + PIN. The contact sees the shopper's own words only with it on. No contact, no gift card checkout.
 - **"Is this my package?":** photograph the delivery (or say "check my package"); Gemini vision compares it with the
   order and Sightline says "photo suggests this matches" or "may not match", then offers a return. Photo not kept.
 - **Pay in 4, read aloud:** in range, the Readback adds "PayPal Pay in 4 may be available: 4 payments of X"; "pay later"

@@ -15,7 +15,9 @@ only), wishlist price-drop alerts, purchase history by period. Notes are on each
 - ★ ✅ **Gift-card / pressure scam guard** (M): fixed rules (no AI) catch gift-card requests and classic scam pressure
   (IRS, police, bank says, fines, wire, crypto, keep it secret, prize fees, grandchild in trouble). Gift card orders, and
   any order in a flagged session, need trusted-contact approval whatever the total; the approval page says why, with the
-  shopper's words. No contact: refused, with how to add one. Note: the flag lapses after 24 hours or once the contact
+  shopper's words. The shopper chooses this in Settings (on by default, PIN to change); off, the warning stays, the order
+  takes the usual Readback + confirm + PIN, and the contact (asked only over the amount) is never shown the shopper's
+  words. No contact: refused, with how to add one. Note: the flag lapses after 24 hours or once the contact
   decides; keyword rules can miss new scripts and can flag an innocent sentence.
 - ✅ **Undo window** (S): after "confirm", a 30-second "undo" that voids before capture (hold → capture delayed), if PayPal's timing allows.
 - ✅ **Spending summary by voice** (S): "How much did I spend this week?", read from our ledger and PayPal transactions, never from the model.

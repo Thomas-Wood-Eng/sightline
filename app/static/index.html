@@ -164,13 +164,15 @@
       <input id="set-daily-cap" name="daily_cap" inputmode="decimal">
       <h3>Trusted contact (optional)</h3>
       <p class="hint" id="contact-hint">Orders over the approval amount need this person's approval before you can pay.
-        Leave the name empty for no contact. Changing this needs your current PIN.</p>
+        If Sightline suspects a scam (a gift card, or words like "the IRS told me to"), it asks them too, whatever the
+        amount; you can turn that off below. Leave the name empty for no contact. Changing this needs your current PIN.</p>
       <label for="set-contact-name">Contact's name</label>
       <input id="set-contact-name" name="contact_name" maxlength="40" autocomplete="off" aria-describedby="contact-hint">
       <label for="set-contact-email">Contact's email</label>
       <input id="set-contact-email" name="contact_email" type="email" maxlength="120" autocomplete="off">
       <label for="set-threshold">Approval needed for orders over, US dollars</label>
       <input id="set-threshold" name="approval_threshold" inputmode="decimal">
+      <label class="check"><input type="checkbox" name="scam_hold" aria-describedby="contact-hint"> If Sightline suspects a scam, ask my trusted contact before paying</label>
       <label for="set-new-pin">New PIN, 4 digits (leave empty to keep)</label>
       <input id="set-new-pin" name="new_pin" type="password" inputmode="numeric" autocomplete="new-password" maxlength="4">
       <label for="set-current-pin">Current PIN, needed to change caps, PIN or trusted contact</label>
@@ -201,7 +203,7 @@
       Gemini for this prototype, not from real customers; their counts and averages come from that demo data.
       A few products carry made-up dark patterns (a subscription, a pre-ticked add-on, high shipping, "only 2 left")
       so you can hear the warnings. Trusted-contact approval links are shown in the conversation instead of emailed.
-      Gift cards and scam-pressure words always need the trusted contact. Pay in 4 is read aloud, but this prototype
+      Gift cards and scam-pressure words need the trusted contact, unless the shopper turns that off in Settings. Pay in 4 is read aloud, but this prototype
       pays in full; Pay Later would be chosen on PayPal's own page.</p>
   </section>
 

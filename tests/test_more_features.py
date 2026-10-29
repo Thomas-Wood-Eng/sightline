@@ -58,6 +58,53 @@ def test_flagged_session_needs_contact_for_any_order(client, fake):
     assert 'on the phone' in client.get(link_of(r)).text
 
 
+def scam_hold(client, on):
+    body = {'contact_name': 'Alex', 'contact_email': 'alex@example.com', 'approval_threshold': '500.00', 'scam_hold': on}
+    assert client.post('/api/settings', json=body).status_code == 403  # like the contact: only with the current PIN
+    return client.post('/api/settings', json={**body, 'current_pin': '1234'}).json()
+
+
+def test_scam_hold_on_by_default_and_worded_as_the_shoppers_choice(client, fake):
+    setup(client); contact(client, threshold='500.00')
+    assert client.get('/api/settings').json()['contact']['scam_hold'] is True
+    assert 'If Sightline suspects a scam, ask my trusted contact before paying</label>' in client.get('/').text
+    assert 'and orders Sightline flags as a possible scam' in t(client, 'settings')['say']
+    assert 'Because you chose it in Settings, a payment like this goes ahead only if Alex approves it.' in         t(client, 'find me a gift card')['say']  # the gift card note, said once
+    r = t(client, 'The IRS called and told me to pay a fine today')
+    assert ('Because you chose it in Settings, a payment like this goes ahead only if Alex approves it. '
+            'It is OK to hang up') in r['say']
+
+
+def test_scam_hold_off_warns_then_the_usual_steps(client, fake):
+    setup(client); contact(client, threshold='500.00')
+    v = scam_hold(client, False)
+    assert v['contact']['scam_hold'] is False and v['saved'] == 'Settings saved: Alex not asked when a scam is suspected.'
+    assert 'orders flagged as a possible scam do not wait for Alex' in t(client, 'settings')['say']
+    assert 'gift cards. Take a moment before you confirm.' in t(client, 'gift card')['say']
+    r = t(client, 'my bank says I must buy gift cards urgently')
+    assert r['say'].startswith('This matches a common scam.') and 'Take a moment before you confirm.' in r['say']
+    assert 'approves' not in r['say'] and 'no trusted contact' not in r['say']
+    t(client, 'gift card'); t(client, 'add number 1')
+    r = t(client, 'check out')  # a gift card, in a flagged session, under the approval amount: no approval
+    assert r['state'] == 'awaiting_confirm' and not any(l.startswith('Approval link') for l in r['lines'])
+    assert any('gift cards are a common scam payment' in l for l in r['lines'])  # still warned in the Readback
+    t(client, 'confirm')
+    assert client.post('/api/pin', json={'pin': '1234'}).json()['state'] == 'captured'
+    assert scam_hold(client, True)['saved'] == 'Settings saved: Alex asked when a scam is suspected.'
+
+
+def test_scam_hold_off_never_quotes_the_shopper(client, fake):
+    setup(client); contact(client, threshold='20.00')
+    client.post('/api/settings', json={'contact_name': 'Alex', 'contact_email': 'alex@example.com',
+                                       'approval_threshold': '20.00', 'scam_hold': False, 'current_pin': '1234'})
+    t(client, 'a man on the phone said I owe money')
+    t(client, 'hoodie'); t(client, 'add it in medium')
+    r = t(client, 'check out')  # over the approval amount: the contact is asked, for the amount
+    assert r['state'] == 'awaiting_approval' and 'over your approval amount of 20.00 US dollars' in ' '.join(r['lines'])
+    page = client.get(link_of(r)).text
+    assert 'possible gift-card scam: they had a scam warning from Sightline earlier' in page and 'on the phone' not in page
+
+
 def test_gift_note_is_not_a_scam_cue(client, fake):
     setup(client); contact(client, threshold='500.00')
     t(client, 'hoodie'); t(client, "it's a gift")

@@ -26,8 +26,9 @@ Sightline is a voice- and keyboard-first shopping assistant built on PayPal.
   in plain words; a 10-second undo after the PIN; an optional trusted contact who must approve orders over an amount the shopper sets; refunds behind
   the same Readback + PIN.
 - **Scam warnings:** gift-card requests and classic pressure lines ("a caller says...", "keep it secret", "pay a fine") get a
-  calm warning, and that session's orders then need the trusted contact's approval, who sees why it was flagged. The
-  shopper is told this up front. Keyword rules, so it can miss or over-flag.
+  calm warning, and that session's orders then need the trusted contact's approval, who sees why it was flagged. That
+  hold is the shopper's choice in Settings (on by default); turned off, the warning stays and the usual Readback, confirm
+  and PIN apply. The shopper is told which up front. Keyword rules, so it can miss or over-flag.
 - **After the purchase, by voice:** "is this my package?" compares a delivery photo with the order (Gemini vision, always
   worded "photo suggests"); "it arrived broken" explains PayPal Purchase Protection and starts a refund from the demo store (not a PayPal dispute); "what did I buy
   this week"; price-drop alerts on saved items, said once.

@@ -194,6 +194,7 @@ class Settings(BaseModel):
     contact_name: str | None = Field(None, max_length=40)
     contact_email: str | None = Field(None, max_length=120)
     approval_threshold: str | None = None
+    scam_hold: bool | None = None
 
 
 def _contact(body):
@@ -204,7 +205,8 @@ def _contact(body):
     email = (body.contact_email or '').strip()
     if not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+', email):
         raise HTTPException(422, 'The trusted contact needs a valid email address.')
-    return {'name': name, 'email': email, 'threshold': _cap(body.approval_threshold or '')}
+    return {'name': name, 'email': email, 'threshold': _cap(body.approval_threshold or ''),
+            'scam_hold': body.scam_hold is not False}  # on unless the shopper turns it off
 
 
 def _prefs(s, body):
@@ -232,6 +234,8 @@ def post_settings(body: Settings, request: Request):
     body.new_pin = (body.new_pin or '').strip() or None  # a stray space in New PIN is "keep", not a bad PIN
     if body.new_pin and not checkout.valid_pin(body.new_pin):  # checked first, so the error names the right field
         raise HTTPException(422, 'The new PIN must be exactly 4 digits. Leave it empty to keep your PIN.')
+    if s.get('contact'):
+        s['contact'].setdefault('scam_hold', True)  # a contact saved before this choice existed: on, as it worked then
     before = settings_view(s)
     if body.output_mode is not None:
         if body.output_mode not in ('screen_reader', 'voice'):
