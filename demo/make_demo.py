@@ -267,11 +267,11 @@ _spent = set()   # Gemini models whose daily quota ran out this run
 _kokoro = None
 
 
-def _gemini(text, who, path):
+def _gemini(text, who, path, style=True):
     from google.genai import types
     from app.llm import client
-    prompt = {'narrator': 'Read like a calm, warm documentary narrator: ',
-              'you': 'Say naturally, like a person casually talking to a voice assistant: '}[who] + text
+    prompt = ({'narrator': 'Read like a calm, warm documentary narrator: ',
+               'you': 'Say naturally, like a person casually talking to a voice assistant: '}[who] if style else '') + text
     config = types.GenerateContentConfig(response_modalities=['AUDIO'], speech_config=types.SpeechConfig(
         voice_config=types.VoiceConfig(prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=VOICES[who]))))
     for model in GEMINI_TTS:
@@ -373,6 +373,30 @@ def spoken(text):
     return re.sub(r'(\d+)\.(\d\d) US dollars', money, text)
 
 
+def forget(clip):
+    """Drop a cached clip with its processed copies and its transcription check."""
+    for f in clip.parent.glob(clip.stem + '.*'):
+        if f.name == clip.name or f.name.startswith(clip.stem + '.p') or f.suffix == '.checked':
+            f.unlink()
+
+
+def said_right(path, text):
+    """Transcribe a Gemini clip once (result cached next to it): False if it speaks words that aren't in the text,
+    like the style instruction."""
+    mark = path.with_suffix('.checked')
+    if mark.exists():
+        return mark.read_text() == 'ok'
+    from google.genai import types
+    from app.llm import client
+    heard = client().models.generate_content(model='gemini-3.5-flash-lite', contents=[
+        types.Part.from_bytes(data=path.read_bytes(), mime_type='audio/wav'), 'Transcribe exactly, word for word.']).text
+    leak = any(w in heard.lower() and w not in text.lower() for w in ('narrator', 'read like', 'say naturally', 'voice assistant'))
+    mark.write_text('bad' if leak else 'ok')
+    if leak:
+        print(f'  TTS said its instruction, redoing: {heard[:80]}')
+    return not leak
+
+
 def tts(text, who):
     """-> (cached wav path, seconds). Orpheus first, then Gemini (narrator/shopper), then local Kokoro."""
     text = spoken(text)
@@ -391,6 +415,13 @@ def tts(text, who):
         # so a role never switches voice halfway through when the quota runs out
         elif who == 'narrator' and len(_spent) < len(GEMINI_TTS) and _gemini(text, who, gem):
             path = gem
+        # Gemini TTS sometimes reads its style instruction aloud: listen once, retry plain, else use Kokoro
+        if path == gem and not said_right(gem, text):
+            forget(gem)
+            path = gem if (len(_spent) < len(GEMINI_TTS) and _gemini(text, who, gem, style=False)
+                           and said_right(gem, text)) else None
+            if path is None:
+                forget(gem)
     if path is None:
         if not kok.exists():
             _kokoro_tts(text, who, kok)
