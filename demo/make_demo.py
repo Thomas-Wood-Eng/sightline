@@ -835,8 +835,10 @@ def prefetch():
     """Voice every line known in advance before recording, so real-time steps (the 10 s undo window) aren't
     slowed by speech generation."""
     for step in SCRIPT:
-        if step[0] in ('title', 'narrate', 'setup', 'approve', 'card'):
+        if step[0] in ('title', 'narrate', 'setup', 'card', 'proof') and step[-1]:   # silent cards have no narration
             tts(step[-1], 'narrator')
+        elif step[0] == 'approve':
+            tts(step[1], 'narrator')
         elif step[0] == 'say':
             tts(step[1], 'you')
     tts('In 10 seconds Sightline asks PayPal to take the payment.', 'sightline')   # voiced right after the PIN
