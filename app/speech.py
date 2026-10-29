@@ -426,6 +426,9 @@ def purchases(rows, most=5):
 def package_check(verdict, ordered, seen=''):
     """'Is this my package?': always "photo suggests", never certain. ordered: the order's item names with colour."""
     what = _ns(ordered).replace(' or ', ' and ')
+    seen = seen.strip().rstrip('.')
+    if seen[:2] in ('A ', 'An') or seen[:4] == 'The ':   # model text mid-sentence: "looks like a mug", not "like A mug"
+        seen = seen[0].lower() + seen[1:]
     if verdict == 'yes':
         return f'Photo suggests this matches: {what}. A photo check can be wrong, so feel or open it to be sure.'
     if verdict == 'no':

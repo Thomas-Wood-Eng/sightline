@@ -100,7 +100,7 @@ AD = [
     ('beat', 'Hear what the listing says, and what the photo suggests.'),
     ('say', 'Tell me about the first one.', ['Heavyweight pullover hoodie.']),
     ('beat', 'Hear every dollar before it moves.'),
-    ('say', 'Add the first one.', ['Which size']),
+    ('say', 'Add the first one.'),
     ('say', 'Medium.', ['Added']),
     ('say', 'Check out.', ['Total:']),
     ('beat', 'Nothing moves until you confirm.'),
@@ -164,7 +164,7 @@ SCRIPTS['test'] = [
     ('dark', True, 'Screen off: this is what the shopper hears.'),
     ('say', 'Find me a hoodie.', ['results']),
     ('dark', False),
-    ('say', 'Add the first one.', ['Which size']), ('say', 'Medium.', ['Added']),
+    ('say', 'Add the first one.'), ('say', 'Medium.', ['Added']),
     ('say', 'Check out.', ['Total:'], [('cam', '.reply.readback'), ('callout', '#log .reply.readback .line.total', 'Total from PayPal')]),
     ('cam', '#paypal', 1.6), ('callout', '#pp-steps', 'PayPal is holding the money'),
     ('narrate', 'PayPal holds the money until the shopper confirms.'),
@@ -198,7 +198,7 @@ ASK = [
     ('dark', False),
 ]
 BUY = [
-    ('say', 'Add the first one.', ['Which size']),
+    ('say', 'Add the first one.'),
     ('say', 'Medium.', ['Added']),
     ('beat', '2. Hear the real total, from PayPal'),
     ('say', 'Check out.', ['Item 1', 'Unit price', 'Shipping', 'Tax', 'Total:', 'Delivery', 'Seller'],
@@ -220,16 +220,16 @@ SAFETY = [
     ('note_order', 'Gift card: declined by Alex'),
 ]
 SCRIPTS['short'] = OPEN + ASK + BUY + [
-    ('pin', '1234', ['Paying'], [('cam', '#undo-box'), ('callout', '#undo-btn', 'Focus on Undo for 10 seconds')]),
+    ('pin', '1234', ['Paying'], [('cam', '#undo-box'), ('callout', '#undo-btn', 'Undo has the focus: 10 seconds to change your mind')]),
     ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Charged by PayPal')),
     ('note_order', 'Hoodie: paid'),
 ] + SAFETY + [
     ('beat', 'After delivery: is this my package?'),
-    ('say', 'Check my hoodie package.', ['Gemini'], [('cam', '#package-photo', 1.3), ('callout', '#package-photo', 'Package photo button')]),
+    ('say', 'Check my hoodie package.', ['Gemini'], [('cam', '#package-photo', 1.3), ('callout', '#package-photo', 'Add the delivery photo here')]),
     ('photo', 'delivery_photo.jpg', ['Photo suggests'], ('cam', LAST)),
     ('proof', 'Both orders, straight from PayPal’s sandbox: one paid, one released.'),
     ('clip', 'extension_clip.webm', 'Browser extension prototype, on a local look-alike checkout page (not PayPal)',
-     'The same check on other checkouts: the page’s own total and payee, then the PIN, then 10 seconds to undo.'),
+     'The same check on other checkouts: the page’s own total and payee, then the PIN, then Undo: not paid.'),
     ('title', 'The AI suggests. The shopper decides.', 'github.com/Thomas-Wood-Eng/sightline  ·  Photos: Wikimedia Commons',
      'The AI suggests. The shopper decides.'),
 ]
@@ -237,7 +237,7 @@ SCRIPTS['ad'] = OPEN + ASK + [
     ('beat', 'Compare without the clutter'),
     ('say', 'Compare those two.', None, [('cam', LAST)]),
 ] + BUY + [
-    ('pin', '1234', ['Paying'], [('cam', '#undo-box'), ('callout', '#undo-btn', 'Focus on Undo for 10 seconds')]),
+    ('pin', '1234', ['Paying'], [('cam', '#undo-box'), ('callout', '#undo-btn', 'Undo has the focus: 10 seconds to change your mind')]),
     ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Charged by PayPal')),
     ('note_order', 'Hoodie: paid'),
 ] + SAFETY + [
@@ -248,7 +248,7 @@ SCRIPTS['ad'] = OPEN + ASK + [
     ('say', 'The hoodie came damaged.', None, [('cam', LAST)]),
     ('hidden', 'No.'),
     ('beat', 'Is this my package?'),
-    ('say', 'Check my hoodie package.', ['Gemini'], [('cam', '#package-photo', 1.3), ('callout', '#package-photo', 'Package photo button')]),
+    ('say', 'Check my hoodie package.', ['Gemini'], [('cam', '#package-photo', 1.3), ('callout', '#package-photo', 'Add the delivery photo here')]),
     ('photo', 'delivery_photo.jpg', ['Photo suggests'], ('cam', LAST)),
     PAYPAL_FLOW, EXTENSION,
     ('title', 'The AI suggests. It never holds the keys.', 'github.com/Thomas-Wood-Eng/sightline',
@@ -615,7 +615,7 @@ def record():
             kind = step[0]
             print(kind, '|', str(step[1] if len(step) > 1 else kind)[:70])
             if kind == 'title':
-                page.evaluate("document.getElementById('demo-beat')?.remove()")
+                page.evaluate("document.getElementById('demo-beat')?.remove(); document.getElementById('demo-step')?.remove()")
                 overlay(step[1], step[2])
                 wav, dur = tts(step[3], 'narrator')
                 hold(wav, dur + (2.0 if step is SCRIPT[-1] else 0), step[3])
@@ -623,10 +623,13 @@ def record():
             elif kind == 'narrate':
                 wav, dur = tts(step[1], 'narrator')
                 hold(wav, dur, step[1])
-            elif kind == 'beat':  # chapter: a short silent full-screen card (its text is the caption too)
-                overlay(step[1], '')
-                hold(None, 2.0, step[1])
-                page.evaluate("document.getElementById('demo-title').remove()")
+            elif kind == 'beat':  # chapter: a small step label over the recording; no time of its own
+                page.evaluate('''(t) => { let d = document.getElementById('demo-step');
+                    if (!d) { d = document.createElement('div'); d.id = 'demo-step'; document.documentElement.append(d);
+                      d.style.cssText = 'position:fixed;top:14px;right:18px;z-index:98;background:#0b1f3a;color:#fff;'
+                        + 'font:700 28px system-ui;padding:10px 22px;border-radius:12px;border:3px solid #ffb800;'
+                        + 'box-shadow:0 6px 24px rgba(0,0,0,.35);max-width:50vw'; }
+                    d.textContent = t; }''', step[1])
             elif kind == 'banner':  # old style: a headline banner over the live app
                 page.evaluate('''(t) => { let d = document.getElementById('demo-beat');
                     if (!d) { d = document.createElement('div'); d.id = 'demo-beat'; document.documentElement.append(d);
@@ -679,7 +682,8 @@ def record():
                 page.evaluate('''(rows) => { const d = document.createElement('div'); d.id = 'demo-card';
                     d.style.cssText = 'position:fixed;inset:0;z-index:99;background:#0b1f3a;color:#fff;display:flex;'
                       + 'flex-direction:column;justify-content:center;padding:0 70px;gap:22px;font:400 24px system-ui';
-                    const h = document.createElement('div'); h.textContent = 'PayPal sandbox API, queried at the end of this recording';
+                    const h = document.createElement('div');
+                    h.textContent = 'Real responses from PayPal’s sandbox API, trimmed to the payment fields';
                     h.style.font = '700 40px system-ui'; d.append(h);
                     const row = document.createElement('div'); row.style.cssText = 'display:flex;gap:28px'; d.append(row);
                     for (const [label, money, call, res] of rows) { const b = document.createElement('div');
@@ -735,7 +739,8 @@ def record():
                     v.style.cssText = 'width:1600px;border-radius:14px;box-shadow:0 12px 48px rgba(0,0,0,.5)';
                     d.append(t, v); document.documentElement.append(d); }''', [src, step[2]])
                 page.wait_for_function("document.querySelector('#demo-card video').readyState >= 3")
-                dur = page.evaluate("(() => { const v = document.querySelector('#demo-card video'); v.play(); return v.duration; })()")
+                dur = page.evaluate("(() => { const v = document.querySelector('#demo-card video'); v.currentTime = 1.2; v.play(); "
+                                    "return v.duration - 1.2; })()")
                 hold(None, dur - 0.3, step[3])
                 page.evaluate("document.getElementById('demo-card').remove()")
             elif kind == 'news':  # ('news', text, hints, actions...): a reply the page announces by itself (the wait is cut)

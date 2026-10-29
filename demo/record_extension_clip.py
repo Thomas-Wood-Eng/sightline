@@ -65,7 +65,9 @@ def main():
         dlg.locator('#pin').press_sequentially('1234', delay=180)
         dlg.locator('#pin').press('Enter')
         dlg.locator('#count').wait_for()
-        page.wait_for_timeout(3000)   # the undo countdown
+        page.wait_for_timeout(2500)   # the undo countdown
+        dlg.locator('#undo').press('Enter')   # the shopper changes their mind
+        page.wait_for_timeout(2200)   # the page's own result: not paid
         video = page.video.path()
         ctx.close()
     httpd.shutdown()
