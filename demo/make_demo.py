@@ -228,8 +228,8 @@ SCRIPTS['short'] = OPEN + ASK + BUY + [
     ('say', 'Check my hoodie package.', ['-'], [('cam', '#package-photo', 1.3), ('callout', '#package-photo', 'Package photo button')]),
     ('photo', 'delivery_photo.jpg', ['Photo suggests'], ('cam', LAST)),
     ('proof', 'Both orders, straight from PayPal’s sandbox: one paid, one released.'),
-    ('card', 'The same check on other checkouts: a browser extension prototype', 'extension_readback.png',
-     ['Reads the page’s own total and payee, then asks for the PIN. Tested on look-alike pages only.'], ''),
+    ('clip', 'extension_clip.webm', 'Browser extension prototype, on a local look-alike checkout page (not PayPal)',
+     'The same check on other checkouts: the page’s own total and payee, then the PIN, then 10 seconds to undo.'),
     ('title', 'The AI suggests. The shopper decides.', 'github.com/Thomas-Wood-Eng/sightline  ·  Photos: Wikimedia Commons',
      'The AI suggests. The shopper decides.'),
 ]
@@ -388,9 +388,15 @@ def said_right(path, text):
         return mark.read_text() == 'ok'
     from google.genai import types
     from app.llm import client
-    heard = client().models.generate_content(model='gemini-3.5-flash-lite', contents=[
-        types.Part.from_bytes(data=path.read_bytes(), mime_type='audio/wav'), 'Transcribe exactly, word for word.']).text
-    leak = any(w in heard.lower() and w not in text.lower() for w in ('narrator', 'read like', 'say naturally', 'voice assistant'))
+    # one transcription can silently drop the leaked words, so two models listen; either hearing extra words fails it
+    want = len(re.findall(r"[\w']+", text))
+    leak = False
+    for model in ('gemini-3.5-flash-lite', 'gemini-3.1-flash-lite'):
+        heard = client().models.generate_content(model=model, contents=[
+            types.Part.from_bytes(data=path.read_bytes(), mime_type='audio/wav'),
+            'Transcribe every spoken word exactly. Do not add, drop or guess anything.']).text
+        leak |= any(w in heard.lower() and w not in text.lower() for w in ('narrator', 'read like', 'say naturally', 'assistant'))
+        leak |= len(re.findall(r"[\w']+", heard)) > want + 3
     mark.write_text('bad' if leak else 'ok')
     if leak:
         print(f'  TTS said its instruction, redoing: {heard[:80]}')
@@ -409,7 +415,7 @@ def tts(text, who):
         # Orpheus beats a cached Gemini clip, so adding GROQ_API_KEY later upgrades the voices on the next render
         if orp.exists() or _orpheus(text, who, orp):
             path = orp
-        elif gem.exists():
+        elif who == 'narrator' and gem.exists():   # old shopper clips from Gemini are ignored: one engine per role
             path = gem
         # Gemini's 10 clips/day per model only covers the narrator; the shopper stays on one engine (Kokoro)
         # so a role never switches voice halfway through when the quota runs out
@@ -714,6 +720,20 @@ def record():
                 submit('#message', step[1], step[1], *step[2:])
             elif kind == 'pin':
                 submit('#pin', step[1], 'types the PIN (never spoken aloud)', *step[2:])
+            elif kind == 'clip':  # ('clip', demo/assets video, label, caption): a separately recorded clip, played in frame
+                import base64
+                src = 'data:video/webm;base64,' + base64.b64encode((ROOT / 'demo/assets' / step[1]).read_bytes()).decode()
+                page.evaluate('''([src, label]) => { const d = document.createElement('div'); d.id = 'demo-card';
+                    d.style.cssText = 'position:fixed;inset:0;z-index:99;background:#0b1f3a;display:flex;flex-direction:column;'
+                      + 'align-items:center;justify-content:center;gap:14px;color:#fff;font:600 30px system-ui';
+                    const t = document.createElement('div'); t.textContent = label;
+                    const v = document.createElement('video'); v.muted = true; v.src = src;
+                    v.style.cssText = 'width:1600px;border-radius:14px;box-shadow:0 12px 48px rgba(0,0,0,.5)';
+                    d.append(t, v); document.documentElement.append(d); }''', [src, step[2]])
+                page.wait_for_function("document.querySelector('#demo-card video').readyState >= 3")
+                dur = page.evaluate("(() => { const v = document.querySelector('#demo-card video'); v.play(); return v.duration; })()")
+                hold(None, dur - 0.3, step[3])
+                page.evaluate("document.getElementById('demo-card').remove()")
             elif kind == 'still':  # ('still', seconds, caption)
                 hold(None, step[1], step[2])
             elif kind in ('cam', 'callout', 'dark'):
