@@ -63,6 +63,7 @@ def main():
         dlg.locator('#pin').wait_for()
         page.wait_for_timeout(500)
         dlg.locator('#pin').press_sequentially('1234', delay=180)
+        page.wait_for_timeout(1300)   # the PIN step stays on screen a moment
         dlg.locator('#pin').press('Enter')
         dlg.locator('#count').wait_for()
         page.wait_for_timeout(2500)   # the undo countdown

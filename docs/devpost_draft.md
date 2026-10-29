@@ -40,7 +40,7 @@ dispute help, Pay in 4 information, price-drop alerts and purchase history (all 
   this week"; price-drop alerts on saved items, said once.
 - **PayPal Pay in 4, information only:** when the total qualifies, the Readback mentions "4 payments of X" and "pay later"
   explains it. The prototype always pays in full; Sightline never picks credit for the shopper.
-- **Browser extension prototype:** brings the same Readback + confirm + PIN gate to checkout pages, PayPal's first: it reads the
+- **Browser extension prototype:** brings the same Readback + confirm + PIN gate to other checkout pages (so far tested only on local look-alike pages): it reads the
   page's own total and payee aloud and holds the pay button until the PIN. No network calls; the PIN is stored only as a hash.
 - **Works with the tools people already use:** replies go to the user's own screen reader (NVDA, JAWS, VoiceOver) or an
   optional built-in voice, push-to-talk or typing, modifier-only shortcuts, large text and simple modes.
@@ -65,7 +65,8 @@ dispute help, Pay in 4 information, price-drop alerts and purchase history (all 
 - Making replies speak exactly once with a screen reader, and running on free-tier AI limits.
 
 ## Accomplishments that we're proud of
-A complete purchase, refund and approval flow built for screen readers and the keyboard, with every spoken amount traceable
+A complete purchase, refund and approval flow designed for screen readers and the keyboard (still to be tested by blind
+shoppers), with every spoken amount traceable
 to PayPal's data; and safety rules that hold even if the AI misbehaves.
 
 ## What we learned

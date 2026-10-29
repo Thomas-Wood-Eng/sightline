@@ -203,7 +203,7 @@ BUY = [
     ('beat', '2. Hear the real total, from PayPal'),
     ('say', 'Check out.', ['Item 1', 'Unit price', 'Shipping', 'Tax', 'Total:', 'Delivery', 'Seller'],
      [('cam', '.reply.readback'), ('callout', '#log .reply.readback .line.total', 'Every number from PayPal’s order')]),
-    ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'PayPal is holding the money. Nothing charged yet.'),
+    ('cam', '#paypal', 1.25), ('callout', '#pp-order', 'PayPal is holding the money. Nothing charged yet.'),
     ('still', 2.2, 'PayPal is holding the money. Nothing is charged yet.'),
     ('beat', '3. Confirm, then type a PIN'),
     ('say', 'Confirm.', ['PIN'], [('cam', '#pin-form')]),
@@ -214,14 +214,14 @@ SAFETY = [
     ('say', 'Find me a gift card.', ['results']),
     ('say', 'Add number 1.', ['Added']),
     ('say', 'Check out.', ['flagged', 'Approval link ready'],
-     [('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Under $75, but flagged: waiting for Alex')]),
+     [('cam', '#paypal', 1.25), ('callout', '#pp-order', 'Under $75, but flagged: waiting for Alex')]),
     ('approve', 'Alex sees why it was flagged, and declines.', 'decline'),
-    ('news', 'declined', ['declined'], ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'PayPal released the hold')),
+    ('news', 'declined', ['declined'], ('cam', '#paypal', 1.25), ('callout', '#pp-order', 'PayPal released the hold')),
     ('note_order', 'Gift card: declined by Alex'),
 ]
 SCRIPTS['short'] = OPEN + ASK + BUY + [
     ('pin', '1234', ['Paying'], [('cam', '#undo-box'), ('callout', '#undo-btn', 'Undo has the focus: 10 seconds to change your mind')]),
-    ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Charged by PayPal')),
+    ('captured', ['Paid'], ('cam', '#paypal', 1.25), ('callout', '#pp-order', 'Charged by PayPal')),
     ('note_order', 'Hoodie: paid'),
 ] + SAFETY + [
     ('beat', 'After delivery: is this my package?'),
@@ -238,7 +238,7 @@ SCRIPTS['ad'] = OPEN + ASK + [
     ('say', 'Compare those two.', None, [('cam', LAST)]),
 ] + BUY + [
     ('pin', '1234', ['Paying'], [('cam', '#undo-box'), ('callout', '#undo-btn', 'Undo has the focus: 10 seconds to change your mind')]),
-    ('captured', ['Paid'], ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Charged by PayPal')),
+    ('captured', ['Paid'], ('cam', '#paypal', 1.25), ('callout', '#pp-order', 'Charged by PayPal')),
     ('note_order', 'Hoodie: paid'),
 ] + SAFETY + [
     ('beat', 'Price drops, said once'),
@@ -757,14 +757,12 @@ def record():
             elif kind in ('cam', 'callout', 'dark'):
                 do(step)
             elif kind == 'captured':  # the page captures by itself when the undo window ends; the wait is cut
-                overlay('10 seconds later', 'No undo, so Sightline asks PayPal to capture.')
+                page.evaluate("document.getElementById('demo-callout')?.remove()")   # let the countdown show
                 a = now()
-                page.wait_for_timeout(1300)
-                segments.append((a, now(), None, '10 seconds later: no undo, so Sightline asks PayPal to capture.'))
-                page.evaluate("document.getElementById('demo-title').remove()")
                 page.wait_for_function('''() => { const t = [...document.querySelectorAll('#log .turn')].pop();
                     return t && /PayPal captured/.test(t.textContent); }''', timeout=60000)
                 page.wait_for_timeout(250)
+                segments.append((a, now(), None, 'The undo window runs out. No undo, so Sightline asks PayPal to take the payment.'))
                 reply = last_reply()
                 reply = key_sentences(reply, step[1] if len(step) > 1 else None)
                 for action in step[2:]:
@@ -815,6 +813,7 @@ def record():
                 page.wait_for_timeout(max(1200, int(dur * 400) + 350))
                 segments.append((a, now(), wav, step[1]))
                 page.evaluate("document.getElementById('demo-phone').remove()")
+        page.wait_for_timeout(2000)
         video = page.video.path()
         ctx.close()
         browser.close()
@@ -879,7 +878,8 @@ def prefetch():
             tts(step[1], 'narrator')
         elif step[0] == 'say':
             tts(step[1], 'you')
-    tts('In 10 seconds Sightline asks PayPal to take the payment.', 'sightline')   # voiced right after the PIN
+    # voiced right after the PIN: made in advance so the real 10-second undo window isn't spent generating speech
+    tts('Paying 59.59 US dollars to Sightline Demo Store after a 10-second undo window.', 'sightline')
 
 
 if __name__ == '__main__':
