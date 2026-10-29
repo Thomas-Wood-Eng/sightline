@@ -201,7 +201,7 @@ BUY = [
     ('say', 'Add the first one.', ['Which size']),
     ('say', 'Medium.', ['Added']),
     ('beat', '2. Hear the real total, from PayPal'),
-    ('say', 'Check out.', ['Item 1', 'Unit price', 'Shipping', 'Tax', 'Total:', 'Delivery', 'Seller', 'Pay in 4'],
+    ('say', 'Check out.', ['Item 1', 'Unit price', 'Shipping', 'Tax', 'Total:', 'Delivery', 'Seller'],
      [('cam', '.reply.readback'), ('callout', '#log .reply.readback .line.total', 'Every number from PayPal’s order')]),
     ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'PayPal is holding the money. Nothing charged yet.'),
     ('still', 2.2, 'PayPal is holding the money. Nothing is charged yet.'),
@@ -210,13 +210,13 @@ BUY = [
 ]
 SAFETY = [
     ('beat', 'Scam warnings'),
-    ('say', 'A caller says I have to buy gift cards today.', ['common scam', 'only if'], [('cam', LAST)]),
+    ('say', 'A caller says I have to buy gift cards today.', ['common scam', 'Because you chose'], [('cam', LAST)]),
     ('say', 'Find me a gift card.', ['results']),
     ('say', 'Add number 1.', ['Added']),
     ('say', 'Check out.', ['flagged', 'Approval link ready'],
      [('cam', '#paypal', 1.4), ('callout', '#pp-order', 'Under $75, but flagged: waiting for Alex')]),
     ('approve', 'Alex sees why it was flagged, and declines.', 'decline'),
-    ('say', 'Confirm.', ['declined'], [('cam', '#paypal', 1.4), ('callout', '#pp-order', 'PayPal released the hold')]),
+    ('news', 'declined', ['declined'], ('cam', '#paypal', 1.4), ('callout', '#pp-order', 'PayPal released the hold')),
     ('note_order', 'Gift card: declined by Alex'),
 ]
 SCRIPTS['short'] = OPEN + ASK + BUY + [
@@ -225,7 +225,7 @@ SCRIPTS['short'] = OPEN + ASK + BUY + [
     ('note_order', 'Hoodie: paid'),
 ] + SAFETY + [
     ('beat', 'After delivery: is this my package?'),
-    ('say', 'Check my hoodie package.', ['-'], [('cam', '#package-photo', 1.3), ('callout', '#package-photo', 'Package photo button')]),
+    ('say', 'Check my hoodie package.', ['Gemini'], [('cam', '#package-photo', 1.3), ('callout', '#package-photo', 'Package photo button')]),
     ('photo', 'delivery_photo.jpg', ['Photo suggests'], ('cam', LAST)),
     ('proof', 'Both orders, straight from PayPal’s sandbox: one paid, one released.'),
     ('clip', 'extension_clip.webm', 'Browser extension prototype, on a local look-alike checkout page (not PayPal)',
@@ -248,7 +248,7 @@ SCRIPTS['ad'] = OPEN + ASK + [
     ('say', 'The hoodie came damaged.', None, [('cam', LAST)]),
     ('hidden', 'No.'),
     ('beat', 'Is this my package?'),
-    ('say', 'Check my hoodie package.', ['-'], [('cam', '#package-photo', 1.3), ('callout', '#package-photo', 'Package photo button')]),
+    ('say', 'Check my hoodie package.', ['Gemini'], [('cam', '#package-photo', 1.3), ('callout', '#package-photo', 'Package photo button')]),
     ('photo', 'delivery_photo.jpg', ['Photo suggests'], ('cam', LAST)),
     PAYPAL_FLOW, EXTENSION,
     ('title', 'The AI suggests. It never holds the keys.', 'github.com/Thomas-Wood-Eng/sightline',
@@ -674,20 +674,24 @@ def record():
                     auth = o['purchase_units'][0]['payments']['authorizations'][0]
                     excerpt = {'id': o['id'], 'status': o['status'], 'purchase_units': [{'payments': {'authorizations': [
                         {'id': auth['id'], 'status': auth['status'], 'amount': auth['amount']}]}}]}
-                    rows.append([label, f'GET {paypal.API}/v2/checkout/orders/{oid}   200 OK', json.dumps(excerpt, indent=2)])
+                    rows.append([label, f'Money: {auth["status"]}  ·  {auth["amount"]["value"]} USD',
+                                 f'GET {paypal.API}/v2/checkout/orders/{oid}   200 OK', json.dumps(excerpt, indent=2)])
                 page.evaluate('''(rows) => { const d = document.createElement('div'); d.id = 'demo-card';
                     d.style.cssText = 'position:fixed;inset:0;z-index:99;background:#0b1f3a;color:#fff;display:flex;'
                       + 'flex-direction:column;justify-content:center;padding:0 70px;gap:22px;font:400 24px system-ui';
                     const h = document.createElement('div'); h.textContent = 'PayPal sandbox API, queried at the end of this recording';
                     h.style.font = '700 40px system-ui'; d.append(h);
                     const row = document.createElement('div'); row.style.cssText = 'display:flex;gap:28px'; d.append(row);
-                    for (const [label, call, res] of rows) { const b = document.createElement('div');
+                    for (const [label, money, call, res] of rows) { const b = document.createElement('div');
                       b.style.cssText = 'flex:1;background:#06101f;border-radius:14px;padding:18px 24px;border-top:8px solid #ffb800';
-                      b.innerHTML = '<div style="font:700 28px system-ui;margin-bottom:6px"></div>'
-                        + '<div style="font:400 17px ui-monospace,Consolas,monospace;opacity:.75;word-break:break-all"></div>'
-                        + '<pre style="font:500 19px/1.3 ui-monospace,Consolas,monospace;color:#ffd666;margin:10px 0 0;white-space:pre"></pre>';
-                      [label, call, res].forEach((x, k) => { b.children[k].textContent = x; }); row.append(b); }
-                    document.documentElement.append(d); }''', rows)
+                      b.innerHTML = '<div style="font:700 30px system-ui"></div>'
+                        + '<div style="font:800 40px system-ui;color:#ffd666;margin:4px 0 10px"></div>'
+                        + '<div style="font:400 16px ui-monospace,Consolas,monospace;opacity:.75;word-break:break-all"></div>'
+                        + '<pre style="font:500 17px/1.3 ui-monospace,Consolas,monospace;color:#e8eefc;margin:8px 0 0;white-space:pre"></pre>';
+                      [label, money, call, res].forEach((x, k) => { b.children[k].textContent = x; }); row.append(b); }
+                    const n = document.createElement('div'); n.style.cssText = 'font:400 22px system-ui;opacity:.8';
+                    n.textContent = 'An authorize-intent order shows COMPLETED once authorized; the authorization says whether money moved.';
+                    d.append(n); document.documentElement.append(d); }''', rows)
                 wav, dur = tts(step[1], 'narrator')
                 hold(wav, dur + 1.0, step[1])
                 page.evaluate("document.getElementById('demo-card').remove()")
@@ -734,6 +738,15 @@ def record():
                 dur = page.evaluate("(() => { const v = document.querySelector('#demo-card video'); v.play(); return v.duration; })()")
                 hold(None, dur - 0.3, step[3])
                 page.evaluate("document.getElementById('demo-card').remove()")
+            elif kind == 'news':  # ('news', text, hints, actions...): a reply the page announces by itself (the wait is cut)
+                page.wait_for_function('''(t) => { const r = [...document.querySelectorAll('#log .turn')].pop();
+                    return r && r.textContent.includes(t); }''', arg=step[1], timeout=30000)
+                page.wait_for_timeout(250)
+                reply = key_sentences(last_reply(), step[2])
+                for action in step[3:]:
+                    do(action)
+                wav, dur = tts(reply, 'sightline')
+                hold(wav, dur, f'Sightline: {reply}')
             elif kind == 'still':  # ('still', seconds, caption)
                 hold(None, step[1], step[2])
             elif kind in ('cam', 'callout', 'dark'):
