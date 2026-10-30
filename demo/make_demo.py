@@ -198,7 +198,7 @@ ASK = [
     ('dark', False),
 ]
 BUY = [
-    ('say', 'Add the first one.'),
+    ('say', 'Add the first one.', ['Which size', 'comes in']),
     ('say', 'Medium.', ['Added']),
     ('beat', '2. Hear the real total, from PayPal'),
     ('say', 'Check out.', ['Item 1', 'Unit price', 'Shipping', 'Tax', 'Total:', 'Delivery', 'Seller'],
@@ -211,8 +211,8 @@ BUY = [
 SAFETY = [
     ('beat', 'Scam warnings'),
     ('say', 'A caller says I have to buy gift cards today.', ['common scam', 'Because you chose'], [('cam', LAST)]),
-    ('say', 'Find me a gift card.', ['results']),
-    ('say', 'Add number 1.', ['Added']),
+    ('say', 'Find me a gift card.', ['-']),
+    ('say', 'Add number 1.', ['-']),
     ('say', 'Check out.', ['flagged', 'Approval link ready', 'does not send it'],
      [('cam', LAST), ('callout', '#log a[href^="/approve/"]', 'The shopper shares this link with Alex')]),
     ('cam', '#paypal', 1.25), ('callout', '#pp-order', 'Scam hold on: Alex must approve, even under $75'),
@@ -221,6 +221,15 @@ SAFETY = [
     ('note_order', 'Gift card: declined by Alex'),
 ]
 SCRIPTS['short'] = OPEN + ASK + BUY + [
+    ('pin', '1234', ['PIN accepted'],   # short: Escape must land well inside the real 10-second window
+     [('cam', '#undo-box'), ('callout', '#undo-btn', 'Undo has the focus: 10 seconds to change your mind')]),
+    ('beat', '4. Changed your mind? Undo'),
+    ('press', 'Escape', 'presses Escape', ['Undone', 'Nothing was charged', 'released'],
+     ('cam', '#paypal', 1.25), ('callout', '#pp-order', 'Released by PayPal: nothing charged')),
+    ('note_order', 'Hoodie, first try: undone'),
+    ('beat', '5. Pay for real'),
+    ('say', 'Check out.', ['Total:'], [('cam', '.reply.readback'), ('callout', '#log .reply.readback .line.total', 'A new PayPal order, the same total')]),
+    ('say', 'Confirm.', ['-'], [('cam', '#pin-form')]),   # heard a minute ago
     ('pin', '1234', ['Paying'], [('cam', '#undo-box'), ('callout', '#undo-btn', 'Undo has the focus: 10 seconds to change your mind')]),
     ('captured', ['Paid'], ('cam', '#paypal', 1.25), ('callout', '#pp-order', 'Charged by PayPal')),
     ('note_order', 'Hoodie: paid'),
@@ -228,9 +237,7 @@ SCRIPTS['short'] = OPEN + ASK + BUY + [
     ('beat', 'Days later: is this my package?'),
     ('say', 'Check my hoodie package.', ['Gemini'], [('cam', '#package-photo', 1.3), ('callout', '#package-photo', 'Add the delivery photo here')]),
     ('photo', 'delivery_photo.jpg', ['Photo suggests'], ('cam', LAST)),
-    ('proof', 'Both orders, straight from PayPal’s sandbox: one paid, one released.'),
-    ('clip', 'extension_clip.webm', 'Browser extension prototype, on a local test checkout page (not PayPal)',
-     'The same check on other checkouts: the page’s own total and payee, then the PIN, then Undo: not paid.'),
+    ('proof', 'All three orders, straight from PayPal’s sandbox: one paid, two released.'),
     ('title', 'The AI suggests. The shopper decides.', 'github.com/Thomas-Wood-Eng/sightline  ·  Photos: Wikimedia Commons',
      'The AI suggests. The shopper decides.'),
 ]
@@ -699,7 +706,7 @@ def record():
                     const n = document.createElement('div'); n.style.cssText = 'font:400 22px system-ui;opacity:.8';
                     n.textContent = 'An authorize-intent order shows COMPLETED once authorized; the authorization says whether money moved.';
                     d.append(n); document.documentElement.append(d); }''', rows)
-                page.wait_for_timeout(1000)   # the recorder is slow to show a new full-screen card; this second is cut
+                page.wait_for_timeout(4500)   # late in a recording the recorder shows a new full-screen card ~4 s late; cut
                 wav, dur = tts(step[1], 'narrator')
                 hold(wav, dur + 1.0, step[1])
                 page.evaluate("document.getElementById('demo-card').remove()")
@@ -744,6 +751,18 @@ def record():
                 submit('#message', step[1], step[1], *step[2:])
             elif kind == 'pin':
                 submit('#pin', step[1], 'types the PIN (never spoken aloud)', *step[2:])
+            elif kind == 'press':   # ('press', key, what the shopper does, voiced hints, camera actions...)
+                n = page.locator('#log .turn').count()
+                a = now()
+                page.keyboard.press(step[1])
+                wait_turn(n)
+                page.wait_for_timeout(900)
+                segments.append((a, now(), None, f'You: {step[2]}'))
+                reply = key_sentences(last_reply(), step[3])
+                for action in step[4:]:
+                    do(action)
+                wav, dur = tts(reply, 'sightline')
+                hold(wav, dur + 0.8, f'Sightline: {reply}')
             elif kind == 'clip':  # ('clip', demo/assets video, label, caption): a separately recorded clip, laid into
                 # an empty frame in the edit (playing it in the page made the recorder fall behind and lose the next card)
                 clip = ROOT / 'demo/assets' / step[1]
@@ -757,6 +776,7 @@ def record():
                     const r = v.getBoundingClientRect(); return [r.x, r.y, r.width, r.height].map(Math.round); }''', step[2])
                 dur = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0',
                                             str(clip)], capture_output=True, text=True, check=True).stdout) - CLIP_SKIP + CLIP_HOLD
+                page.wait_for_timeout(4500)   # let the recorder catch up with the new frame (this wait is cut)
                 a = now()
                 page.wait_for_timeout(int(dur * 1000))
                 segments.append((a, now(), None, step[3], (clip, box)))
@@ -915,6 +935,7 @@ def prefetch():
             tts(step[1], 'you')
     # voiced right after the PIN: made in advance so the real 10-second undo window isn't spent generating speech
     tts('Paying 59.59 US dollars to Sightline Demo Store after a 10-second undo window.', 'sightline')
+    tts('PIN accepted.', 'sightline')
 
 
 if __name__ == '__main__':
