@@ -14,9 +14,9 @@ person makes every decision. (The demo runs on one fictional store in PayPal's s
 ## What it does
 Sightline is a voice- and keyboard-first shopping assistant built on PayPal.
 
-*In the 3-minute video:* search, the Readback, confirm + PIN + the undo window, PayPal's capture, a scam warning and the
-trusted contact's decision, the package photo check, the extension on a look-alike page, and PayPal's own API record of
-both orders. *Also built, not in the video:* listing-vs-photo descriptions, reviews, compare, sizes, allergies, refunds and
+*In the 3-minute video:* search, the Readback, confirm + PIN, Undo (PayPal releases the hold), paying for real, a scam
+warning and the trusted contact's decision, the package photo check, and PayPal's own API record of all three orders.
+*Also built, not in the video:* the browser extension prototype, listing-vs-photo descriptions, reviews, compare, sizes, allergies, refunds and
 dispute help, Pay in 4 information, price-drop alerts and purchase history (all in the repo, with tests).
 
 - **Find and understand products:** at most three results at a time, spoken briefly; descriptions separate what the
