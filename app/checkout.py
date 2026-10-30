@@ -73,9 +73,9 @@ def scam_flag(s):
 
 
 def scam_hold(s):
-    """The shopper's choice in Settings (on by default): a suspected scam waits for the trusted contact."""
+    """The shopper's choice in Settings (off by default): a suspected scam waits for the trusted contact."""
     c = s.get('contact')
-    return bool(c) and c.get('scam_hold', True)
+    return bool(c) and c.get('scam_hold', False)
 
 
 def scam_reason(s, lines, quote=True):

@@ -723,6 +723,18 @@ def record():
                 cam('#set-threshold', 1.15)
                 callout('#set-threshold', 'Alex approves orders over $75')
                 hold(wav, dur, step[1])
+                # the scam hold is off by default: the shopper turns it on, on camera
+                box = 'label.check:has(input[name=scam_hold])'
+                callout(box, 'Off by default: the shopper turns it on')
+                a = now()
+                page.wait_for_timeout(700)   # unticked first, so the change is seen
+                page.check('input[name=scam_hold]')
+                page.type('#set-current-pin', '1234', delay=120)
+                page.press('#set-current-pin', 'Enter')
+                page.wait_for_function("document.getElementById('settings-status').textContent.includes('scam')")
+                page.wait_for_timeout(2600)
+                segments.append((a, now(), None, 'Scam checks with Alex: off by default. The shopper turns them on.'))
+                page.evaluate("document.getElementById('demo-callout')?.remove()")
                 page.evaluate("document.getElementById('settings-more').open = false")
                 cam(None)
             elif kind == 'say':   # ('say', words[, voiced-sentence hints[, camera actions after the reply]])

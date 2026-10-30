@@ -343,7 +343,7 @@ def _scam_then(contact):
     """What happens to a payment Sightline suspects: the shopper's own choice in Settings (no contact: none goes ahead)."""
     if not contact:
         return 'A payment like this goes ahead only if your trusted contact approves it.'
-    if contact.get('scam_hold', True):
+    if contact.get('scam_hold', False):
         return f"Because you chose it in Settings, your next payment goes ahead only if {contact['name']} approves it."
     return 'Take a moment before you confirm.'
 
@@ -506,7 +506,7 @@ def settings_summary(caps, mode, linked, pin_set, spent, prefs=None, contact=Non
             f"PayPal is {'linked' if linked else 'not linked'}. PIN is {'set' if pin_set else 'not set'}. "
             + (prefs_summary(prefs) if prefs else '')
             + (f"{contact['name']} approves orders over {usd(contact['threshold'])}"
-               + (', and orders Sightline flags as a possible scam. ' if contact.get('scam_hold', True) else
+               + (', and orders Sightline flags as a possible scam. ' if contact.get('scam_hold', False) else
                   f"; orders flagged as a possible scam do not wait for {contact['name']}. ") if contact else
                'No trusted contact is set. ')
             + 'Caps, PIN and preferences can only be changed in the Settings form.')

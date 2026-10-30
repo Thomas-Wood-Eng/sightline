@@ -31,8 +31,8 @@ dispute help, Pay in 4 information, price-drop alerts and purchase history (all 
   in plain words; a 10-second undo after the PIN; an optional trusted contact who must approve orders over an amount the shopper sets; refunds behind
   the same Readback + PIN.
 - **Scam warnings:** gift-card requests and classic pressure lines ("a caller says...", "keep it secret", "pay a fine") get a
-  calm warning, and the shopper's next order (within 24 hours) then needs the trusted contact's approval, who sees why it was flagged. That
-  hold is the shopper's choice in Settings (on by default); turned off, the warning stays and the usual Readback, confirm
+  calm warning. If the shopper has turned on the scam hold in Settings (off by default), their next order (within 24
+  hours) then needs the trusted contact's approval, who sees why it was flagged; otherwise the usual Readback, confirm
   and PIN apply. The shopper is told which up front. Keyword rules, so it can miss or over-flag.
 - **After the purchase, by voice:** "is this my package?" compares a delivery photo with the order (Gemini vision, always
   worded "photo suggests"); "it arrived broken" explains PayPal Purchase Protection and starts a refund from the demo store (not a PayPal dispute); "what did I buy

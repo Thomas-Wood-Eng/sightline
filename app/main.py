@@ -206,7 +206,7 @@ def _contact(body):
     if not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+', email):
         raise HTTPException(422, 'The trusted contact needs a valid email address.')
     return {'name': name, 'email': email, 'threshold': _cap(body.approval_threshold or ''),
-            'scam_hold': body.scam_hold is not False}  # on unless the shopper turns it off
+            'scam_hold': body.scam_hold is True}  # off unless the shopper turns it on
 
 
 def _prefs(s, body):
@@ -235,7 +235,7 @@ def post_settings(body: Settings, request: Request):
     if body.new_pin and not checkout.valid_pin(body.new_pin):  # checked first, so the error names the right field
         raise HTTPException(422, 'The new PIN must be exactly 4 digits. Leave it empty to keep your PIN.')
     if s.get('contact'):
-        s['contact'].setdefault('scam_hold', True)  # a contact saved before this choice existed: on, as it worked then
+        s['contact'].setdefault('scam_hold', False)  # a contact saved before this choice existed: off, the default
     before = settings_view(s)
     if body.output_mode is not None:
         if body.output_mode not in ('screen_reader', 'voice'):

@@ -284,7 +284,7 @@ function fillSettings(s) {
   f.default_size.value = p.size; f.avoid_allergens.value = p.avoid.join(', ');
   const c = s.contact || { name: '', email: '', threshold: '' };
   f.contact_name.value = c.name; f.contact_email.value = c.email; f.approval_threshold.value = c.threshold;
-  f.scam_hold.checked = c.scam_hold !== false;  // on by default
+  f.scam_hold.checked = c.scam_hold === true;  // off by default: the shopper turns it on
   document.documentElement.classList.toggle('large', p.large_text);
   f.per_order_cap.value = s.per_order_cap; f.daily_cap.value = s.daily_cap;
   showPayPal(s.paypal);

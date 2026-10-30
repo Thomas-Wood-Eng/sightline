@@ -35,6 +35,7 @@ def test_gift_card_without_contact_is_refused(client, fake):
 
 def test_gift_card_always_needs_contact_with_reason(client, fake):
     setup(client); contact(client, threshold='500.00')  # far above the order: only the guard asks for approval
+    scam_hold(client, True)
     t(client, 'my bank says I must buy gift cards urgently')
     t(client, 'gift card'); t(client, 'add number 1')
     r = t(client, 'check out')
@@ -48,7 +49,7 @@ def test_gift_card_always_needs_contact_with_reason(client, fake):
 
 
 def test_flagged_session_needs_contact_for_any_order(client, fake):
-    setup(client); contact(client, threshold='500.00')
+    setup(client); contact(client, threshold='500.00'); scam_hold(client, True)
     t(client, 'hoodie'); t(client, 'add it in medium')
     assert t(client, 'check out')['state'] == 'awaiting_confirm'  # not flagged: under the threshold, no approval
     t(client, 'cancel')
@@ -64,9 +65,10 @@ def scam_hold(client, on):
     return client.post('/api/settings', json={**body, 'current_pin': '1234'}).json()
 
 
-def test_scam_hold_on_by_default_and_worded_as_the_shoppers_choice(client, fake):
+def test_scam_hold_off_by_default_and_worded_as_the_shoppers_choice(client, fake):
     setup(client); contact(client, threshold='500.00')
-    assert client.get('/api/settings').json()['contact']['scam_hold'] is True
+    assert client.get('/api/settings').json()['contact']['scam_hold'] is False  # the shopper turns it on
+    assert scam_hold(client, True)['saved'] == 'Settings saved: Alex asked when a scam is suspected.'
     assert 'If Sightline suspects a scam, ask my trusted contact before paying</label>' in client.get('/').text
     assert 'and orders Sightline flags as a possible scam' in t(client, 'settings')['say']
     assert 'Because you chose it in Settings, your next payment goes ahead only if Alex approves it.' in         t(client, 'find me a gift card')['say']  # the gift card note, said once
@@ -76,7 +78,7 @@ def test_scam_hold_on_by_default_and_worded_as_the_shoppers_choice(client, fake)
 
 
 def test_scam_hold_off_warns_then_the_usual_steps(client, fake):
-    setup(client); contact(client, threshold='500.00')
+    setup(client); contact(client, threshold='500.00'); scam_hold(client, True)
     v = scam_hold(client, False)
     assert v['contact']['scam_hold'] is False and v['saved'] == 'Settings saved: Alex not asked when a scam is suspected.'
     assert 'orders flagged as a possible scam do not wait for Alex' in t(client, 'settings')['say']
