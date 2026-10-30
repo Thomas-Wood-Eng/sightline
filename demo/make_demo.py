@@ -7,6 +7,7 @@
 Shopper input is typed by the script (narrated as speech); everything the app says and does is real.
 """
 import hashlib
+import shutil
 import io
 import json
 import os
@@ -483,11 +484,18 @@ def start_server():
     raise RuntimeError('server did not start')
 
 
+BARE = os.environ.get('DEMO_BARE') == '1'   # for Remotion: record the app only, note titles/chapters/cards as marks
+
+
 def record():
     from app import paypal   # the proof step reads PayPal's own record of each order
     env = dict(l.split('=', 1) for l in (ROOT / '.env').read_text().splitlines() if '=' in l)
     os.environ.update({k: v.strip() for k, v in env.items() if k.startswith('PAYPAL_')})
     segments = []  # (start_s, end_s, wav or None, caption)
+    marks = []     # bare mode: what Remotion draws, keyed to the segment it starts at
+
+    def mark(kind, **data):
+        marks.append({'at': len(segments), 'kind': kind, **data})
     with sync_playwright() as pw:
         browser = pw.chromium.launch(args=['--mute-audio'])
         # The final frame adds a caption bar below the app, so a subtitle never covers what it talks about.
@@ -622,7 +630,11 @@ def record():
         for step in SCRIPT:
             kind = step[0]
             print(kind, '|', str(step[1] if len(step) > 1 else kind)[:70])
-            if kind == 'title':
+            if kind == 'title' and BARE:
+                mark('title', title=step[1], sub=step[2], last=step is SCRIPT[-1])
+                wav, dur = tts(step[3], 'narrator')
+                hold(wav, dur + (1.5 if step is SCRIPT[-1] else 0.4), step[3])
+            elif kind == 'title':
                 page.evaluate("document.getElementById('demo-beat')?.remove(); document.getElementById('demo-step')?.remove()")
                 overlay(step[1], step[2])
                 # the recorder is slow to show a new full-screen card (about 4 s after the clip's frame); this wait is cut
@@ -633,6 +645,8 @@ def record():
             elif kind == 'narrate':
                 wav, dur = tts(step[1], 'narrator')
                 hold(wav, dur, step[1])
+            elif kind == 'beat' and BARE:
+                mark('chapter', text=step[1])
             elif kind == 'beat':  # chapter: a small step label over the recording; no time of its own
                 page.evaluate('''(t) => { let d = document.getElementById('demo-step');
                     if (!d) { d = document.createElement('div'); d.id = 'demo-step'; document.documentElement.append(d);
@@ -649,6 +663,10 @@ def record():
                     d.textContent = t; }''', step[1])
                 wav, dur = tts(step[1], 'narrator')
                 hold(wav, dur, step[1])
+            elif kind == 'card' and BARE:
+                wav, dur = tts(step[4], 'narrator') if step[4] else (None, 2.6)
+                mark('card', title=step[1], img=step[2], items=step[3])
+                hold(wav, dur + (0.6 if wav else 0), step[4] or step[1])
             elif kind == 'card':  # ('card', headline, image file or None, [list items], narration)
                 import base64
                 img = ''
@@ -682,13 +700,22 @@ def record():
                 orders.append((step[1], page.inner_text('#pp-id').strip()))
             elif kind == 'proof':  # ('proof', narration): live GET /v2/checkout/orders/{id} from the PayPal sandbox
                 rows = []
+                facts = []
                 for label, oid in orders:
                     o = paypal.get_order(oid)
                     auth = o['purchase_units'][0]['payments']['authorizations'][0]
+                    facts.append({'label': label, 'order': o['id'], 'intent': o.get('intent'), 'order_status': o['status'],
+                                  'auth': auth['id'], 'status': auth['status'], 'amount': auth['amount']['value'],
+                                  'currency': auth['amount']['currency_code'], 'api': f'{paypal.API}/v2/checkout/orders/{oid}'})
                     rows.append([label, f'Money: {auth["status"]} ({ {"CAPTURED": "charged", "VOIDED": "hold released, nothing charged"}.get(auth["status"], "") })  ·  {auth["amount"]["value"]} USD',
                                  f'GET {paypal.API}/v2/checkout/orders/{oid}   200 OK',
                                  f'order {o["id"]}\nintent {o.get("intent")}, status {o["status"]}\nauthorization {auth["id"]}\n'
                                  f'  status {auth["status"]}\n  amount {auth["amount"]["value"]} {auth["amount"]["currency_code"]}'])
+                if BARE:
+                    mark('proof', orders=facts)
+                    wav, dur = tts(step[1], 'narrator')
+                    hold(wav, dur + 1.0, step[1])
+                    continue
                 page.evaluate('''(rows) => { const d = document.createElement('div'); d.id = 'demo-card';
                     d.style.cssText = 'position:fixed;inset:0;z-index:99;background:#0b1f3a;color:#fff;display:flex;'
                       + 'flex-direction:column;justify-content:center;padding:0 70px;gap:22px;font:400 24px system-ui';
@@ -861,8 +888,8 @@ def record():
     # a check only: rescaling cut points by this ratio moved every cut when the machine was busy (the drift is not even)
     print(f'recording {raw:.1f} s for {wall:.1f} s of wall clock' + ('  WARNING: check sync' if abs(raw / wall - 1) > 0.02 else ''))
     (OUT / 'segments.json').write_text(json.dumps([video, [[*x[:4], [str(x[4][0]), x[4][1]]] if len(x) > 4 else x
-                                                           for x in segments]], default=str), encoding='utf-8')
-    return Path(video), segments
+                                                           for x in segments], marks], default=str), encoding='utf-8')
+    return Path(video), segments, marks
 
 
 # ---------- editing ----------
@@ -923,6 +950,30 @@ def edit(video, segments):
     print(f'done: {OUT / "sightline_demo.mp4"} ({t:.0f} s)')
 
 
+REMOTION = ROOT / 'demo/remotion'
+
+
+def export_remotion(video, segments, marks):
+    """Cut each segment to its own silent clip (public/seg/NNN.mp4) and write src/timeline.json for Remotion."""
+    seg_dir = REMOTION / 'public/seg'
+    seg_dir.mkdir(parents=True, exist_ok=True)
+    for old in seg_dir.glob('*'):
+        old.unlink()
+    items = []
+    for i, (a, b, wav, caption, *_) in enumerate(segments):
+        clip = seg_dir / f'{i:03d}.mp4'
+        ff('-ss', f'{a:.3f}', '-i', str(video), '-t', f'{b - a:.3f}', '-an', '-r', '30', '-c:v', 'libx264', '-crf', '16',
+           '-pix_fmt', 'yuv420p', str(clip))
+        voice = None
+        if wav:
+            voice = f'seg/{i:03d}.wav'
+            shutil.copy(wav, REMOTION / 'public' / voice)
+        items.append({'clip': f'seg/{clip.name}', 'voice': voice, 'dur': round(b - a, 3), 'caption': caption})
+    shutil.copytree(ROOT / 'demo/assets', REMOTION / 'public/assets', dirs_exist_ok=True)
+    (REMOTION / 'src/timeline.json').write_text(json.dumps({'segments': items, 'marks': marks}, indent=1), encoding='utf-8')
+    print(f'remotion timeline: {len(items)} segments, {sum(x["dur"] for x in items):.1f} s')
+
+
 def prefetch():
     """Voice every line known in advance before recording, so real-time steps (the 10 s undo window) aren't
     slowed by speech generation."""
@@ -942,13 +993,20 @@ if __name__ == '__main__':
     OUT.mkdir(parents=True, exist_ok=True)
     SCRIPT = SCRIPTS[sys.argv[1] if len(sys.argv) > 1 else 'full']
     prefetch()
-    if '--edit-only' in sys.argv:   # re-cut the last recording (demo/out/segments.json) without recording again
-        video, segments = json.loads((OUT / 'segments.json').read_text(encoding='utf-8'))
-        edit(Path(video), [(*x[:4], (Path(x[4][0]), x[4][1])) if len(x) > 4 else x for x in segments])
+    if '--edit-only' in sys.argv or '--export-only' in sys.argv:   # re-cut the last recording without recording again
+        video, segments, *rest = json.loads((OUT / 'segments.json').read_text(encoding='utf-8'))
+        segments = [(*x[:4], (Path(x[4][0]), x[4][1])) if len(x) > 4 else x for x in segments]
+        if '--export-only' in sys.argv:
+            export_remotion(Path(video), segments, rest[0] if rest else [])
+        else:
+            edit(Path(video), segments)
         sys.exit()
     server = start_server()
     try:
-        video, segments = record()
+        video, segments, marks = record()
     finally:
         server.kill()
-    edit(video, segments)
+    if BARE:
+        export_remotion(video, segments, marks)
+    else:
+        edit(video, segments)

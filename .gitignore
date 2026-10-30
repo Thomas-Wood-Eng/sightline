@@ -13,3 +13,7 @@ qa/sr/server*.log
 qa/state_*.json
 spike_state.json
 .venv_tts/
+demo/remotion/node_modules/
+demo/remotion/out/
+demo/remotion/public/seg/
+demo/remotion/public/assets/

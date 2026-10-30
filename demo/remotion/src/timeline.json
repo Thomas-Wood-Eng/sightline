@@ -1,0 +1,361 @@
+{
+ "segments": [
+  {
+   "clip": "seg/000.mp4",
+   "voice": "seg/000.wav",
+   "dur": 6.071,
+   "caption": "Checkout is where blind shoppers get stuck. Sightline makes it a conversation."
+  },
+  {
+   "clip": "seg/001.mp4",
+   "voice": "seg/001.wav",
+   "dur": 6.529,
+   "caption": "Set up once: a Sightline PIN, and an optional trusted contact, Alex, who approves orders over 75 dollars."
+  },
+  {
+   "clip": "seg/002.mp4",
+   "voice": null,
+   "dur": 4.255,
+   "caption": "Scam checks: off by default. Turned on, Alex also approves the next order after a scam warning."
+  },
+  {
+   "clip": "seg/003.mp4",
+   "voice": null,
+   "dur": 2.962,
+   "caption": "Link PayPal once, on PayPal\u2019s own page."
+  },
+  {
+   "clip": "seg/004.mp4",
+   "voice": "seg/004.wav",
+   "dur": 2.102,
+   "caption": "You: Find me a hoodie."
+  },
+  {
+   "clip": "seg/005.mp4",
+   "voice": "seg/005.wav",
+   "dur": 11.195,
+   "caption": "Sightline: 2 results for hoodie. 1. Heavyweight pullover hoodie, $52.00, 4.3 stars 2. Fleece-lined pullover hoodie, $34.99, 4.6 stars"
+  },
+  {
+   "clip": "seg/006.mp4",
+   "voice": "seg/006.wav",
+   "dur": 1.403,
+   "caption": "You: Add the first one."
+  },
+  {
+   "clip": "seg/007.mp4",
+   "voice": "seg/007.wav",
+   "dur": 6.228,
+   "caption": "Sightline: Which size? Heavyweight pullover hoodie comes in XS, S, M, L, XL or XXL."
+  },
+  {
+   "clip": "seg/008.mp4",
+   "voice": "seg/008.wav",
+   "dur": 1.095,
+   "caption": "You: Medium."
+  },
+  {
+   "clip": "seg/009.mp4",
+   "voice": "seg/009.wav",
+   "dur": 4.013,
+   "caption": "Sightline: Added: Heavyweight pullover hoodie (size M), quantity 1."
+  },
+  {
+   "clip": "seg/010.mp4",
+   "voice": "seg/010.wav",
+   "dur": 1.937,
+   "caption": "You: Check out."
+  },
+  {
+   "clip": "seg/011.mp4",
+   "voice": "seg/011.wav",
+   "dur": 17.186,
+   "caption": "Sightline: Item 1: Heavyweight pullover hoodie (size M). Unit price 52.00 US dollars. Shipping: 4.99 US dollars. Tax: 2.60 US dollars. Total: 59.59 US dollars. Delivery by Tuesday, November 3. Seller: Sightline Demo Store."
+  },
+  {
+   "clip": "seg/012.mp4",
+   "voice": null,
+   "dur": 1.57,
+   "caption": "PayPal is holding the money. Nothing is charged yet."
+  },
+  {
+   "clip": "seg/013.mp4",
+   "voice": "seg/013.wav",
+   "dur": 1.219,
+   "caption": "You: Confirm."
+  },
+  {
+   "clip": "seg/014.mp4",
+   "voice": "seg/014.wav",
+   "dur": 4.881,
+   "caption": "Sightline: Now type your 4-digit PIN in the PIN box and press Enter."
+  },
+  {
+   "clip": "seg/015.mp4",
+   "voice": null,
+   "dur": 1.717,
+   "caption": "You: types the PIN (never spoken aloud)"
+  },
+  {
+   "clip": "seg/016.mp4",
+   "voice": "seg/016.wav",
+   "dur": 4.211,
+   "caption": "Sightline: PIN accepted. Press Escape or say undo to stop."
+  },
+  {
+   "clip": "seg/017.mp4",
+   "voice": null,
+   "dur": 3.225,
+   "caption": "You: presses Escape"
+  },
+  {
+   "clip": "seg/018.mp4",
+   "voice": "seg/018.wav",
+   "dur": 4.159,
+   "caption": "Sightline: Undone. Nothing was charged. PayPal released the hold."
+  },
+  {
+   "clip": "seg/019.mp4",
+   "voice": "seg/019.wav",
+   "dur": 1.937,
+   "caption": "You: Check out."
+  },
+  {
+   "clip": "seg/020.mp4",
+   "voice": "seg/020.wav",
+   "dur": 3.561,
+   "caption": "Sightline: Total: 59.59 US dollars."
+  },
+  {
+   "clip": "seg/021.mp4",
+   "voice": "seg/021.wav",
+   "dur": 1.22,
+   "caption": "You: Confirm."
+  },
+  {
+   "clip": "seg/022.mp4",
+   "voice": null,
+   "dur": 1.557,
+   "caption": ""
+  },
+  {
+   "clip": "seg/023.mp4",
+   "voice": null,
+   "dur": 1.593,
+   "caption": "You: types the PIN (never spoken aloud)"
+  },
+  {
+   "clip": "seg/024.mp4",
+   "voice": "seg/024.wav",
+   "dur": 6.849,
+   "caption": "Sightline: Paying 59.59 US dollars to Sightline Demo Store after a 10-second undo window."
+  },
+  {
+   "clip": "seg/025.mp4",
+   "voice": null,
+   "dur": 3.5,
+   "caption": "No undo this time, so Sightline asks PayPal to take the payment."
+  },
+  {
+   "clip": "seg/026.mp4",
+   "voice": "seg/026.wav",
+   "dur": 0.888,
+   "caption": "Sightline: Paid."
+  },
+  {
+   "clip": "seg/027.mp4",
+   "voice": "seg/027.wav",
+   "dur": 3.135,
+   "caption": "You: A caller says I have to buy gift cards today."
+  },
+  {
+   "clip": "seg/028.mp4",
+   "voice": "seg/028.wav",
+   "dur": 6.939,
+   "caption": "Sightline: This matches a common scam. Because you chose it in Settings, your next payment goes ahead only if Alex approves it."
+  },
+  {
+   "clip": "seg/029.mp4",
+   "voice": "seg/029.wav",
+   "dur": 1.741,
+   "caption": "You: Find me a gift card."
+  },
+  {
+   "clip": "seg/030.mp4",
+   "voice": null,
+   "dur": 1.554,
+   "caption": ""
+  },
+  {
+   "clip": "seg/031.mp4",
+   "voice": "seg/031.wav",
+   "dur": 1.272,
+   "caption": "You: Add number 1."
+  },
+  {
+   "clip": "seg/032.mp4",
+   "voice": null,
+   "dur": 1.558,
+   "caption": ""
+  },
+  {
+   "clip": "seg/033.mp4",
+   "voice": "seg/033.wav",
+   "dur": 1.937,
+   "caption": "You: Check out."
+  },
+  {
+   "clip": "seg/034.mp4",
+   "voice": "seg/034.wav",
+   "dur": 11.437,
+   "caption": "Sightline: This order needs Alex's approval: Sightline flagged it as a possible gift-card scam. Approval link ready for Alex. This prototype does not send it: share the link below with Alex."
+  },
+  {
+   "clip": "seg/035.mp4",
+   "voice": "seg/035.wav",
+   "dur": 5.113,
+   "caption": "The shopper shares the link. Alex sees why it was flagged, and declines."
+  },
+  {
+   "clip": "seg/036.mp4",
+   "voice": "seg/036.wav",
+   "dur": 3.119,
+   "caption": "Sightline: Alex declined this order, so PayPal released the hold."
+  },
+  {
+   "clip": "seg/037.mp4",
+   "voice": "seg/037.wav",
+   "dur": 2.015,
+   "caption": "You: Check my hoodie package."
+  },
+  {
+   "clip": "seg/038.mp4",
+   "voice": "seg/038.wav",
+   "dur": 4.937,
+   "caption": "Sightline: The photo goes to Google Gemini to check it, and Sightline does not keep it."
+  },
+  {
+   "clip": "seg/039.mp4",
+   "voice": null,
+   "dur": 3.013,
+   "caption": "The shopper chooses a photo of the delivery."
+  },
+  {
+   "clip": "seg/040.mp4",
+   "voice": "seg/040.wav",
+   "dur": 8.847,
+   "caption": "Sightline: Photo suggests this may not match: you ordered Heavyweight pullover hoodie (size M), black, the photo looks like an antique ceramic mug with a handle."
+  },
+  {
+   "clip": "seg/041.mp4",
+   "voice": "seg/041.wav",
+   "dur": 5.975,
+   "caption": "All three orders, straight from PayPal\u2019s sandbox: one paid, two released."
+  },
+  {
+   "clip": "seg/042.mp4",
+   "voice": "seg/042.wav",
+   "dur": 4.283,
+   "caption": "The AI suggests. The shopper decides."
+  }
+ ],
+ "marks": [
+  {
+   "at": 0,
+   "kind": "title",
+   "title": "Sightline",
+   "sub": "Shop by voice or keyboard. Hear every dollar before it moves.",
+   "last": false
+  },
+  {
+   "at": 3,
+   "kind": "card",
+   "title": "Link PayPal once, on PayPal\u2019s own page.",
+   "img": "paypal_link.png",
+   "items": [
+    "PayPal sandbox consent page"
+   ]
+  },
+  {
+   "at": 4,
+   "kind": "chapter",
+   "text": "1. Ask in your own words (typed in this video; push-to-talk works too)"
+  },
+  {
+   "at": 10,
+   "kind": "chapter",
+   "text": "2. Hear the real total, from PayPal"
+  },
+  {
+   "at": 13,
+   "kind": "chapter",
+   "text": "3. Confirm, then type a PIN"
+  },
+  {
+   "at": 17,
+   "kind": "chapter",
+   "text": "4. Changed your mind? Undo"
+  },
+  {
+   "at": 19,
+   "kind": "chapter",
+   "text": "5. Pay for real"
+  },
+  {
+   "at": 27,
+   "kind": "chapter",
+   "text": "Scam warnings"
+  },
+  {
+   "at": 37,
+   "kind": "chapter",
+   "text": "Days later: is this my package?"
+  },
+  {
+   "at": 41,
+   "kind": "proof",
+   "orders": [
+    {
+     "label": "Hoodie, first try: undone",
+     "order": "8VU80013TJ502841J",
+     "intent": "AUTHORIZE",
+     "order_status": "COMPLETED",
+     "auth": "5F729249DU062032Y",
+     "status": "VOIDED",
+     "amount": "59.59",
+     "currency": "USD",
+     "api": "https://api-m.sandbox.paypal.com/v2/checkout/orders/8VU80013TJ502841J"
+    },
+    {
+     "label": "Hoodie: paid",
+     "order": "76V17791KE020334R",
+     "intent": "AUTHORIZE",
+     "order_status": "COMPLETED",
+     "auth": "2CA1647067568110C",
+     "status": "CAPTURED",
+     "amount": "59.59",
+     "currency": "USD",
+     "api": "https://api-m.sandbox.paypal.com/v2/checkout/orders/76V17791KE020334R"
+    },
+    {
+     "label": "Gift card: declined by Alex",
+     "order": "96X05234Y85123314",
+     "intent": "AUTHORIZE",
+     "order_status": "COMPLETED",
+     "auth": "9HW66783550458140",
+     "status": "VOIDED",
+     "amount": "26.25",
+     "currency": "USD",
+     "api": "https://api-m.sandbox.paypal.com/v2/checkout/orders/96X05234Y85123314"
+    }
+   ]
+  },
+  {
+   "at": 42,
+   "kind": "title",
+   "title": "The AI suggests. The shopper decides.",
+   "sub": "github.com/Thomas-Wood-Eng/sightline  \u00b7  Photos: Wikimedia Commons",
+   "last": true
+  }
+ ]
+}
