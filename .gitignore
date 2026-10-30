@@ -12,3 +12,4 @@ qa/shots/
 qa/sr/server*.log
 qa/state_*.json
 spike_state.json
+.venv_tts/

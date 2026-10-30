@@ -194,7 +194,7 @@ OPEN = [
 ASK = [
     ('beat', '1. Ask in your own words (typed in this video; push-to-talk works too)'),
     ('dark', True, 'Screen off. This is what the shopper hears.'),
-    ('say', 'Find me a hoodie.'),
+    ('say', 'Find me a hoodie.', ['results for', 'Heavyweight']),
     ('dark', False),
 ]
 BUY = [
@@ -204,7 +204,7 @@ BUY = [
     ('say', 'Check out.', ['Item 1', 'Unit price', 'Shipping', 'Tax', 'Total:', 'Delivery', 'Seller'],
      [('cam', '.reply.readback'), ('callout', '#log .reply.readback .line.total', 'Every number from PayPal’s order')]),
     ('cam', '#paypal', 1.25), ('callout', '#pp-order', 'PayPal is holding the money. Nothing charged yet.'),
-    ('still', 2.2, 'PayPal is holding the money. Nothing is charged yet.'),
+    ('still', 1.2, 'PayPal is holding the money. Nothing is charged yet.'),
     ('beat', '3. Confirm, then type a PIN'),
     ('say', 'Confirm.', ['PIN'], [('cam', '#pin-form')]),
 ]
@@ -214,7 +214,8 @@ SAFETY = [
     ('say', 'Find me a gift card.', ['results']),
     ('say', 'Add number 1.', ['Added']),
     ('say', 'Check out.', ['flagged', 'Approval link ready', 'does not send it'],
-     [('cam', '#paypal', 1.25), ('callout', '#pp-order', 'Scam hold on: Alex must approve, even under $75')]),
+     [('cam', LAST), ('callout', '#log a[href^="/approve/"]', 'The shopper shares this link with Alex')]),
+    ('cam', '#paypal', 1.25), ('callout', '#pp-order', 'Scam hold on: Alex must approve, even under $75'),
     ('approve', 'The shopper shares the link. Alex sees why it was flagged, and declines.', 'decline'),
     ('news', 'declined', ['declined'], ('cam', '#paypal', 1.25), ('callout', '#pp-order', 'PayPal released the hold')),
     ('note_order', 'Gift card: declined by Alex'),
@@ -224,11 +225,11 @@ SCRIPTS['short'] = OPEN + ASK + BUY + [
     ('captured', ['Paid'], ('cam', '#paypal', 1.25), ('callout', '#pp-order', 'Charged by PayPal')),
     ('note_order', 'Hoodie: paid'),
 ] + SAFETY + [
-    ('beat', 'After delivery: is this my package?'),
+    ('beat', 'Days later: is this my package?'),
     ('say', 'Check my hoodie package.', ['Gemini'], [('cam', '#package-photo', 1.3), ('callout', '#package-photo', 'Add the delivery photo here')]),
     ('photo', 'delivery_photo.jpg', ['Photo suggests'], ('cam', LAST)),
     ('proof', 'Both orders, straight from PayPal’s sandbox: one paid, one released.'),
-    ('clip', 'extension_clip.webm', 'Browser extension prototype, on a local look-alike checkout page (not PayPal)',
+    ('clip', 'extension_clip.webm', 'Browser extension prototype, on a local test checkout page (not PayPal)',
      'The same check on other checkouts: the page’s own total and payee, then the PIN, then Undo: not paid.'),
     ('title', 'The AI suggests. The shopper decides.', 'github.com/Thomas-Wood-Eng/sightline  ·  Photos: Wikimedia Commons',
      'The AI suggests. The shopper decides.'),
@@ -617,7 +618,8 @@ def record():
             if kind == 'title':
                 page.evaluate("document.getElementById('demo-beat')?.remove(); document.getElementById('demo-step')?.remove()")
                 overlay(step[1], step[2])
-                page.wait_for_timeout(1000)   # the recorder is slow to show a new full-screen card; this second is cut
+                # the recorder is slow to show a new full-screen card (about 4 s after the clip's frame); this wait is cut
+                page.wait_for_timeout(4000 if step is SCRIPT[-1] else 1000)
                 wav, dur = tts(step[3], 'narrator')
                 hold(wav, dur + (2.0 if step is SCRIPT[-1] else 0), step[3])
                 page.evaluate("document.getElementById('demo-title').remove()")
@@ -662,7 +664,7 @@ def record():
                       i.style.cssText = 'max-width:820px;max-height:780px;border-radius:18px;box-shadow:0 12px 48px rgba(0,0,0,.5)';
                       d.append(i); }
                     d.append(text); document.documentElement.append(d); }''', [step[1], img, step[3], dur * 900])
-                page.wait_for_timeout(300)
+                page.wait_for_timeout(1000)   # the recorder is slow to show a new full-screen card; this second is cut
                 hold(wav, dur + (0.6 if wav else 0), step[4] or step[1])
                 page.evaluate("document.getElementById('demo-card').remove()")
             elif kind == 'hidden':  # off-camera reset between beats (e.g. empty the cart); not recorded
@@ -678,7 +680,7 @@ def record():
                     auth = o['purchase_units'][0]['payments']['authorizations'][0]
                     excerpt = {'id': o['id'], 'status': o['status'], 'purchase_units': [{'payments': {'authorizations': [
                         {'id': auth['id'], 'status': auth['status'], 'amount': auth['amount']}]}}]}
-                    rows.append([label, f'Money: {auth["status"]}  ·  {auth["amount"]["value"]} USD',
+                    rows.append([label, f'Money: {auth["status"]} ({ {"CAPTURED": "charged", "VOIDED": "hold released, nothing charged"}.get(auth["status"], "") })  ·  {auth["amount"]["value"]} USD',
                                  f'GET {paypal.API}/v2/checkout/orders/{oid}   200 OK', json.dumps(excerpt, indent=2)])
                 page.evaluate('''(rows) => { const d = document.createElement('div'); d.id = 'demo-card';
                     d.style.cssText = 'position:fixed;inset:0;z-index:99;background:#0b1f3a;color:#fff;display:flex;'
@@ -697,6 +699,7 @@ def record():
                     const n = document.createElement('div'); n.style.cssText = 'font:400 22px system-ui;opacity:.8';
                     n.textContent = 'An authorize-intent order shows COMPLETED once authorized; the authorization says whether money moved.';
                     d.append(n); document.documentElement.append(d); }''', rows)
+                page.wait_for_timeout(1000)   # the recorder is slow to show a new full-screen card; this second is cut
                 wav, dur = tts(step[1], 'narrator')
                 hold(wav, dur + 1.0, step[1])
                 page.evaluate("document.getElementById('demo-card').remove()")
@@ -833,12 +836,10 @@ def record():
         wall = now()
         ctx.close()
         browser.close()
-    # the recorder's clock runs slower than the wall clock under load: rescale cut points to the recording's own length
     raw = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', video],
                                capture_output=True, text=True, check=True).stdout)
-    k = raw / wall
-    print(f'recording {raw:.1f} s for {wall:.1f} s of wall clock: scale {k:.4f}')
-    segments = [(a * k, a * k + (b - a), *rest) for a, b, *rest in segments]   # keep each segment's voiced length
+    # a check only: rescaling cut points by this ratio moved every cut when the machine was busy (the drift is not even)
+    print(f'recording {raw:.1f} s for {wall:.1f} s of wall clock' + ('  WARNING: check sync' if abs(raw / wall - 1) > 0.02 else ''))
     (OUT / 'segments.json').write_text(json.dumps([video, [[*x[:4], [str(x[4][0]), x[4][1]]] if len(x) > 4 else x
                                                            for x in segments]], default=str), encoding='utf-8')
     return Path(video), segments

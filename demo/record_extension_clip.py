@@ -12,7 +12,7 @@ import tempfile
 import threading
 from pathlib import Path
 
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import Error, sync_playwright
 
 ROOT = Path(__file__).resolve().parent.parent
 EXT, FIXTURES = ROOT / 'extension', ROOT / 'extension/test/fixtures'
@@ -45,7 +45,10 @@ def main():
             record_video_size=SIZE, args=[f'--disable-extensions-except={ext}', f'--load-extension={ext}', '--mute-audio'])
         sw = ctx.service_workers[0] if ctx.service_workers else ctx.wait_for_event('serviceworker')
         setup = ctx.new_page()   # set the PIN in the extension's own settings page (its own video, discarded)
-        setup.goto(f"chrome-extension://{sw.url.split('/')[2]}/popup.html")
+        try:
+            setup.goto(f"chrome-extension://{sw.url.split('/')[2]}/popup.html")
+        except Error:   # the extension opens its settings page on install, racing this navigation to the same page
+            setup.wait_for_load_state()
         setup.fill('#new', '1234')
         setup.fill('#repeat', '1234')
         setup.click('text=Save PIN')
@@ -61,9 +64,9 @@ def main():
         page.wait_for_timeout(2600)   # the Readback, read on screen
         dlg.locator('#confirm').click()
         dlg.locator('#pin').wait_for()
-        page.wait_for_timeout(500)
+        page.wait_for_timeout(900)
         dlg.locator('#pin').press_sequentially('1234', delay=180)
-        page.wait_for_timeout(1300)   # the PIN step stays on screen a moment
+        page.wait_for_timeout(2300)   # the PIN step stays on screen long enough to read
         dlg.locator('#pin').press('Enter')
         dlg.locator('#count').wait_for()
         page.wait_for_timeout(2500)   # the undo countdown
