@@ -194,7 +194,7 @@ OPEN = [
 ASK = [
     ('beat', '1. Ask in your own words (typed in this video; push-to-talk works too)'),
     ('dark', True, 'Screen off. This is what the shopper hears.'),
-    ('say', 'Find me a hoodie.', ['results for', 'Heavyweight']),
+    ('say', 'Find me a hoodie.'),
     ('dark', False),
 ]
 BUY = [
@@ -221,7 +221,7 @@ SAFETY = [
     ('note_order', 'Gift card: declined by Alex'),
 ]
 SCRIPTS['short'] = OPEN + ASK + BUY + [
-    ('pin', '1234', ['PIN accepted'],   # short: Escape must land well inside the real 10-second window
+    ('pin', '1234', ['PIN accepted', 'Escape'],   # short: Escape must land well inside the real 10-second window
      [('cam', '#undo-box'), ('callout', '#undo-btn', 'Undo has the focus: 10 seconds to change your mind')]),
     ('beat', '4. Changed your mind? Undo'),
     ('press', 'Escape', 'presses Escape', ['Undone', 'Nothing was charged', 'released'],
@@ -685,15 +685,15 @@ def record():
                 for label, oid in orders:
                     o = paypal.get_order(oid)
                     auth = o['purchase_units'][0]['payments']['authorizations'][0]
-                    excerpt = {'id': o['id'], 'status': o['status'], 'purchase_units': [{'payments': {'authorizations': [
-                        {'id': auth['id'], 'status': auth['status'], 'amount': auth['amount']}]}}]}
                     rows.append([label, f'Money: {auth["status"]} ({ {"CAPTURED": "charged", "VOIDED": "hold released, nothing charged"}.get(auth["status"], "") })  ·  {auth["amount"]["value"]} USD',
-                                 f'GET {paypal.API}/v2/checkout/orders/{oid}   200 OK', json.dumps(excerpt, indent=2)])
+                                 f'GET {paypal.API}/v2/checkout/orders/{oid}   200 OK',
+                                 f'order {o["id"]}\nintent {o.get("intent")}, status {o["status"]}\nauthorization {auth["id"]}\n'
+                                 f'  status {auth["status"]}\n  amount {auth["amount"]["value"]} {auth["amount"]["currency_code"]}'])
                 page.evaluate('''(rows) => { const d = document.createElement('div'); d.id = 'demo-card';
                     d.style.cssText = 'position:fixed;inset:0;z-index:99;background:#0b1f3a;color:#fff;display:flex;'
                       + 'flex-direction:column;justify-content:center;padding:0 70px;gap:22px;font:400 24px system-ui';
                     const h = document.createElement('div');
-                    h.textContent = 'Real responses from PayPal’s sandbox API, trimmed to the payment fields';
+                    h.textContent = 'Real responses from PayPal’s sandbox API (GET each order), key fields';
                     h.style.font = '700 40px system-ui'; d.append(h);
                     const row = document.createElement('div'); row.style.cssText = 'display:flex;gap:28px'; d.append(row);
                     for (const [label, money, call, res] of rows) { const b = document.createElement('div');
@@ -701,7 +701,7 @@ def record():
                       b.innerHTML = '<div style="font:700 30px system-ui"></div>'
                         + '<div style="font:800 40px system-ui;color:#ffd666;margin:4px 0 10px"></div>'
                         + '<div style="font:400 16px ui-monospace,Consolas,monospace;opacity:.75;word-break:break-all"></div>'
-                        + '<pre style="font:500 17px/1.3 ui-monospace,Consolas,monospace;color:#e8eefc;margin:8px 0 0;white-space:pre"></pre>';
+                        + '<pre style="font:500 24px/1.45 ui-monospace,Consolas,monospace;color:#e8eefc;margin:10px 0 0;white-space:pre"></pre>';
                       [label, money, call, res].forEach((x, k) => { b.children[k].textContent = x; }); row.append(b); }
                     const n = document.createElement('div'); n.style.cssText = 'font:400 22px system-ui;opacity:.8';
                     n.textContent = 'An authorize-intent order shows COMPLETED once authorized; the authorization says whether money moved.';
@@ -731,7 +731,7 @@ def record():
                 cam(None)
                 page.evaluate("document.getElementById('settings-more').open = true")
                 cam('#set-threshold', 1.15)
-                callout('#set-threshold', 'Alex approves orders over $75')
+                callout('#set-threshold', 'Approval needed for orders over $75: Alex')
                 hold(wav, dur, step[1])
                 # the scam hold is off by default: the shopper turns it on, on camera
                 box = 'label.check:has(input[name=scam_hold])'
@@ -743,7 +743,7 @@ def record():
                 page.press('#set-current-pin', 'Enter')
                 page.wait_for_function("document.getElementById('settings-status').textContent.includes('scam')")
                 page.wait_for_timeout(2600)
-                segments.append((a, now(), None, 'Scam checks with Alex: off by default. The shopper turns them on.'))
+                segments.append((a, now(), None, 'Scam checks: off by default. Turned on, Alex also approves the next order after a scam warning.'))
                 page.evaluate("document.getElementById('demo-callout')?.remove()")
                 page.evaluate("document.getElementById('settings-more').open = false")
                 cam(None)
@@ -800,7 +800,7 @@ def record():
                 page.wait_for_function('''() => { const t = [...document.querySelectorAll('#log .turn')].pop();
                     return t && /PayPal captured/.test(t.textContent); }''', timeout=60000)
                 page.wait_for_timeout(250)
-                segments.append((a, now(), None, 'Undo keeps the focus while the window runs out. No undo, so Sightline asks PayPal to take the payment.'))
+                segments.append((max(a, now() - 3.5), now(), None, 'No undo this time, so Sightline asks PayPal to take the payment.'))
                 reply = last_reply()
                 reply = key_sentences(reply, step[1] if len(step) > 1 else None)
                 for action in step[2:]:
@@ -935,7 +935,7 @@ def prefetch():
             tts(step[1], 'you')
     # voiced right after the PIN: made in advance so the real 10-second undo window isn't spent generating speech
     tts('Paying 59.59 US dollars to Sightline Demo Store after a 10-second undo window.', 'sightline')
-    tts('PIN accepted.', 'sightline')
+    tts('PIN accepted. Press Escape or say undo to stop.', 'sightline')
 
 
 if __name__ == '__main__':

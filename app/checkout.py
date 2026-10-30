@@ -318,8 +318,7 @@ def pin(s, entered):
     if delay <= 0:
         return finalize(s)
     paying = s['co'].get('pay') or 'Paying'
-    return Reply(f'PIN accepted. {paying} after a {delay}-second undo window. '
-                 'To stop it, say undo, or press Escape, or use the Undo button.')
+    return Reply(f'PIN accepted. Press Escape or say undo to stop. {paying} after a {delay}-second undo window.')
 
 
 # ---- returns: a refund goes through the same Readback -> confirm -> PIN steps as a payment ----

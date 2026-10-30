@@ -28,12 +28,12 @@ dispute help, Pay in 4 information, price-drop alerts and purchase history (all 
 - **Safety by code, not by prompt:** the AI never sees prices (it picks products; code adds the prices it speaks) and can't
   move money; spending limits and the PIN change only
   in Settings; allergies are a hard filter; pre-ticked add-ons, subscriptions and "only 2 left" pressure are called out
-  in plain words; a 10-second undo after the PIN; an optional trusted contact who must approve orders over an amount the shopper sets; refunds behind
+  in plain words; a 10-second undo after the PIN; an optional trusted contact who must approve orders over an amount the shopper sets (the prototype makes an approval link; the shopper shares it); refunds behind
   the same Readback + PIN.
 - **Scam warnings:** gift-card requests and classic pressure lines ("a caller says...", "keep it secret", "pay a fine") get a
   calm warning. If the shopper has turned on the scam hold in Settings (off by default), their next order (within 24
   hours) then needs the trusted contact's approval, who sees why it was flagged; otherwise the usual Readback, confirm
-  and PIN apply. The shopper is told which up front. Keyword rules, so it can miss or over-flag.
+  and PIN apply. The warning itself says which applies. Keyword rules, so it can miss or over-flag.
 - **After the purchase, by voice:** "is this my package?" compares a delivery photo with the order (Gemini vision, always
   worded "photo suggests"); "it arrived broken" explains PayPal Purchase Protection and starts a refund from the demo store (not a PayPal dispute); "what did I buy
   this week"; price-drop alerts on saved items, said once.
