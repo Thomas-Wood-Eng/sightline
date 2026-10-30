@@ -188,7 +188,7 @@ EXTENSION = ('card', 'The same check on other checkouts', 'extension_readback.pn
 OPEN = [
     ('title', 'Sightline', 'Shop by voice or keyboard. Hear every dollar before it moves.',
      'Checkout is where blind shoppers get stuck. Sightline makes it a conversation.'),
-    ('setup', 'Set up once: a Sightline PIN, spending limits, and an optional trusted contact, Alex, for orders over 75 dollars.'),
+    ('setup', 'Set up once: a Sightline PIN, and an optional trusted contact, Alex, who approves orders over 75 dollars.'),
     ('card', 'Link PayPal once, on PayPal’s own page.', 'paypal_link.png', ['PayPal sandbox consent page'], ''),
 ]
 ASK = [
@@ -213,9 +213,9 @@ SAFETY = [
     ('say', 'A caller says I have to buy gift cards today.', ['common scam', 'Because you chose'], [('cam', LAST)]),
     ('say', 'Find me a gift card.', ['results']),
     ('say', 'Add number 1.', ['Added']),
-    ('say', 'Check out.', ['flagged', 'Approval link ready'],
-     [('cam', '#paypal', 1.25), ('callout', '#pp-order', 'Under $75, but flagged: waiting for Alex')]),
-    ('approve', 'Alex sees why it was flagged, and declines.', 'decline'),
+    ('say', 'Check out.', ['flagged', 'Approval link ready', 'does not send it'],
+     [('cam', '#paypal', 1.25), ('callout', '#pp-order', 'Scam hold on: Alex must approve, even under $75')]),
+    ('approve', 'The shopper shares the link. Alex sees why it was flagged, and declines.', 'decline'),
     ('news', 'declined', ['declined'], ('cam', '#paypal', 1.25), ('callout', '#pp-order', 'PayPal released the hold')),
     ('note_order', 'Gift card: declined by Alex'),
 ]
@@ -777,7 +777,7 @@ def record():
                 page.wait_for_function('''() => { const t = [...document.querySelectorAll('#log .turn')].pop();
                     return t && /PayPal captured/.test(t.textContent); }''', timeout=60000)
                 page.wait_for_timeout(250)
-                segments.append((a, now(), None, 'The undo window runs out. No undo, so Sightline asks PayPal to take the payment.'))
+                segments.append((a, now(), None, 'Undo keeps the focus while the window runs out. No undo, so Sightline asks PayPal to take the payment.'))
                 reply = last_reply()
                 reply = key_sentences(reply, step[1] if len(step) > 1 else None)
                 for action in step[2:]:
@@ -810,7 +810,7 @@ def record():
                 page.evaluate('''(h) => { const d = document.createElement('div'); d.id = 'demo-phone';
                     d.style.cssText = 'position:fixed;inset:0;z-index:99;background:rgba(11,31,58,.75);display:flex;'
                       + 'align-items:center;justify-content:center;gap:28px;font:600 26px system-ui;color:#fff';
-                    d.innerHTML = '<div>Alex\\'s phone</div><iframe title="Approval page" style="width:420px;height:760px;'
+                    d.innerHTML = '<div>Alex\\'s phone:<br>the shared link</div><iframe title="Approval page" style="width:420px;height:760px;'
                       + 'border:10px solid #111;border-radius:28px;background:#fff"></iframe>';
                     const f = d.querySelector('iframe'); f.style.width = '520px'; f.style.height = '800px';
                     f.onload = () => { f.contentDocument.documentElement.style.zoom = '1.3'; };

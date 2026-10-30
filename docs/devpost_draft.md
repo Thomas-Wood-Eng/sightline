@@ -6,8 +6,8 @@
 
 ## Inspiration
 Blind and low-vision shoppers can often *find* a product online, then lose it at checkout: pop-ups, unlabelled
-buttons and payment iframes a screen reader can't get into. At least 2.2 billion people have a near or distance vision impairment (WHO, World report on vision, who.int/publications/i/item/9789241516570), and about 5,000 US accessibility lawsuits were
-filed in 2025, roughly 70% against online stores (UsableNet). AI agents can now click through websites for people, but an agent
+buttons and payment iframes a screen reader can't get into. About 43 million people worldwide are blind and 295 million more have moderate or severe vision impairment
+(GBD 2019 Blindness and Vision Impairment Collaborators, The Lancet Global Health, 2021). AI agents can now click through websites for people, but an agent
 that moves money on your behalf has to be *trustworthy*, not just capable. We wanted the agent to do the clicking while the
 person makes every decision. (The demo runs on one fictional store in PayPal's sandbox.)
 
@@ -64,8 +64,7 @@ dispute help, Pay in 4 information, price-drop alerts and purchase history (all 
 - Making replies speak exactly once with a screen reader, and running on free-tier AI limits.
 
 ## Accomplishments that we're proud of
-A complete purchase, refund and approval flow designed for screen readers and the keyboard (still to be tested by blind
-shoppers), with every spoken amount traceable
+A complete purchase, refund and approval flow designed for screen readers and the keyboard, with every spoken amount traceable
 to PayPal's data; and safety rules that hold even if the AI misbehaves.
 
 ## What we learned
