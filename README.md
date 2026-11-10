@@ -5,13 +5,18 @@ PayPal holds the money, Sightline reads back PayPal's own numbers, and nothing i
 
 ## For judges
 
-- **Live app:** _link added after deploy_ · **Demo video:** _link added after upload_
-- **Try it instantly:** the live app has a pre-linked PayPal **sandbox** wallet (fake money). Answer the Setup questions
-  (any 4-digit PIN), then type or say: "find me a warm hoodie", "tell me about the first one", "add it", "medium",
-  "check out", "confirm", and type your PIN.
-- **Link your own sandbox account instead:** choose **Link PayPal** and log in with a PayPal sandbox **personal** (buyer)
-  account. A **business** account is the seller and PayPal will refuse it ("you are logging into the account of the seller").
-  Sandbox test-buyer credentials are in the Devpost testing instructions.
+- **Demo video:** _link added after upload_
+- **Run it yourself (about 10 minutes, all free, sandbox money only):** there is no hosted copy; follow
+  [Run locally](#run-locally). You need two free keys:
+  - **PayPal sandbox app:** log in at [developer.paypal.com](https://developer.paypal.com/) → Apps & Credentials →
+    Sandbox → Create App. Copy its Client ID and Secret into `.env`. PayPal also creates a sandbox **personal** (buyer)
+    account for you under Testing Tools → Sandbox Accounts; that is the one you log in with.
+  - **Gemini API key:** free from [Google AI Studio](https://aistudio.google.com/apikey). Fixed commands and the whole
+    checkout work without AI; the key is needed for free-form requests and photo checks.
+- **Then:** answer the Setup questions (any 4-digit PIN), choose **Link PayPal** and log in with the sandbox
+  **personal** account. A **business** account is the seller and PayPal will refuse it ("you are logging into the
+  account of the seller"). Then type or say: "find me a warm hoodie", "tell me about the first one", "add it",
+  "medium", "check out", "confirm", and type your PIN.
 - **Things worth trying:** a nut allergy ("a snack for my kid, she has a nut allergy"), "what do people say about it",
   headphones (a pre-ticked protection plan is called out and not added), "undo" within 10 seconds of the PIN,
   a trusted contact in Settings (orders above the amount need their approval), "return the hoodie".
