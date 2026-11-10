@@ -14,15 +14,15 @@
   },
   {
    "clip": "seg/002.mp4",
-   "voice": null,
-   "dur": 4.255,
+   "voice": "seg/002.wav",
+   "dur": 6.2,
    "caption": "Scam checks: off by default. Turned on, Alex also approves the next order after a scam warning."
   },
   {
    "clip": "seg/003.mp4",
-   "voice": null,
+   "voice": "seg/003.wav",
    "dur": 2.962,
-   "caption": "Link PayPal once, on PayPal\u2019s own page."
+   "caption": "Link PayPal once, on PayPal’s own page."
   },
   {
    "clip": "seg/004.mp4",
@@ -74,8 +74,8 @@
   },
   {
    "clip": "seg/012.mp4",
-   "voice": null,
-   "dur": 1.57,
+   "voice": "seg/012.wav",
+   "dur": 3.0,
    "caption": "PayPal is holding the money. Nothing is charged yet."
   },
   {
@@ -152,8 +152,8 @@
   },
   {
    "clip": "seg/025.mp4",
-   "voice": null,
-   "dur": 3.5,
+   "voice": "seg/025.wav",
+   "dur": 3.9,
    "caption": "No undo this time, so Sightline asks PayPal to take the payment."
   },
   {
@@ -236,7 +236,7 @@
   },
   {
    "clip": "seg/039.mp4",
-   "voice": null,
+   "voice": "seg/039.wav",
    "dur": 3.013,
    "caption": "The shopper chooses a photo of the delivery."
   },
@@ -250,7 +250,7 @@
    "clip": "seg/041.mp4",
    "voice": "seg/041.wav",
    "dur": 5.975,
-   "caption": "All three orders, straight from PayPal\u2019s sandbox: one paid, two released."
+   "caption": "All three orders, straight from PayPal’s sandbox: one paid, two released."
   },
   {
    "clip": "seg/042.mp4",
@@ -270,7 +270,7 @@
   {
    "at": 3,
    "kind": "card",
-   "title": "Link PayPal once, on PayPal\u2019s own page.",
+   "title": "Link PayPal once, on PayPal’s own page.",
    "img": "paypal_link.png",
    "items": [
     "PayPal sandbox consent page"
@@ -354,7 +354,7 @@
    "at": 42,
    "kind": "title",
    "title": "The AI suggests. The shopper decides.",
-   "sub": "github.com/Thomas-Wood-Eng/sightline  \u00b7  Photos: Wikimedia Commons",
+   "sub": "github.com/Thomas-Wood-Eng/sightline  ·  Photos: Wikimedia Commons",
    "last": true
   }
  ]
