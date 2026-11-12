@@ -5,7 +5,7 @@ PayPal holds the money, Sightline reads back PayPal's own numbers, and nothing i
 
 ## For judges
 
-- **Demo video:** _link added after upload_
+- **Demo video (2:58):** https://www.youtube.com/watch?v=IlVZFV1RJDY
 - **Run it yourself (about 10 minutes, all free, sandbox money only):** there is no hosted copy; follow
   [Run locally](#run-locally). You need two free keys:
   - **PayPal sandbox app:** log in at [developer.paypal.com](https://developer.paypal.com/) → Apps & Credentials →
